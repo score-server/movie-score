@@ -8,6 +8,8 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     Movie findMovieById(Long id);
 
+    Movie findMoviesByTitle(String title);
+
     List<Movie> findMoviesByTitleContaining(String title);
 
 }
