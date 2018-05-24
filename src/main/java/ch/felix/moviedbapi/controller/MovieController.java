@@ -35,7 +35,12 @@ public class MovieController {
 
     @GetMapping(produces = "application/json")
     public String getMovies(Model model) {
-        model.addAttribute("response", jsonService.getMovieList(movieRepository.findAll()));
+        try {
+
+            model.addAttribute("response", jsonService.getMovieList(movieRepository.findAll()));
+        } catch (NullPointerException e) {
+            model.addAttribute("response", "{\"response\":\"2\"}");//No Movies found
+        }
         return "json";
     }
 
@@ -44,8 +49,10 @@ public class MovieController {
                               Model model) {
         try {
             model.addAttribute("response", jsonService.getMovie(movieRepository.findMovieById(Long.valueOf(movieId))));
-        } catch (NullPointerException e){
-            model.addAttribute("response", "{\"response\":\"1\"}");//Movie not found
+        } catch (NullPointerException e) {
+            model.addAttribute("response", "{\"response\":\"2\"}");//Movie not found
+        } catch (NumberFormatException e) {
+            model.addAttribute("response", "{\"response\":\"3\"}");//Error with input
         }
         return "json";
     }
@@ -53,7 +60,13 @@ public class MovieController {
     @GetMapping(value = "/search/{search}", produces = "application/json")
     public String searchMovie(@PathVariable("search") String search,
                               Model model) {
-        model.addAttribute("response", jsonService.getMovieList(movieRepository.findMoviesByTitleContaining(search)));
+        try {
+            model.addAttribute("response", jsonService.getMovieList(movieRepository.findMoviesByTitleContaining(search)));
+        } catch (NullPointerException e) {
+            model.addAttribute("response", "{\"response\":\"2\"}");//No movie Found
+        } catch (NumberFormatException e) {
+            model.addAttribute("response", "{\"response\":\"3\"}");//Error with input
+        }
         return "json";
     }
 

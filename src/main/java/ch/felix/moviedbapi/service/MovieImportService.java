@@ -33,7 +33,7 @@ public class MovieImportService {
                     movie.setTitle(getName(filename));
                     movie.setQuality(getQuality(filename));
                     movie.setYear(getYear(filename));
-                    movie.setVideoPath(movieFile.getName());
+                    movie.setVideoPath(movieFile.getPath());
                     try {
                         Thread.sleep(300);
                     } catch (InterruptedException e) {

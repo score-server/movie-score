@@ -5,9 +5,31 @@
 <p>POST
 <pre>/login?user=?&password=?</pre>
 
+<p><b>Response</b></p>
+Logged in:
+<pre>
+{"response":"1"}
+</pre>
+Wrong Login:
+<pre>
+{"response":"2"}
+</pre>
+<br>
+
 <h4>Register</h4>
 <p>POST
 <pre>/register?user=?&password=?</pre>
+
+<p><b>Response</b></p>
+Registered:
+<pre>
+{"response":"1"}
+</pre>
+User already exists:
+<pre>
+{"response":"2"}
+</pre>
+<br>
 
 
 <h2>User</h2>
@@ -15,9 +37,34 @@
 <p>GET
 <pre>/user</pre>
 
+<p><b>Response</b></p>
+Users:
+<pre>
+Array[3][
+  {
+    "id": 1,
+    "name": "felix",
+    "role": "1",
+    "session_id": "89d26994613fbe45cadb797b558b8117ffaa7cee7b28e4454238a103d712fc86"
+  }
+]
+</pre>
+<br>
+
 <h4>Get one User</h4>
 <p>GET
 <pre>/user/[userId]</pre>
+<p><b>Response</b></p>
+Users:
+<pre>
+{
+  "id": 1,
+  "name": "felix",
+  "role": "1",
+  "session_id": "89d26994613fbe45cadb797b558b8117ffaa7cee7b28e4454238a103d712fc86"
+}
+</pre>
+<br>
 
 <h4>Get current User</h4>
 <p>GET
