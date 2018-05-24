@@ -3,8 +3,13 @@ package ch.felix.moviedbapi.service;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Request;
 import ch.felix.moviedbapi.data.entity.User;
+
 import java.util.List;
+
 import org.springframework.stereotype.Service;
+
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
+
 
 /**
  * @author Felix
@@ -19,14 +24,14 @@ public class JsonService {
 
     public String getMovie(Movie movie) {
         return "{\"id\": " + movie.getId() + ","
-               + "\"title\": \"" + movie.getTitle() + "\","
-               + "\"year\": \"" + movie.getYear() + "\","
-               + "\"quality\": \"" + movie.getQuality() + "\","
-               + "\"video_path\": \"" + movie.getVideoPath() + "\","
-               + "\"img_path\": \"" + movie.getCaseImg() + "\","
-               + "\"description\": \"" + movie.getDescript() + "\","
-               + "\"runtime\": \"" + movie.getRuntime() + "\","
-               + "\"popularity\": " + movie.getPopularity() + "}";
+                + "\"title\": \"" + escapeHtml(movie.getTitle()) + "\","
+                + "\"year\": \"" + movie.getYear() + "\","
+                + "\"quality\": \"" + movie.getQuality() + "\","
+                + "\"video_path\": \"" + escapeHtml(movie.getVideoPath().replace("\\", "\\\\")) + "\","
+                + "\"img_path\": \"" + escapeHtml(movie.getCaseImg()) + "\","
+                + "\"description\": \"" + escapeHtml(movie.getDescript()) + "\","
+                + "\"runtime\": \"" + movie.getRuntime() + "\","
+                + "\"popularity\": " + movie.getPopularity() + "}";
     }
 
     public String getMovieList(List<Movie> movieList) {
@@ -41,9 +46,9 @@ public class JsonService {
 
     public String getUser(User user) {
         return "{\"id\": " + user.getId() + ","
-               + "\"name\": \"" + user.getName() + "\","
-               + "\"role\": \"" + user.getRole() + "\","
-               + "\"session_id\": \"" + user.getSessionId() + "\"}";
+                + "\"name\": \"" + escapeHtml(user.getName()) + "\","
+                + "\"role\": \"" + user.getRole() + "\","
+                + "\"session_id\": \"" + user.getSessionId() + "\"}";
     }
 
     public String getUserList(List<User> userList) {
@@ -58,9 +63,9 @@ public class JsonService {
 
     public String getRequest(Request request) {
         return "{\"id\": " + request.getId() + ","
-               + "\"request\": \"" + request.getRequest() + "\","
-               + "\"active\": \"" + request.getActive() + "\","
-               + "\"user_id\": \"" + request.getUserFk() + "\"}";
+                + "\"request\": \"" + escapeHtml(request.getRequest()) + "\","
+                + "\"active\": \"" + request.getActive() + "\","
+                + "\"user_id\": \"" + request.getUserFk() + "\"}";
     }
 
     public String getRequestList(List<Request> requestList) {
