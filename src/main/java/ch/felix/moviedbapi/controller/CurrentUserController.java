@@ -33,8 +33,7 @@ public class CurrentUserController {
         this.jsonService = jsonService;
     }
 
-    @GetMapping
-
+    @GetMapping(produces = "application/json")
     public String getCurrentUser(Model model, HttpServletRequest request) {
         try {
             User user = userRepository.findUserBySessionId(String.valueOf(cookieService.getCurrentUser(request)));

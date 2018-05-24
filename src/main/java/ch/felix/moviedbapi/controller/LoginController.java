@@ -35,7 +35,7 @@ public class LoginController {
         this.shaService = shaService;
     }
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
     public String login(@RequestParam("name") String nameParam,
                         @RequestParam("password") String passwordParam,
                         Model model, HttpServletResponse response) {

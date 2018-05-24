@@ -54,3 +54,7 @@
 <h4>Get one Request by Id<h4>
 <p>GET
 <pre>/request/[requestId]</pre>
+
+<h4>Add a Request (Requires user to be logged in)<h4>
+<p>GET
+<pre>/request/[requestId]</pre>

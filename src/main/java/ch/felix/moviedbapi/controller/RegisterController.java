@@ -33,7 +33,7 @@ public class RegisterController {
         this.shaService = shaService;
     }
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
     public String register(@RequestParam("name") String nameParam,
                            @RequestParam("password") String password,
                            Model model) {

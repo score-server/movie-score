@@ -30,47 +30,47 @@ public class JsonService {
     }
 
     public String getMovieList(List<Movie> movieList) {
-        String jsonSting = "[";
+        StringBuilder jsonSting = new StringBuilder("[");
         for (Movie movie : movieList) {
-            jsonSting = jsonSting + getMovie(movie) + ",";
+            jsonSting.append(getMovie(movie)).append(",");
         }
-        jsonSting = jsonSting.substring(0, jsonSting.length() - 1);
-        jsonSting = jsonSting + "]";
-        return jsonSting;
+        jsonSting = new StringBuilder(jsonSting.substring(0, jsonSting.length() - 1));
+        jsonSting.append("]");
+        return jsonSting.toString();
     }
 
     public String getUser(User user) {
         return "{\"id\": " + user.getId() + ","
-               + "\"title\": \"" + user.getName() + "\","
-               + "\"year\": \"" + user.getRole() + "\","
-               + "\"quality\": \"" + user.getSessionId() + "\",}";
+               + "\"name\": \"" + user.getName() + "\","
+               + "\"role\": \"" + user.getRole() + "\","
+               + "\"session_id\": \"" + user.getSessionId() + "\"}";
     }
 
     public String getUserList(List<User> userList) {
-        String jsonSting = "[";
+        StringBuilder jsonSting = new StringBuilder("[");
         for (User user : userList) {
-            jsonSting = jsonSting + getUser(user) + ",";
+            jsonSting.append(getUser(user)).append(",");
         }
-        jsonSting = jsonSting.substring(0, jsonSting.length() - 1);
-        jsonSting = jsonSting + "]";
-        return jsonSting;
+        jsonSting = new StringBuilder(jsonSting.substring(0, jsonSting.length() - 1));
+        jsonSting.append("]");
+        return jsonSting.toString();
     }
 
     public String getRequest(Request request) {
         return "{\"id\": " + request.getId() + ","
                + "\"request\": \"" + request.getRequest() + "\","
                + "\"active\": \"" + request.getActive() + "\","
-               + "\"userId\": \"" + request.getUserFk() + "\",}";
+               + "\"user_id\": \"" + request.getUserFk() + "\"}";
     }
 
     public String getRequestList(List<Request> requestList) {
-        String jsonSting = "[";
+        StringBuilder jsonSting = new StringBuilder("[");
         for (Request request : requestList) {
-            jsonSting = jsonSting + getRequest(request) + ",";
+            jsonSting.append(getRequest(request)).append(",");
         }
-        jsonSting = jsonSting.substring(0, jsonSting.length() - 1);
-        jsonSting = jsonSting + "]";
-        return jsonSting;
+        jsonSting = new StringBuilder(jsonSting.substring(0, jsonSting.length() - 1));
+        jsonSting.append("]");
+        return jsonSting.toString();
     }
 
 }

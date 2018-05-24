@@ -29,20 +29,20 @@ public class MovieController {
         this.jsonService = jsonService;
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public String getMovies(Model model) {
         model.addAttribute("response", jsonService.getMovieList(movieRepository.findAll()));
         return "json";
     }
 
-    @GetMapping(value = "/{movieId}")
+    @GetMapping(value = "/{movieId}", produces = "application/json")
     public String getOneMovie(@PathVariable("movieId") String movieId,
                               Model model) {
         model.addAttribute("response", jsonService.getMovie(movieRepository.findMovieById(Long.valueOf(movieId))));
         return "json";
     }
 
-    @GetMapping(value = "/search/{search}")
+    @GetMapping(value = "/search/{search}", produces = "application/json")
     public String searchMovie(@PathVariable("search") String search,
                               Model model) {
         model.addAttribute("response", jsonService.getMovieList(movieRepository.findMoviesByTitleContaining(search)));
