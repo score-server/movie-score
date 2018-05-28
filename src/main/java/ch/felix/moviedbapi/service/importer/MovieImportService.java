@@ -1,10 +1,12 @@
-package ch.felix.moviedbapi.service;
+package ch.felix.moviedbapi.service.importer;
 
 
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.jsonmodel.MovieJson;
 import java.io.File;
+
+import ch.felix.moviedbapi.service.SettingsService;
 import org.springframework.stereotype.Service;
 
 @Service

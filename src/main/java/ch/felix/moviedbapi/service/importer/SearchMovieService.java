@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.service;
+package ch.felix.moviedbapi.service.importer;
 
 import ch.felix.moviedbapi.jsonmodel.MovieJson;
 import ch.felix.moviedbapi.jsonmodel.Search;

@@ -2,13 +2,11 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.service.JsonService;
-import ch.felix.moviedbapi.service.MovieImportService;
+import ch.felix.moviedbapi.service.importer.MovieImportService;
+import ch.felix.moviedbapi.service.SettingsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Felix
@@ -26,11 +24,14 @@ public class MovieController {
 
     private JsonService jsonService;
     private MovieImportService movieImportService;
+    private SettingsService settingsService;
 
-    public MovieController(MovieRepository movieRepository, JsonService jsonService, MovieImportService movieImportService) {
+    public MovieController(MovieRepository movieRepository, JsonService jsonService,
+                           MovieImportService movieImportService, SettingsService settingsService) {
         this.movieRepository = movieRepository;
         this.jsonService = jsonService;
         this.movieImportService = movieImportService;
+        this.settingsService = settingsService;
     }
 
     @GetMapping(produces = "application/json")
@@ -63,8 +64,10 @@ public class MovieController {
         try {
             model.addAttribute("response", jsonService.getMovieList(movieRepository.findMoviesByTitleContaining(search)));
         } catch (NullPointerException e) {
+            e.printStackTrace();
             model.addAttribute("response", "{\"response\":\"2\"}");//No movie Found
         } catch (NumberFormatException e) {
+            e.printStackTrace();
             model.addAttribute("response", "{\"response\":\"3\"}");//Error with input
         }
         return "json";
@@ -74,6 +77,19 @@ public class MovieController {
     public String importMovies(Model model) {
         movieImportService.startImport();
         model.addAttribute("response", "{\"response\":\"1\"}");//Added
+        return "json";
+    }
+
+    @PostMapping(value = "/add/path", produces = "application/json")
+    public String setImportpathPath(@RequestParam("path") String pathParam, Model model) {
+        settingsService.setValue("path", pathParam);
+        model.addAttribute("response", "{\"response\":\"1\"}");//Setting Saved
+        return "json";
+    }
+
+    @GetMapping(value = "/add/path", produces = "application/json")
+    public String getImportpathPath(Model model) {
+        model.addAttribute("response", "{\"path\":\"" + settingsService.getKey("path") + "\"}");
         return "json";
     }
 
