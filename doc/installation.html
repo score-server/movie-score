@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Install</title>
+    <style>
+        body {
+            margin: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            /*background-color: lightgray;*/
+        }
+
+        div {
+            padding: 20px;
+            border-radius: 5px;
+            background-color: white;
+            border: 1px solid darkgray;
+        }
+
+        pre {
+            font-family: Consolas;
+            color: white;
+            background-color: black;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .installation {
+            background-color: #c1e8be;
+        }
+    </style>
+</head>
+<body>
+<h1>Installation</h1>
+<div class="installation">
+    <h3>Required</h3>
+    <ul>
+        <li>MySql Server</li>
+        <li>Java JDK 8+</li>
+        <li>Maven</li>
+    </ul>
+</div>
+<br>
+<div class="installation">
+    <ol>
+        <li>
+            Clone Repo:
+            <pre>git clone https://github.com/Wetwer/movie-db-api.git</pre>
+        </li>
+        <li>
+            Edit File src/main/resources/application.properties
+            <pre>spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://[mysql_url]/moviesdb (default)
+spring.datasource.username=root
+spring.datasource.password=[root_psw]
+server.port=[port]
+</pre>
+        </li>
+        <li>
+            Create Database moviesdb
+            <pre>create database moviesdb</pre>
+        </li>
+        <li>
+            Build Project with Maven
+            <pre>mvn clean install -DskipTests</pre>
+        </li>
+        <li>
+            Run
+            <pre>java -jar target/movie-db-api-0.0.1.jar</pre>
+        </li>
+    </ol>
+</div>
+</body>
+</html>

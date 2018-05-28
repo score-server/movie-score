@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * @author Felix Spörri
