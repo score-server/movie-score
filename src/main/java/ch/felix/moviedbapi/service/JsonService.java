@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 /**
  * @author Felix
