@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--
+    @project movie-db-api
+    @author Felix Spörri
+    @date 29.05.2018 14:52
+    @with IntelliJ IDEA
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Info</title>
+    <style>
+        body {
+            margin: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            /*background-color: lightgray;*/
+        }
+
+        div {
+            padding: 20px;
+            border-radius: 5px;
+            background-color: white;
+            border: 1px solid darkgray;
+        }
+
+        pre {
+            font-family: Consolas;
+            color: white;
+            background-color: black;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .div {
+            background-color: #e8e6be;
+        }
+    </style>
+</head>
+<body>
+<h1>Info</h1>
+<a href="api.html">api</a>
+<a href="installation.html">installation</a>
+<a href="info.html">info</a>
+<hr>
+<div class="div">
+    <h4>Application Name</h4>
+    <p>Haudi</p>
+    <p>Logo: <img src="img/330px-MaxMoritz.png" width="60px"></p>
+    <p>URL: <a target="_blank" href="http://scorewinner.ch">scorewinner.ch</a></p>
+    <hr>
+    <h4>Video Player</h4>
+    <p><a target="_blank" href="https://docs.fluidplayer.com/">Fluid Player</a></p>
+    Style:
+    <pre>rel="stylesheet" href="http://cdn.fluidplayer.com/v2/current/fluidplayer.min.css" type="text/css"</pre>
+    Code:
+    <pre>src="http://cdn.fluidplayer.com/v2/current/fluidplayer.min.js"</pre>
+    <hr>
+    <h4>Style: Bootstrap 4</h4>
+    <p><a target="_blank" href="https://www.w3schools.com/bootstrap4/">Bootstrap</a></p>
+    <hr>
+    <h4>Movie File Naming</h4>
+    <p>[Movie Name] [release year] [movie quality].mp4</p>
+    <p>Example: <b>Deadpool 2 2018 1080p.mp4</b></p>
+    <hr>
+    <p>For Movie import set path with POST Request:</p>
+    <pre>/movie/add/path?path=/home/movieLibrary</pre>
+    <hr>
+    <h4>Password Encrypting</h4>
+    <p>Passwords encoded with custom SHA2 Encryptor:</p>
+    <b>Very Safe (Not Crackable)</b>
+    <pre>
+private StringBuffer getEncoded(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    StringBuffer hexString = new StringBuffer();
+    for (byte hashA : getDigest(s)) {
+        String hex = Integer.toHexString(0xff & hashA);
+        if (hex.length() == 1) {
+            hexString.append('0');
+        }
+        hexString.append(hex);
+    }
+    return hexString;
+}
+
+private byte[] getDigest(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    return MessageDigest.getInstance("SHA-256").digest(s.getBytes("UTF-8"));
+}
+    </pre>
+</div>
+</body>
+</html>
