@@ -1,122 +1,50 @@
-<h1>movie-db-api URL mapping</h1>
-
-<h2>Login System</h2>
-<h4>Login</h4>
-<p>POST
-<pre>/login?user=?&password=?</pre>
-
-<p><b>Response</b></p>
-Logged in:
+<h1>Info</h1>
+<h4>Application Name</h4>
+<p>Haudi</p>
+<p>Logo: <img src="img/330px-MaxMoritz.png" width="60px"></p>
+<p>URL: <a target="_blank" href="http://scorewinner.ch">scorewinner.ch</a></p>
+<hr>
+<h4>Video Player</h4>
+<p><a target="_blank" href="https://docs.fluidplayer.com/">Fluid Player</a></p>
+Style:
+<pre>rel="stylesheet" href="http://cdn.fluidplayer.com/v2/current/fluidplayer.min.css" type="text/css"</pre>
+Code:
+<pre>src="http://cdn.fluidplayer.com/v2/current/fluidplayer.min.js"</pre>
+<hr>
+<h4>Style: Bootstrap 4</h4>
+<p><a target="_blank" href="https://www.w3schools.com/bootstrap4/">Bootstrap</a></p>
+<hr>
+<h4>Movie File Naming</h4>
+<p>[Movie Name] [release year] [movie quality].mp4</p>
+<p>Example: <b>Deadpool 2 2018 1080p.mp4</b></p>
+<hr>
+<p>For Movie import set path with POST Request:</p>
+<pre>/movie/add/path?path=/home/movieLibrary</pre>
+<hr>
+<h4>Password Encrypting</h4>
+<p>Passwords encoded with custom SHA2 Encryptor:</p>
+<b>Very Safe (Not Crackable)</b>
 <pre>
-{"response":"1"}
-</pre>
-Wrong Login:
-<pre>
-{"response":"2"}
-</pre>
-<br>
-
-<h4>Register</h4>
-<p>POST
-<pre>/register?user=?&password=?</pre>
-
-<p><b>Response</b></p>
-Registered:
-<pre>
-{"response":"1"}
-</pre>
-User already exists:
-<pre>
-{"response":"2"}
-</pre>
-<br>
-
-
-<h2>User</h2>
-<h4>Get all Users</h4>
-<p>GET
-<pre>/user</pre>
-
-<p><b>Response</b></p>
-Users:
-<pre>
-Array[3][
-  {
-    "id": 1,
-    "name": "felix",
-    "role": "1",
-    "session_id": "89d26994613fbe45cadb797b558b8117ffaa7cee7b28e4454238a103d712fc86"
-  }
-]
-</pre>
-<br>
-
-<h4>Get one User</h4>
-<p>GET
-<pre>/user/[userId]</pre>
-<p><b>Response</b></p>
-Users:
-<pre>
-{
-  "id": 1,
-  "name": "felix",
-  "role": "1",
-  "session_id": "89d26994613fbe45cadb797b558b8117ffaa7cee7b28e4454238a103d712fc86"
+private StringBuffer getEncoded(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    StringBuffer hexString = new StringBuffer();
+    for (byte hashA : getDigest(s)) {
+        String hex = Integer.toHexString(0xff & hashA);
+        if (hex.length() == 1) {
+            hexString.append('0');
+        }
+        hexString.append(hex);
+    }
+    return hexString;
 }
 </pre>
-<br>
-
-<h4>Get current User</h4>
-<p>GET
-<pre>/currentUser</pre>
-
-<h4>Set User Role</h4>
-<p>POST
-<pre>/user/[userId]/role/[role]</pre>
-
-
-<h2>Movie</h2>
-<h4>Get all Movies</h4>
-<p>GET
-<pre>/movie</pre>
-
-<h4>Get one Movie</h4>
-<p>GET
-<pre>/movie/[movieId]</pre>
-
-<h4>Search Movies</h4>
-<p>GET
-<pre>/movie/search/[querry]</pre>
-
-<h4>Import Movies</h4>
-<p>POST
-<pre>/movie/add</pre>
-<i>Open</i>
-
-<h4>Set Import Path</h4>
-<p>POST
-<pre>/movie/path?path=?</pre>
-<i>Open</i>
-
-
-<h2>Request</h2>
-<h4>Get all Requests</h4>
-<p>GET
-<pre>/request</pre>
-
-<h4>Get Requests by UserId</h4>
-<p>GET
-<pre>/request/[userId]</pre>
-
-<h4>Get one Request by Id/</h4>
-<p>GET
-<pre>/request/[requestId]</pre>
-
-<h4>Add a Request (Requires user to be logged in)</h4>
-<p>POST
-<pre>/request/add?request=?</pre>
-
-<h4>Close Request</h4>
-<p>POST
-<pre>/request/[requestId]/close</pre>
-<i>Open</i>
+<pre>
+private byte[] getDigest(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    return MessageDigest.getInstance("SHA-256").digest(s.getBytes("UTF-8"));
+}
+</pre>
+<hr>
+<h4>Api Documentation</h4>
+<p>doc/api.html</p>
+<hr>
+<h4>Installation Manual</h4>
+<p>doc/installation.html</p>
