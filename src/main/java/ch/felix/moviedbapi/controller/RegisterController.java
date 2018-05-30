@@ -4,10 +4,10 @@ import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ShaService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Felix
@@ -31,20 +31,19 @@ public class RegisterController {
     }
 
     @PostMapping(produces = "application/json")
-    public String register(@RequestParam("name") String nameParam,
-                           @RequestParam("password") String password,
-                           Model model) {
+    public @ResponseBody
+    String register(@RequestParam("name") String nameParam,
+                    @RequestParam("password") String password) {
         if (userRepository.findUserByName(nameParam) == null) {
             User user = new User();
             user.setName(nameParam);
             user.setPasswordSha(shaService.encode(password));
             user.setRole(1);
             userRepository.save(user);
-            model.addAttribute("response", "{\"response\":\"101\"}");//Added
+            return "101";
         } else {
-            model.addAttribute("response", "{\"response\":\"203\"}");//User already exists
+            return "203";
         }
-        return "json";
     }
 
 }

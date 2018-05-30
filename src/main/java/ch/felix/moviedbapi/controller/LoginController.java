@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Felix
@@ -36,9 +37,10 @@ public class LoginController {
     }
 
     @PostMapping(produces = "application/json")
-    public String login(@RequestParam("name") String nameParam,
-                        @RequestParam("password") String passwordParam,
-                        Model model, HttpServletResponse response) {
+    public @ResponseBody
+    String login(@RequestParam("name") String nameParam,
+                 @RequestParam("password") String passwordParam,
+                 Model model, HttpServletResponse response) {
         User user = userRepository.findUserByNameAndAndPasswordSha(nameParam, shaService.encode(passwordParam));
 
         try {
@@ -49,12 +51,11 @@ public class LoginController {
             user.setSessionId(sessionId);
             userRepository.save(user);
 
-            model.addAttribute("response", "{\"response\":\"103\"}");//Logged In
+            return "103";
         } catch (NullPointerException e) {
-            model.addAttribute("response", "{\"response\":\"201\"}");//Wrong Login
+            return "201";//Wrong Login
         }
 
-        return "json";
     }
 
 }

@@ -3,7 +3,7 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.entity.Request;
 import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.service.CookieService;
-import ch.felix.moviedbapi.service.json.RequestJsonService;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Felix
@@ -27,56 +28,52 @@ public class RequestController {
 
     private RequestRepository requestRepository;
 
-    private RequestJsonService requestJsonService;
     private CookieService cookieService;
 
-    public RequestController(RequestRepository requestRepository,
-                             RequestJsonService requestJsonService, CookieService cookieService) {
+    public RequestController(RequestRepository requestRepository, CookieService cookieService) {
         this.requestRepository = requestRepository;
-        this.requestJsonService = requestJsonService;
         this.cookieService = cookieService;
     }
 
     @GetMapping(produces = "application/json")
-    public String getRequestList(Model model) {
-        model.addAttribute("response", requestJsonService.getRequestList(requestRepository.findAll()));
-        return "json";
+    public @ResponseBody
+    List<Request> getRequestList() {
+        return requestRepository.findAll();
     }
 
     @GetMapping(value = "/{requestId}", produces = "application/json")
-    public String getOneRequest(@PathVariable("requestId") String requestParam, Model model) {
-        model.addAttribute("response", requestJsonService.getRequestList(
-                requestRepository.findRequestsByUserFk(Long.valueOf(requestParam))));
-        return "json";
+    public @ResponseBody
+    Request getOneRequest(@PathVariable("requestId") String requestParam) {
+        return requestRepository.findRequestById(Long.valueOf(requestParam));
     }
 
     @PostMapping(value = "/add", produces = "application/json")
-    public String createRequest(@RequestParam("request") String requestParam, Model model,
-                                HttpServletRequest httpRequest) {
+    public @ResponseBody
+    String createRequest(@RequestParam("request") String requestParam, Model model,
+                         HttpServletRequest httpRequest) {
         try {
             Request request = new Request();
             request.setRequest(requestParam);
             request.setUserFk(cookieService.getCurrentUser(httpRequest));
             request.setActive("1");
             requestRepository.save(request);
-            model.addAttribute("response", "{\"response\":\"101\"}");//Added
+            return "101";//Added
         } catch (NullPointerException e) {
-            model.addAttribute("response", "{\"response\":\"202\"}");//User not logged in
+            return "202";//User not logged in
         }
-        return "json";
     }
 
     @GetMapping(value = "/{requestId}/close", produces = "application/json")
-    public String closeRequest(@PathVariable("requestId") String requestParam, Model model) {
+    public @ResponseBody
+    String closeRequest(@PathVariable("requestId") String requestParam, Model model) {
         try {
             Request request = requestRepository.findRequestById(Long.valueOf(requestParam));
             request.setActive("0");
             requestRepository.save(request);
-            model.addAttribute("response", "{\"response\":\"102\"}");//Updated
+            return "101";//Added
         } catch (NullPointerException e) {
-            model.addAttribute("response", "{\"response\":\"204\"}");//Not Found
+            return "202";//User not logged in
         }
-        return "json";
     }
 
 }

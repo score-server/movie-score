@@ -1,10 +1,13 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.entity.Season;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Felix
@@ -25,15 +28,15 @@ public class SeasonController {
     }
 
     @GetMapping("/serie/{serieId}")
-    public String getForSerie(@PathVariable("serieId") String serieParam) {
-        seasonRepository.findSeasonsBySerieFk(Long.valueOf(serieParam));
-        return "json";
+    public @ResponseBody
+    List<Season> getForSerie(@PathVariable("serieId") String serieParam) {
+        return seasonRepository.findSeasonsBySerieFk(Long.valueOf(serieParam));
     }
 
     @GetMapping("/{seasonId}")
-    public String getOneSeason(@PathVariable("seasonId") String seasonParam) {
-        seasonRepository.findSeasonById(Long.valueOf(seasonParam));
-        return "json";
+    public @ResponseBody
+    Season getOneSeason(@PathVariable("seasonId") String seasonParam) {
+        return seasonRepository.findSeasonById(Long.valueOf(seasonParam));
     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Felix
@@ -28,17 +29,17 @@ public class ImportController {
     }
 
     @PostMapping(value = "/movie", produces = "application/json")
-    public String importMovies(Model model) {
+    public @ResponseBody
+    String importMovies(Model model) {
         movieImportService.importFile("moviePath");
-        model.addAttribute("response", "{\"response\":\"101\"}");//Added
-        return "json";
+        return "101";
     }
 
     @PostMapping(value = "/serie", produces = "application/json")
-    public String importSeries(Model model) {
+    public @ResponseBody
+    String importSeries() {
         seriesImportService.importFile("seriePath");
-        model.addAttribute("response", "{\"response\":\"101\"}");//Added
-        return "json";
+        return "103";
     }
 
 

@@ -3,12 +3,11 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.CookieService;
-import ch.felix.moviedbapi.service.json.UserJsonService;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Felix
@@ -25,25 +24,20 @@ public class CurrentUserController {
     private UserRepository userRepository;
 
     private CookieService cookieService;
-    private UserJsonService userJsonService;
 
-    public CurrentUserController(UserRepository userRepository, CookieService cookieService,
-                                 UserJsonService userJsonService) {
+    public CurrentUserController(UserRepository userRepository, CookieService cookieService) {
         this.userRepository = userRepository;
         this.cookieService = cookieService;
-        this.userJsonService = userJsonService;
     }
 
     @GetMapping(produces = "application/json")
-    public String getCurrentUser(Model model, HttpServletRequest request) {
+    public @ResponseBody
+    User getCurrentUser(HttpServletRequest request) {
         try {
-            User user = userRepository.findUserBySessionId(String.valueOf(cookieService.getCurrentUser(request)));
-            model.addAttribute("response", userJsonService.getUser(user));
+            return userRepository.findUserBySessionId(String.valueOf(cookieService.getCurrentUser(request)));
         } catch (NullPointerException e) {
-            model.addAttribute("response", "{\"response\":\"202\"}");//User not logged in
+            e.printStackTrace();
+            return null;
         }
-
-        return "json";
     }
-
 }

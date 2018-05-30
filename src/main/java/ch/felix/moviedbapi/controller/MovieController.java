@@ -4,7 +4,6 @@ import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.service.SettingsService;
 import ch.felix.moviedbapi.service.importer.MovieImportService;
-import ch.felix.moviedbapi.service.json.MovieJsonService;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,14 +29,12 @@ public class MovieController {
 
     private MovieImportService movieImportService;
     private SettingsService settingsService;
-    private MovieJsonService movieJsonService;
 
     public MovieController(MovieRepository movieRepository, MovieImportService movieImportService,
-                           SettingsService settingsService, MovieJsonService movieJsonService) {
+                           SettingsService settingsService) {
         this.movieRepository = movieRepository;
         this.movieImportService = movieImportService;
         this.settingsService = settingsService;
-        this.movieJsonService = movieJsonService;
     }
 
     @GetMapping(produces = "application/json")
