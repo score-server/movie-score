@@ -3,10 +3,8 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.entity.Request;
 import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.service.CookieService;
-import ch.felix.moviedbapi.service.JsonService;
-
+import ch.felix.moviedbapi.service.json.RequestJsonService;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,25 +27,25 @@ public class RequestController {
 
     private RequestRepository requestRepository;
 
-    private JsonService jsonService;
+    private RequestJsonService requestJsonService;
     private CookieService cookieService;
 
-    public RequestController(RequestRepository requestRepository, JsonService jsonService,
-                             CookieService cookieService) {
+    public RequestController(RequestRepository requestRepository,
+                             RequestJsonService requestJsonService, CookieService cookieService) {
         this.requestRepository = requestRepository;
-        this.jsonService = jsonService;
+        this.requestJsonService = requestJsonService;
         this.cookieService = cookieService;
     }
 
     @GetMapping(produces = "application/json")
     public String getRequestList(Model model) {
-        model.addAttribute("response", jsonService.getRequestList(requestRepository.findAll()));
+        model.addAttribute("response", requestJsonService.getRequestList(requestRepository.findAll()));
         return "json";
     }
 
     @GetMapping(value = "/{requestId}", produces = "application/json")
     public String getOneRequest(@PathVariable("requestId") String requestParam, Model model) {
-        model.addAttribute("response", jsonService.getRequestList(
+        model.addAttribute("response", requestJsonService.getRequestList(
                 requestRepository.findRequestsByUserFk(Long.valueOf(requestParam))));
         return "json";
     }

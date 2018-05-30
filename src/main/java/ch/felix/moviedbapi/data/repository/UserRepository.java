@@ -2,7 +2,9 @@ package ch.felix.moviedbapi.data.repository;
 
 import ch.felix.moviedbapi.data.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findUserByNameAndAndPasswordSha(String name, String passwordSha);

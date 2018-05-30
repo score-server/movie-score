@@ -2,7 +2,6 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
-import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +23,10 @@ public class RegisterController {
 
     private UserRepository userRepository;
 
-    private CookieService cookieService;
     private ShaService shaService;
 
-    public RegisterController(UserRepository userRepository, CookieService cookieService, ShaService shaService) {
+    public RegisterController(UserRepository userRepository, ShaService shaService) {
         this.userRepository = userRepository;
-        this.cookieService = cookieService;
         this.shaService = shaService;
     }
 

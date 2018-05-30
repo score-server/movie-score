@@ -4,56 +4,22 @@ package ch.felix.moviedbapi.service.importer;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.jsonmodel.MovieJson;
-import java.io.File;
-
 import ch.felix.moviedbapi.service.SettingsService;
+import java.io.File;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MovieImportService {
+public class MovieImportService extends ImportService {
 
     private MovieRepository movieRepository;
 
     private SearchMovieService searchMovieService;
-    private SettingsService settingsService;
 
     public MovieImportService(MovieRepository movieRepository, SearchMovieService searchMovieService,
                               SettingsService settingsService) {
+        super(settingsService);
         this.movieRepository = movieRepository;
         this.searchMovieService = searchMovieService;
-        this.settingsService = settingsService;
-    }
-
-
-    public void startImport() {
-        File file = new File(settingsService.getKey("path"));
-        for (File movieFile : file.listFiles()) {
-            if (movieFile.getName().contains(".mp4")) {
-                String filename = movieFile.getName().replace(".mp4", "");
-                if (movieRepository.findMoviesByTitle(getName(filename)) == null) {
-                    Movie movie = new Movie();
-                    movie.setTitle(getName(filename));
-                    movie.setQuality(getQuality(filename));
-                    movie.setYear(getYear(filename));
-                    movie.setVideoPath(movieFile.getPath());
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    MovieJson movieJson = searchMovieService.getMovieInfo(
-                            searchMovieService.findMovieId(movie.getTitle(), movie.getYear()));
-                    movie.setDescript(movieJson.getOverview());
-                    movie.setPopularity(movieJson.getPopularity());
-                    movie.setRuntime(movieJson.getRuntime());
-                    movie.setCaseImg("https://image.tmdb.org/t/p/w500" + movieJson.getPoster_path());
-                    System.out.println("Movieadd - Added " + movie.getTitle());
-                    movieRepository.save(movie);
-                }
-
-            }
-        }
-
     }
 
     private String getName(String s) {
@@ -70,4 +36,28 @@ public class MovieImportService {
         return splits[splits.length - 2];
     }
 
+    @Override
+    public void filterFile(File movieFile) {
+        String filename = movieFile.getName().replace(".mp4", "");
+        if (movieRepository.findMoviesByTitle(getName(filename)) == null) {
+            Movie movie = new Movie();
+            movie.setTitle(getName(filename));
+            movie.setQuality(getQuality(filename));
+            movie.setYear(getYear(filename));
+            movie.setVideoPath(movieFile.getPath());
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            MovieJson movieJson = searchMovieService.getMovieInfo(
+                    searchMovieService.findMovieId(movie.getTitle(), movie.getYear()));
+            movie.setDescript(movieJson.getOverview());
+            movie.setPopularity(movieJson.getPopularity());
+            movie.setRuntime(movieJson.getRuntime());
+            movie.setCaseImg("https://image.tmdb.org/t/p/w500" + movieJson.getPoster_path());
+            System.out.println("Movieadd - Added " + movie.getTitle());
+            movieRepository.save(movie);
+        }
+    }
 }

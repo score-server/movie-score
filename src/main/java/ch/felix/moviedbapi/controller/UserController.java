@@ -2,7 +2,7 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
-import ch.felix.moviedbapi.service.JsonService;
+import ch.felix.moviedbapi.service.json.UserJsonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,17 +23,17 @@ public class UserController {
 
     private UserRepository userRepository;
 
-    private JsonService jsonService;
+    private UserJsonService userJsonService;
 
-    public UserController(UserRepository userRepository, JsonService jsonService) {
+    public UserController(UserRepository userRepository, UserJsonService userJsonService) {
         this.userRepository = userRepository;
-        this.jsonService = jsonService;
+        this.userJsonService = userJsonService;
     }
 
     @GetMapping(produces = "application/json")
     public String getUsers(Model model) {
 
-        model.addAttribute("response", jsonService.getUserList(userRepository.findAll()));
+        model.addAttribute("response", userJsonService.getUserList(userRepository.findAll()));
         return "json";
     }
 
@@ -41,7 +41,8 @@ public class UserController {
     public String getOneUser(@PathVariable("userId") String userId,
                              Model model) {
         try {
-            model.addAttribute("response", jsonService.getUser(userRepository.findUserById(Long.valueOf(userId))));
+            model.addAttribute("response", userJsonService.getUser(
+                    userRepository.findUserById(Long.valueOf(userId))));
         } catch (NullPointerException | NumberFormatException e) {
             model.addAttribute("response", "{\"response\":\"202\"}");//User not found
         }
