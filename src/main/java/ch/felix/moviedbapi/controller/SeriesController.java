@@ -1,6 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.repository.SerieRepository;
+import ch.felix.moviedbapi.service.importer.SeriesImportService;
 import ch.felix.moviedbapi.service.json.SerieJsonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +24,13 @@ public class SeriesController {
     private SerieRepository serieRepository;
 
     private SerieJsonService serieJsonService;
+    private SeriesImportService serieImportService;
 
-    public SeriesController(SerieRepository serieRepository, SerieJsonService serieJsonService) {
+    public SeriesController(SerieRepository serieRepository, SerieJsonService serieJsonService,
+                            SeriesImportService serieImportService) {
         this.serieRepository = serieRepository;
         this.serieJsonService = serieJsonService;
+        this.serieImportService = serieImportService;
     }
 
     @GetMapping
@@ -40,11 +44,4 @@ public class SeriesController {
         serieRepository.findSerieById(Long.valueOf(serieParam));
         return "json";
     }
-
-
-    @GetMapping("/add")
-    public String importSeries() {
-        return "json";
-    }
-
 }

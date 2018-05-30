@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -58,6 +57,7 @@ public class MovieController {
         } catch (NullPointerException e) {
             model.addAttribute("response", "{\"response\":\"204\"}");//Movie not found
         } catch (NumberFormatException e) {
+            e.printStackTrace();
             model.addAttribute("response", "{\"response\":\"205\"}");//Error with input
         }
         return "json";
@@ -79,14 +79,7 @@ public class MovieController {
         return "json";
     }
 
-    @PostMapping(value = "/add", produces = "application/json")
-    public String importMovies(Model model) {
-        movieImportService.importFile("moviePath");
-        model.addAttribute("response", "{\"response\":\"101\"}");//Added
-        return "json";
-    }
-
-    @PostMapping(value = "/add/path", produces = "application/json")
+    //    @PostMapping(value = "/add/path", produces = "application/json")
     public String setImportpathPath(@RequestParam("path") String pathParam, Model model) {
         settingsService.setValue("moviePath", pathParam);
         model.addAttribute("response", "{\"response\":\"102\"}");//Updated

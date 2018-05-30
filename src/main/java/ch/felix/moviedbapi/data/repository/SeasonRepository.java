@@ -17,6 +17,8 @@ public interface SeasonRepository extends JpaRepository<Season, Long> {
 
     Season findSeasonById(Long seasonId);
 
+    Season findSeasonBySerieFkAndSeason(Long seriesFk, Integer season);
+
     List<Season> findSeasonsBySerieFk(Long seriesFk);
 
 }

@@ -16,4 +16,6 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 
     Serie findSerieById(Long serieId);
 
+    Serie findSerieByTitle(String title);
+
 }

@@ -21,12 +21,17 @@ public class Episode {
     private Long id;
 
     private Long seasonFk;
+    private String path;
+    private String quality;
     private Integer episode;
 
-    private String path;
+    public String getPath() {
+        return path;
+    }
 
-    private String quality;
-    private Integer runtime;
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public Long getId() {
         return id;
@@ -52,11 +57,11 @@ public class Episode {
         this.quality = quality;
     }
 
-    public Integer getRuntime() {
-        return runtime;
+    public void setEpisode(Integer episode) {
+        this.episode = episode;
     }
 
-    public void setRuntime(Integer runtime) {
-        this.runtime = runtime;
+    public Integer getEpisode() {
+        return episode;
     }
 }

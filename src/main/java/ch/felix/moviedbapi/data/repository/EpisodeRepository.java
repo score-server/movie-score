@@ -19,4 +19,6 @@ public interface EpisodeRepository extends JpaRepository<Episode, Long> {
 
     Episode findEpisodeById(Long episodeId);
 
+    List<Episode> findEpisodesBySeasonFkAndEpisode(Long seasonFk, Integer episode);
+
 }
