@@ -1,7 +1,7 @@
 <h1>Info</h1>
 <h4>Application Name</h4>
 <p>Haudi</p>
-<p>Logo: <img src="img/330px-MaxMoritz.png" width="60px"></p>
+<p>Logo: <img src="https://github.com/Wetwer/movie-db-api/blob/master/doc/img/330px-MaxMoritz.png" width="60px"></p>
 <p>URL: <a target="_blank" href="http://scorewinner.ch">scorewinner.ch</a></p>
 <hr>
 <h4>Video Player</h4>
