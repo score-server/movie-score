@@ -43,9 +43,9 @@ public class RegisterController {
             user.setPasswordSha(shaService.encode(password));
             user.setRole(1);
             userRepository.save(user);
-            model.addAttribute("response", "{\"response\":\"1\"}");//User added
+            model.addAttribute("response", "{\"response\":\"101\"}");//Added
         } else {
-            model.addAttribute("response", "{\"response\":\"2\"}");//User already exists
+            model.addAttribute("response", "{\"response\":\"203\"}");//User already exists
         }
         return "json";
     }

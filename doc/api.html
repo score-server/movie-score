@@ -44,6 +44,18 @@
         .rating {
             background-color: #e8e6be;
         }
+
+        .responses {
+            background-color: #8cd2e8;
+        }
+
+        .good {
+            background-color: #9ee892;
+        }
+
+        .error {
+            background-color: #e8a185;
+        }
     </style>
 </head>
 <body>
@@ -57,24 +69,12 @@
     <h4>Login</h4>
     <p>POST
     <pre>/login?user=?&password=?</pre>
-
-    <p><b>Response</b></p>
-    Logged in:
-    <pre>{"response":"1"}</pre>
-    Wrong Login:
-    <pre>{"response":"2"}</pre>
 </div>
 <br>
 <div class="login">
     <h4>Register</h4>
     <p>POST
     <pre>/register?user=?&password=?</pre>
-
-    <p><b>Response</b></p>
-    Registered:
-    <pre>{"response":"1"}</pre>
-    User already exists:
-    <pre>{"response":"2"}</pre>
 </div>
 <br>
 <hr>
@@ -318,6 +318,57 @@
     <h4>Rate Movie</h4>
     <p>POST
     <pre>/rating/[movieId]/?rating=?</pre>
+</div>
+<br>
+<hr>
+<br>
+<h2>Response Codes</h2>
+<div>
+    <p>All api calls can return a Response Code</p>
+    <div class="good">
+        <h3>Code: 1** -> Success</h3>
+        <ul>
+            <li>
+                101 - Added:
+                <pre>{"response":"101"}</pre>
+            </li>
+            <li>
+                102 - Updated:
+                <pre>{"response":"102"}</pre>
+            </li>
+            <li>
+                103 - Logged In:
+                <pre>{"response":"103"}</pre>
+            </li>
+        </ul>
+
+    </div>
+    <br>
+    <div class="error">
+        <h3>Code: 2** -> Error</h3>
+        <ul>
+            <li>
+                201 - Wrong Login:
+                <pre>{"response":"201"}</pre>
+            </li>
+            <li>
+                202 - No User logged in:
+                <pre>{"response":"202"}</pre>
+            </li>
+            <li>
+                203 - Already Exists:
+                <pre>{"response":"203"}</pre>
+            </li>
+            <li>
+                204 - Not Found:
+                <pre>{"response":"204"}</pre>
+            </li>
+            <li>
+                205 - Input Format Error:
+                <pre>{"response":"205"}</pre>
+            </li>
+        </ul>
+    </div>
 </div>
 </body>
 </html>

@@ -40,7 +40,7 @@ public class MovieController {
 
             model.addAttribute("response", jsonService.getMovieList(movieRepository.findAll()));
         } catch (NullPointerException e) {
-            model.addAttribute("response", "{\"response\":\"2\"}");//No Movies found
+            model.addAttribute("response", "{\"response\":\"204\"}");//No Movies found
         }
         return "json";
     }
@@ -51,9 +51,9 @@ public class MovieController {
         try {
             model.addAttribute("response", jsonService.getMovie(movieRepository.findMovieById(Long.valueOf(movieId))));
         } catch (NullPointerException e) {
-            model.addAttribute("response", "{\"response\":\"2\"}");//Movie not found
+            model.addAttribute("response", "{\"response\":\"204\"}");//Movie not found
         } catch (NumberFormatException e) {
-            model.addAttribute("response", "{\"response\":\"3\"}");//Error with input
+            model.addAttribute("response", "{\"response\":\"205\"}");//Error with input
         }
         return "json";
     }
@@ -65,10 +65,10 @@ public class MovieController {
             model.addAttribute("response", jsonService.getMovieList(movieRepository.findMoviesByTitleContaining(search)));
         } catch (NullPointerException e) {
             e.printStackTrace();
-            model.addAttribute("response", "{\"response\":\"2\"}");//No movie Found
+            model.addAttribute("response", "{\"response\":\"204\"}");//No movie Found
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            model.addAttribute("response", "{\"response\":\"3\"}");//Error with input
+            model.addAttribute("response", "{\"response\":\"205\"}");//Error with input
         }
         return "json";
     }
@@ -76,14 +76,14 @@ public class MovieController {
     @PostMapping(value = "/add", produces = "application/json")
     public String importMovies(Model model) {
         movieImportService.startImport();
-        model.addAttribute("response", "{\"response\":\"1\"}");//Added
+        model.addAttribute("response", "{\"response\":\"101\"}");//Added
         return "json";
     }
 
     @PostMapping(value = "/add/path", produces = "application/json")
     public String setImportpathPath(@RequestParam("path") String pathParam, Model model) {
         settingsService.setValue("path", pathParam);
-        model.addAttribute("response", "{\"response\":\"1\"}");//Setting Saved
+        model.addAttribute("response", "{\"response\":\"102\"}");//Updated
         return "json";
     }
 

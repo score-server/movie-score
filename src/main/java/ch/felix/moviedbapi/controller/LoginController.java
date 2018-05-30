@@ -49,9 +49,9 @@ public class LoginController {
             user.setSessionId(sessionId);
             userRepository.save(user);
 
-            model.addAttribute("response", "{\"response\":\"1\"}");//Logged in
+            model.addAttribute("response", "{\"response\":\"103\"}");//Logged In
         } catch (NullPointerException e) {
-            model.addAttribute("response", "{\"response\":\"2\"}");//Wrong Login
+            model.addAttribute("response", "{\"response\":\"201\"}");//Wrong Login
         }
 
         return "json";

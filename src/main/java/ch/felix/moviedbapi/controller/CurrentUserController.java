@@ -39,7 +39,7 @@ public class CurrentUserController {
             User user = userRepository.findUserBySessionId(String.valueOf(cookieService.getCurrentUser(request)));
             model.addAttribute("response", jsonService.getUser(user));
         } catch (NullPointerException e) {
-            model.addAttribute("response", "{\"Error\":\"2\"}");//User not logged in
+            model.addAttribute("response", "{\"response\":\"202\"}");//User not logged in
         }
 
         return "json";

@@ -43,7 +43,7 @@ public class UserController {
         try {
             model.addAttribute("response", jsonService.getUser(userRepository.findUserById(Long.valueOf(userId))));
         } catch (NullPointerException | NumberFormatException e) {
-            model.addAttribute("response", "{\"response\":\"2\"}");//User not found
+            model.addAttribute("response", "{\"response\":\"202\"}");//User not found
         }
         return "json";
     }
@@ -55,7 +55,7 @@ public class UserController {
         User user = userRepository.findUserById(Long.valueOf(userId));
         user.setRole(Integer.valueOf(role));
         userRepository.save(user);
-        model.addAttribute("response", "{\"response\":\"1\"}");//Role set
+        model.addAttribute("response", "{\"response\":\"102\"}");//Updated
         return "json";
     }
 

@@ -61,9 +61,9 @@ public class RequestController {
             request.setUserFk(cookieService.getCurrentUser(httpRequest));
             request.setActive("1");
             requestRepository.save(request);
-            model.addAttribute("response", "{\"response\":\"1\"}");//Request added
+            model.addAttribute("response", "{\"response\":\"101\"}");//Added
         } catch (NullPointerException e) {
-            model.addAttribute("response", "{\"response\":\"2\"}");//Not logged in
+            model.addAttribute("response", "{\"response\":\"202\"}");//User not logged in
         }
         return "json";
     }
@@ -74,9 +74,9 @@ public class RequestController {
             Request request = requestRepository.findRequestById(Long.valueOf(requestParam));
             request.setActive("0");
             requestRepository.save(request);
-            model.addAttribute("response", "{\"response\":\"1\"}");//Request closed
+            model.addAttribute("response", "{\"response\":\"102\"}");//Updated
         } catch (NullPointerException e) {
-            model.addAttribute("response", "{\"response\":\"2\"}");//Requst not found
+            model.addAttribute("response", "{\"response\":\"204\"}");//Not Found
         }
         return "json";
     }
