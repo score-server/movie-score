@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Response Api</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h2>Response Codes</h2>
+<a href="loginApi.html">Login</a> <a href="userApi.html">User</a> <a href="movieApi.html">Movie</a> <a
+        href="serieApi.html">Serie</a> <a href="requestApi.html">Request</a> <a href="responseApi.html">Response</a>
+<div>
+    <p>All api calls can return a Response Code</p>
+    <div class="good">
+        <h3>Code: 1** -> Success</h3>
+        <ul>
+            <li>
+                101 - Added:
+                <pre>{"response":"101"}</pre>
+            </li>
+            <li>
+                102 - Updated:
+                <pre>{"response":"102"}</pre>
+            </li>
+            <li>
+                103 - Logged In:
+                <pre>{"response":"103"}</pre>
+            </li>
+        </ul>
+
+    </div>
+    <br>
+    <div class="error">
+        <h3>Code: 2** -> Error</h3>
+        <ul>
+            <li>
+                201 - Wrong Login:
+                <pre>{"response":"201"}</pre>
+            </li>
+            <li>
+                202 - No User logged in:
+                <pre>{"response":"202"}</pre>
+            </li>
+            <li>
+                203 - Already Exists:
+                <pre>{"response":"203"}</pre>
+            </li>
+            <li>
+                204 - Not Found:
+                <pre>{"response":"204"}</pre>
+            </li>
+            <li>
+                205 - Input Format Error:
+                <pre>{"response":"205"}</pre>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

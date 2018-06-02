@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Api</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h2>User</h2>
+<a href="loginApi.html">Login</a> <a href="userApi.html">User</a> <a href="movieApi.html">Movie</a> <a
+        href="serieApi.html">Serie</a> <a href="requestApi.html">Request</a> <a href="responseApi.html">Response</a>
+<div class="user">
+    <h4>Get all Users</h4>
+    <p>GET
+    <pre>/user</pre>
+
+    <p><b>Response</b></p>
+    Users:
+    <pre>Array[3][
+            {
+                "id": 1,
+                "name": "felix",
+                "role": "1",
+                "session_id": "89d26994613fbe45cadb797b558b8117ffaa7cee7b28e4454238a103d712fc86"
+            }
+        ]</pre>
+</div>
+<br>
+<div class="user">
+    <h4>Get one User</h4>
+    <p>GET
+    <pre>/user/[userId]</pre>
+    <p><b>Response</b></p>
+    Users:
+    <pre>{
+      "id": 1,
+      "name": "felix",
+      "role": "1",
+      "session_id": "89d26994613fbe45cadb797b558b8117ffaa7cee7b28e4454238a103d712fc86"
+}</pre>
+</div>
+<br>
+<div class="user">
+    <h4>Get current User</h4>
+    <p>GET
+    <pre>/currentUser</pre>
+    <p><b>Response</b></p>
+    Users:
+    <pre>
+    {
+      "id": 1,
+      "name": "felix",
+      "role": "1",
+      "session_id": "89d26994613fbe45cadb797b558b8117ffaa7cee7b28e4454238a103d712fc86"
+    }</pre>
+</div>
+<br>
+<div class="user">
+    <h4>Set User Role</h4>
+    <p>POST
+    <pre>/user/[userId]/role/[role]</pre>
+</div>
+</body>
+</html>

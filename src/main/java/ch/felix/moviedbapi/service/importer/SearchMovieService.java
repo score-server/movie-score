@@ -20,9 +20,13 @@ public class SearchMovieService {
     public int findMovieId(String movieName, String year) {
         Search search = new Gson().fromJson(
                 new WebHandler("https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query="
-                               + movieName.replace(" ", "%20") + "&year=" + year).getContent(), Search.class);
+                        + movieName.replace(" ", "%20") + "&year=" + year).getContent(), Search.class);
         if (search != null) {
-            return search.getResults().get(0).getId();
+            try {
+                return search.getResults().get(0).getId();
+            } catch (IndexOutOfBoundsException e) {
+                return 0;
+            }
         }
         return 0;
     }
@@ -31,7 +35,7 @@ public class SearchMovieService {
     public MovieJson getMovieInfo(int id) {
         return new Gson().fromJson(
                 new WebHandler("https://api.themoviedb.org/3/movie/" + String.valueOf(id)
-                               + "?api_key=" + API_KEY + "&language=en-US").getContent(), MovieJson.class);
+                        + "?api_key=" + API_KEY + "&language=en-US").getContent(), MovieJson.class);
     }
 
 }

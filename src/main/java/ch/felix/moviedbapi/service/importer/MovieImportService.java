@@ -5,7 +5,9 @@ import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.jsonmodel.MovieJson;
 import ch.felix.moviedbapi.service.SettingsService;
+
 import java.io.File;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,12 +54,16 @@ public class MovieImportService extends ImportService {
             }
             MovieJson movieJson = searchMovieService.getMovieInfo(
                     searchMovieService.findMovieId(movie.getTitle(), movie.getYear()));
-            movie.setDescript(movieJson.getOverview());
-            movie.setPopularity(movieJson.getPopularity());
-            movie.setRuntime(movieJson.getRuntime());
-            movie.setCaseImg("https://image.tmdb.org/t/p/w500" + movieJson.getPoster_path());
-            System.out.println("Movieadd - Added " + movie.getTitle());
-            movieRepository.save(movie);
+            try {
+                movie.setDescript(movieJson.getOverview());
+                movie.setPopularity(movieJson.getPopularity());
+                movie.setRuntime(movieJson.getRuntime());
+                movie.setCaseImg("https://image.tmdb.org/t/p/w500" + movieJson.getPoster_path());
+                movieRepository.save(movie);
+                System.out.println("Movieadd - Added " + movie.getTitle());
+            } catch (NullPointerException e) {
+                System.err.println("Movieadd - Can't add " + getName(filename));
+            }
         }
     }
 }

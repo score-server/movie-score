@@ -7,7 +7,9 @@ import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.service.SettingsService;
+
 import java.io.File;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -37,47 +39,41 @@ public class SeriesImportService extends ImportService {
     public void filterFile(File movieFile) {
         String seriesName = movieFile.getName().replace(".mp4", "");
 
-        Serie serie;
 
-        try {
-            serie = serieRepository.findSerieByTitle(getName(seriesName));
-            serie.getId();
-        } catch (NullPointerException e) {
+        Serie serie = serieRepository.findSerieByTitle(getName(seriesName));
+        if (serie == null) {
             serie = new Serie();
             serie.setTitle(getName(seriesName));
 //            serie.setDescript();
 //            serie.setCaseImg();
 //            serie.setPopularity();
+            System.out.println("Saved Series: " + seriesName);
             serieRepository.save(serie);
-
         }
 
 
-        Season season;
-        try {
-            season = seasonRepository.findSeasonBySerieFkAndSeason(
-                    serieRepository.findSerieByTitle(seriesName).getId(), Integer.valueOf(getSeason(seriesName)));
-            season.getId();
-        } catch (NullPointerException e) {
+        Season season = seasonRepository.findSeasonBySerieFkAndSeason(
+                serieRepository.findSerieByTitle(getName(seriesName)).getId(),
+                Integer.valueOf(getSeason(seriesName)));
+        if (season == null) {
             season = new Season();
             season.setSerieFk(serieRepository.findSerieByTitle(getName(seriesName)).getId());
             season.setSeason(Integer.valueOf(getSeason(seriesName)));
             season.setYear(getYear(seriesName));
+            System.out.println("Saved Season: " + seriesName);
             seasonRepository.save(season);
         }
 
-        Season season1 = seasonRepository.findSeasonBySerieFkAndSeason(
-                serieRepository.findSerieByTitle(getName(seriesName)).getId(),
-                Integer.valueOf(getSeason(seriesName)));
-        Episode episode;
-        try {
 
-            episode = episodeRepository.findEpisodesBySeasonFkAndEpisode(season1.getId(),
-                    Integer.valueOf(getEpisode(seriesName))).get(0);
-            episode.getId();
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
+        Episode episode = episodeRepository.findEpisodeBySeasonFkAndEpisode(
+                seasonRepository.findSeasonBySerieFkAndSeason(
+                        serieRepository.findSerieByTitle(getName(seriesName)).getId(),
+                        Integer.valueOf(getSeason(seriesName))).getId(),
+                Integer.valueOf(getEpisode(seriesName)));
+
+        if (episode == null) {
             episode = new Episode();
-            episode.setSeasonFk(season1.getId());
+            episode.setSeasonFk(season.getId());
             episode.setPath(movieFile.getPath());
             episode.setEpisode(Integer.valueOf(getEpisode(seriesName)));
             episode.setQuality(getQuality(seriesName));
@@ -86,10 +82,9 @@ public class SeriesImportService extends ImportService {
         }
     }
 
-
     private String getName(String fileName) {
         return fileName.replace(" " + getEpisodeStr(fileName) + " " + getYear(fileName) + " "
-                                + getQuality(fileName), "");
+                + getQuality(fileName), "");
     }
 
     private String getEpisodeStr(String s) {
@@ -108,11 +103,10 @@ public class SeriesImportService extends ImportService {
     }
 
     private String getSeason(String s) {
-        return getEpisodeStr(s).substring(1, 2);
+        return getEpisodeStr(s).split("e")[0].replace("s", "");
     }
 
     private String getEpisode(String s) {
-        return getEpisodeStr(s).substring(3, 4);
+        return getEpisodeStr(s).split("e")[1];
     }
-
 }

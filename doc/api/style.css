@@ -1,0 +1,48 @@
+body {
+    margin: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    /*background-color: lightgray;*/
+}
+
+div {
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid darkgray;
+}
+
+pre {
+    font-family: Consolas;
+    color: white;
+    background-color: black;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.login {
+    background-color: #b9ccea;
+}
+
+.user {
+    background-color: #e8d0be;
+}
+
+.movie {
+    background-color: #c1e8be;
+}
+
+.request {
+    background-color: #d9bee8;
+}
+
+.serie {
+    background-color: #8cd2e8;
+}
+
+.good {
+    background-color: #9ee892;
+}
+
+.error {
+    background-color: #e8a185;
+}

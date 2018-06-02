@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Serie Api</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h2>Serie</h2>
+<a href="loginApi.html">Login</a> <a href="userApi.html">User</a> <a href="movieApi.html">Movie</a> <a
+        href="serieApi.html">Serie</a> <a href="requestApi.html">Request</a> <a href="responseApi.html">Response</a>
+<div class="serie">
+    <h4>Get all Series</h4>
+    <p>GET
+    <pre>/serie</pre>
+    <p><b>Response</b></p>
+    Series:
+    <pre>[
+  {
+    "id": 373,
+    "title": "Game of Thrones",
+    "descript": null,
+    "caseImg": null,
+    "popularity": null
+  }
+]    </pre>
+</div>
+<br>
+<div class="serie">
+    <h4>Get one Serie</h4>
+    <p>GET
+    <pre>/serie/[serieId]</pre>
+    <p><b>Response</b></p>
+    Serie:
+    <pre>{
+    "id": 373,
+    "title": "Game of Thrones",
+    "descript": null,
+    "caseImg": null,
+    "popularity": null
+}</pre>
+</div>
+<br>
+<div class="serie">
+    <h4>Get all Seasons for Series</h4>
+    <p>GET
+    <pre>/season/serie/[serieId]</pre>
+    <p><b>Response</b></p>
+    Seasons:
+    <pre>[
+  {
+    "id": 374,
+    "serieFk": 373,
+    "season": 1,
+    "year": "2011"
+  },
+  {
+    "id": 379,
+    "serieFk": 373,
+    "season": 2,
+    "year": "2011"
+  }
+]</pre>
+</div>
+<br>
+<div class="serie">
+    <h4>Get one Season</h4>
+    <p>GET
+    <pre>/season/[seasonId]</pre>
+    <p><b>Response</b></p>
+    Season:
+    <pre>{
+    "id": 374,
+    "serieFk": 373,
+    "season": 1,
+    "year": "2011"
+}</pre>
+</div>
+<br>
+
+
+<div class="serie">
+    <h4>Get all Episodes for Season</h4>
+    <p>GET
+    <pre>/episode/season/[seasonId]</pre>
+    <p><b>Response</b></p>
+    Episodes:
+    <pre>[
+  {
+    "id": 380,
+    "seasonFk": 379,
+    "path": "D:\\Torrents\\series\\Game of Thrones s2e1 2011 1080p.mp4",
+    "quality": "1080p",
+    "episode": 1
+  },
+  {
+    "id": 381,
+    "seasonFk": 379,
+    "path": "D:\\Torrents\\series\\Game of Thrones s2e2 2011 1080p.mp4",
+    "quality": "1080p",
+    "episode": 2
+  },
+  {
+    "id": 382,
+    "seasonFk": 379,
+    "path": "D:\\Torrents\\series\\Game of Thrones s2e3 2011 1080p.mp4",
+    "quality": "1080p",
+    "episode": 3
+  }
+]</pre>
+</div>
+<br>
+<div class="serie">
+    <h4>Get one Episode</h4>
+    <p>GET</p>
+    <pre>/episode/[episodeId]</pre>
+    <p><b>Response</b></p>
+    Episode:
+    <pre>{
+    "id": 382,
+    "seasonFk": 379,
+    "path": "D:\\Torrents\\series\\Game of Thrones s2e3 2011 1080p.mp4",
+    "quality": "1080p",
+    "episode": 3
+}</pre>
+</div>
+<br>
+<div class="serie">
+    <h4>Import Series</h4>
+    <p>POST
+    <pre>/import/serie</pre>
+</div>
+<br>
+<div class="serie">
+    <h4>Set Import Path</h4>
+    <p>POST</p>
+    <pre>/import/path?path=?&key=seriePath</pre>
+</div>
+
+</body>
+</html>

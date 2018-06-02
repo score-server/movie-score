@@ -12,15 +12,15 @@ public class Test {
         Test test = new Test();
 
 
-        System.out.println(test.getSeason(("Breaking Bad s1e1 2018 1080p.mp4").replace(".mp4", "")));
-        System.out.println(test.getSeason(("Faae e e s1e1 2018 1080p.mp4").replace(".mp4", "")));
-        System.out.println(test.getSeason(("Test s1e1 2018 1080p.mp4").replace(".mp4", "")));
-        System.out.println(test.getSeason(("bakasd asd as s1e1 2018 1080p.mp4").replace(".mp4", "")));
+        System.out.println(test.getEpisode(("Breaking Bad s25e11324 2018 1080p.mp4").replace(".mp4", "")));
+        System.out.println(test.getEpisode(("Faae e e s6e34 2018 1080p.mp4").replace(".mp4", "")));
+        System.out.println(test.getEpisode(("Test s7e1 2018 1080p.mp4").replace(".mp4", "")));
+        System.out.println(test.getEpisode(("bakasd asd as s4435e12 2018 1080p.mp4").replace(".mp4", "")));
     }
 
     private String getName(String fileName) {
-        String name = fileName.replace(".mp4", "");
-        return name.replace(" " + getEpisodeStr(name) + " " + getYear(name) + " " + getQuality(name), "");
+        return fileName.replace(" " + getEpisodeStr(fileName) + " " + getYear(fileName) + " "
+                + getQuality(fileName), "");
     }
 
     private String getEpisodeStr(String s) {
@@ -39,7 +39,11 @@ public class Test {
     }
 
     private String getSeason(String s) {
-        return getEpisodeStr(s).substring(1,1);
+        return getEpisodeStr(s).split("e")[0].replace("s", "");
+    }
+
+    private String getEpisode(String s) {
+        return getEpisodeStr(s).split("e")[1];
     }
 
 }

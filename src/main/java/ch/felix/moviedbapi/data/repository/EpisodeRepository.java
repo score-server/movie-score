@@ -1,7 +1,9 @@
 package ch.felix.moviedbapi.data.repository;
 
 import ch.felix.moviedbapi.data.entity.Episode;
+
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +21,6 @@ public interface EpisodeRepository extends JpaRepository<Episode, Long> {
 
     Episode findEpisodeById(Long episodeId);
 
-    List<Episode> findEpisodesBySeasonFkAndEpisode(Long seasonFk, Integer episode);
+    Episode findEpisodeBySeasonFkAndEpisode(Long seasonFk, Integer episode);
 
 }
