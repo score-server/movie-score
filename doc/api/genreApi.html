@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Genre Api</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h2>Genre</h2>
+<a href="loginApi.html">Login</a> <a href="userApi.html">User</a> <a href="movieApi.html">Movie</a> <a
+        href="serieApi.html">Serie</a> <a href="requestApi.html">Request</a> <a href="responseApi.html">Response</a> <a
+        href="genreApi.html">GenreApi</a>
+<div class="login">
+    <h4>Get all Genres</h4>
+    <p>GET</p>
+    <pre>/genre</pre>
+    <p><b>Response</b></p>
+    Genres:
+    <pre>[
+  {
+    "id": 2,
+    "name": "War"
+  },
+  {
+    "id": 4,
+    "name": "Drama"
+  },
+  {
+    "id": 6,
+    "name": "History"
+  }
+]</pre>
+</div>
+<br>
+<div class="login">
+    <h4>Get Genres for Movie</h4>
+    <p>GET</p>
+    <pre>/genre/movie/[movieId]</pre>
+    <p><b>Response</b></p>
+    Genres:
+    <pre>[
+  "War",
+  "Drama",
+  "History"
+]</pre>
+</div>
+
+</body>
+</html>

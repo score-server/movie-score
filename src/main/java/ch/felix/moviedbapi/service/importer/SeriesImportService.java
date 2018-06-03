@@ -6,6 +6,7 @@ import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
+import ch.felix.moviedbapi.jsonmodel.SerieJson;
 import ch.felix.moviedbapi.service.SettingsService;
 
 import java.io.File;
@@ -27,28 +28,39 @@ public class SeriesImportService extends ImportService {
     private SeasonRepository seasonRepository;
     private EpisodeRepository episodeRepository;
 
+    private GenreImportService genreImportService;
+
     protected SeriesImportService(SettingsService settingsService, SerieRepository serieRepository,
-                                  SeasonRepository seasonRepository, EpisodeRepository episodeRepository) {
+                                  SeasonRepository seasonRepository, EpisodeRepository episodeRepository,
+                                  GenreImportService genreImportService) {
         super(settingsService);
         this.serieRepository = serieRepository;
         this.seasonRepository = seasonRepository;
         this.episodeRepository = episodeRepository;
+        this.genreImportService = genreImportService;
     }
 
     @Override
     public void filterFile(File movieFile) {
         String seriesName = movieFile.getName().replace(".mp4", "");
 
+        SearchMovieService searchMovieService = new SearchMovieService();
+        int serieId = searchMovieService.findSeriesId(getName(seriesName), getYear(seriesName));
+        SerieJson serieJson = searchMovieService.getSerieInfo(serieId);
+
 
         Serie serie = serieRepository.findSerieByTitle(getName(seriesName));
         if (serie == null) {
             serie = new Serie();
             serie.setTitle(getName(seriesName));
-//            serie.setDescript();
-//            serie.setCaseImg();
-//            serie.setPopularity();
+            serie.setDescript(serieJson.getOverview());
+            serie.setCaseImg(serieJson.getPosterPath());
+            serie.setPopularity(serieJson.getPopularity());
             System.out.println("Saved Series: " + seriesName);
             serieRepository.save(serie);
+            genreImportService.setGenre(
+                    Integer.valueOf(String.valueOf(serieRepository.findSerieByTitle(getName(seriesName)).getId())),
+                    serieJson.getGenres());
         }
 
 

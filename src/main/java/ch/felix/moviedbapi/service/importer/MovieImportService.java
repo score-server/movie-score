@@ -1,6 +1,5 @@
 package ch.felix.moviedbapi.service.importer;
 
-
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.jsonmodel.MovieJson;
@@ -16,12 +15,14 @@ public class MovieImportService extends ImportService {
     private MovieRepository movieRepository;
 
     private SearchMovieService searchMovieService;
+    private GenreImportService genreImportService;
 
     public MovieImportService(MovieRepository movieRepository, SearchMovieService searchMovieService,
-                              SettingsService settingsService) {
+                              SettingsService settingsService, GenreImportService genreImportService) {
         super(settingsService);
         this.movieRepository = movieRepository;
         this.searchMovieService = searchMovieService;
+        this.genreImportService = genreImportService;
     }
 
     private String getName(String s) {
@@ -52,18 +53,29 @@ public class MovieImportService extends ImportService {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            MovieJson movieJson = searchMovieService.getMovieInfo(
-                    searchMovieService.findMovieId(movie.getTitle(), movie.getYear()));
+
+            SearchMovieService searchMovieService = new SearchMovieService();
+            int movieId = searchMovieService.findMovieId(movie.getTitle(), movie.getYear());
+            MovieJson movieJson = searchMovieService.getMovieInfo(movieId);
+
+
             try {
                 movie.setDescript(movieJson.getOverview());
                 movie.setPopularity(movieJson.getPopularity());
                 movie.setRuntime(movieJson.getRuntime());
                 movie.setCaseImg("https://image.tmdb.org/t/p/w500" + movieJson.getPoster_path());
                 movieRepository.save(movie);
+                genreImportService.setGenre(Integer.valueOf(String.valueOf(movieRepository.findMoviesByTitle(getName(filename)).getId())),
+                        movieJson.getGenres());
                 System.out.println("Movieadd - Added " + movie.getTitle());
             } catch (NullPointerException e) {
                 System.err.println("Movieadd - Can't add " + getName(filename));
             }
         }
+    }
+
+
+    void test(int id) {
+
     }
 }

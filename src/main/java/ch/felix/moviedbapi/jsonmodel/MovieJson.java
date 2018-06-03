@@ -3,6 +3,8 @@ package ch.felix.moviedbapi.jsonmodel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class MovieJson {
 
     @SerializedName("id")
@@ -32,6 +34,11 @@ public class MovieJson {
     @SerializedName("runtime")
     @Expose
     private Integer runtime;
+
+    @SerializedName("genres")
+    @Expose
+    private List<GenreJson> genres = null;
+
 
     public Integer getId() {
         return id;
@@ -89,4 +96,11 @@ public class MovieJson {
         this.runtime = runtime;
     }
 
+    public List<GenreJson> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<GenreJson> genres) {
+        this.genres = genres;
+    }
 }
