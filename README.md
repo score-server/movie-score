@@ -25,6 +25,11 @@ Code:
 <p>For Movie import set path with POST Request:</p>
 <pre>/movie/add/path?path=/home/movieLibrary</pre>
 <hr>
+<h4>External Api: TMDB</h4>
+<a href="https://www.themoviedb.org/">TMDB</a>
+<p>Cover Path</p>
+<pre>https://image.tmdb.org/t/p/w500/gwPSoYUHAKmdyVywgLpKKA4BjRr.jpg</pre>
+<hr>
 <h4>Password Encrypting</h4>
 <p>Passwords encoded with custom SHA2 Encryptor:</p>
 <b>Very Safe (Not Crackable)</b>
@@ -48,7 +53,7 @@ private byte[] getDigest(String s) throws NoSuchAlgorithmException, UnsupportedE
 </pre>
 <hr>
 <h4>Api Documentation</h4>
-<p>doc/api.html</p>
+<p>doc/api/</p>
 <hr>
 <h4>Installation Manual</h4>
 <p>doc/installation.html</p>
