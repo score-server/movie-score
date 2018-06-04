@@ -8,9 +8,7 @@ import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.jsonmodel.SerieJson;
 import ch.felix.moviedbapi.service.SettingsService;
-
 import java.io.File;
-
 import org.springframework.stereotype.Service;
 
 /**
@@ -54,9 +52,9 @@ public class SeriesImportService extends ImportService {
             serie = new Serie();
             serie.setTitle(getName(seriesName));
             serie.setDescript(serieJson.getOverview());
-            serie.setCaseImg(serieJson.getPosterPath());
+            serie.setCaseImg("https://image.tmdb.org/t/p/w500" + serieJson.getPosterPath());
             serie.setPopularity(serieJson.getPopularity());
-            System.out.println("Saved Series: " + seriesName);
+            System.out.println("Saved Series: " + getName(seriesName));
             serieRepository.save(serie);
             genreImportService.setGenre(
                     Integer.valueOf(String.valueOf(serieRepository.findSerieByTitle(getName(seriesName)).getId())),
@@ -72,7 +70,7 @@ public class SeriesImportService extends ImportService {
             season.setSerieFk(serieRepository.findSerieByTitle(getName(seriesName)).getId());
             season.setSeason(Integer.valueOf(getSeason(seriesName)));
             season.setYear(getYear(seriesName));
-            System.out.println("Saved Season: " + seriesName);
+            System.out.println("Saved Season: Season " + getSeason(seriesName));
             seasonRepository.save(season);
         }
 
@@ -90,13 +88,14 @@ public class SeriesImportService extends ImportService {
             episode.setEpisode(Integer.valueOf(getEpisode(seriesName)));
             episode.setQuality(getQuality(seriesName));
             episodeRepository.save(episode);
-            System.out.println("Saved Episode: " + seriesName);
+            System.out.println("Saved Episode: " + getName(seriesName) + " Season " + getSeason(seriesName)
+                               + " Episode " + getEpisode(seriesName));
         }
     }
 
     private String getName(String fileName) {
         return fileName.replace(" " + getEpisodeStr(fileName) + " " + getYear(fileName) + " "
-                + getQuality(fileName), "");
+                                + getQuality(fileName), "");
     }
 
     private String getEpisodeStr(String s) {
