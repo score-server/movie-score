@@ -2,15 +2,12 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
-import ch.felix.moviedbapi.data.entity.MovieGenre;
-import ch.felix.moviedbapi.data.repository.MovieGenreRepository;
+import ch.felix.moviedbapi.data.repository.GenreRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.service.SettingsService;
 import ch.felix.moviedbapi.service.importer.MovieImportService;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,17 +29,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MovieController {
 
     private MovieRepository movieRepository;
+    private GenreRepository genreRepository;
 
     private MovieImportService movieImportService;
     private SettingsService settingsService;
-    private MovieGenreRepository movieGenreRepository;
 
     public MovieController(MovieRepository movieRepository, MovieImportService movieImportService,
-                           SettingsService settingsService, MovieGenreRepository movieGenreRepository) {
+                           SettingsService settingsService, GenreRepository genreRepository) {
         this.movieRepository = movieRepository;
         this.movieImportService = movieImportService;
         this.settingsService = settingsService;
-        this.movieGenreRepository = movieGenreRepository;
+        this.genreRepository = genreRepository;
     }
 
     @GetMapping(produces = "application/json")
@@ -90,15 +87,16 @@ public class MovieController {
         return settingsService.getKey("moviePath");
     }
 
-    @GetMapping(value = "/genre/{genreId}", produces = "application/json")
+    @GetMapping(value = "/genre/{genre}", produces = "application/json")
     public @ResponseBody
-    List<Movie> getMoviesForGenre(@PathVariable("genreId") String genreId) {
-        List<MovieGenre> movieGenres = movieGenreRepository.findMovieGenresByGenreId(Long.valueOf(genreId));
-        List<Movie> movieList = new ArrayList<>();
+    List<Movie> getMoviesForGenre(@PathVariable("genre") String genreParam) {
+        List<Genre> genres = genreRepository.findGenresByName(genreParam);
 
-        for (MovieGenre movieGenre : movieGenres) {
-            movieList.add(movieRepository.findMovieById(movieGenre.getMovieId()));
+        List<Movie> movieList = new ArrayList<>();
+        for (Genre genre : genres) {
+            movieList.add(genre.getMovie());
         }
+
         return movieList;
     }
 }

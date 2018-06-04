@@ -3,9 +3,7 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.service.importer.MovieImportService;
 import ch.felix.moviedbapi.service.importer.SeriesImportService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -31,7 +29,7 @@ public class ImportController {
 
     @GetMapping(value = "/movie", produces = "application/json")
     public @ResponseBody
-    String importMovies(Model model) {
+    String importMovies() {
         movieImportService.importFile("moviePath");
         return "101";
     }

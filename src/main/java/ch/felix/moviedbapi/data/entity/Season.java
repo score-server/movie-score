@@ -1,9 +1,14 @@
 package ch.felix.moviedbapi.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  * @author Felix
@@ -17,10 +22,15 @@ import javax.persistence.Id;
 public class Season {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long serieFk;
+    @JsonIgnore
+    @ManyToOne
+    private Serie serie;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "season")
+    private List<Episode> episodes;
 
     private Integer season;
     private String year;
@@ -31,14 +41,6 @@ public class Season {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getSerieFk() {
-        return serieFk;
-    }
-
-    public void setSerieFk(Long serieFk) {
-        this.serieFk = serieFk;
     }
 
     public Integer getSeason() {
@@ -57,4 +59,19 @@ public class Season {
         this.year = year;
     }
 
+    public List<Episode> getEpisodes() {
+        return episodes;
+    }
+
+    public void setEpisodes(List<Episode> episodes) {
+        this.episodes = episodes;
+    }
+
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
+    }
 }

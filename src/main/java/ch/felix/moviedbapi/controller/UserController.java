@@ -4,7 +4,6 @@ import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import java.util.List;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +36,7 @@ public class UserController {
 
     @GetMapping(value = "/{userId}", produces = "application/json")
     public @ResponseBody
-    User getOneUser(@PathVariable("userId") String userId, Model model) {
+    User getOneUser(@PathVariable("userId") String userId) {
         try {
             return userRepository.findUserById(Long.valueOf(userId));
         } catch (NullPointerException | NumberFormatException e) {

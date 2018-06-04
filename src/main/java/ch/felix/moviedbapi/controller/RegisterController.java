@@ -40,6 +40,7 @@ public class RegisterController {
             user.setPasswordSha(shaService.encode(password));
             user.setRole(1);
             userRepository.save(user);
+            System.out.println("Registered User - " + nameParam);
             return "101";
         } else {
             return "203";

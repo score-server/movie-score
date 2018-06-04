@@ -1,12 +1,20 @@
 package ch.felix.moviedbapi.data.entity;
 
-import javax.persistence.*;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Movie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
@@ -14,11 +22,15 @@ public class Movie {
 
     @Column(unique = true)
     private String videoPath;
+    private String backgroundImg;
     private String caseImg;
 
     @Lob
     @Column
     private String descript;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
+    private List<Genre> genres;
 
     private String year;
     private String quality;
@@ -99,4 +111,19 @@ public class Movie {
         this.videoPath = videoPath;
     }
 
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public String getBackgroundImg() {
+        return backgroundImg;
+    }
+
+    public void setBackgroundImg(String backgroundImg) {
+        this.backgroundImg = backgroundImg;
+    }
 }

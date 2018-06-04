@@ -17,12 +17,38 @@
     Series:
     <pre>[
   {
-    "id": 373,
-    "title": "Game of Thrones",
-    "descript": null,
-    "caseImg": null,
-    "popularity": null
-  }
+  "id": 2,
+  "title": "game of thrones",
+  "seasons": Array[1][
+    {
+      "id": 2,
+      "episodes": Array[1][
+        {
+          "id": 3,
+          "path": "C:\\Users\\Felix\\Documents\\_Projekte\\haudi\\movie-db-api\\src\\main\\resources\\serie\\game of thrones s1e1 2011 1080p.mp4",
+          "quality": "1080p",
+          "episode": 1
+        }
+      ],
+      "season": 1,
+      "year": "2011"
+    }
+  ],
+  "genres": Array[3][
+    {
+      "name": "Sci-Fi & Fantasy"
+    },
+    {
+      "name": "Drama"
+    },
+    {
+      "name": "Action & Adventure"
+    }
+  ],
+  "descript": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+  "caseImg": "https://image.tmdb.org/t/p/w500/gwPSoYUHAKmdyVywgLpKKA4BjRr.jpg",
+  "popularity": 90.041103
+}
 ]    </pre>
 </div>
 <br>
@@ -33,11 +59,37 @@
     <p><b>Response</b></p>
     Serie:
     <pre>{
-    "id": 373,
-    "title": "Game of Thrones",
-    "descript": null,
-    "caseImg": null,
-    "popularity": null
+  "id": 2,
+  "title": "game of thrones",
+  "seasons": Array[1][
+    {
+      "id": 2,
+      "episodes": Array[1][
+        {
+          "id": 3,
+          "path": "C:\\Users\\Felix\\Documents\\_Projekte\\haudi\\movie-db-api\\src\\main\\resources\\serie\\game of thrones s1e1 2011 1080p.mp4",
+          "quality": "1080p",
+          "episode": 1
+        }
+      ],
+      "season": 1,
+      "year": "2011"
+    }
+  ],
+  "genres": Array[3][
+    {
+      "name": "Sci-Fi & Fantasy"
+    },
+    {
+      "name": "Drama"
+    },
+    {
+      "name": "Action & Adventure"
+    }
+  ],
+  "descript": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+  "caseImg": "https://image.tmdb.org/t/p/w500/gwPSoYUHAKmdyVywgLpKKA4BjRr.jpg",
+  "popularity": 90.041103
 }</pre>
 </div>
 <br>
@@ -49,17 +101,24 @@
     Seasons:
     <pre>[
   {
-    "id": 374,
-    "serieFk": 373,
-    "season": 1,
-    "year": "2011"
-  },
-  {
-    "id": 379,
-    "serieFk": 373,
-    "season": 2,
-    "year": "2011"
-  }
+  "id": 1,
+  "episodes": Array[2][
+    {
+      "id": 1,
+      "path": "C:\\Users\\Felix\\Documents\\_Projekte\\haudi\\movie-db-api\\src\\main\\resources\\serie\\breaking bad s1e1 2018 1080p.mp4",
+      "quality": "1080p",
+      "episode": 1
+    },
+    {
+      "id": 2,
+      "path": "C:\\Users\\Felix\\Documents\\_Projekte\\haudi\\movie-db-api\\src\\main\\resources\\serie\\breaking bad s1e2 2018 1080p.mp4",
+      "quality": "1080p",
+      "episode": 2
+    }
+  ],
+  "season": 1,
+  "year": "2018"
+}
 ]</pre>
 </div>
 <br>
@@ -70,10 +129,23 @@
     <p><b>Response</b></p>
     Season:
     <pre>{
-    "id": 374,
-    "serieFk": 373,
-    "season": 1,
-    "year": "2011"
+  "id": 1,
+  "episodes": Array[2][
+    {
+      "id": 1,
+      "path": "C:\\Users\\Felix\\Documents\\_Projekte\\haudi\\movie-db-api\\src\\main\\resources\\serie\\breaking bad s1e1 2018 1080p.mp4",
+      "quality": "1080p",
+      "episode": 1
+    },
+    {
+      "id": 2,
+      "path": "C:\\Users\\Felix\\Documents\\_Projekte\\haudi\\movie-db-api\\src\\main\\resources\\serie\\breaking bad s1e2 2018 1080p.mp4",
+      "quality": "1080p",
+      "episode": 2
+    }
+  ],
+  "season": 1,
+  "year": "2018"
 }</pre>
 </div>
 <br>
@@ -87,26 +159,23 @@
     Episodes:
     <pre>[
   {
-    "id": 380,
-    "seasonFk": 379,
-    "path": "D:\\Torrents\\series\\Game of Thrones s2e1 2011 1080p.mp4",
-    "quality": "1080p",
-    "episode": 1
+  "id": 1,
+  "season": {
+    "id": 1,
+    "serie": {
+      "id": 1,
+      "title": "breaking bad",
+      "descript": "When Walter White, a New Mexico chemistry teacher, is diagnosed with Stage III cancer and given a prognosis of only two years left to live, he becomes filled with a sense of fearlessness and an unrelenting desire to secure his family's financial future at any cost as he enters the dangerous world of drugs and crime.",
+      "caseImg": "https://image.tmdb.org/t/p/w500/1yeVJox3rjo2jBKrrihIMj7uoS9.jpg",
+      "popularity": 80.108228
+    },
+    "season": 1,
+    "year": "2018"
   },
-  {
-    "id": 381,
-    "seasonFk": 379,
-    "path": "D:\\Torrents\\series\\Game of Thrones s2e2 2011 1080p.mp4",
-    "quality": "1080p",
-    "episode": 2
-  },
-  {
-    "id": 382,
-    "seasonFk": 379,
-    "path": "D:\\Torrents\\series\\Game of Thrones s2e3 2011 1080p.mp4",
-    "quality": "1080p",
-    "episode": 3
-  }
+  "path": "C:\\Users\\Felix\\Documents\\_Projekte\\haudi\\movie-db-api\\src\\main\\resources\\serie\\breaking bad s1e1 2018 1080p.mp4",
+  "quality": "1080p",
+  "episode": 1
+}
 ]</pre>
 </div>
 <br>
@@ -117,11 +186,22 @@
     <p><b>Response</b></p>
     Episode:
     <pre>{
-    "id": 382,
-    "seasonFk": 379,
-    "path": "D:\\Torrents\\series\\Game of Thrones s2e3 2011 1080p.mp4",
-    "quality": "1080p",
-    "episode": 3
+  "id": 1,
+  "season": {
+    "id": 1,
+    "serie": {
+      "id": 1,
+      "title": "breaking bad",
+      "descript": "When Walter White, a New Mexico chemistry teacher, is diagnosed with Stage III cancer and given a prognosis of only two years left to live, he becomes filled with a sense of fearlessness and an unrelenting desire to secure his family's financial future at any cost as he enters the dangerous world of drugs and crime.",
+      "caseImg": "https://image.tmdb.org/t/p/w500/1yeVJox3rjo2jBKrrihIMj7uoS9.jpg",
+      "popularity": 80.108228
+    },
+    "season": 1,
+    "year": "2018"
+  },
+  "path": "C:\\Users\\Felix\\Documents\\_Projekte\\haudi\\movie-db-api\\src\\main\\resources\\serie\\breaking bad s1e1 2018 1080p.mp4",
+  "quality": "1080p",
+  "episode": 1
 }</pre>
 </div>
 <br>

@@ -1,13 +1,19 @@
 package ch.felix.moviedbapi.data.entity;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Request {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Lob
@@ -15,7 +21,9 @@ public class Request {
     private String request;
 
     private String active;
-    private Long userFk;
+
+    @ManyToOne
+    private User user;
 
 
     public Long getId() {
@@ -42,11 +50,11 @@ public class Request {
         this.active = active;
     }
 
-    public Long getUserFk() {
-        return userFk;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserFk(Long userFk) {
-        this.userFk = userFk;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

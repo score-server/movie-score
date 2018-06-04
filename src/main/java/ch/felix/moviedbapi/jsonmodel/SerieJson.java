@@ -2,7 +2,6 @@ package ch.felix.moviedbapi.jsonmodel;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class SerieJson {
@@ -58,6 +57,10 @@ public class SerieJson {
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
+
+    @SerializedName("backdrop_path")
+    @Expose
+    private String backdropPath;
 
     public Integer getId() {
         return id;
@@ -163,4 +166,11 @@ public class SerieJson {
         this.voteCount = voteCount;
     }
 
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
 }

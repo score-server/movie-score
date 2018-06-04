@@ -18,15 +18,15 @@
     <pre>[
   {
     "id": 1,
-    "request": "Star Wars",
+    "request": "coolman",
     "active": "1",
-    "user_id": "422"
-  },
-  {
-    "id": 2,
-    "request": "Forrest Gump",
-    "active": "0",
-    "user_id": "532"
+    "user": {
+      "id": 1,
+      "name": "alfafred",
+      "passwordSha": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+      "sessionId": null,
+      "role": 1
+    }
   }
 ]</pre>
 </div>
@@ -38,11 +38,17 @@
     <p><b>Response</b></p>
     Requests:
     <pre>[
-  {
+   {
     "id": 1,
-    "request": "Star Wars",
+    "request": "coolman",
     "active": "1",
-    "user_id": "422"
+    "user": {
+      "id": 1,
+      "name": "alfafred",
+      "passwordSha": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+      "sessionId": null,
+      "role": 1
+    }
   }
 ]</pre>
 
@@ -54,10 +60,16 @@
     <pre>/request/[requestId]</pre>
     Requests:
     <pre>{
-    "id": 2,
-    "request": "Forrest Gump",
-    "active": "0",
-    "user_id": "532"
+  "id": 1,
+  "request": "coolman",
+  "active": "1",
+  "user": {
+    "id": 1,
+    "name": "alfafred",
+    "passwordSha": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+    "sessionId": null,
+    "role": 1
+  }
 }</pre>
 </div>
 <br>

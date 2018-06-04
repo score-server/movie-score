@@ -2,7 +2,6 @@ package ch.felix.moviedbapi.jsonmodel;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class MovieJson {
@@ -39,6 +38,10 @@ public class MovieJson {
     @Expose
     private List<GenreJson> genres = null;
 
+    @SerializedName("backdrop_path")
+    @Expose
+    private String backdropPath;
+
 
     public Integer getId() {
         return id;
@@ -52,16 +55,16 @@ public class MovieJson {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getPoster_path() {
         return poster_path;
     }
 
     public void setPoster_path(String poster_path) {
         this.poster_path = poster_path;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getOverview() {
@@ -102,5 +105,13 @@ public class MovieJson {
 
     public void setGenres(List<GenreJson> genres) {
         this.genres = genres;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
     }
 }

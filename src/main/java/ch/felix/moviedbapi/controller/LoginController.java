@@ -7,7 +7,6 @@ import ch.felix.moviedbapi.service.ShaService;
 import java.util.Random;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +39,7 @@ public class LoginController {
     public @ResponseBody
     String login(@RequestParam("name") String nameParam,
                  @RequestParam("password") String passwordParam,
-                 Model model, HttpServletResponse response) {
+                 HttpServletResponse response) {
         User user = userRepository.findUserByNameAndAndPasswordSha(nameParam, shaService.encode(passwordParam));
 
         try {

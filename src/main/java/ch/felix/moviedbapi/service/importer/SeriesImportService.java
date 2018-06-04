@@ -52,22 +52,21 @@ public class SeriesImportService extends ImportService {
             serie = new Serie();
             serie.setTitle(getName(seriesName));
             serie.setDescript(serieJson.getOverview());
-            serie.setCaseImg("https://image.tmdb.org/t/p/w500" + serieJson.getPosterPath());
+            serie.setCaseImg("https://image.tmdb.org/t/p/original" + serieJson.getPosterPath());
+            serie.setBackgroundImg("https://image.tmdb.org/t/p/original" + serieJson.getBackdropPath());
             serie.setPopularity(serieJson.getPopularity());
             System.out.println("Saved Series: " + getName(seriesName));
             serieRepository.save(serie);
-            genreImportService.setGenre(
-                    Integer.valueOf(String.valueOf(serieRepository.findSerieByTitle(getName(seriesName)).getId())),
-                    serieJson.getGenres());
+            genreImportService.setGenre(serieRepository.findSerieByTitle(getName(seriesName)), serieJson.getGenres());
         }
 
 
-        Season season = seasonRepository.findSeasonBySerieFkAndSeason(
-                serieRepository.findSerieByTitle(getName(seriesName)).getId(),
+        Season season = seasonRepository.findSeasonBySerieAndSeason(
+                serieRepository.findSerieByTitle(getName(seriesName)),
                 Integer.valueOf(getSeason(seriesName)));
         if (season == null) {
             season = new Season();
-            season.setSerieFk(serieRepository.findSerieByTitle(getName(seriesName)).getId());
+            season.setSerie(serieRepository.findSerieByTitle(getName(seriesName)));
             season.setSeason(Integer.valueOf(getSeason(seriesName)));
             season.setYear(getYear(seriesName));
             System.out.println("Saved Season: Season " + getSeason(seriesName));
@@ -75,15 +74,14 @@ public class SeriesImportService extends ImportService {
         }
 
 
-        Episode episode = episodeRepository.findEpisodeBySeasonFkAndEpisode(
-                seasonRepository.findSeasonBySerieFkAndSeason(
-                        serieRepository.findSerieByTitle(getName(seriesName)).getId(),
-                        Integer.valueOf(getSeason(seriesName))).getId(),
+        Episode episode = episodeRepository.findEpisodeBySeasonAndEpisode(
+                seasonRepository.findSeasonBySerieAndSeason(
+                        serieRepository.findSerieByTitle(getName(seriesName)), Integer.valueOf(getSeason(seriesName))),
                 Integer.valueOf(getEpisode(seriesName)));
 
         if (episode == null) {
             episode = new Episode();
-            episode.setSeasonFk(season.getId());
+            episode.setSeason(seasonRepository.findSeasonById(season.getId()));
             episode.setPath(movieFile.getPath());
             episode.setEpisode(Integer.valueOf(getEpisode(seriesName)));
             episode.setQuality(getQuality(seriesName));
