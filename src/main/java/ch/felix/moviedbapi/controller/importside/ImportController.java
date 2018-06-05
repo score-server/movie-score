@@ -27,14 +27,14 @@ public class ImportController {
         this.seriesImportService = seriesImportService;
     }
 
-    @GetMapping(value = "/movie", produces = "application/json")
+    @GetMapping(value = "movie", produces = "application/json")
     public @ResponseBody
     String importMovies() {
         movieImportService.importFile("moviePath");
         return "101";
     }
 
-    @GetMapping(value = "/serie", produces = "application/json")
+    @GetMapping(value = "serie", produces = "application/json")
     public @ResponseBody
     String importSeries() {
         seriesImportService.importFile("seriePath");

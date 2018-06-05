@@ -1,11 +1,14 @@
 package ch.felix.moviedbapi.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  * @author Felix
@@ -25,6 +28,9 @@ public class Episode {
     @JsonIgnore
     @ManyToOne
     private Season season;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "episode")
+    private List<Comment> comments;
 
     private String path;
     private String quality;
@@ -68,5 +74,13 @@ public class Episode {
 
     public void setSeason(Season season) {
         this.season = season;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

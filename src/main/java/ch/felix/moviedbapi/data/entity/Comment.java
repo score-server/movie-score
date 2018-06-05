@@ -29,7 +29,7 @@ public class Comment {
 
     @JsonIgnore
     @ManyToOne
-    private Serie serie;
+    private Episode episode;
 
     @ManyToOne
     private User user;
@@ -54,14 +54,6 @@ public class Comment {
         this.movie = movie;
     }
 
-    public Serie getSerie() {
-        return serie;
-    }
-
-    public void setSerie(Serie serie) {
-        this.serie = serie;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -76,5 +68,13 @@ public class Comment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Episode getEpisode() {
+        return episode;
+    }
+
+    public void setEpisode(Episode episode) {
+        this.episode = episode;
     }
 }
