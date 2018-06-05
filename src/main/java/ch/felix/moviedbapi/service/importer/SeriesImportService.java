@@ -6,7 +6,7 @@ import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
-import ch.felix.moviedbapi.jsonmodel.SerieJson;
+import ch.felix.moviedbapi.jsonmodel.tmdb.SerieJson;
 import ch.felix.moviedbapi.service.SettingsService;
 import java.io.File;
 import org.springframework.stereotype.Service;
@@ -58,6 +58,8 @@ public class SeriesImportService extends ImportService {
             System.out.println("Saved Series: " + getName(seriesName));
             serieRepository.save(serie);
             genreImportService.setGenre(serieRepository.findSerieByTitle(getName(seriesName)), serieJson.getGenres());
+        } else {
+            super.filesToUpdate.add(movieFile);
         }
 
 
@@ -88,6 +90,27 @@ public class SeriesImportService extends ImportService {
             episodeRepository.save(episode);
             System.out.println("Saved Episode: " + getName(seriesName) + " Season " + getSeason(seriesName)
                                + " Episode " + getEpisode(seriesName));
+        }
+    }
+
+    @Override
+    public void filterUpdateFile(File movieFile) {
+        String seriesName = movieFile.getName().replace(".mp4", "");
+
+        SearchMovieService searchMovieService = new SearchMovieService();
+        int serieId = searchMovieService.findSeriesId(getName(seriesName), getYear(seriesName));
+        SerieJson serieJson = searchMovieService.getSerieInfo(serieId);
+
+        Serie serie = serieRepository.findSerieByTitle(getName(seriesName));
+
+        serie.setDescript(serieJson.getOverview());
+        serie.setPopularity(serieJson.getPopularity());
+        System.out.println("Updated Series: " + getName(seriesName));
+        serieRepository.save(serie);
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

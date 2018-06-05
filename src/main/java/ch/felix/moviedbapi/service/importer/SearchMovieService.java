@@ -1,8 +1,8 @@
 package ch.felix.moviedbapi.service.importer;
 
-import ch.felix.moviedbapi.jsonmodel.MovieJson;
-import ch.felix.moviedbapi.jsonmodel.Search;
-import ch.felix.moviedbapi.jsonmodel.SerieJson;
+import ch.felix.moviedbapi.jsonmodel.tmdb.MovieJson;
+import ch.felix.moviedbapi.jsonmodel.tmdb.Search;
+import ch.felix.moviedbapi.jsonmodel.tmdb.SerieJson;
 import ch.felix.moviedbapi.service.filehandler.WebHandler;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Service;

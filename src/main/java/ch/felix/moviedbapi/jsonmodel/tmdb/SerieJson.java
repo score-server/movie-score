@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.jsonmodel;
+package ch.felix.moviedbapi.jsonmodel.tmdb;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -14,29 +14,9 @@ public class SerieJson {
     @Expose
     private List<GenreJson> genres = null;
 
-    @SerializedName("in_production")
-    @Expose
-    private Boolean inProduction;
-
-    @SerializedName("last_air_date")
-    @Expose
-    private String lastAirDate;
-
     @SerializedName("name")
     @Expose
     private String name;
-
-    @SerializedName("number_of_episodes")
-    @Expose
-    private Integer numberOfEpisodes;
-
-    @SerializedName("number_of_seasons")
-    @Expose
-    private Integer numberOfSeasons;
-
-    @SerializedName("original_name")
-    @Expose
-    private String originalName;
 
     @SerializedName("overview")
     @Expose
@@ -78,52 +58,12 @@ public class SerieJson {
         this.genres = genres;
     }
 
-    public Boolean getInProduction() {
-        return inProduction;
-    }
-
-    public void setInProduction(Boolean inProduction) {
-        this.inProduction = inProduction;
-    }
-
-    public String getLastAirDate() {
-        return lastAirDate;
-    }
-
-    public void setLastAirDate(String lastAirDate) {
-        this.lastAirDate = lastAirDate;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getNumberOfEpisodes() {
-        return numberOfEpisodes;
-    }
-
-    public void setNumberOfEpisodes(Integer numberOfEpisodes) {
-        this.numberOfEpisodes = numberOfEpisodes;
-    }
-
-    public Integer getNumberOfSeasons() {
-        return numberOfSeasons;
-    }
-
-    public void setNumberOfSeasons(Integer numberOfSeasons) {
-        this.numberOfSeasons = numberOfSeasons;
-    }
-
-    public String getOriginalName() {
-        return originalName;
-    }
-
-    public void setOriginalName(String originalName) {
-        this.originalName = originalName;
     }
 
     public String getOverview() {

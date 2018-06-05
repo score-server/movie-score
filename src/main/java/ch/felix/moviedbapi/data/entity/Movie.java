@@ -39,6 +39,7 @@ public class Movie {
     private String quality;
     private Integer runtime;
     private Double popularity;
+    private Double voteAverage;
 
 
     public String getDescript() {
@@ -136,5 +137,13 @@ public class Movie {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 }

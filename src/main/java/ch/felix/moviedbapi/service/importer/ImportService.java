@@ -2,6 +2,8 @@ package ch.felix.moviedbapi.service.importer;
 
 import ch.felix.moviedbapi.service.SettingsService;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 public abstract class ImportService {
 
+
+    public List<File> filesToUpdate = new ArrayList<>();
+
     private SettingsService settingsService;
 
     protected ImportService(SettingsService settingsService) {
@@ -23,6 +28,8 @@ public abstract class ImportService {
 
     public abstract void filterFile(File movieFile);
 
+    public abstract void filterUpdateFile(File movieFile);
+
     public void importFile(String pathKey) {
         File file = new File(settingsService.getKey(pathKey));
         for (File movieFile : file.listFiles()) {
@@ -30,8 +37,14 @@ public abstract class ImportService {
                 filterFile(movieFile);
             }
         }
-
+        updateFile();
     }
 
+    public void updateFile() {
+        for (File movieFile : filesToUpdate) {
+            filterUpdateFile(movieFile);
+        }
+        filesToUpdate = new ArrayList<>();
+    }
 
 }
