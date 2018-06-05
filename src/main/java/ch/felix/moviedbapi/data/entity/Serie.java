@@ -33,6 +33,9 @@ public class Serie {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "serie")
     private List<Genre> genres;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "serie")
+    private List<Comment> comments;
+
     @Lob
     @Column
     private String descript;
@@ -105,5 +108,13 @@ public class Serie {
 
     public void setBackgroundImg(String backgroundImg) {
         this.backgroundImg = backgroundImg;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

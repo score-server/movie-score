@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.controller;
+package ch.felix.moviedbapi.controller.movieside;
 
 import ch.felix.moviedbapi.service.importer.MovieImportService;
 import ch.felix.moviedbapi.service.importer.SeriesImportService;

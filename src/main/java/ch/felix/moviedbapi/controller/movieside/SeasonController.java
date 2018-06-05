@@ -1,9 +1,7 @@
-package ch.felix.moviedbapi.controller;
+package ch.felix.moviedbapi.controller.movieside;
 
 import ch.felix.moviedbapi.data.entity.Season;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
-import ch.felix.moviedbapi.data.repository.SerieRepository;
-import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,17 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SeasonController {
 
     private SeasonRepository seasonRepository;
-    private SerieRepository serieRepository;
 
-    public SeasonController(SeasonRepository seasonRepository, SerieRepository serieRepository) {
+    public SeasonController(SeasonRepository seasonRepository) {
         this.seasonRepository = seasonRepository;
-        this.serieRepository = serieRepository;
-    }
-
-    @GetMapping("/serie/{serieId}")
-    public @ResponseBody
-    List<Season> getForSerie(@PathVariable("serieId") String serieParam) {
-        return seasonRepository.findSeasonsBySerie(serieRepository.findSerieById(Long.valueOf(serieParam)));
     }
 
     @GetMapping("/{seasonId}")

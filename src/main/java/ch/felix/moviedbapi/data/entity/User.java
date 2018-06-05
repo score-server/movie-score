@@ -21,13 +21,20 @@ public class User {
     @Column(unique = true)
     private String name;
 
+    @JsonIgnore
     private String passwordSha;
+    @JsonIgnore
     private String sessionId;
+
     private Integer role;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Request> requests;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Comment> comments;
 
 
     public Long getId() {
@@ -76,5 +83,13 @@ public class User {
 
     public void setRequests(List<Request> requests) {
         this.requests = requests;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

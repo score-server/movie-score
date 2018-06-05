@@ -32,6 +32,9 @@ public class Movie {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Genre> genres;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
+    private List<Comment> comments;
+
     private String year;
     private String quality;
     private Integer runtime;
@@ -125,5 +128,13 @@ public class Movie {
 
     public void setBackgroundImg(String backgroundImg) {
         this.backgroundImg = backgroundImg;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

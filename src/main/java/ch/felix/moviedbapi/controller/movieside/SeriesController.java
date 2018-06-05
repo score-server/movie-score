@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.controller;
+package ch.felix.moviedbapi.controller.movieside;
 
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
