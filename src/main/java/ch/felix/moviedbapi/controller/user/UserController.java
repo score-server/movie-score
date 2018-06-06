@@ -2,10 +2,15 @@ package ch.felix.moviedbapi.controller.user;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
+import ch.felix.moviedbapi.service.ShaService;
+import ch.felix.moviedbapi.service.ViolationService;
 import java.util.List;
+import javax.validation.ConstraintViolationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -22,9 +27,14 @@ public class UserController {
 
     private UserRepository userRepository;
 
+    private ShaService shaService;
+    private ViolationService violationService;
 
-    public UserController(UserRepository userRepository) {
+
+    public UserController(UserRepository userRepository, ShaService shaService, ViolationService violationService) {
         this.userRepository = userRepository;
+        this.shaService = shaService;
+        this.violationService = violationService;
     }
 
     @GetMapping(produces = "application/json")
@@ -43,12 +53,41 @@ public class UserController {
     }
 
     @GetMapping(value = "/{userId}/role/{role}", produces = "application/json")
-    public String getOneUser(@PathVariable("userId") String userId,
-                             @PathVariable("role") String role) {
+    public String setRole(@PathVariable("userId") String userId,
+                          @PathVariable("role") String role) {
         User user = userRepository.findUserById(Long.valueOf(userId));
         user.setRole(Integer.valueOf(role));
         userRepository.save(user);
         return "102";
+    }
+
+    @PostMapping("{userId}/name")
+    public String setUsername(@PathVariable("userId") String userId,
+                              @RequestParam("name") String newName) {
+        try {
+            User user = userRepository.findUserById(Long.valueOf(userId));
+            user.setName(newName);
+            userRepository.save(user);
+            return "102";
+        } catch (ConstraintViolationException e) {
+            return "206 " + violationService.getViolation(e);
+        }
+
+
+    }
+
+    @PostMapping("{userId}/password")
+    public String setPassword(@PathVariable("userId") String userId,
+                              @RequestParam("password") String newPassword) {
+        try {
+            User user = userRepository.findUserById(Long.valueOf(userId));
+            user.setPasswordSha(shaService.encode(newPassword));
+            userRepository.save(user);
+            return "102";
+        } catch (ConstraintViolationException e) {
+            return "206 " + violationService.getViolation(e);
+        }
+
     }
 
 }
