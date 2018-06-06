@@ -1,18 +1,15 @@
-package ch.felix.moviedbapi.controller.movieside;
+package ch.felix.moviedbapi.controller.movie;
 
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.GenreRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
-import ch.felix.moviedbapi.service.SettingsService;
-import ch.felix.moviedbapi.service.importer.MovieImportService;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Felix
@@ -22,27 +19,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@Controller
+@RestController
 @RequestMapping("movie")
 public class MovieController {
 
     private MovieRepository movieRepository;
     private GenreRepository genreRepository;
 
-    private MovieImportService movieImportService;
-    private SettingsService settingsService;
-
-    public MovieController(MovieRepository movieRepository, MovieImportService movieImportService,
-                           SettingsService settingsService, GenreRepository genreRepository) {
+    public MovieController(MovieRepository movieRepository, GenreRepository genreRepository) {
         this.movieRepository = movieRepository;
-        this.movieImportService = movieImportService;
-        this.settingsService = settingsService;
         this.genreRepository = genreRepository;
     }
 
     @GetMapping(produces = "application/json")
-    public @ResponseBody
-    List<Movie> getMovies() {
+    public List<Movie> getMovies() {
         try {
             return movieRepository.findAll();
         } catch (NullPointerException e) {
@@ -51,8 +41,7 @@ public class MovieController {
     }
 
     @GetMapping(value = "/{movieId}", produces = "application/json")
-    public @ResponseBody
-    Movie getOneMovie(@PathVariable("movieId") String movieId) {
+    public Movie getOneMovie(@PathVariable("movieId") String movieId) {
         try {
             return movieRepository.findMovieById(Long.valueOf(movieId));
         } catch (NullPointerException | NumberFormatException e) {
@@ -62,8 +51,7 @@ public class MovieController {
     }
 
     @GetMapping(value = "/search/{search}", produces = "application/json")
-    public @ResponseBody
-    List<Movie> searchMovie(@PathVariable("search") String search) {
+    public List<Movie> searchMovie(@PathVariable("search") String search) {
         try {
             return movieRepository.findMoviesByTitleContaining(search);
         } catch (NumberFormatException | NullPointerException e) {
@@ -73,8 +61,7 @@ public class MovieController {
     }
 
     @GetMapping(value = "/genre/{genre}", produces = "application/json")
-    public @ResponseBody
-    List<Movie> getMoviesForGenre(@PathVariable("genre") String genreParam) {
+    public List<Movie> getMoviesForGenre(@PathVariable("genre") String genreParam) {
         List<Genre> genres = genreRepository.findGenresByName(genreParam);
 
         List<Movie> movieList = new ArrayList<>();

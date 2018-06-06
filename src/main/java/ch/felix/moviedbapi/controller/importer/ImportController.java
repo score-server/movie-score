@@ -1,14 +1,13 @@
-package ch.felix.moviedbapi.controller.importside;
+package ch.felix.moviedbapi.controller.importer;
 
 import ch.felix.moviedbapi.service.SettingsService;
 import ch.felix.moviedbapi.service.importer.MovieImportService;
 import ch.felix.moviedbapi.service.importer.SeriesImportService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Felix
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@Controller
+@RestController
 @RequestMapping("import")
 public class ImportController {
 
@@ -33,43 +32,37 @@ public class ImportController {
     }
 
     @GetMapping(value = "movie", produces = "application/json")
-    public @ResponseBody
-    String importMovies() {
+    public String importMovies() {
         movieImportService.importFile("moviePath");
         return "101";
     }
 
     @GetMapping(value = "serie", produces = "application/json")
-    public @ResponseBody
-    String importSeries() {
+    public String importSeries() {
         seriesImportService.importFile("seriePath");
         return "103";
     }
 
 
     @PostMapping(value = "path/movie", produces = "application/json")
-    public @ResponseBody
-    String setMovieImportPath(@RequestParam("path") String pathParam) {
+    public String setMovieImportPath(@RequestParam("path") String pathParam) {
         settingsService.setValue("moviePath", pathParam);
         return "102";
     }
 
     @GetMapping(value = "path/movie", produces = "application/json")
-    public @ResponseBody
-    String getMovieImportPath() {
+    public String getMovieImportPath() {
         return settingsService.getKey("moviePath");
     }
 
     @PostMapping(value = "path/serie", produces = "application/json")
-    public @ResponseBody
-    String setSerieImportPath(@RequestParam("path") String pathParam) {
+    public String setSerieImportPath(@RequestParam("path") String pathParam) {
         settingsService.setValue("seriePath", pathParam);
         return "102";
     }
 
     @GetMapping(value = "path/serie", produces = "application/json")
-    public @ResponseBody
-    String getSerieImportPath() {
+    public String getSerieImportPath() {
         return settingsService.getKey("seriePath");
     }
 }

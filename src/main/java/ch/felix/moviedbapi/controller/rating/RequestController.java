@@ -1,17 +1,16 @@
-package ch.felix.moviedbapi.controller.ratingside;
+package ch.felix.moviedbapi.controller.rating;
 
 import ch.felix.moviedbapi.data.entity.Request;
 import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.CookieService;
 import java.util.List;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Felix
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@Controller
+@RestController
 @RequestMapping("request")
 public class RequestController {
 
@@ -34,19 +33,19 @@ public class RequestController {
     }
 
     @GetMapping(produces = "application/json")
-    public @ResponseBody
+    public
     List<Request> getRequestList() {
         return requestRepository.findAll();
     }
 
     @GetMapping(value = "/{requestId}", produces = "application/json")
-    public @ResponseBody
+    public
     Request getOneRequest(@PathVariable("requestId") String requestParam) {
         return requestRepository.findRequestById(Long.valueOf(requestParam));
     }
 
     @PostMapping(value = "/add", produces = "application/json")
-    public @ResponseBody
+    public
     String createRequest(@RequestParam("request") String requestParam,
                          @RequestParam("userId") String userId) {
         try {
@@ -63,7 +62,7 @@ public class RequestController {
     }
 
     @PostMapping(value = "/{requestId}/close", produces = "application/json")
-    public @ResponseBody
+    public
     String closeRequest(@PathVariable("requestId") String requestParam) {
         try {
             Request request = requestRepository.findRequestById(Long.valueOf(requestParam));

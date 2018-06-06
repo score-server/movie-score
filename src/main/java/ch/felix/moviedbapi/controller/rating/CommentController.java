@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.controller.ratingside;
+package ch.felix.moviedbapi.controller.rating;
 
 import ch.felix.moviedbapi.data.entity.Comment;
 import ch.felix.moviedbapi.data.repository.CommentRepository;
@@ -6,13 +6,12 @@ import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import java.util.List;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Felix
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@Controller
+@RestController
 @RequestMapping("comment")
 public class CommentController {
 
@@ -40,19 +39,19 @@ public class CommentController {
     }
 
     @GetMapping("movie/{movieId}")
-    public @ResponseBody
+    public
     List<Comment> getForMovie(@PathVariable("movieId") String movieId) {
         return movieRepository.findMovieById(Long.valueOf(movieId)).getComments();
     }
 
     @GetMapping("episode/{episodeId}")
-    public @ResponseBody
+    public
     List<Comment> getForEpisode(@PathVariable("episodeId") String episodeId) {
         return episodeRepository.findEpisodeById(Long.valueOf(episodeId)).getComments();
     }
 
     @PostMapping("add/movie")
-    public @ResponseBody
+    public
     String addCommentForMovie(@RequestParam("userId") String userId,
                               @RequestParam("movieId") String movieId,
                               @RequestParam("comment") String commentParam) {
@@ -65,7 +64,7 @@ public class CommentController {
     }
 
     @PostMapping("add/serie")
-    public @ResponseBody
+    public
     String addCommentForEpisode(@RequestParam("userId") String userId,
                                 @RequestParam("episodeId") String episodeId,
                                 @RequestParam("comment") String commentParam) {

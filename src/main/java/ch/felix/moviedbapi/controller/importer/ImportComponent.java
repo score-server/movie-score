@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.controller.importside;
+package ch.felix.moviedbapi.controller.importer;
 
 import ch.felix.moviedbapi.service.importer.ImportService;
 import org.springframework.scheduling.annotation.Scheduled;

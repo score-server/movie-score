@@ -1,13 +1,12 @@
-package ch.felix.moviedbapi.controller.userside;
+package ch.felix.moviedbapi.controller.user;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.CookieService;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Felix
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@Controller
+@RestController
 @RequestMapping("currentUser")
 public class CurrentUserController {
 
@@ -31,7 +30,7 @@ public class CurrentUserController {
     }
 
     @GetMapping(produces = "application/json")
-    public @ResponseBody
+    public
     User getCurrentUser(HttpServletRequest request) {
         try {
             return userRepository.findUserBySessionId(String.valueOf(cookieService.getCurrentUser(request)));

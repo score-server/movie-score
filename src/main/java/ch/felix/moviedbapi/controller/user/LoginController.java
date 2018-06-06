@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.controller.userside;
+package ch.felix.moviedbapi.controller.user;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
@@ -6,11 +6,10 @@ import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
 import java.util.Random;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Felix
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@Controller
+@RestController
 @RequestMapping("login")
 public class LoginController {
 
@@ -36,7 +35,7 @@ public class LoginController {
     }
 
     @PostMapping(produces = "application/json")
-    public @ResponseBody
+    public
     String login(@RequestParam("name") String nameParam,
                  @RequestParam("password") String passwordParam,
                  HttpServletResponse response) {

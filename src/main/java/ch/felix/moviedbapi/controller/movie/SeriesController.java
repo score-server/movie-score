@@ -1,14 +1,13 @@
-package ch.felix.moviedbapi.controller.movieside;
+package ch.felix.moviedbapi.controller.movie;
 
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.service.importer.SeriesImportService;
 import java.util.List;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Felix
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@Controller
+@RestController
 @RequestMapping("serie")
 public class SeriesController {
 
@@ -32,13 +31,13 @@ public class SeriesController {
     }
 
     @GetMapping
-    public @ResponseBody
+    public
     List<Serie> getAllSeries() {
         return serieRepository.findAll();
     }
 
     @GetMapping("/{serieId}")
-    public @ResponseBody
+    public
     Serie getOneSerie(@PathVariable("serieId") String serieParam) {
         return serieRepository.findSerieById(Long.valueOf(serieParam));
     }
