@@ -53,7 +53,7 @@ public class CommentController {
 
     @PostMapping("add/movie")
     public @ResponseBody
-    String addCommentForMovie   (@RequestParam("userId") String userId,
+    String addCommentForMovie(@RequestParam("userId") String userId,
                               @RequestParam("movieId") String movieId,
                               @RequestParam("comment") String commentParam) {
         Comment comment = new Comment();
@@ -64,7 +64,7 @@ public class CommentController {
         return "101";
     }
 
-    @PostMapping("add/movie")
+    @PostMapping("add/serie")
     public @ResponseBody
     String addCommentForEpisode(@RequestParam("userId") String userId,
                                 @RequestParam("episodeId") String episodeId,

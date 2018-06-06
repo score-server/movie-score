@@ -11,9 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -72,19 +70,6 @@ public class MovieController {
             e.printStackTrace();
             return null;
         }
-    }
-
-    @PostMapping(value = "/add/path", produces = "application/json")
-    public @ResponseBody
-    String setImportpathPath(@RequestParam("path") String pathParam) {
-        settingsService.setValue("moviePath", pathParam);
-        return "102";
-    }
-
-    @GetMapping(value = "/add/path", produces = "application/json")
-    public @ResponseBody
-    String getImportpathPath() {
-        return settingsService.getKey("moviePath");
     }
 
     @GetMapping(value = "/genre/{genre}", produces = "application/json")
