@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Request {
@@ -18,10 +19,13 @@ public class Request {
 
     @Lob
     @Column
+    @NotNull
     private String request;
 
+    @NotNull
     private String active;
 
+    @NotNull
     @ManyToOne
     private User user;
 

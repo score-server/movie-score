@@ -25,9 +25,8 @@ public class SeasonController {
         this.seasonRepository = seasonRepository;
     }
 
-    @GetMapping("/{seasonId}")
-    public
-    Season getOneSeason(@PathVariable("seasonId") String seasonParam) {
+    @GetMapping(value = "/{seasonId}", produces = "application/json")
+    public Season getOneSeason(@PathVariable("seasonId") String seasonParam) {
         return seasonRepository.findSeasonById(Long.valueOf(seasonParam));
     }
 

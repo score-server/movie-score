@@ -30,8 +30,7 @@ public class CurrentUserController {
     }
 
     @GetMapping(produces = "application/json")
-    public
-    User getCurrentUser(HttpServletRequest request) {
+    public User getCurrentUser(HttpServletRequest request) {
         try {
             return userRepository.findUserBySessionId(String.valueOf(cookieService.getCurrentUser(request)));
         } catch (NullPointerException e) {

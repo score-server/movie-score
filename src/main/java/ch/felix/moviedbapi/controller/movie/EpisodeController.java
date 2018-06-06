@@ -25,7 +25,7 @@ public class EpisodeController {
         this.episodeRepository = episodeRepository;
     }
 
-    @GetMapping("/{episodeId}")
+    @GetMapping(value = "/{episodeId}", produces = "application/json")
     public Episode getOneEpisode(@PathVariable("episodeId") String episodeId) {
         return episodeRepository.findEpisodeById(Long.valueOf(episodeId));
     }

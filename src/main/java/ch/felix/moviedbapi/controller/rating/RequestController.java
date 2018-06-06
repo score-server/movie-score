@@ -4,7 +4,9 @@ import ch.felix.moviedbapi.data.entity.Request;
 import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.ViolationService;
 import java.util.List;
+import javax.validation.ConstraintViolationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,27 +29,27 @@ public class RequestController {
     private RequestRepository requestRepository;
     private UserRepository userRepository;
 
-    public RequestController(RequestRepository requestRepository, UserRepository userRepository, CookieService cookieService) {
+    private ViolationService violationService;
+
+    public RequestController(RequestRepository requestRepository, UserRepository userRepository, CookieService cookieService, ViolationService violationService) {
         this.requestRepository = requestRepository;
         this.userRepository = userRepository;
+        this.violationService = violationService;
     }
 
     @GetMapping(produces = "application/json")
-    public
-    List<Request> getRequestList() {
+    public List<Request> getRequestList() {
         return requestRepository.findAll();
     }
 
     @GetMapping(value = "/{requestId}", produces = "application/json")
-    public
-    Request getOneRequest(@PathVariable("requestId") String requestParam) {
+    public Request getOneRequest(@PathVariable("requestId") String requestParam) {
         return requestRepository.findRequestById(Long.valueOf(requestParam));
     }
 
-    @PostMapping(value = "/add", produces = "application/json")
-    public
-    String createRequest(@RequestParam("request") String requestParam,
-                         @RequestParam("userId") String userId) {
+    @PostMapping("/add")
+    public String createRequest(@RequestParam("request") String requestParam,
+                                @RequestParam("userId") String userId) {
         try {
             Request request = new Request();
             request.setRequest(requestParam);
@@ -58,12 +60,14 @@ public class RequestController {
             return "101";//Added
         } catch (NullPointerException e) {
             return "202";//User not logged in
+        } catch (ConstraintViolationException e) {
+            return "206 " + violationService.getViolation(e);
         }
+
     }
 
-    @PostMapping(value = "/{requestId}/close", produces = "application/json")
-    public
-    String closeRequest(@PathVariable("requestId") String requestParam) {
+    @PostMapping("/{requestId}/close")
+    public String closeRequest(@PathVariable("requestId") String requestParam) {
         try {
             Request request = requestRepository.findRequestById(Long.valueOf(requestParam));
             request.setActive("0");

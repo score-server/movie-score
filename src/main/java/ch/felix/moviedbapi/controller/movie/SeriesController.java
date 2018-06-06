@@ -30,15 +30,13 @@ public class SeriesController {
         this.serieImportService = serieImportService;
     }
 
-    @GetMapping
-    public
-    List<Serie> getAllSeries() {
+    @GetMapping(produces = "application/json")
+    public List<Serie> getAllSeries() {
         return serieRepository.findAll();
     }
 
-    @GetMapping("/{serieId}")
-    public
-    Serie getOneSerie(@PathVariable("serieId") String serieParam) {
+    @GetMapping(value = "/{serieId}", produces = "application/json")
+    public Serie getOneSerie(@PathVariable("serieId") String serieParam) {
         return serieRepository.findSerieById(Long.valueOf(serieParam));
     }
 }

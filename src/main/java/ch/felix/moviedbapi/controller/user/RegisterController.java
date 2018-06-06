@@ -3,6 +3,8 @@ package ch.felix.moviedbapi.controller.user;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ShaService;
+import ch.felix.moviedbapi.service.ViolationService;
+import javax.validation.ConstraintViolationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,24 +25,30 @@ public class RegisterController {
     private UserRepository userRepository;
 
     private ShaService shaService;
+    private ViolationService violationService;
 
-    public RegisterController(UserRepository userRepository, ShaService shaService) {
+    public RegisterController(UserRepository userRepository, ShaService shaService, ViolationService violationService) {
         this.userRepository = userRepository;
         this.shaService = shaService;
+        this.violationService = violationService;
     }
 
-    @PostMapping(produces = "application/json")
-    public
-    String register(@RequestParam("name") String nameParam,
-                    @RequestParam("password") String password) {
+    @PostMapping
+    public String register(@RequestParam("name") String nameParam,
+                           @RequestParam("password") String password) {
         if (userRepository.findUserByName(nameParam) == null) {
             User user = new User();
-            user.setName(nameParam);
-            user.setPasswordSha(shaService.encode(password));
-            user.setRole(1);
-            userRepository.save(user);
-            System.out.println("Registered User - " + nameParam);
-            return "101";
+
+            try {
+                user.setName(nameParam);
+                user.setPasswordSha(shaService.encode(password));
+                user.setRole(1);
+                userRepository.save(user);
+                System.out.println("Registered User - " + nameParam);
+                return "101";
+            } catch (ConstraintViolationException e) {
+                return "206 " + violationService.getViolation(e);
+            }
         } else {
             return "203";
         }

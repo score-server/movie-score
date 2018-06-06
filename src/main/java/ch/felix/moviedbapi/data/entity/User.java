@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class User {
@@ -19,10 +21,14 @@ public class User {
     private Long id;
 
     @Column(unique = true)
+    @NotNull
+    @Size(min = 3, max = 20)
     private String name;
 
     @JsonIgnore
+    @NotNull
     private String passwordSha;
+
     @JsonIgnore
     private String sessionId;
 

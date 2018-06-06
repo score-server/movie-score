@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Felix
@@ -31,10 +32,12 @@ public class Comment {
     @ManyToOne
     private Episode episode;
 
+    @NotNull
     @ManyToOne
     private User user;
 
     @Lob
+    @NotNull
     private String comment;
 
 

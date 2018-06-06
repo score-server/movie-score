@@ -44,7 +44,7 @@ public class ImportController {
     }
 
 
-    @PostMapping(value = "path/movie", produces = "application/json")
+    @PostMapping("path/movie")
     public String setMovieImportPath(@RequestParam("path") String pathParam) {
         settingsService.setValue("moviePath", pathParam);
         return "102";
@@ -55,7 +55,7 @@ public class ImportController {
         return settingsService.getKey("moviePath");
     }
 
-    @PostMapping(value = "path/serie", produces = "application/json")
+    @PostMapping("path/serie")
     public String setSerieImportPath(@RequestParam("path") String pathParam) {
         settingsService.setValue("seriePath", pathParam);
         return "102";
