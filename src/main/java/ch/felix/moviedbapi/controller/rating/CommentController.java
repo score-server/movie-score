@@ -69,7 +69,7 @@ public class CommentController {
         }
     }
 
-    @PostMapping("add/serie")
+    @PostMapping("add/episode")
     public String addCommentForEpisode(@RequestParam("userId") String userId,
                                        @RequestParam("episodeId") String episodeId,
                                        @RequestParam("comment") String commentParam) {

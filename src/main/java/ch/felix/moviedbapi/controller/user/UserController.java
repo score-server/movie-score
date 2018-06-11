@@ -42,7 +42,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping(value = "/{userId}", produces = "application/json")
+    @GetMapping(value = "{userId}", produces = "application/json")
     public User getOneUser(@PathVariable("userId") String userId) {
         try {
             return userRepository.findUserById(Long.valueOf(userId));
@@ -52,7 +52,17 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/{userId}/role/{role}", produces = "application/json")
+    @GetMapping(value = "search/{search}", produces = "application/json")
+    public List<User> searchUsers(@PathVariable("search") String searchParam) {
+        try {
+            return userRepository.findUsersByNameContaining(searchParam);
+        } catch (NullPointerException | NumberFormatException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @PostMapping(value = "{userId}/role/{role}", produces = "application/json")
     public String setRole(@PathVariable("userId") String userId,
                           @PathVariable("role") String role) {
         User user = userRepository.findUserById(Long.valueOf(userId));

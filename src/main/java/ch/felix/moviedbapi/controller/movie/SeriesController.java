@@ -2,7 +2,6 @@ package ch.felix.moviedbapi.controller.movie;
 
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
-import ch.felix.moviedbapi.service.importer.SeriesImportService;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,11 +22,8 @@ public class SeriesController {
 
     private SerieRepository serieRepository;
 
-    private SeriesImportService serieImportService;
-
-    public SeriesController(SerieRepository serieRepository, SeriesImportService serieImportService) {
+    public SeriesController(SerieRepository serieRepository) {
         this.serieRepository = serieRepository;
-        this.serieImportService = serieImportService;
     }
 
     @GetMapping(produces = "application/json")
@@ -38,5 +34,10 @@ public class SeriesController {
     @GetMapping(value = "/{serieId}", produces = "application/json")
     public Serie getOneSerie(@PathVariable("serieId") String serieParam) {
         return serieRepository.findSerieById(Long.valueOf(serieParam));
+    }
+
+    @GetMapping(value = "search/{search}", produces = "application/json")
+    public List<Serie> searchSerie(@PathVariable("search") String searchParam) {
+        return serieRepository.findSeriesByTitleContaining(searchParam);
     }
 }
