@@ -65,10 +65,14 @@ public class UserController {
     @PostMapping(value = "{userId}/role/{role}", produces = "application/json")
     public String setRole(@PathVariable("userId") String userId,
                           @PathVariable("role") String role) {
-        User user = userRepository.findUserById(Long.valueOf(userId));
-        user.setRole(Integer.valueOf(role));
-        userRepository.save(user);
-        return "102";
+        try {
+            User user = userRepository.findUserById(Long.valueOf(userId));
+            user.setRole(Integer.valueOf(role));
+            userRepository.save(user);
+            return "102";
+        } catch (NumberFormatException e) {
+            return "205";
+        }
     }
 
     @PostMapping("{userId}/name")
@@ -80,7 +84,9 @@ public class UserController {
             userRepository.save(user);
             return "102";
         } catch (ConstraintViolationException e) {
-            return "206 " + violationService.getViolation(e);
+            return "205 " + violationService.getViolation(e);
+        }catch (NumberFormatException e) {
+            return "204";
         }
 
 
@@ -95,7 +101,9 @@ public class UserController {
             userRepository.save(user);
             return "102";
         } catch (ConstraintViolationException e) {
-            return "206 " + violationService.getViolation(e);
+            return "205 " + violationService.getViolation(e);
+        }catch (NumberFormatException e) {
+            return "204";
         }
 
     }

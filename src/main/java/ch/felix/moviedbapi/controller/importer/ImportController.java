@@ -34,7 +34,7 @@ public class ImportController {
     @GetMapping(value = "movie", produces = "application/json")
     public String importMovies() {
         movieImportService.importFile("moviePath");
-        return "101";
+        return "103";
     }
 
     @GetMapping(value = "serie", produces = "application/json")

@@ -63,9 +63,9 @@ public class CommentController {
             comment.setMovie(movieRepository.findMovieById(Long.valueOf(movieId)));
             comment.setComment(commentParam);
             commentRepository.save(comment);
-            return "101";
+            return "103";
         } catch (ConstraintViolationException e) {
-            return "206 " + violationService.getViolation(e);
+            return "205 " + violationService.getViolation(e);
         }
     }
 
@@ -79,9 +79,9 @@ public class CommentController {
             comment.setEpisode(episodeRepository.findEpisodeById(Long.valueOf(episodeId)));
             comment.setComment(commentParam);
             commentRepository.save(comment);
-            return "101";
+            return "103";
         } catch (ConstraintViolationException e) {
-            return "206 " + violationService.getViolation(e);
+            return "205 " + violationService.getViolation(e);
         }
 
     }

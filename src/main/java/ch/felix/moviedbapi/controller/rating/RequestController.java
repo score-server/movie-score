@@ -48,8 +48,8 @@ public class RequestController {
     }
 
     @PostMapping("/add")
-    public String createRequest(@RequestParam("request") String requestParam,
-                                @RequestParam("userId") String userId) {
+    public String createRequest(@RequestParam("userId") String userId,
+                                @RequestParam("request") String requestParam) {
         try {
             Request request = new Request();
             request.setRequest(requestParam);
@@ -57,11 +57,11 @@ public class RequestController {
             request.setActive("1");
             requestRepository.save(request);
             System.out.println("Saved Request - " + requestParam);
-            return "101";//Added
+            return "103";//Added
         } catch (NullPointerException e) {
-            return "202";//User not logged in
+            return "204";//Not found
         } catch (ConstraintViolationException e) {
-            return "206 " + violationService.getViolation(e);
+            return "205 " + violationService.getViolation(e);
         }
 
     }
@@ -72,9 +72,9 @@ public class RequestController {
             Request request = requestRepository.findRequestById(Long.valueOf(requestParam));
             request.setActive("0");
             requestRepository.save(request);
-            return "101";//Added
+            return "103";//Added
         } catch (NullPointerException e) {
-            return "202";//User not logged in
+            return "204";//User not logged in
         }
     }
 
