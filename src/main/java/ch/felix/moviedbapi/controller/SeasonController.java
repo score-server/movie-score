@@ -1,13 +1,14 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.entity.Season;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
+import ch.felix.moviedbapi.service.CookieService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Felix
@@ -22,13 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class SeasonController {
 
     private SeasonRepository seasonRepository;
+    private CookieService cookieService;
 
-    public SeasonController(SeasonRepository seasonRepository) {
+    public SeasonController(SeasonRepository seasonRepository, CookieService cookieService) {
         this.seasonRepository = seasonRepository;
+        this.cookieService = cookieService;
     }
 
     @GetMapping(value = "/{seasonId}", produces = "application/json")
-    public String getOneSeason(@PathVariable("seasonId") String seasonParam, Model model) {
+    public String getOneSeason(@PathVariable("seasonId") String seasonParam, Model model, HttpServletRequest request) {
+        try {
+            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+        } catch (NullPointerException e) {
+        }
+
         model.addAttribute("season", seasonRepository.findSeasonById(Long.valueOf(seasonParam)));
         model.addAttribute("page", "season");
         return "template";

@@ -39,7 +39,12 @@ public class MovieController {
     }
 
     @GetMapping(produces = "application/json")
-    public String getMovies(Model model) {
+    public String getMovies(Model model, HttpServletRequest request) {
+        try {
+            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+        } catch (NullPointerException e) {
+        }
+
         try {
             model.addAttribute("movies", movieRepository.findAll());
             model.addAttribute("page", "movieList");

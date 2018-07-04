@@ -2,9 +2,10 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
+import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
-import ch.felix.moviedbapi.service.ViolationService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.stereotype.Controller;
@@ -26,14 +27,22 @@ public class RegisterController {
     private UserRepository userRepository;
 
     private ShaService shaService;
+    private CookieService cookieService;
 
-    public RegisterController(UserRepository userRepository, ShaService shaService) {
+    public RegisterController(UserRepository userRepository, ShaService shaService, CookieService cookieService) {
         this.userRepository = userRepository;
         this.shaService = shaService;
+        this.cookieService = cookieService;
     }
 
     @GetMapping
-    public String getRegister(Model model) {
+    public String getRegister(Model model, HttpServletRequest request) {
+        try {
+            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+        } catch (NullPointerException e) {
+            return "redirect:/login";
+        }
+
         model.addAttribute("page", "register");
         return "template";
     }

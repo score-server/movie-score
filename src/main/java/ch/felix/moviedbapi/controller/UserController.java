@@ -2,13 +2,12 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
+import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
-import ch.felix.moviedbapi.service.ViolationService;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Felix
@@ -33,22 +31,36 @@ public class UserController {
     private UserRepository userRepository;
 
     private ShaService shaService;
+    private CookieService cookieService;
 
 
-    public UserController(UserRepository userRepository, ShaService shaService) {
+    public UserController(UserRepository userRepository, ShaService shaService, CookieService cookieService) {
         this.userRepository = userRepository;
         this.shaService = shaService;
+        this.cookieService = cookieService;
     }
 
     @GetMapping(produces = "application/json")
-    public String getUserList(Model model) {
+    public String getUserList(Model model, HttpServletRequest request) {
+        try {
+            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+        } catch (NullPointerException e) {
+            return "redirect:/login";
+        }
+
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("page", "userList");
         return "template";
     }
 
     @GetMapping(value = "{userId}", produces = "application/json")
-    public String getOneUser(@PathVariable("userId") String userId, Model model) {
+    public String getOneUser(@PathVariable("userId") String userId, Model model, HttpServletRequest request) {
+        try {
+            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+        } catch (NullPointerException e) {
+            return "redirect:/login";
+        }
+
         model.addAttribute("user", userRepository.findUserById(Long.valueOf(userId)));
         model.addAttribute("page", "user");
         return "template";
@@ -56,7 +68,12 @@ public class UserController {
 
     @GetMapping(value = "search", produces = "application/json")
     public String searchUsers(@RequestParam(value = "search", required = false, defaultValue = "") String searchParam,
-                              Model model) {
+                              Model model, HttpServletRequest request) {
+        try {
+            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+        } catch (NullPointerException e) {
+            return "redirect:/login";
+        }
         try {
             model.addAttribute("users", userRepository.findUsersByNameContaining(searchParam));
             model.addAttribute("page", "searchUser");
