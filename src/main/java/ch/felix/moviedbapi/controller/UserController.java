@@ -75,7 +75,7 @@ public class UserController {
             userRepository.save(user);
             return "redirect:/user/" + userId;
         } catch (NumberFormatException e) {
-            return "redirect:/user/" + userId + "?error=Could+not+set+Role";
+            return "redirect:/user/" + userId + "?error=Could not set Role";
         }
     }
 

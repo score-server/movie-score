@@ -8,9 +8,12 @@ import ch.felix.moviedbapi.data.repository.MovieRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.felix.moviedbapi.service.CookieService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Felix
@@ -27,9 +30,12 @@ public class MovieController {
     private MovieRepository movieRepository;
     private GenreRepository genreRepository;
 
-    public MovieController(MovieRepository movieRepository, GenreRepository genreRepository) {
+    private CookieService cookieService;
+
+    public MovieController(MovieRepository movieRepository, GenreRepository genreRepository, CookieService cookieService) {
         this.movieRepository = movieRepository;
         this.genreRepository = genreRepository;
+        this.cookieService = cookieService;
     }
 
     @GetMapping(produces = "application/json")
@@ -44,7 +50,13 @@ public class MovieController {
     }
 
     @GetMapping(value = "/{movieId}", produces = "application/json")
-    public String getOneMovie(@PathVariable("movieId") String movieId, Model model) {
+    public String getOneMovie(@PathVariable("movieId") String movieId, Model model, HttpServletRequest request) {
+        try {
+            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+        } catch (NullPointerException e) {
+            return "redirect:/login";
+        }
+
         try {
             model.addAttribute("movie", movieRepository.findMovieById(Long.valueOf(movieId)));
             model.addAttribute("comments", movieRepository.findMovieById(Long.valueOf(movieId)).getComments());

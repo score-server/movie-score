@@ -52,21 +52,10 @@ public class ImportController {
         return "redirect:/";
     }
 
-    @GetMapping(value = "path/movie", produces = "application/json")
-    public String getMovieImportPath(Model model) {
-        model.addAttribute("moviePath",settingsService.getKey("moviePath"));
-        return "redirect:/";
-    }
-
     @PostMapping("path/serie") //TODO: Add to Home or Settings
     public String setSerieImportPath(@RequestParam("path") String pathParam, Model model) {
         model.addAttribute("moviePath",settingsService.getKey("seriePath"));
         settingsService.setValue("seriePath", pathParam);
-        return "102";
-    }
-
-    @GetMapping(value = "path/serie", produces = "application/json")
-    public String getSerieImportPath() {
-        return settingsService.getKey("seriePath");
+        return "redirect:/";
     }
 }

@@ -6,6 +6,7 @@ import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
 
 import java.util.Random;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,11 @@ public class LoginController {
     }
 
     @GetMapping
-    public String getLogin(Model model) {
+    public String getLogin(Model model, HttpServletRequest request) {
+        try {
+            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+        } catch (NullPointerException e) {
+        }
         model.addAttribute("page", "login");
         return "template";
     }
@@ -54,7 +59,7 @@ public class LoginController {
             userRepository.save(user);
             return "redirect:/";
         } catch (NullPointerException e) {
-            return "redirect:/login";
+            return "redirect:/login?error=Error Logging in";
         }
 
     }

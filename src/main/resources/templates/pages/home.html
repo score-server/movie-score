@@ -2,25 +2,21 @@
 
 <h1>Home</h1>
 
-<p>
-    Currently logged in:
-    <a th:href="'/user/' + ${currentUser.id}" th:text="${currentUser.name}"></a>
-</p>
 
-<div style="border: 1px solid blue;" th:if="${currentUser.role} == '2'">
+<div style="border: 1px solid blue;" th:if="${currentUser?.role} == '2'">
     <p>Only gets shown if user Is Admin</p>
     <a href="/user">Show Users</a>
     <br>
     <br>
     <form action="/import/path/movie" method="post">
-        <input type="text" th:value="${moviePath}">
+        <input type="text" th:value="${moviePath}" name="path">
     </form>
     <form action="/import/movie" method="post">
         <button>Import Movies</button>
     </form>
     <br>
     <form action="/import/path/serie" method="post">
-        <input type="text" th:value="${seriePath}">
+        <input type="text" th:value="${seriePath}" name="path">
     </form>
     <form action="/import/serie" method="post">
         <button>Import Series</button>

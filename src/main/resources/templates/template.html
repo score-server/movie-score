@@ -5,6 +5,7 @@
     <title>MovieDb</title>
 </head>
 <body>
+<div th:include="'static/currentuser.html'"></div>
 <div th:include="'pages/' +${page} + '.html'"></div>
 </body>
 </html>

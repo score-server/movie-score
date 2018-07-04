@@ -31,7 +31,10 @@ public class DashboardController {
 
     @GetMapping
     public String getDashboard(Model model, HttpServletRequest request) {
-        model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+        try {
+            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+        } catch (NullPointerException e) {
+        }
 
         model.addAttribute("movies", movieRepository.findAll());
         model.addAttribute("series", serieRepository.findAll());
