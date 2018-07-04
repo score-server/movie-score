@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1>Home</h1>
+
+<p>
+    Currently logged in:
+    <a th:href="'/user/' + ${currentUser.id}" th:text="${currentUser.name}"></a>
+</p>
+
+<div style="border: 1px solid blue;" th:if="${currentUser.role} == '2'">
+    <p>Only gets shown if user Is Admin</p>
+    <a href="/user">Show Users</a>
+    <br>
+    <br>
+    <form action="/import/path/movie" method="post">
+        <input type="text" th:value="${moviePath}">
+    </form>
+    <form action="/import/movie" method="post">
+        <button>Import Movies</button>
+    </form>
+    <br>
+    <form action="/import/path/serie" method="post">
+        <input type="text" th:value="${seriePath}">
+    </form>
+    <form action="/import/serie" method="post">
+        <button>Import Series</button>
+    </form>
+</div>
+
+<ul>
+    <li th:each="movie : ${movies}">
+        <a th:text="${movie.title}" th:href="'/movie/' + ${movie.id}"></a>
+    </li>
+</ul>
+<ul>
+    <li th:each="serie : ${series}">
+        <a th:text="${serie.title}" th:href="'/serie/' + ${serie.id}"></a>
+    </li>
+</ul>

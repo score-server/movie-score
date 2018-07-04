@@ -1,15 +1,16 @@
-package ch.felix.moviedbapi.controller.movie;
+package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.GenreRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Felix
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@RestController
+@Controller
 @RequestMapping("movie")
 public class MovieController {
 
@@ -32,43 +33,51 @@ public class MovieController {
     }
 
     @GetMapping(produces = "application/json")
-    public List<Movie> getMovies() {
+    public String getMovies(Model model) {
         try {
-            return movieRepository.findAll();
+            model.addAttribute("movies", movieRepository.findAll());
+            model.addAttribute("page", "movieList");
+            return "template";
         } catch (NullPointerException e) {
-            return null;//No Movies found
+            return "redirect:/";//No Movies found
         }
     }
 
     @GetMapping(value = "/{movieId}", produces = "application/json")
-    public Movie getOneMovie(@PathVariable("movieId") String movieId) {
+    public String getOneMovie(@PathVariable("movieId") String movieId, Model model) {
         try {
-            return movieRepository.findMovieById(Long.valueOf(movieId));
+            model.addAttribute("movie", movieRepository.findMovieById(Long.valueOf(movieId)));
+            model.addAttribute("comments", movieRepository.findMovieById(Long.valueOf(movieId)).getComments());
+            model.addAttribute("page", "movie");
+            return "template";
         } catch (NullPointerException | NumberFormatException e) {
             e.printStackTrace();
-            return null;
+            return "redirect:/movie";
         }
     }
 
-    @GetMapping(value = "/search/{search}", produces = "application/json")
-    public List<Movie> searchMovie(@PathVariable("search") String search) {
+    @GetMapping(value = "/search", produces = "application/json")
+    public String searchMovie(@RequestParam("search") String search, Model model) {
         try {
-            return movieRepository.findMoviesByTitleContaining(search);
+            model.addAttribute("movies", movieRepository.findMoviesByTitleContaining(search));
+            model.addAttribute("page", "searchMovie");
+            return "template";
         } catch (NumberFormatException | NullPointerException e) {
             e.printStackTrace();
-            return null;
+            return "redirect:/movie";
         }
     }
 
     @GetMapping(value = "/genre/{genre}", produces = "application/json")
-    public List<Movie> getMoviesForGenre(@PathVariable("genre") String genreParam) {
+    public List<Movie> getMoviesForGenre(@PathVariable("genre") String genreParam, Model model) {
         List<Genre> genres = genreRepository.findGenresByName(genreParam);
 
         List<Movie> movieList = new ArrayList<>();
         for (Genre genre : genres) {
             movieList.add(genre.getMovie());
         }
-
+        model.addAttribute("movies", movieList);
+        //TODO GENRE PAGE
         return movieList;
     }
 }

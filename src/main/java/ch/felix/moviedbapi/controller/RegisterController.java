@@ -1,14 +1,15 @@
-package ch.felix.moviedbapi.controller.user;
+package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ShaService;
 import ch.felix.moviedbapi.service.ViolationService;
+
 import javax.validation.ConstraintViolationException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Felix
@@ -18,24 +19,27 @@ import org.springframework.web.bind.annotation.RestController;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@RestController
+@Controller
 @RequestMapping("register")
 public class RegisterController {
 
     private UserRepository userRepository;
 
     private ShaService shaService;
-    private ViolationService violationService;
 
-    public RegisterController(UserRepository userRepository, ShaService shaService, ViolationService violationService) {
+    public RegisterController(UserRepository userRepository, ShaService shaService) {
         this.userRepository = userRepository;
         this.shaService = shaService;
-        this.violationService = violationService;
+    }
+
+    @GetMapping
+    public String getRegister(Model model) {
+        model.addAttribute("page", "register");
+        return "template";
     }
 
     @PostMapping
-    public String register(@RequestParam("name") String nameParam,
-                           @RequestParam("password") String password) {
+    public String register(@RequestParam("name") String nameParam, @RequestParam("password") String password) {
         if (userRepository.findUserByName(nameParam) == null) {
             User user = new User();
 
@@ -45,12 +49,12 @@ public class RegisterController {
                 user.setRole(1);
                 userRepository.save(user);
                 System.out.println("Registered User - " + nameParam);
-                return "101";
+                return "redirect:/login";
             } catch (ConstraintViolationException e) {
-                return "206 " + violationService.getViolation(e);
+                return "redirect:/register";
             }
         } else {
-            return "203";
+            return "redirect:/register";
         }
     }
 

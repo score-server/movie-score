@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.controller.rating;
+package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Comment;
 import ch.felix.moviedbapi.data.repository.CommentRepository;
@@ -6,8 +6,11 @@ import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ViolationService;
+
 import java.util.List;
 import javax.validation.ConstraintViolationException;
+
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@RestController
+@Controller
 @RequestMapping("comment")
 public class CommentController {
 
@@ -32,25 +35,13 @@ public class CommentController {
     private UserRepository userRepository;
     private CommentRepository commentRepository;
 
-    private ViolationService violationService;
 
     public CommentController(MovieRepository movieRepository, EpisodeRepository episodeRepository,
-                             UserRepository userRepository, CommentRepository commentRepository, ViolationService violationService) {
+                             UserRepository userRepository, CommentRepository commentRepository) {
         this.movieRepository = movieRepository;
         this.episodeRepository = episodeRepository;
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
-        this.violationService = violationService;
-    }
-
-    @GetMapping(value = "movie/{movieId}", produces = "application/json")
-    public List<Comment> getForMovie(@PathVariable("movieId") String movieId) {
-        return movieRepository.findMovieById(Long.valueOf(movieId)).getComments();
-    }
-
-    @GetMapping(value = "episode/{episodeId}", produces = "application/json")
-    public List<Comment> getForEpisode(@PathVariable("episodeId") String episodeId) {
-        return episodeRepository.findEpisodeById(Long.valueOf(episodeId)).getComments();
     }
 
     @PostMapping("add/movie")
@@ -63,9 +54,10 @@ public class CommentController {
             comment.setMovie(movieRepository.findMovieById(Long.valueOf(movieId)));
             comment.setComment(commentParam);
             commentRepository.save(comment);
-            return "103";
+            return "redirect:/movie/" + movieId;
         } catch (ConstraintViolationException e) {
-            return "205 " + violationService.getViolation(e);
+            e.printStackTrace();
+            return "redirect:/movie/" + movieId + "?error=Could+Not+Comment";
         }
     }
 
@@ -79,9 +71,10 @@ public class CommentController {
             comment.setEpisode(episodeRepository.findEpisodeById(Long.valueOf(episodeId)));
             comment.setComment(commentParam);
             commentRepository.save(comment);
-            return "103";
+            return "redirect:/episode/" + episodeId;
         } catch (ConstraintViolationException e) {
-            return "205 " + violationService.getViolation(e);
+            e.printStackTrace();
+            return "redirect:/episode/" + episodeId + "?error=Could+Not+Comment";
         }
 
     }

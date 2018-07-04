@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1 th:text=" ${season.serie.title} + ' Season ' + ${season.season}"></h1>
+
+<p th:text="'Id: ' + ${season.id}"></p>
+<img th:src="${season.serie.caseImg}" width="100px">
+<a th:href="'/serie/' + ${season.serie.id}">Serie</a>
+
+
+<ul>
+    <li th:each="episode:${season.episodes}">
+        <a th:text="'Episode ' + ${episode.episode}" th:href="'/episode/' + ${episode.id}"></a>
+    </li>
+</ul>

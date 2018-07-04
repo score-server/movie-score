@@ -1,8 +1,12 @@
-package ch.felix.moviedbapi.controller.movie;
+package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
+
 import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@RestController
+@Controller
 @RequestMapping("serie")
 public class SeriesController {
 
@@ -27,17 +31,23 @@ public class SeriesController {
     }
 
     @GetMapping(produces = "application/json")
-    public List<Serie> getAllSeries() {
-        return serieRepository.findAll();
+    public String getAllSeries(Model model) {
+        model.addAttribute("series", serieRepository.findAll());
+        model.addAttribute("page", "serieList");
+        return "template";
     }
 
     @GetMapping(value = "/{serieId}", produces = "application/json")
-    public Serie getOneSerie(@PathVariable("serieId") String serieParam) {
-        return serieRepository.findSerieById(Long.valueOf(serieParam));
+    public String getOneSerie(@PathVariable("serieId") String serieParam, Model model) {
+        model.addAttribute("serie", serieRepository.findSerieById(Long.valueOf(serieParam)));
+        model.addAttribute("page", "serie");
+        return "template";
     }
 
     @GetMapping(value = "search/{search}", produces = "application/json")
-    public List<Serie> searchSerie(@PathVariable("search") String searchParam) {
-        return serieRepository.findSeriesByTitleContaining(searchParam);
+    public String searchSerie(@PathVariable("search") String searchParam, Model model) {
+        model.addAttribute("series", serieRepository.findSeriesByTitleContaining(searchParam));
+        model.addAttribute("page", "searchSerie");
+        return "template";
     }
 }

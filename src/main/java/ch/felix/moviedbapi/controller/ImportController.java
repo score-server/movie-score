@@ -1,13 +1,15 @@
-package ch.felix.moviedbapi.controller.importer;
+package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.service.SettingsService;
 import ch.felix.moviedbapi.service.importer.MovieImportService;
 import ch.felix.moviedbapi.service.importer.SeriesImportService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Felix
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@RestController
+@Controller
 @RequestMapping("import")
 public class ImportController {
 
@@ -31,32 +33,34 @@ public class ImportController {
         this.settingsService = settingsService;
     }
 
-    @GetMapping(value = "movie", produces = "application/json")
+    @PostMapping(value = "movie", produces = "application/json")
     public String importMovies() {
         movieImportService.importFile("moviePath");
-        return "103";
+        return "redirect:/";
     }
 
-    @GetMapping(value = "serie", produces = "application/json")
+    @PostMapping(value = "serie", produces = "application/json")
     public String importSeries() {
         seriesImportService.importFile("seriePath");
-        return "103";
+        return "redirect:/";
     }
 
 
-    @PostMapping("path/movie")
+    @PostMapping("path/movie") //TODO: Add to Home or Settings
     public String setMovieImportPath(@RequestParam("path") String pathParam) {
         settingsService.setValue("moviePath", pathParam);
-        return "102";
+        return "redirect:/";
     }
 
     @GetMapping(value = "path/movie", produces = "application/json")
-    public String getMovieImportPath() {
-        return settingsService.getKey("moviePath");
+    public String getMovieImportPath(Model model) {
+        model.addAttribute("moviePath",settingsService.getKey("moviePath"));
+        return "redirect:/";
     }
 
-    @PostMapping("path/serie")
-    public String setSerieImportPath(@RequestParam("path") String pathParam) {
+    @PostMapping("path/serie") //TODO: Add to Home or Settings
+    public String setSerieImportPath(@RequestParam("path") String pathParam, Model model) {
+        model.addAttribute("moviePath",settingsService.getKey("seriePath"));
         settingsService.setValue("seriePath", pathParam);
         return "102";
     }

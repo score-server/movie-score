@@ -1,0 +1,9 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1>Serie List</h1>
+
+<ul>
+    <li th:each="serie:${series}">
+        <a th:text="${serie.title}" th:href="'/serie/' + ${serie.id}"></a>
+    </li>
+</ul>

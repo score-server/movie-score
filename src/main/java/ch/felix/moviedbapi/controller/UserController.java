@@ -1,11 +1,16 @@
-package ch.felix.moviedbapi.controller.user;
+package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ShaService;
 import ch.felix.moviedbapi.service.ViolationService;
+
 import java.util.List;
 import javax.validation.ConstraintViolationException;
+
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,89 +26,82 @@ import org.springframework.web.bind.annotation.RestController;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@RestController
+@Controller
 @RequestMapping("user")
 public class UserController {
 
     private UserRepository userRepository;
 
     private ShaService shaService;
-    private ViolationService violationService;
 
 
-    public UserController(UserRepository userRepository, ShaService shaService, ViolationService violationService) {
+    public UserController(UserRepository userRepository, ShaService shaService) {
         this.userRepository = userRepository;
         this.shaService = shaService;
-        this.violationService = violationService;
     }
 
     @GetMapping(produces = "application/json")
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public String getUserList(Model model) {
+        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("page", "userList");
+        return "template";
     }
 
     @GetMapping(value = "{userId}", produces = "application/json")
-    public User getOneUser(@PathVariable("userId") String userId) {
-        try {
-            return userRepository.findUserById(Long.valueOf(userId));
-        } catch (NullPointerException | NumberFormatException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public String getOneUser(@PathVariable("userId") String userId, Model model) {
+        model.addAttribute("user", userRepository.findUserById(Long.valueOf(userId)));
+        model.addAttribute("page", "user");
+        return "template";
     }
 
-    @GetMapping(value = "search/{search}", produces = "application/json")
-    public List<User> searchUsers(@PathVariable("search") String searchParam) {
+    @GetMapping(value = "search", produces = "application/json")
+    public String searchUsers(@RequestParam(value = "search", required = false, defaultValue = "") String searchParam,
+                              Model model) {
         try {
-            return userRepository.findUsersByNameContaining(searchParam);
+            model.addAttribute("users", userRepository.findUsersByNameContaining(searchParam));
+            model.addAttribute("page", "searchUser");
+            return "template";
         } catch (NullPointerException | NumberFormatException e) {
             e.printStackTrace();
-            return null;
+            return "redirect:/user";
         }
     }
 
     @PostMapping(value = "{userId}/role/{role}", produces = "application/json")
-    public String setRole(@PathVariable("userId") String userId,
-                          @PathVariable("role") String role) {
+    public String setRole(@PathVariable("userId") String userId, @PathVariable("role") String role) {
         try {
             User user = userRepository.findUserById(Long.valueOf(userId));
             user.setRole(Integer.valueOf(role));
             userRepository.save(user);
-            return "102";
+            return "redirect:/user/" + userId;
         } catch (NumberFormatException e) {
-            return "205";
+            return "redirect:/user/" + userId + "?error=Could+not+set+Role";
         }
     }
 
     @PostMapping("{userId}/name")
-    public String setUsername(@PathVariable("userId") String userId,
-                              @RequestParam("name") String newName) {
+    public String setUsername(@PathVariable("userId") String userId, @RequestParam("name") String newName) {
         try {
             User user = userRepository.findUserById(Long.valueOf(userId));
             user.setName(newName);
             userRepository.save(user);
-            return "102";
-        } catch (ConstraintViolationException e) {
-            return "205 " + violationService.getViolation(e);
-        }catch (NumberFormatException e) {
-            return "204";
+            return "redirect:/user/" + userId;
+        } catch (ConstraintViolationException | NumberFormatException e) {
+            return "redirect:/user/" + userId;
         }
 
 
     }
 
     @PostMapping("{userId}/password")
-    public String setPassword(@PathVariable("userId") String userId,
-                              @RequestParam("password") String newPassword) {
+    public String setPassword(@PathVariable("userId") String userId, @RequestParam("password") String newPassword) {
         try {
             User user = userRepository.findUserById(Long.valueOf(userId));
             user.setPasswordSha(shaService.encode(newPassword));
             userRepository.save(user);
-            return "102";
-        } catch (ConstraintViolationException e) {
-            return "205 " + violationService.getViolation(e);
-        }catch (NumberFormatException e) {
-            return "204";
+            return "redirect:/user/" + userId;
+        } catch (ConstraintViolationException | NumberFormatException e) {
+            return "redirect:/user/" + userId;
         }
 
     }

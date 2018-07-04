@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1>Search Movie</h1>
+
+<form action="/movie/search" method="get">
+    Search:<input type="text" name="search">
+    <input type="submit">
+</form>
+
+<ul>
+    <li th:each="movie:${movies}">
+        <a th:text="${movie.title}" th:href="'/movie/' + ${movie.id}"></a>
+    </li>
+</ul>

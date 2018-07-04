@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1>Search User</h1>
+
+<form action="/user/search" method="get">
+    Search:<input type="text" name="search">
+    <input type="submit">
+</form>
+
+<ul>
+    <li th:each="user:${users}">
+        <a th:text="${user.name}" th:href="'/user/' + ${user.id}"></a>
+    </li>
+</ul>

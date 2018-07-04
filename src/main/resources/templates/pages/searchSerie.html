@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1>Search Serie</h1>
+
+<form action="/serie/search" method="get">
+    Search:<input type="text" name="search">
+    <input type="submit">
+</form>
+
+<ul>
+    <li th:each="serie:${series}">
+        <a th:text="${serie.title}" th:href="'/serie/' + ${serie.id}"></a>
+    </li>
+</ul>

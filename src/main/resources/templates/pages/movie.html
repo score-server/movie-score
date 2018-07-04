@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1 th:text="'User ' + ${movie.title}"></h1>
+
+<p th:text="'Id: ' + ${movie.id}"></p>
+<img th:src="${movie.caseImg}" width="100px">
+<video th:src="${movie.videoPath}" width="100px"></video>
+<p th:text="${movie.caseImg}"></p>
+<p th:text="${movie.videoPath}"></p>
+
+<ul>
+    <li th:each="comment:${comments}">
+        <a th:href="'/user/' + ${comment.user.id}" th:text="${comment.user.name} + ': '"></a>
+        <span th:text="${comment.comment}"></span>
+    </li>
+</ul>
+
+<form th:action="'/comment/add/movie?userId=1&movieId=' + ${movie.id}" method="post">
+    <textarea name="comment" placeholder="Comment" required></textarea>
+    <input type="submit">
+</form>

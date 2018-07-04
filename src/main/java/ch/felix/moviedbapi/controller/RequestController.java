@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.controller.rating;
+package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Request;
 import ch.felix.moviedbapi.data.repository.RequestRepository;

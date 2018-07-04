@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1 th:text="'Episode ' + ${episode.season.serie.title}"></h1>
+
+<p th:text="'Id: ' + ${episode.id}"></p>
+<img th:src="${episode.season.serie.caseImg}" width="100px">
+<p th:text="'Path: ' + ${episode.path}"></p>
+<a th:href="'/season/' + ${episode.season.id}">Season</a>
+
+<ul>
+    <li th:each="comment:${comments}">
+        <a th:href="'/user/' + ${comment.user.id}" th:text="${comment.user.name} + ': '"></a>
+        <span th:text="${comment.comment}"></span>
+    </li>
+</ul>
+
+<form th:action="'/comment/add/episode?userId=1&episodeId=' + ${episode.id}" method="post">
+    <textarea name="comment" required></textarea>
+    <input type="submit">
+</form>

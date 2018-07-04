@@ -2,9 +2,11 @@ package ch.felix.moviedbapi.service;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,14 +35,14 @@ public class CookieService {
      * <p>
      * Wenn cookie user heisst und der Wert nicht null ist gebe den username zurück
      */
-    public Long getCurrentUser(HttpServletRequest request) throws NullPointerException {
+    public User getCurrentUser(HttpServletRequest request) throws NullPointerException {
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("session")) {
                 User user = userRepository.findUserBySessionId(cookie.getValue());
                 if (user == null) {
                     throw new NullPointerException();
                 }
-                return user.getId();
+                return user;
             }
         }
         throw new NullPointerException();

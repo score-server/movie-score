@@ -1,15 +1,16 @@
-package ch.felix.moviedbapi.controller.user;
+package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
+
 import java.util.Random;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Felix
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@RestController
+@Controller
 @RequestMapping("login")
 public class LoginController {
 
@@ -34,6 +35,12 @@ public class LoginController {
         this.shaService = shaService;
     }
 
+    @GetMapping
+    public String getLogin(Model model) {
+        model.addAttribute("page", "login");
+        return "template";
+    }
+
     @PostMapping
     public String login(@RequestParam("name") String nameParam,
                         @RequestParam("password") String passwordParam,
@@ -45,9 +52,9 @@ public class LoginController {
             cookieService.setUserCookie(response, sessionId);
             user.setSessionId(sessionId);
             userRepository.save(user);
-            return "103";
+            return "redirect:/";
         } catch (NullPointerException e) {
-            return "201";
+            return "redirect:/login";
         }
 
     }

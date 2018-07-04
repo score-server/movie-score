@@ -12,14 +12,12 @@ public class MovieImportService extends ImportService {
 
     private MovieRepository movieRepository;
 
-    private SearchMovieService searchMovieService;
     private GenreImportService genreImportService;
 
     public MovieImportService(MovieRepository movieRepository, SearchMovieService searchMovieService,
                               SettingsService settingsService, GenreImportService genreImportService) {
         super(settingsService);
         this.movieRepository = movieRepository;
-        this.searchMovieService = searchMovieService;
         this.genreImportService = genreImportService;
     }
 

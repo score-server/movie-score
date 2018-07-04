@@ -1,5 +1,7 @@
 package ch.felix.moviedbapi.data.entity;
 
+import lombok.*;
+
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +20,7 @@ import javax.persistence.OneToMany;
  * Package: ch.felix.moviedbapi.data.entity
  **/
 
+@Data
 @Entity
 public class Serie {
 
@@ -41,70 +44,5 @@ public class Serie {
     private String backgroundImg;
     private Double popularity;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescript() {
-        return descript;
-    }
-
-    public void setDescript(String descript) {
-        this.descript = descript;
-    }
-
-    public String getCaseImg() {
-        return caseImg;
-    }
-
-    public void setCaseImg(String caseImg) {
-        this.caseImg = caseImg;
-    }
-
-    public Double getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(Double popularity) {
-        this.popularity = popularity;
-    }
-
-
-    public List<Season> getSeasons() {
-        return seasons;
-    }
-
-    public void setSeasons(List<Season> seasons) {
-        this.seasons = seasons;
-    }
-
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
-    public String getBackgroundImg() {
-        return backgroundImg;
-    }
-
-    public void setBackgroundImg(String backgroundImg) {
-        this.backgroundImg = backgroundImg;
-    }
 
 }
