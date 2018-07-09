@@ -2,8 +2,9 @@
 
 <h1>Serie List</h1>
 
-<ul>
-    <li th:each="serie:${series}">
+<ul class="list-group">
+    <li class="list-group-item" th:each="serie:${series}">
+        <img class="img-thumbnail" th:src="${serie.caseImg}" width="100px">
         <a th:text="${serie.title}" th:href="'/serie/' + ${serie.id}"></a>
     </li>
 </ul>

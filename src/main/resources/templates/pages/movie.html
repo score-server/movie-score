@@ -2,20 +2,24 @@
 
 <h1 th:text="'Movie ' + ${movie.title}"></h1>
 
-<p th:text="'Id: ' + ${movie.id}"></p>
-<img th:src="${movie.caseImg}" width="100px">
-<video th:src="${movie.videoPath}" width="100px"></video>
-<p th:text="${movie.caseImg}"></p>
-<p th:text="${movie.videoPath}"></p>
-
-<ul>
-    <li th:each="comment:${comments}">
-        <a th:href="'/user/' + ${comment.user.id}" th:text="${comment.user.name} + ': '"></a>
-        <span th:text="${comment.comment}"></span>
+<img class="img-thumbnail" th:src="${movie.caseImg}" width="100px">
+<br>
+<br>
+<ul class="list-group">
+    <li class="list-group-item active">Comments</li>
+    <li class="list-group-item" th:each="comment:${comments}">
+        <a th:href="'/user/' + ${comment.user.id}" th:text="${comment.user.name}"></a>
+        <span th:text="': ' + ${comment.comment}"></span>
     </li>
 </ul>
 
-<form th:action="'/comment/add/movie?userId=1&movieId=' + ${movie.id}" method="post">
-    <textarea name="comment" placeholder="Comment" required></textarea>
-    <input type="submit">
+<br>
+
+<form th:action="'/comment/add/movie?userId=' + ${currentUser.id} + '&movieId=' + ${movie.id}" method="post">
+    <textarea name="comment" class="form-control" th:placeholder="'Comment as ' + ${currentUser.name}"
+              required></textarea>
+    <br>
+    <button class="btn btn-primary" type="submit">Save Comment</button>
 </form>
+<br>
+<a href="/">Back</a>

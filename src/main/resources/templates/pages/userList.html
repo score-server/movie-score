@@ -2,8 +2,13 @@
 
 <h1>User List</h1>
 
-<ul>
-    <li th:each="user:${users}">
+<form class="form-inline" action="/user/search">
+    <input class="form-control" type="text" name="search">
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+<br>
+<ul class="list-group">
+    <li class="list-group-item" th:each="user:${users}">
         <a th:text="${user.name}" th:href="'/user/' + ${user.id}"></a>
     </li>
 </ul>

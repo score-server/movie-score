@@ -1,7 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
-<div th:if="${currentUser != null}">
-    Currently logged in:
-    <a th:href="'/user/' + ${currentUser.id}" th:text="${currentUser.name}"></a>
+<div>
+    <div th:if="${currentUser != null}">
+        Currently logged in:
+        <a th:href="'/user/' + ${currentUser.id}" th:text="${currentUser.name}"></a>
+    </div>
+    <p th:if="${currentUser == null}">Not Logged in. <a href="/login">Login</a></p>
 </div>
-<p th:if="${currentUser == null}">Not Logged in. <a href="/login">Login</a></p>

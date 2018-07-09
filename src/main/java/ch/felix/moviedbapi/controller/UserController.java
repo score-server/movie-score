@@ -76,7 +76,7 @@ public class UserController {
         }
         try {
             model.addAttribute("users", userRepository.findUsersByNameContaining(searchParam));
-            model.addAttribute("page", "searchUser");
+            model.addAttribute("page", "userList");
             return "template";
         } catch (NullPointerException | NumberFormatException e) {
             e.printStackTrace();

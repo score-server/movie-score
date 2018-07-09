@@ -3,18 +3,29 @@
 <h1 th:text="'User ' + ${user.name}"></h1>
 
 <p th:text="'Id: ' + ${user.id}"></p>
-<p th:text="'Role: ' + ${user.role}"></p>
+
+<div th:switch="${user.role}">
+    <p>Role:
+        <span th:case="1">User</span>
+        <span th:case="2">Admin</span>
+    </p>
+</div>
+<div th:switch="${user.role}">
+    <form th:case="'1'" th:action="'/user/' + ${user.id} + '/role/2'" method="post">
+        <button class="btn btn-primary">
+            <i class="fas fa-chess-pawn"></i>
+        </button>
+    </form>
+    <form th:case="'2'" th:action="'/user/' + ${user.id} + '/role/1'" method="post">
+        <button class="btn btn-primary">
+            <i class="fas fa-chess-king"></i>
+        </button>
+    </form>
+</div>
 <form>
     Change NAME TODO
 </form>
 <form>
     Change PSW TODO
 </form>
-<div th:switch="${user.role}">
-    <form th:case="'1'" th:action="'/user/' + ${user.id} + '/role/2'" method="post">
-        <button>Make Admin</button>
-    </form>
-    <form th:case="'2'" th:action="'/user/' + ${user.id} + '/role/1'" method="post">
-        <button>Remove Admin</button>
-    </form>
-</div>
+
