@@ -36,7 +36,7 @@ public class DashboardController {
         } catch (NullPointerException e) {
         }
 
-        model.addAttribute("movies", movieRepository.findAll());
+        model.addAttribute("movies", movieRepository.findTop50ByOrderByTitle());
         model.addAttribute("series", serieRepository.findAll());
 
         model.addAttribute("moviePath", settingsService.getKey("moviePath"));

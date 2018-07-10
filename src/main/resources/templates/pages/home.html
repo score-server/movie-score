@@ -1,48 +1,31 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
 <h1>Home</h1>
-
-
-<div class="card card-body" th:if="${currentUser?.role} == '2'">
-    <p>Only gets shown if user Is Admin</p>
-    <a href="/user">Show Users</a>
-    <br>
-    <form action="/import/path/movie" method="post" class="form-inline form-group mb-2">
-        <label for="moviepath">Movie Path:</label>
-        <input class="form-control col-sm-3 mx-sm-3" id="moviepath" type="text" th:value="${moviePath}" name="path">
-        <input type="submit" class="btn btn-primary" value="Save">
-    </form>
-    <br>
-    <form action="/import/path/serie" method="post" class="form-inline">
-        <label for="seriepath">Serie Path:</label>
-        <input class="form-control col-sm-3 mx-sm-3" id="seriepath" type="text" th:value="${seriePath}" name="path">
-        <input type="submit" class="btn btn-primary" value="Save">
-    </form>
-    <br>
-    <form action="/import/movie" method="post" class="form-inline">
-        <button class="btn btn-primary">Import Movies</button>
-    </form>
-    <br>
-    <form action="/import/serie" method="post" class="form-inline">
-        <button class="btn btn-primary">Import Series</button>
-    </form>
-</div>
-<br>
 <h3>Movies</h3>
-<ul style="display: inline; list-style: none;">
-    <li th:each="movie : ${movies}">
+
+<div class="row">
+    <div th:each="movie : ${movies}" class="col-sm-4" style="margin-bottom: 20px">
         <a th:href="'/movie/' + ${movie.id}">
-            <img class="img-thumbnail" th:src="${movie.caseImg}" width="100px"><br>
-            <span th:text="${movie.title}"></span>
+            <div class="card">
+                <img class="card-img-top" th:src="${movie.caseImg}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${movie.title}"></h5>
+                </div>
+            </div>
         </a>
-    </li>
-</ul>
+    </div>
+</div>
+
 <h3>Series</h3>
-<ul style="display: inline; list-style: none;">
-    <li th:each="serie : ${series}">
+<div class="row">
+    <div th:each="serie : ${series}" class="col-sm-4" style="margin-bottom: 20px">
         <a th:href="'/serie/' + ${serie.id}">
-            <img class="img-thumbnail" th:src="${serie.caseImg}" width="100px"><br>
-            <span th:text="${serie.title}"></span>
+            <div class="card">
+                <img class="card-img-top" th:src="${serie.caseImg}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${serie.title}"></h5>
+                </div>
+            </div>
         </a>
-    </li>
-</ul>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+* {
+    font-family: 'Raleway', sans-serif;
+}
+
+body {
+    background: url("https://i.imgur.com/qV8wWKL.jpg") no-repeat fixed;
+    background-size: 100%;
+}
+
+.darker {
+    background: whitesmoke;
+}

@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<div id="accordion" th:if="${currentUser?.role} == '2'">
+    <div class="card-body">
+        <p>Only gets shown if user Is Admin</p>
+        <a href="/user">Show Users</a>
+        <br>
+        <form action="/import/path/movie" method="post" class="form-inline form-group mb-2">
+            <label for="moviepath">Movie Path:</label>
+            <input class="form-control col-sm-3 mx-sm-3" id="moviepath" type="text" th:value="${moviePath}"
+                   name="path">
+            <input type="submit" class="btn btn-primary" value="Save">
+        </form>
+        <br>
+        <form action="/import/path/serie" method="post" class="form-inline">
+            <label for="seriepath">Serie Path:</label>
+            <input class="form-control col-sm-3 mx-sm-3" id="seriepath" type="text" th:value="${seriePath}"
+                   name="path">
+            <input type="submit" class="btn btn-primary" value="Save">
+        </form>
+        <br>
+        <form action="/import/movie" method="post" class="form-inline">
+            <button class="btn btn-primary">Import Movies</button>
+        </form>
+        <br>
+        <form action="/import/serie" method="post" class="form-inline">
+            <button class="btn btn-primary">Import Series</button>
+        </form>
+    </div>
+</div>

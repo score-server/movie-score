@@ -43,4 +43,9 @@ public class EpisodeController {
         model.addAttribute("page", "episode");
         return "template";
     }
+
+    @GetMapping(value = "JewsHidingHere", produces = "application/json")
+    public String jewsHidingHere(){
+        return "";
+    }
 }
