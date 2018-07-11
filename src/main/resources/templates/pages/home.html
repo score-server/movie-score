@@ -1,14 +1,19 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
 <h1>Home</h1>
-<h3>Movies</h3>
 
+<form action="/search">
+    <input class="form-control" type="text" name="querry" placeholder="Search">
+</form>
+<br>
+
+<h3>Movies</h3>
 <div class="row">
     <div th:each="movie : ${movies}" class="col-sm-4" style="margin-bottom: 20px">
         <div th:include="'static/movieCard.html'"></div>
     </div>
 </div>
-
+<hr>
 <h3>Series</h3>
 <div class="row">
     <div th:each="serie : ${series}" class="col-sm-4" style="margin-bottom: 20px">

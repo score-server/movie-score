@@ -76,7 +76,7 @@ public class MovieController {
     @GetMapping(value = "/search", produces = "application/json")
     public String searchMovie(@RequestParam("search") String search, Model model) {
         try {
-            model.addAttribute("movies", movieRepository.findMoviesByTitleContaining(search));
+            model.addAttribute("movies", movieRepository.findTop50ByTitleContaining(search));
             model.addAttribute("page", "searchMovie");
             return "template";
         } catch (NumberFormatException | NullPointerException e) {

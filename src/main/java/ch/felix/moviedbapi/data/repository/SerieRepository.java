@@ -1,7 +1,9 @@
 package ch.felix.moviedbapi.data.repository;
 
 import ch.felix.moviedbapi.data.entity.Serie;
+
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +21,5 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 
     Serie findSerieByTitle(String title);
 
-    List<Serie> findSeriesByTitleContaining(String searchParam);
+    List<Serie> findTop50ByTitleContaining(String searchParam);
 }

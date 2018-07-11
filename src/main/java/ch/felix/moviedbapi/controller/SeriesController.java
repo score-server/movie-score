@@ -61,7 +61,7 @@ public class SeriesController {
         } catch (NullPointerException e) {
         }
 
-        model.addAttribute("series", serieRepository.findSeriesByTitleContaining(searchParam));
+        model.addAttribute("series", serieRepository.findTop50ByTitleContaining(searchParam));
         model.addAttribute("page", "searchSerie");
         return "template";
     }

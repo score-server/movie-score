@@ -1,10 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
-<h1 th:text="'Episode ' + ${episode.season.serie.title}"></h1>
+<br>
+<video id="movie" th:src="'/video/episode/' + ${episode.id}" controls width="100%"></video>
+<br>
+<div class="card card-body">
+    <h1 th:text="${episode.season.serie.title} + ' (' + ${episode.season.year} + ')'"></h1>
+    <p th:text="'Quality: ' + ${episode.quality}"></p>
+</div>
 <a th:href="'/season/' + ${episode.season.id}">View Episodes</a>
-<br>
-<img class="img-thumbnail" th:src="${episode.season.serie.caseImg}" width="100px">
-<br>
 <br>
 <ul class="list-group">
     <li class="list-group-item active">Comments</li>
@@ -17,9 +20,26 @@
 <br>
 
 <form th:action="'/comment/add/episode?userId=' + ${currentUser.id} + '&episodeId=' + ${episode.id}" method="post">
-    <textarea name="comment" class="form-control" th:placeholder="'Comment as ' + ${currentUser.name}" required></textarea>
+    <textarea name="comment" class="form-control" th:placeholder="'Comment as ' + ${currentUser.name}"
+              required></textarea>
     <br>
     <button class="btn btn-primary" type="submit">Save Comment</button>
 </form>
 <br>
 <a href="/">Back</a>
+<script>
+    fluidPlayer(
+        'movie',
+        {
+            layoutControls: {
+                autoPlay: false,
+                playButtonShowing: true,
+                playPauseAnimation: true,
+                mute: false,
+                allowDownload: false,
+                allowTheatre: false,
+                playbackRateEnabled: false
+            }
+        }
+    );
+</script>

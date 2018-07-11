@@ -3,10 +3,15 @@
 <script src="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.js"></script>
 
 
-<h1 th:text="'Movie ' + ${movie.title}"></h1>
-
 <video id="movie" th:src="'/video/movie/' + ${movie.id}" controls width="100%"></video>
 <br>
+<div class="card card-body">
+    <h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'"></h1>
+    <p th:text="'Quality: ' + ${movie.quality}"></p>
+    <p th:text="'Rating: ' + ${movie.voteAverage}"></p>
+    <p th:text="${movie.descript}"></p>
+    <p th:text="'Runtime: ' + ${movie.runtime} + ' Min'"></p>
+</div>
 <br>
 <ul class="list-group">
     <li class="list-group-item active">Comments</li>

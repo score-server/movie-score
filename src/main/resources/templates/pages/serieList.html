@@ -2,6 +2,10 @@
 
 <h1>Serie List</h1>
 
+<form action="/serie/search">
+    <input class="form-control" type="text" name="search" placeholder="Search">
+</form>
+<br>
 <div class="row">
     <div th:each="serie : ${series}" class="col-sm-4" style="margin-bottom: 20px">
         <div th:include="'static/serieCard.html'"></div>
