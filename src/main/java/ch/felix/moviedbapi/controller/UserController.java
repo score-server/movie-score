@@ -1,6 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.User;
+import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
@@ -29,13 +30,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
 
     private UserRepository userRepository;
+    private RequestRepository requestRepository;
 
     private ShaService shaService;
     private CookieService cookieService;
 
 
-    public UserController(UserRepository userRepository, ShaService shaService, CookieService cookieService) {
+    public UserController(UserRepository userRepository, RequestRepository requestRepository, ShaService shaService,
+                          CookieService cookieService) {
         this.userRepository = userRepository;
+        this.requestRepository = requestRepository;
         this.shaService = shaService;
         this.cookieService = cookieService;
     }
@@ -61,7 +65,10 @@ public class UserController {
             return "redirect:/login";
         }
 
+        User user = userRepository.findUserById(Long.valueOf(userId));
+
         model.addAttribute("user", userRepository.findUserById(Long.valueOf(userId)));
+        model.addAttribute("requests", requestRepository.findAllByUser(user));
         model.addAttribute("page", "user");
         return "template";
     }
@@ -111,13 +118,15 @@ public class UserController {
     }
 
     @PostMapping("{userId}/password")
-    public String setPassword(@PathVariable("userId") String userId, @RequestParam("password") String newPassword) {
+    public String setPassword(@PathVariable("userId") String userId,
+                              @RequestParam("old") String oldPassword,
+                              @RequestParam("new") String newPassword) {
         try {
-            User user = userRepository.findUserById(Long.valueOf(userId));
+            User user = userRepository.findUserByIdAndPasswordSha(Long.valueOf(userId), oldPassword);
             user.setPasswordSha(shaService.encode(newPassword));
             userRepository.save(user);
             return "redirect:/user/" + userId;
-        } catch (ConstraintViolationException | NumberFormatException e) {
+        } catch (NullPointerException | ConstraintViolationException | NumberFormatException e) {
             return "redirect:/user/" + userId;
         }
 

@@ -44,8 +44,4 @@ public class EpisodeController {
         return "template";
     }
 
-    @GetMapping(value = "JewsHidingHere", produces = "application/json")
-    public String jewsHidingHere(){
-        return "";
-    }
 }

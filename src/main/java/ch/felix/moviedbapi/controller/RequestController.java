@@ -1,12 +1,18 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Request;
+import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ViolationService;
+
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,34 +28,51 @@ import org.springframework.web.bind.annotation.RestController;
  * Package: ch.felix.moviedbapi.controller
  **/
 
-@RestController
+@Controller
 @RequestMapping("request")
 public class RequestController {
 
     private RequestRepository requestRepository;
     private UserRepository userRepository;
 
-    private ViolationService violationService;
+    private CookieService cookieService;
 
-    public RequestController(RequestRepository requestRepository, UserRepository userRepository, CookieService cookieService, ViolationService violationService) {
+    public RequestController(RequestRepository requestRepository, UserRepository userRepository,
+                             CookieService cookieService) {
         this.requestRepository = requestRepository;
         this.userRepository = userRepository;
-        this.violationService = violationService;
+        this.cookieService = cookieService;
     }
 
     @GetMapping(produces = "application/json")
-    public List<Request> getRequestList() {
-        return requestRepository.findAll();
+    public String getRequestList(Model model, HttpServletRequest request) {
+        try {
+            User user = cookieService.getCurrentUser(request);
+            model.addAttribute("currentUser", user);
+            if (user.getRole() != 2) {
+                return "redirect:/";
+            }
+        } catch (NullPointerException e) {
+            return "redirect:/";
+        }
+        model.addAttribute("requests", requestRepository.findAll());
+        model.addAttribute("page", "requestList");
+        return "template";
     }
 
-    @GetMapping(value = "/{requestId}", produces = "application/json")
-    public Request getOneRequest(@PathVariable("requestId") String requestParam) {
-        return requestRepository.findRequestById(Long.valueOf(requestParam));
+    @GetMapping(value = "create", produces = "application/json")
+    public String getCreateForm(Model model, HttpServletRequest request) {
+        try {
+            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+        } catch (NullPointerException e) {
+            return "redirect:/login";
+        }
+        model.addAttribute("page", "createRequest");
+        return "template";
     }
 
-    @PostMapping("/add")
-    public String createRequest(@RequestParam("userId") String userId,
-                                @RequestParam("request") String requestParam) {
+    @PostMapping("create/{userId}")
+    public String createRequest(@PathVariable("userId") String userId, @RequestParam("request") String requestParam) {
         try {
             Request request = new Request();
             request.setRequest(requestParam);
@@ -57,16 +80,14 @@ public class RequestController {
             request.setActive("1");
             requestRepository.save(request);
             System.out.println("Saved Request - " + requestParam);
-            return "103";//Added
-        } catch (NullPointerException e) {
-            return "204";//Not found
-        } catch (ConstraintViolationException e) {
-            return "205 " + violationService.getViolation(e);
+            return "redirect:/user/" + userId;//Added
+        } catch (NullPointerException | ConstraintViolationException e) {
+            return "redirect:/user/" + userId;
         }
 
     }
 
-    @PostMapping("/{requestId}/close")
+    @PostMapping("{requestId}/close")
     public String closeRequest(@PathVariable("requestId") String requestParam) {
         try {
             Request request = requestRepository.findRequestById(Long.valueOf(requestParam));

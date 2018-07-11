@@ -1,6 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
-<div id="accordion" th:if="${currentUser?.role} == '2'">
+<h1>Settings</h1>
+
+<div id="accordion">
     <div class="card-body">
         <p>Only gets shown if user Is Admin</p>
         <a href="/user">Show Users</a>

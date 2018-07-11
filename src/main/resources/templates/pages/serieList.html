@@ -2,9 +2,15 @@
 
 <h1>Serie List</h1>
 
-<ul class="list-group">
-    <li class="list-group-item" th:each="serie:${series}">
-        <img class="img-thumbnail" th:src="${serie.caseImg}" width="100px">
-        <a th:text="${serie.title}" th:href="'/serie/' + ${serie.id}"></a>
-    </li>
-</ul>
+<div class="row">
+    <div th:each="serie : ${series}" class="col-sm-4" style="margin-bottom: 20px">
+        <a th:href="'/serie/' + ${serie.id}">
+            <div class="card">
+                <img class="card-img-top" th:src="${serie.caseImg}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${serie.title}"></h5>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

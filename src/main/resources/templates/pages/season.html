@@ -2,7 +2,6 @@
 
 <h1 th:text=" ${season.serie.title} + ' Season ' + ${season.season}"></h1>
 
-<p th:text="'Id: ' + ${season.id}"></p>
 <img class="img-thumbnail" th:src="${season.serie.caseImg}" width="100px">
 <a th:href="'/serie/' + ${season.serie.id}">Serie</a>
 <br>

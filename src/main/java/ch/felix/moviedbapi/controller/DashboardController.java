@@ -39,9 +39,6 @@ public class DashboardController {
         model.addAttribute("movies", movieRepository.findTop50ByOrderByTitle());
         model.addAttribute("series", serieRepository.findAll());
 
-        model.addAttribute("moviePath", settingsService.getKey("moviePath"));
-        model.addAttribute("seriePath", settingsService.getKey("seriePath"));
-
         model.addAttribute("page", "home");
         return "template";
     }

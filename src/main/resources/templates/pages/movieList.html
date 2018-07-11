@@ -2,9 +2,15 @@
 
 <h1>Movie List</h1>
 
-<ul class="list-group">
-    <li class="list-group-item" th:each="movie : ${movies}">
-        <img class="img-thumbnail" th:src="${movie.caseImg}" width="100px">
-        <a th:text="${movie.title}" th:href="'/movie/' + ${movie.id}"></a>
-    </li>
-</ul>
+<div class="row">
+    <div th:each="movie : ${movies}" class="col-sm-4" style="margin-bottom: 20px">
+        <a th:href="'/movie/' + ${movie.id}">
+            <div class="card">
+                <img class="card-img-top" th:src="${movie.caseImg}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${movie.title}"></h5>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
