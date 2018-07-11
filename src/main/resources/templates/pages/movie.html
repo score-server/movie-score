@@ -1,8 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.css" type="text/css"/>
+<script src="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.js"></script>
+
 
 <h1 th:text="'Movie ' + ${movie.title}"></h1>
 
-<img class="img-thumbnail" th:src="${movie.caseImg}" width="100px">
+<video id="movie" th:src="'/video/movie/' + ${movie.id}" controls width="100%"></video>
 <br>
 <br>
 <ul class="list-group">
@@ -23,3 +26,19 @@
 </form>
 <br>
 <a href="/">Back</a>
+<script th:inline="javascript">
+    fluidPlayer(
+        'movie',
+        {
+            layoutControls: {
+                autoPlay: false,
+                playButtonShowing: true,
+                playPauseAnimation: true,
+                mute: false,
+                allowDownload: false,
+                allowTheatre: false,
+                playbackRateEnabled: false
+            }
+        }
+    );
+</script>

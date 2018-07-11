@@ -2,7 +2,10 @@
 
 <a th:href="'/movie/' + ${movie.id}">
     <div class="card moviecard">
-        <img class="card-img-top" th:src="${movie.caseImg}">
+        <div>
+            <span class="notify-badge" th:text="${movie.quality}"></span>
+            <img class="card-img-top" th:src="${movie.caseImg}">
+        </div>
         <div class="card-body nodec">
             <h5 class="card-title" th:text="${movie.title}"></h5>
             <p><span class="fa fa-star checked"></span><span th:text="${movie.voteAverage}"></span></p>
