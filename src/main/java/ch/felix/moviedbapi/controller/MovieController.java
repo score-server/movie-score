@@ -94,7 +94,6 @@ public class MovieController {
             movieList.add(genre.getMovie());
         }
         model.addAttribute("movies", movieList);
-        //TODO GENRE PAGE
         return movieList;
     }
 }

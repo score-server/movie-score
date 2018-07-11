@@ -5,5 +5,5 @@
         Currently logged in:
         <a th:href="'/user/' + ${currentUser.id}" th:text="${currentUser.name}"></a>
     </div>
-    <p th:if="${currentUser == null}">Not Logged in. <a href="/login">Login</a></p>
+    <div th:if="${currentUser == null}">Not Logged in. <a href="/login">Login</a></div>
 </div>

@@ -24,7 +24,15 @@ body {
     text-decoration: none;
 }
 
-.notify-badge {
+.badge {
+    background: blue;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 30px 30px 30px 30px;
+    text-align: center;
+}
+
+.quality-badge {
     position: absolute;
     right: 7px;
     top: 10px;

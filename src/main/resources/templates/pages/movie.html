@@ -8,6 +8,11 @@
 <div class="card card-body">
     <h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'"></h1>
     <p th:text="'Quality: ' + ${movie.quality}"></p>
+    <p>Genres:
+        <span th:each="genre : ${movie.genres}">
+            <a class="badge" th:text="${genre.name}" style="color: white;"></a>
+        </span>
+    </p>
     <p th:text="'Rating: ' + ${movie.voteAverage}"></p>
     <p th:text="${movie.descript}"></p>
     <p th:text="'Runtime: ' + ${movie.runtime} + ' Min'"></p>

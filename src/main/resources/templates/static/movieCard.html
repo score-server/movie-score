@@ -3,7 +3,7 @@
 <a th:href="'/movie/' + ${movie.id}">
     <div class="card moviecard">
         <div>
-            <span class="notify-badge" th:text="${movie.quality}"></span>
+            <span class="quality-badge" th:text="${movie.quality}"></span>
             <img class="card-img-top" th:src="${movie.caseImg}">
         </div>
         <div class="card-body nodec">
