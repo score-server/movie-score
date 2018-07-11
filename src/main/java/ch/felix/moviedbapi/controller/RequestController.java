@@ -80,7 +80,7 @@ public class RequestController {
             request.setActive("1");
             requestRepository.save(request);
             System.out.println("Saved Request - " + requestParam);
-            return "redirect:/user/" + userId;//Added
+            return "redirect:/user/" + userId;
         } catch (NullPointerException | ConstraintViolationException e) {
             return "redirect:/user/" + userId;
         }
@@ -93,9 +93,23 @@ public class RequestController {
             Request request = requestRepository.findRequestById(Long.valueOf(requestParam));
             request.setActive("0");
             requestRepository.save(request);
-            return "103";//Added
+            return "redirect:/request";//Added
         } catch (NullPointerException e) {
-            return "204";//User not logged in
+            e.printStackTrace();
+            return "redirect:/request";
+        }
+    }
+
+    @PostMapping("{requestId}/open")
+    public String openRequest(@PathVariable("requestId") String requestParam) {
+        try {
+            Request request = requestRepository.findRequestById(Long.valueOf(requestParam));
+            request.setActive("1");
+            requestRepository.save(request);
+            return "redirect:/request";//Added
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return "redirect:/request";
         }
     }
 

@@ -1,0 +1,11 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<a th:href="'/movie/' + ${movie.id}">
+    <div class="card moviecard">
+        <img class="card-img-top" th:src="${movie.caseImg}">
+        <div class="card-body nodec">
+            <h5 class="card-title" th:text="${movie.title}"></h5>
+            <p><span class="fa fa-star checked"></span><span th:text="${movie.voteAverage}"></span></p>
+        </div>
+    </div>
+</a>

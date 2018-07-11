@@ -3,10 +3,18 @@
 <h1>Requests</h1>
 
 <ul class="list-group">
-    <li class="list-group-item" th:each="request : ${requests}">
-            <span th:switch="${request.active}">
-                <span th:case="1" th:text="${request.request}"></span>
-                <span th:case="2" th:text="${request.request} + ' - closed'"></span>
-            </span>
+    <li class="list-group-item" th:each="request : ${requests}" th:switch="${request.active}">
+        <div th:case="1">
+            <form th:action="'/request/' + ${request.id} + '/close'" method="post">
+                <span th:text="${request.user.name}  + ': ' +${request.request}"></span>
+                <button class="float-right btn"><i class="far fa-square"></i></button>
+            </form>
+        </div>
+        <div th:case="0">
+            <form th:action="'/request/' + ${request.id} + '/open'" method="post">
+                <span th:text="${request.user.name}  + ': ' + ${request.request}"></span>
+                <button class="float-right btn"><i class="far fa-check-square"></i></button>
+            </form>
+        </div>
     </li>
 </ul>

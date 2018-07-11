@@ -71,7 +71,7 @@
         <li class="list-group-item" th:each="request : ${requests}">
             <span th:switch="${request.active}">
                 <span th:case="1" th:text="${request.request}"></span>
-                <span th:case="2" th:text="${request.request} + ' - closed'"></span>
+                <span th:case="0" th:text="${request.request} + ' - closed'"></span>
             </span>
         </li>
     </ul>

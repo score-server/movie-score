@@ -1,0 +1,10 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<a th:href="'/serie/' + ${serie.id}">
+    <div class="card moviecard">
+        <img class="card-img-top" th:src="${serie.caseImg}">
+        <div class="card-body nodec">
+            <h5 class="card-title" th:text="${serie.title}"></h5>
+        </div>
+    </div>
+</a>
