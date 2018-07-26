@@ -2,11 +2,9 @@
 
 <h1>Settings</h1>
 
-<div id="accordion">
+<div class="card">
+    <div class="card-header">Import</div>
     <div class="card-body">
-        <p>Only gets shown if user Is Admin</p>
-        <a href="/user">Show Users</a>
-        <br>
         <form action="/import/path/movie" method="post" class="form-inline form-group mb-2">
             <label for="moviepath">Movie Path:</label>
             <input class="form-control col-sm-3 mx-sm-3" id="moviepath" type="text" th:value="${moviePath}"

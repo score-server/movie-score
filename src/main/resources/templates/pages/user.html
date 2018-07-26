@@ -2,81 +2,105 @@
 
 <h1 th:text="'User ' + ${user.name}"></h1>
 
-<p th:text="'Id: ' + ${user.id}"></p>
+<div th:if="${currentUser.role} == 2" class="card">
+    <div class="card-header">
+        Admin Tools
+    </div>
+    <div class="card-body">
+        <p th:text="'Id: ' + ${user.id}"></p>
+        <div th:switch="${user.role}">
+            <p>Role:
+                <span th:case="1">User</span>
+                <span th:case="2">Admin</span>
+            </p>
+        </div>
+        <div th:switch="${user.role}">
+            <form th:case="'1'" th:action="'/user/' + ${user.id} + '/role/2'" method="post">
+                <button class="btn btn-primary">
+                    <i class="fas fa-chess-pawn"></i>
+                </button>
+            </form>
+            <form th:case="'2'" th:action="'/user/' + ${user.id} + '/role/1'" method="post">
+                <button class="btn btn-primary">
+                    <i class="fas fa-chess-king"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 
-<div th:switch="${user.role}">
-    <p>Role:
-        <span th:case="1">User</span>
-        <span th:case="2">Admin</span>
-    </p>
-</div>
-<div th:switch="${user.role}">
-    <form th:case="'1'" th:action="'/user/' + ${user.id} + '/role/2'" method="post">
-        <button class="btn btn-primary">
-            <i class="fas fa-chess-pawn"></i>
-        </button>
-    </form>
-    <form th:case="'2'" th:action="'/user/' + ${user.id} + '/role/1'" method="post">
-        <button class="btn btn-primary">
-            <i class="fas fa-chess-king"></i>
-        </button>
-    </form>
-</div>
 <br>
-<div th:if="${currentUser} == ${user}">
-    <table>
+
+<div th:if="${currentUser} == ${user}" class="card">
+    <div class="card-header">Settings</div>
+    <div class="card-body">
         <form th:action="'/user/' + ${user.id} + '/name'" method="post">
-            <tr>
-                <th>Change Username</th>
-            </tr>
-            <tr>
-                <td>Username</td>
-                <td>
-                    <input class="form-control" type="text" name="name" required width="400px" th:value="${user.name}">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button class="btn btn-primary">Save Name</button>
-                </td>
-            </tr>
+            <table>
+                <tr>
+                    <th>Change Username</th>
+                </tr>
+                <tr>
+                    <td>Username</td>
+                    <td>
+                        <input class="form-control" type="text" name="name" required width="400px"
+                               th:value="${user.name}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-primary">Save Name</button>
+                    </td>
+                </tr>
+
+            </table>
         </form>
-        <tr>
-            <th>Change Password</th>
-        </tr>
+        <br>
         <form th:action="'/user/' + ${user.id} + '/password'" method="post">
-
-            <tr>
-                <td>Old Password</td>
-                <td><input class="form-control" type="password" name="old" required></td>
-            </tr>
-            <tr>
-                <td>New Password</td>
-                <td><input class="form-control" type="password" name="new" required></td>
-            </tr>
-            <tr>
-                <td>Confirm Password</td>
-                <td><input class="form-control" type="password" name="name" required></td>
-            </tr>
-            <tr>
-                <td>
-                    <button class="btn btn-primary">Save Password</button>
-                </td>
-            </tr>
+            <table>
+                <tr>
+                    <th>Change Password</th>
+                </tr>
+                <tr>
+                    <td>Old Password</td>
+                    <td><input class="form-control" type="password" name="old" required></td>
+                </tr>
+                <tr>
+                    <td>New Password</td>
+                    <td><input class="form-control" type="password" name="new" required></td>
+                </tr>
+                <tr>
+                    <td>Confirm Password</td>
+                    <td><input class="form-control" type="password" name="name" required></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-primary">Save Password</button>
+                    </td>
+                </tr>
+            </table>
         </form>
-    </table>
-    <br>
-    <p>Requests</p>
-    <ul class="list-group">
-        <li class="list-group-item" th:each="request : ${requests}">
-            <span th:switch="${request.active}">
-                <span th:case="1" th:text="${request.request}"></span>
-                <span th:case="0" th:text="${request.request} + ' - closed'"></span>
-            </span>
-        </li>
-    </ul>
+    </div>
+</div>
 
-    <a class="btn btn-link" href="/request/create">Create Request</a>
+<br>
 
+<div class="card">
+    <div class="card-header">Requests</div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item" th:each="request : ${requests}">
+                    <span th:switch="${request.active}">
+                        <span th:case="1" th:text="${request.request}"></span>
+                        <span th:case="0" th:text="${request.request} + ' - closed'"></span>
+                    </span>
+            </li>
+            <li class="list-group-item">
+                <a href="/request/create" class="btn btn-primary">Create Request</a>
+            </li>
+            <li class="list-group-item" th:if="${currentUser.role} == 2">
+                <a class="btn btn-link" href="/request">Request List</a>
+            </li>
+        </ul>
+    </div>
 </div>
 

@@ -1,6 +1,5 @@
 package ch.felix.moviedbapi.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,13 +7,10 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.FileTime;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,14 +71,19 @@ public class MultipartFileSender {
 
         Long length = Files.size(filepath);
         String fileName = filepath.getFileName().toString();
-        FileTime lastModifiedObj = Files.getLastModifiedTime(filepath);
 
-        if (StringUtils.isEmpty(fileName) || lastModifiedObj == null) {
+        long lastModified = Files.getLastModifiedTime(filepath).toMillis();
+        String eTag = fileName + "_" + length + "_" + lastModified;
+        long expires = System.currentTimeMillis() + DEFAULT_EXPIRE_TIME;
+
+        //FileTime lastModifiedObj = Files.getLastModifiedTime(filepath);
+
+        /*if (StringUtils.isEmpty(fileName) || lastModifiedObj == null) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
-        }
-        long lastModified = LocalDateTime.ofInstant(lastModifiedObj.toInstant(), ZoneId.of(ZoneOffset.systemDefault().getId())).toEpochSecond(ZoneOffset.UTC);
-        String contentType = "video/mp4";
+        }*/
+        //long lastModified = LocalDateTime.ofInstant(lastModifiedObj.toInstant(), ZoneId.of(ZoneOffset.systemDefault().getId())).toEpochSecond(ZoneOffset.UTC);
+        //String contentType = MimeTypeUtils.probeContentType(filepath);
 
         // Validate request headers for caching ---------------------------------------------------
 
@@ -170,7 +171,7 @@ public class MultipartFileSender {
                         return;
                     }
 
-                    // Add range.                    
+                    // Add range.
                     ranges.add(new Range(start, end, length));
                 }
             }
@@ -184,6 +185,9 @@ public class MultipartFileSender {
         // If content type is unknown, then set the default value.
         // For all content types, see: http://www.w3schools.com/media/media_mimeref.asp
         // To add new content types, add new mime-mapping entry in web.xml.
+
+        //String contentType = Files.probeContentType(filepath);
+        String contentType = null;
         if (contentType == null) {
             contentType = "application/octet-stream";
         } else if (!contentType.startsWith("image")) {
@@ -192,12 +196,15 @@ public class MultipartFileSender {
             String accept = request.getHeader("Accept");
             disposition = accept != null && HttpUtils.accepts(accept, contentType) ? "inline" : "attachment";
         }
+
+        disposition = "attachment";
         logger.debug("Content-Type : {}", contentType);
         // Initialize response.
         response.reset();
         response.setBufferSize(DEFAULT_BUFFER_SIZE);
         response.setHeader("Content-Type", contentType);
-        response.setHeader("Content-Disposition", disposition + ";filename=\"" + fileName + "\"");
+        response.setHeader("Content-Disposition", disposition + ";filename=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
+        logger.info(disposition);
         logger.debug("Content-Disposition : {}", disposition);
         response.setHeader("Accept-Ranges", "bytes");
         response.setHeader("ETag", fileName);

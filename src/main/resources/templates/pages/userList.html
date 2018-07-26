@@ -10,4 +10,7 @@
     <li class="list-group-item" th:each="user:${users}">
         <a th:text="${user.name}" th:href="'/user/' + ${user.id}"></a>
     </li>
+    <li class="list-group-item" th:if="${currentUser.role} == 2">
+        <a class="btn btn-primary" href="/register">New User</a>
+    </li>
 </ul>
