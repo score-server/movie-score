@@ -4,6 +4,10 @@
 <p>Logo: <img src="https://github.com/Wetwer/movie-db-api/blob/master/doc/img/330px-MaxMoritz.png" width="60px"></p>
 <p>URL: <a target="_blank" href="http://scorewinner.ch">scorewinner.ch</a></p>
 <hr>
+
+<p>Logo: <img src="https://i.imgur.com/xVOt5tB.png" width="60px"></p>
+
+
 <h4>Api</h4>
 <a href="api/loginApi.html">Login</a> <a href="api/userApi.html">User</a> <a href="api/movieApi.html">Movie</a> <a
  href="api/serieApi.html">Serie</a> <a href="api/requestApi.html">Request</a> <a href="api/responseApi.html">Response</a>
