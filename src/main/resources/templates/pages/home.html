@@ -2,9 +2,26 @@
 
 <h1>Home</h1>
 
-<form action="/search">
-    <input class="form-control" type="text" name="querry" placeholder="Search">
+<form action="/" id="search">
+    <div class="row">
+        <br>
+        <div class="col-8">
+            <input th:value="${search}" class="form-control" type="text" name="search"
+                   placeholder="Search" autocomplete="off">
+        </div>
+        <div class="col">
+            <select class="form-control" name="orderBy"
+                    onchange="document.getElementById('search').submit()">
+                <option selected disabled>Order By</option>
+                <option th:selected="${orderBy.contains('')}" value="">Title</option>
+                <option th:selected="${orderBy.contains('rating')}" value="rating">Rating</option>
+                <option th:selected="${orderBy.contains('year')}" value="year">Year</option>
+            </select>
+        </div>
+    </div>
 </form>
+
+
 <br>
 
 <h3>Movies</h3>
@@ -12,26 +29,27 @@
     <div th:each="movie : ${movies}" class="col-sm-4" style="margin-bottom: 20px">
         <div th:include="'static/movieCard.html'"></div>
     </div>
+</div>
+<div class="row">
     <div class="col-sm-4" style="margin-bottom: 20px">
         <div class="card card-body">
             <a href="/movie">All movies</a>
         </div>
     </div>
 </div>
+
 <hr>
+
 <h3>Series</h3>
 <div class="row">
     <div th:each="serie : ${series}" class="col-sm-4" style="margin-bottom: 20px">
         <div th:include="'static/serieCard.html'"></div>
     </div>
+</div>
+<div class="row">
     <div class="col-sm-4" style="margin-bottom: 20px">
         <div class="card card-body">
-            <a href="/movie">All movies</a>
-        </div>
-    </div>
-    <div class="col-sm-4" style="margin-bottom: 20px">
-        <div class="card card-body">
-            <a href="/movie">All series</a>
+            <a href="/serie">All series</a>
         </div>
     </div>
 </div>

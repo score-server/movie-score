@@ -15,7 +15,6 @@
 *.iws
 *.iml
 *.ipr
-*.properties
 
 ### NetBeans ###
 /nbproject/private/
@@ -26,4 +25,3 @@
 /.nb-gradle/
 
 settings.properties
-src/main/resources/application.properties

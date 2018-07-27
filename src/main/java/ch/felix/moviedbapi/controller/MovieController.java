@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.SearchService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,22 +32,31 @@ public class MovieController {
     private GenreRepository genreRepository;
 
     private CookieService cookieService;
+    private SearchService searchService;
 
-    public MovieController(MovieRepository movieRepository, GenreRepository genreRepository, CookieService cookieService) {
+    public MovieController(MovieRepository movieRepository, GenreRepository genreRepository,
+                           CookieService cookieService, SearchService searchService) {
         this.movieRepository = movieRepository;
         this.genreRepository = genreRepository;
         this.cookieService = cookieService;
+        this.searchService = searchService;
     }
 
     @GetMapping(produces = "application/json")
-    public String getMovies(Model model, HttpServletRequest request) {
+    public String getMovies(@RequestParam(name = "search", required = false, defaultValue = "") String search,
+                            @RequestParam(name = "orderBy", required = false, defaultValue = "") String orderBy,
+                            Model model, HttpServletRequest request) {
         try {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
         }
 
         try {
-            model.addAttribute("movies", movieRepository.findAll());
+            model.addAttribute("movies", searchService.searchMovies(search, orderBy));
+
+            model.addAttribute("search", search);
+            model.addAttribute("orderBy", orderBy);
+
             model.addAttribute("page", "movieList");
             return "template";
         } catch (NullPointerException e) {
@@ -68,18 +78,6 @@ public class MovieController {
             model.addAttribute("page", "movie");
             return "template";
         } catch (NullPointerException | NumberFormatException e) {
-            e.printStackTrace();
-            return "redirect:/movie";
-        }
-    }
-
-    @GetMapping(value = "/search", produces = "application/json")
-    public String searchMovie(@RequestParam("search") String search, Model model) {
-        try {
-            model.addAttribute("movies", movieRepository.findTop50ByTitleContaining(search));
-            model.addAttribute("page", "searchMovie");
-            return "template";
-        } catch (NumberFormatException | NullPointerException e) {
             e.printStackTrace();
             return "redirect:/movie";
         }

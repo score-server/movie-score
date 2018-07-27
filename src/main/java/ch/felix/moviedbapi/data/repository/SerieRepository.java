@@ -1,5 +1,6 @@
 package ch.felix.moviedbapi.data.repository;
 
+import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Serie;
 
 import java.util.List;
@@ -21,5 +22,7 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 
     Serie findSerieByTitle(String title);
 
-    List<Serie> findTop50ByTitleContaining(String searchParam);
+    List<Serie> findSeriesByTitleContainingOrderByTitle(String search);
+
+    List<Serie> findTop50ByTitleContainingOrderByTitle(String search);
 }

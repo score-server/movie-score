@@ -94,13 +94,10 @@
                         <span th:case="0" th:text="${request.request} + ' - closed'"></span>
                     </span>
             </li>
-            <li class="list-group-item">
-                <a href="/request/create" class="btn btn-primary">Create Request</a>
-            </li>
-            <li class="list-group-item" th:if="${currentUser.role} == 2">
-                <a class="btn btn-link" href="/request">Request List</a>
-            </li>
         </ul>
+        <br>
+        <a href="/request/create" class="btn btn-primary">Create Request</a><br><br>
+        <a class="btn btn-primary" href="/request" th:if="${currentUser.role} == 2">Request List</a>
     </div>
 </div>
 

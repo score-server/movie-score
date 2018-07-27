@@ -1,13 +1,12 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-
-<br>
+<link rel="stylesheet" href="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.css" type="text/css"/>
+<script src="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.js"></script>
 <video id="movie" th:src="'/video/episode/' + ${episode.id}" controls width="100%"></video>
 <br>
 <div class="card card-body">
-    <h1 th:text="${episode.season.serie.title} + ' (' + ${episode.season.year} + ')'"></h1>
+    <h1 th:text="${episode.season.serie.title} + ' Episode ' + ${episode.episode}"></h1>
     <p th:text="'Quality: ' + ${episode.quality}"></p>
 </div>
-<a th:href="'/season/' + ${episode.season.id}">View Episodes</a>
 <br>
 <ul class="list-group">
     <li class="list-group-item active">Comments</li>
@@ -26,7 +25,7 @@
     <button class="btn btn-primary" type="submit">Save Comment</button>
 </form>
 <br>
-<a href="/">Back</a>
+<a class="btn btn-primary" th:href="'/season/' + ${episode.season.id}">Back</a>
 <script>
     fluidPlayer(
         'movie',

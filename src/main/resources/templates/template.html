@@ -31,9 +31,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/request/create">Request</a>
             </li>
-            <!--<li class="nav-item" th:if="${currentUser.role} == 2">-->
-                <!--<a class="nav-link" href="/settings"><i>Settings</i></a>-->
-            <!--</li>-->
+            <li class="nav-item" th:if="${page} != 'login'">
+                <a th:if="${currentUser?.role} == 2" class="nav-link" href="/settings"><i>Settings</i></a>
+            </li>
         </ul>
         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
             <ul class="navbar-nav ml-auto">

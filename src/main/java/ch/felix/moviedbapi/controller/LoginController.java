@@ -42,6 +42,7 @@ public class LoginController {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
         }
+
         model.addAttribute("page", "login");
         return "template";
     }

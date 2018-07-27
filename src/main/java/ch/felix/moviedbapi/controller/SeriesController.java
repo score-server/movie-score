@@ -3,11 +3,13 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 
 import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.SearchService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,19 +27,26 @@ public class SeriesController {
 
     private SerieRepository serieRepository;
     private CookieService cookieService;
+    private SearchService searchService;
 
-    public SeriesController(SerieRepository serieRepository, CookieService cookieService) {
+    public SeriesController(SerieRepository serieRepository, CookieService cookieService, SearchService searchService) {
         this.serieRepository = serieRepository;
         this.cookieService = cookieService;
+        this.searchService = searchService;
     }
 
     @GetMapping(produces = "application/json")
-    public String getAllSeries(Model model, HttpServletRequest request) {
+    public String getSeries(@RequestParam(name = "search", required = false, defaultValue = "") String search,
+                            Model model, HttpServletRequest request) {
         try {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
         }
-        model.addAttribute("series", serieRepository.findAll());
+
+        model.addAttribute("series", searchService.searchSerie(search));
+
+        model.addAttribute("search", search);
+
         model.addAttribute("page", "serieList");
         return "template";
     }
@@ -51,18 +60,6 @@ public class SeriesController {
 
         model.addAttribute("serie", serieRepository.findSerieById(Long.valueOf(serieParam)));
         model.addAttribute("page", "serie");
-        return "template";
-    }
-
-    @GetMapping(value = "search/{search}", produces = "application/json")
-    public String searchSerie(@PathVariable("search") String searchParam, Model model, HttpServletRequest request) {
-        try {
-            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
-        } catch (NullPointerException e) {
-        }
-
-        model.addAttribute("series", serieRepository.findTop50ByTitleContaining(searchParam));
-        model.addAttribute("page", "searchSerie");
         return "template";
     }
 }

@@ -78,6 +78,29 @@
 
     </dependencies>
 
+
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--<id>work</id>-->
+            <!--<properties>-->
+                <!--<moviedb.profile>work</moviedb.profile>-->
+            <!--</properties>-->
+        <!--</profile>-->
+        <!--<profile>-->
+            <!--<id>home</id>-->
+            <!--<properties>-->
+                <!--<moviedb.profile>home</moviedb.profile>-->
+            <!--</properties>-->
+        <!--</profile>-->
+        <!--<profile>-->
+            <!--<id>tim</id>-->
+            <!--<properties>-->
+                <!--<moviedb.profile>tim</moviedb.profile>-->
+            <!--</properties>-->
+        <!--</profile>-->
+    <!--</profiles>-->
+
+
     <build>
         <plugins>
             <plugin>

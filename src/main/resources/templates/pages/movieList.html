@@ -2,8 +2,23 @@
 
 <h1>Movies</h1>
 
-<form action="/movie/search">
-    <input class="form-control" type="text" name="search" placeholder="Search">
+<form action="/movie" id="search">
+    <div class="row">
+        <br>
+        <div class="col-8">
+            <input th:value="${search}" class="form-control" type="text" name="search"
+                   placeholder="Search" autocomplete="off">
+        </div>
+        <div class="col">
+            <select class="form-control" name="orderBy"
+                    onchange="document.getElementById('search').submit()">
+                <option selected disabled>Order By</option>
+                <option th:selected="${orderBy.contains('')}" value="">Title</option>
+                <option th:selected="${orderBy.contains('rating')}" value="rating">Rating</option>
+                <option th:selected="${orderBy.contains('year')}" value="year">Year</option>
+            </select>
+        </div>
+    </div>
 </form>
 <br>
 <div class="row">

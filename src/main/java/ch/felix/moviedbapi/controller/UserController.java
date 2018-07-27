@@ -4,6 +4,7 @@ import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.ShaService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,25 +35,31 @@ public class UserController {
 
     private ShaService shaService;
     private CookieService cookieService;
+    private SearchService searchService;
 
 
     public UserController(UserRepository userRepository, RequestRepository requestRepository, ShaService shaService,
-                          CookieService cookieService) {
+                          CookieService cookieService, SearchService searchService) {
         this.userRepository = userRepository;
         this.requestRepository = requestRepository;
         this.shaService = shaService;
         this.cookieService = cookieService;
+        this.searchService = searchService;
     }
 
     @GetMapping(produces = "application/json")
-    public String getUserList(Model model, HttpServletRequest request) {
+    public String getUserList(@RequestParam(name = "search", required = false, defaultValue = "") String search,
+                              Model model, HttpServletRequest request) {
         try {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
             return "redirect:/login";
         }
 
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", searchService.searchUser(search));
+
+        model.addAttribute("search", search);
+
         model.addAttribute("page", "userList");
         return "template";
     }

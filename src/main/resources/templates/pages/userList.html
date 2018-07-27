@@ -2,8 +2,14 @@
 
 <h1>User List</h1>
 
-<form action="/user/search">
-    <input class="form-control" type="text" name="search" placeholder="Search">
+<form action="/user" id="search">
+    <div class="row">
+        <br>
+        <div class="col-12">
+            <input th:value="${search}" class="form-control" type="text" name="search"
+                   placeholder="Search" autocomplete="off">
+        </div>
+    </div>
 </form>
 <br>
 <ul class="list-group">
