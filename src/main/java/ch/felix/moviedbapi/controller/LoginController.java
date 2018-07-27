@@ -60,9 +60,7 @@ public class LoginController {
             userRepository.save(user);
             return "redirect:/";
         } catch (NullPointerException e) {
-            return "redirect:/login?error=Error Logging in";
+            return "redirect:/login?error";
         }
-
     }
-
 }

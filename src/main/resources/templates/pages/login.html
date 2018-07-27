@@ -1,8 +1,17 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
 <h1>Login</h1>
 
-<form action="/login" method="post">
-    Username:<input class="form-control" type="text" name="name">
-    Password:<input class="form-control" type="password" name="password">
-    <br>
-    <input class="btn btn-primary" type="submit">
-</form>
+<div th:if="${param.error}" class="alert alert-danger">
+    Invalid username or password
+</div>
+
+
+<div class="card card-body">
+    <form action="/login" method="post">
+        Username:<input class="form-control" type="text" name="name">
+        Password:<input class="form-control" type="password" name="password">
+        <br>
+        <input class="btn btn-primary" type="submit">
+    </form>
+</div>

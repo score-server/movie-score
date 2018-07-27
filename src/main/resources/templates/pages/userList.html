@@ -16,7 +16,13 @@
     <li class="list-group-item" th:each="user:${users}">
         <a th:text="${user.name}" th:href="'/user/' + ${user.id}"></a>
     </li>
-    <li class="list-group-item" th:if="${currentUser.role} == 2">
-        <a class="btn btn-primary" href="/register">New User</a>
-    </li>
 </ul>
+<div class="row" th:if="${users.size()} == 0">
+    <div class="col-sm-4" style="margin-bottom: 20px">
+        <div class="alert alert-secondary">
+            <a>No Users found</a>
+        </div>
+    </div>
+</div>
+<br>
+<a class="btn btn-primary" href="/register">New User</a>

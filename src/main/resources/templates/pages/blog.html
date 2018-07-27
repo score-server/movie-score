@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1>Blog/News</h1>
+
+<div th:each="blog : ${blogs}" class="col-sm-12" style="margin-bottom: 20px">
+    <div class="card">
+        <div class="card-header">
+            <b th:text="${blog.title}"></b>
+            <a th:text="${blog.timestamp.getDate()} + '.' + (${blog.timestamp.getMonth()} + 1) + '.'
+               + (${blog.timestamp.getYear()} + 1900)" class="float-right"></a>
+        </div>
+        <div class="card-body">
+            <p th:text="${blog.text}"></p>
+            <small class="text-muted">
+                <span>By </span>
+                <a th:text="${blog.user.name}" th:href="'/user/' + ${blog.user.id}"></a>
+            </small>
+        </div>
+    </div>
+</div>
+<a th:if="${currentUser?.role} == 2" href="/blog/new" class="btn btn-primary">New Post</a>
+<br>
+<br>
+<a href="/" class="btn btn-primary">Back</a>

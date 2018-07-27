@@ -17,3 +17,10 @@
         <div th:include="'static/serieCard.html'"></div>
     </div>
 </div>
+<div class="row" th:if="${series.size()} == 0">
+    <div class="col-sm-4" style="margin-bottom: 20px">
+        <div class="alert alert-secondary">
+            <a>No series found</a>
+        </div>
+    </div>
+</div>

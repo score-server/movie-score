@@ -31,6 +31,12 @@
             <li class="nav-item">
                 <a class="nav-link" href="/request/create">Request</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/blog">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+            </li>
             <li class="nav-item" th:if="${page} != 'login'">
                 <a th:if="${currentUser?.role} == 2" class="nav-link" href="/settings"><i>Settings</i></a>
             </li>
