@@ -5,7 +5,7 @@
 <p>URL: <a target="_blank" href="http://scorewinner.ch">scorewinner.ch</a></p>
 <hr>
 
-<p>Logo: <img src="https://i.imgur.com/xVOt5tB.png" width="60px"></p>
+<p><img src="https://i.imgur.com/xVOt5tB.png"></p>
 
 
 <h4>Api</h4>
