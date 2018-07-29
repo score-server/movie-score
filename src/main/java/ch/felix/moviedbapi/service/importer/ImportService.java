@@ -33,7 +33,9 @@ public abstract class ImportService {
     public void importFile(String pathKey) {
         File file = new File(settingsService.getKey(pathKey));
         for (File movieFile : file.listFiles()) {
-            if (movieFile.getName().contains(".mp4")) {
+            if (movieFile.getName().contains(".mp4")
+                    ||movieFile.getName().contains(".avi")
+                    ||movieFile.getName().contains(".mkv")) {
                 filterFile(movieFile);
             }
         }

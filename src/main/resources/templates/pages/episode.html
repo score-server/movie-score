@@ -4,7 +4,7 @@
 <video id="movie" th:src="'/video/episode/' + ${episode.id}" controls width="100%"></video>
 <br>
 <div class="card card-body">
-    <h1 th:text="${episode.season.serie.title} + ' Episode ' + ${episode.episode}"></h1>
+    <h1 th:text="${episode.season.serie.title} + ' Season ' + ${episode.season.season} +  ' Episode ' + ${episode.episode}"></h1>
     <p th:text="'Quality: ' + ${episode.quality}"></p>
 </div>
 <br>
@@ -26,18 +26,23 @@
 </form>
 <br>
 <a class="btn btn-primary" th:href="'/season/' + ${episode.season.id}">Back</a>
-<script>
+<script th:inline="javascript">
     fluidPlayer(
         'movie',
         {
             layoutControls: {
-                autoPlay: false,
+                autoPlay: true,
                 playButtonShowing: true,
                 playPauseAnimation: true,
                 mute: false,
                 allowDownload: false,
                 allowTheatre: false,
-                playbackRateEnabled: false
+                playbackRateEnabled: false,
+                controlBar: {
+                    autoHide: true,
+                    autoHideTimeout: 3,
+                    animated: true
+                }
             }
         }
     );

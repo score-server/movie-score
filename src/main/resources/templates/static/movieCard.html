@@ -8,7 +8,11 @@
         </div>
         <div class="card-body nodec">
             <h5 class="card-title" th:text="${movie.title}"></h5>
-            <p><span class="fa fa-star checked"></span><span th:text="${movie.voteAverage}"></span></p>
+            <a>
+                <span style="color: #D7D700;" class="fa fa-star checked"></span>
+                <span th:text="${movie.voteAverage}"></span>
+            </a>
+            <a class="float-right" th:text="${movie.year}"></a>
         </div>
     </div>
 </a>

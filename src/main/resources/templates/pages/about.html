@@ -1,12 +1,11 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <h1>About</h1>
 <div class="card card-body">
-    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
-        a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-        remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-        Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
-    </p>
+    <a>
+        Currently holding
+        <span th:text="${movies}"></span> Movies and
+        <span th:text="${episodes}"></span> Serie Episodes
+    </a>
 </div>
 <br>
 <div class="row">
@@ -16,7 +15,7 @@
             <img class="card-img-top" src="https://i.imgur.com/tEOMtt4.jpg">
             <div class="card-body">
                 <h5 class="card-title">Wetwer</h5>
-                <p class="card-text">Frontend and Backend Developer</p>
+                <p class="card-text">Developer</p>
                 <a href="https://github.com/Wetwer">Github</a>
             </div>
         </div>
@@ -31,7 +30,7 @@
                  src="https://kinderparty-onlineshop.de/images/product_images/original_images/folienballon%20pokal.png">
             <div class="card-body">
                 <h5 class="card-title">Scorewinner</h5>
-                <p class="card-text">Server Guy and Investor</p>
+                <p class="card-text">Investor</p>
                 <a href="https://github.com/Scorewinner">Github</a>
             </div>
         </div>

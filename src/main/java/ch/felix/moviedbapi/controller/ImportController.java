@@ -35,27 +35,42 @@ public class ImportController {
 
     @PostMapping(value = "movie", produces = "application/json")
     public String importMovies() {
+        if (settingsService.getKey("import").equals("1")) {
+            return "redirect:/settings";
+        }
+        settingsService.setValue("import", "1");
         movieImportService.importFile("moviePath");
-        return "redirect:/";
+        settingsService.setValue("import", "0");
+        return "redirect:/settings";
     }
 
     @PostMapping(value = "serie", produces = "application/json")
     public String importSeries() {
+        if (settingsService.getKey("import").equals("1")) {
+            return "redirect:/settings";
+        }
+        settingsService.setValue("import", "1");
         seriesImportService.importFile("seriePath");
-        return "redirect:/";
+        settingsService.setValue("import", "0");
+        return "redirect:/settings";
     }
 
 
-    @PostMapping("path/movie") //TODO: Add to Home or Settings
+    @PostMapping("path/movie")
     public String setMovieImportPath(@RequestParam("path") String pathParam) {
         settingsService.setValue("moviePath", pathParam);
-        return "redirect:/";
+        return "redirect:/settings";
     }
 
-    @PostMapping("path/serie") //TODO: Add to Home or Settings
-    public String setSerieImportPath(@RequestParam("path") String pathParam, Model model) {
-        model.addAttribute("moviePath",settingsService.getKey("seriePath"));
+    @PostMapping("path/serie")
+    public String setSerieImportPath(@RequestParam("path") String pathParam) {
         settingsService.setValue("seriePath", pathParam);
-        return "redirect:/";
+        return "redirect:/settings";
+    }
+
+    @PostMapping("reset")
+    public String importReset() {
+        settingsService.setValue("import", "0");
+        return "redirect:/settings";
     }
 }

@@ -1,5 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.entity.Season;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.service.CookieService;
 import org.springframework.stereotype.Controller;
@@ -36,8 +37,10 @@ public class SeasonController {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
         }
+        Season season = seasonRepository.findSeasonById(Long.valueOf(seasonParam));
 
-        model.addAttribute("season", seasonRepository.findSeasonById(Long.valueOf(seasonParam)));
+        model.addAttribute("season", season);
+        model.addAttribute("episodes", season.getEpisodes());
         model.addAttribute("page", "season");
         return "template";
 

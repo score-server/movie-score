@@ -8,7 +8,9 @@ import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.jsonmodel.tmdb.SerieJson;
 import ch.felix.moviedbapi.service.SettingsService;
+
 import java.io.File;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,7 +42,10 @@ public class SeriesImportService extends ImportService {
 
     @Override
     public void filterFile(File movieFile) {
-        String seriesName = movieFile.getName().replace(".mp4", "");
+        String seriesName = movieFile.getName()
+                .replace(".mp4", "")
+                .replace(".avi", "")
+                .replace(".mkv", "");
 
         SearchMovieService searchMovieService = new SearchMovieService();
         int serieId = searchMovieService.findSeriesId(getName(seriesName), getYear(seriesName));
@@ -89,13 +94,16 @@ public class SeriesImportService extends ImportService {
             episode.setQuality(getQuality(seriesName));
             episodeRepository.save(episode);
             System.out.println("Saved Episode: " + getName(seriesName) + " Season " + getSeason(seriesName)
-                               + " Episode " + getEpisode(seriesName));
+                    + " Episode " + getEpisode(seriesName));
         }
     }
 
     @Override
     public void filterUpdateFile(File movieFile) {
-        String seriesName = movieFile.getName().replace(".mp4", "");
+        String seriesName = movieFile.getName()
+                .replace(".mp4", "")
+                .replace(".avi", "")
+                .replace(".mkv", "");
 
         SearchMovieService searchMovieService = new SearchMovieService();
         int serieId = searchMovieService.findSeriesId(getName(seriesName), getYear(seriesName));
@@ -116,7 +124,7 @@ public class SeriesImportService extends ImportService {
 
     private String getName(String fileName) {
         return fileName.replace(" " + getEpisodeStr(fileName) + " " + getYear(fileName) + " "
-                                + getQuality(fileName), "");
+                + getQuality(fileName), "");
     }
 
     private String getEpisodeStr(String s) {
@@ -135,10 +143,10 @@ public class SeriesImportService extends ImportService {
     }
 
     private String getSeason(String s) {
-        return getEpisodeStr(s).split("e")[0].replace("s", "");
+        return getEpisodeStr(s).split("E")[0].replace("S", "");
     }
 
     private String getEpisode(String s) {
-        return getEpisodeStr(s).split("e")[1];
+        return getEpisodeStr(s).split("E")[1];
     }
 }

@@ -20,11 +20,14 @@
         </form>
         <br>
         <form action="/import/movie" method="post" class="form-inline">
-            <button class="btn btn-primary">Import Movies</button>
+            <button class="btn btn-primary" th:disabled="${running}">Import Movies</button>
         </form>
         <br>
         <form action="/import/serie" method="post" class="form-inline">
-            <button class="btn btn-primary">Import Series</button>
+            <button class="btn btn-primary" th:disabled="${running}">Import Series</button>
+        </form>
+        <form action="/import/reset" method="post" class="form-inline float-right">
+            <button class="btn btn-primary">Reset</button>
         </form>
     </div>
 </div>
