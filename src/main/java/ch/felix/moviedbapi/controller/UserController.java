@@ -53,7 +53,7 @@ public class UserController {
         try {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
-            return "redirect:/login";
+            return "redirect:/login?redirect=/user";
         }
 
         model.addAttribute("users", searchService.searchUser(search));
@@ -69,7 +69,7 @@ public class UserController {
         try {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
-            return "redirect:/login";
+            return "redirect:/login?redirect=/user/" + userId;
         }
 
         User user = userRepository.findUserById(Long.valueOf(userId));
@@ -80,33 +80,15 @@ public class UserController {
         return "template";
     }
 
-    @GetMapping(value = "search", produces = "application/json")
-    public String searchUsers(@RequestParam(value = "search", required = false, defaultValue = "") String searchParam,
-                              Model model, HttpServletRequest request) {
-        try {
-            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
-        } catch (NullPointerException e) {
-            return "redirect:/login";
-        }
-        try {
-            model.addAttribute("users", userRepository.findUsersByNameContaining(searchParam));
-            model.addAttribute("page", "userList");
-            return "template";
-        } catch (NullPointerException | NumberFormatException e) {
-            e.printStackTrace();
-            return "redirect:/user";
-        }
-    }
-
     @PostMapping(value = "{userId}/role/{role}", produces = "application/json")
     public String setRole(@PathVariable("userId") String userId, @PathVariable("role") String role) {
         try {
             User user = userRepository.findUserById(Long.valueOf(userId));
             user.setRole(Integer.valueOf(role));
             userRepository.save(user);
-            return "redirect:/user/" + userId;
+            return "redirect:/user/" + userId + "?role";
         } catch (NumberFormatException e) {
-            return "redirect:/user/" + userId + "?error=Could not set Role";
+            return "redirect:/user/" + userId + "?error";
         }
     }
 
@@ -116,7 +98,7 @@ public class UserController {
             User user = userRepository.findUserById(Long.valueOf(userId));
             user.setName(newName);
             userRepository.save(user);
-            return "redirect:/user/" + userId;
+            return "redirect:/user/" + userId + "?username";
         } catch (ConstraintViolationException | NumberFormatException e) {
             return "redirect:/user/" + userId;
         }
@@ -132,11 +114,10 @@ public class UserController {
             User user = userRepository.findUserByIdAndPasswordSha(Long.valueOf(userId), oldPassword);
             user.setPasswordSha(shaService.encode(newPassword));
             userRepository.save(user);
-            return "redirect:/user/" + userId;
+            return "redirect:/user/" + userId + "?password";
         } catch (NullPointerException | ConstraintViolationException | NumberFormatException e) {
             return "redirect:/user/" + userId;
         }
-
     }
 
 }

@@ -143,10 +143,10 @@ public class SeriesImportService extends ImportService {
     }
 
     private String getSeason(String s) {
-        return getEpisodeStr(s).split("E")[0].replace("S", "");
+        return getEpisodeStr(s).toLowerCase().split("e")[0].replace("s", "");
     }
 
     private String getEpisode(String s) {
-        return getEpisodeStr(s).split("E")[1];
+        return getEpisodeStr(s).toLowerCase().split("e")[1];
     }
 }

@@ -43,7 +43,6 @@ public class SeasonController {
         model.addAttribute("episodes", season.getEpisodes());
         model.addAttribute("page", "season");
         return "template";
-
     }
 
 }

@@ -38,9 +38,14 @@ public class RegisterController {
     @GetMapping
     public String getRegister(Model model, HttpServletRequest request) {
         try {
-            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+            User currentUser = cookieService.getCurrentUser(request);
+            if (currentUser.getRole() != 2) {
+                return "redirect:/?";
+            }
+
+            model.addAttribute("currentUser", currentUser);
         } catch (NullPointerException e) {
-            return "redirect:/login";
+            return "redirect:/login?redirect=/register";
         }
 
         model.addAttribute("page", "register");
@@ -50,9 +55,8 @@ public class RegisterController {
     @PostMapping
     public String register(@RequestParam("name") String nameParam, @RequestParam("password") String password) {
         if (userRepository.findUserByName(nameParam) == null) {
-            User user = new User();
-
             try {
+                User user = new User();
                 user.setName(nameParam);
                 user.setPasswordSha(shaService.encode(password));
                 user.setRole(1);

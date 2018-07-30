@@ -80,7 +80,7 @@ public class RequestController {
             request.setActive("1");
             requestRepository.save(request);
             System.out.println("Saved Request - " + requestParam);
-            return "redirect:/user/" + userId;
+            return "redirect:/user/" + userId + "?request";
         } catch (NullPointerException | ConstraintViolationException e) {
             return "redirect:/user/" + userId;
         }

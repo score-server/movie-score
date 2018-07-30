@@ -48,7 +48,8 @@ public class LoginController {
     }
 
     @PostMapping
-    public String login(@RequestParam("name") String nameParam,
+    public String login(@RequestParam(name = "redirect", required = false, defaultValue = "") String redirectParam,
+                        @RequestParam("name") String nameParam,
                         @RequestParam("password") String passwordParam,
                         HttpServletResponse response) {
         User user = userRepository.findUserByNameAndPasswordSha(nameParam, shaService.encode(passwordParam));
@@ -58,9 +59,26 @@ public class LoginController {
             cookieService.setUserCookie(response, sessionId);
             user.setSessionId(sessionId);
             userRepository.save(user);
-            return "redirect:/";
+            if (redirectParam.equals("null")) {
+                return "redirect:/";
+            } else {
+                return "redirect:" + redirectParam;
+            }
         } catch (NullPointerException e) {
             return "redirect:/login?error";
+        }
+    }
+
+    @PostMapping("logout")
+    public String logout(HttpServletRequest request) {
+        try {
+            User user = cookieService.getCurrentUser(request);
+            String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
+            user.setSessionId(sessionId);
+            userRepository.save(user);
+            return "redirect:/?logout";
+        } catch (NullPointerException e) {
+            return "redirect:/";
         }
     }
 }

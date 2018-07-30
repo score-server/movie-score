@@ -3,9 +3,11 @@
 <h1>Create Request</h1>
 <div class="card card-body">
     <form th:action="'/request/create/' + ${currentUser.id}" method="post">
-        <input class="form-control" type="text" name="request" placeholder="Movie/Serie Request"><br>
+        <input class="form-control" type="text" name="request" placeholder="Movie/Serie Request" required><br>
         <button class="btn btn-primary">Submit</button>
     </form>
 </div>
-<br>
-<a class="btn btn-primary" th:if="${currentUser.role} == 2" href="/request">Request List</a>
+<div th:if="${currentUser.role} == 2">
+    <br>
+    <a class="btn btn-primary" href="/request">Request List</a>
+</div>

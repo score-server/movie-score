@@ -15,6 +15,18 @@
 <ul class="list-group">
     <li class="list-group-item" th:each="user:${users}">
         <a th:text="${user.name}" th:href="'/user/' + ${user.id}"></a>
+        <div class="float-right" th:switch="${user.role}" th:if="${currentUser?.role} == 2">
+            <form th:case="'1'" th:action="'/user/' + ${user.id} + '/role/2'" method="post">
+                <button class="btn btn-primary">
+                    <i class="fas fa-chess-pawn"></i>
+                </button>
+            </form>
+            <form th:case="'2'" th:action="'/user/' + ${user.id} + '/role/1'" method="post">
+                <button class="btn btn-primary">
+                    <i class="fas fa-chess-king"></i>
+                </button>
+            </form>
+        </div>
     </li>
 </ul>
 <div class="row" th:if="${users.size()} == 0">

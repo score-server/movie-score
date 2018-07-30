@@ -37,7 +37,12 @@ public class SettingsController {
 
         model.addAttribute("moviePath", settingsService.getKey("moviePath"));
         model.addAttribute("seriePath", settingsService.getKey("seriePath"));
-        model.addAttribute("running", settingsService.getKey("import").equals("1"));
+        try {
+            model.addAttribute("running", settingsService.getKey("import").equals("1"));
+        } catch (NullPointerException e) {
+            settingsService.setValue("import", "0");
+            model.addAttribute("running", settingsService.getKey("import").equals("1"));
+        }
 
         model.addAttribute("page", "settings");
         return "template";

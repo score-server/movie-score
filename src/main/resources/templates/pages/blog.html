@@ -1,5 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
+<div th:if="${param.new}" class="alert alert-success">
+    Saved new Post
+</div>
+
 <h1>Blog/News</h1>
 
 <div th:each="blog : ${blogs}" class="col-sm-12" style="margin-bottom: 20px">

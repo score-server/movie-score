@@ -35,7 +35,7 @@ public class EpisodeController {
         try {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
-            return "redirect:/login";
+            return "redirect:/login?redirect=/episode/" + episodeId;
         }
 
         model.addAttribute("episode", episodeRepository.findEpisodeById(Long.valueOf(episodeId)));

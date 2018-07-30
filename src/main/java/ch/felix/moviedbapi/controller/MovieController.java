@@ -10,6 +10,7 @@ import java.util.List;
 
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.SearchService;
+import ch.felix.moviedbapi.service.SimilarMovieService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,16 +34,19 @@ public class MovieController {
 
     private CookieService cookieService;
     private SearchService searchService;
+    private SimilarMovieService similarMovieService;
 
     public MovieController(MovieRepository movieRepository, GenreRepository genreRepository,
-                           CookieService cookieService, SearchService searchService) {
+                           CookieService cookieService, SearchService searchService,
+                           SimilarMovieService similarMovieService) {
         this.movieRepository = movieRepository;
         this.genreRepository = genreRepository;
         this.cookieService = cookieService;
         this.searchService = searchService;
+        this.similarMovieService = similarMovieService;
     }
 
-    @GetMapping(produces = "application/json")
+    @GetMapping
     public String getMovies(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                             @RequestParam(name = "orderBy", required = false, defaultValue = "") String orderBy,
                             Model model, HttpServletRequest request) {
@@ -60,21 +64,24 @@ public class MovieController {
             model.addAttribute("page", "movieList");
             return "template";
         } catch (NullPointerException e) {
-            return "redirect:/";//No Movies found
+            return "redirect:/";
         }
     }
 
-    @GetMapping(value = "/{movieId}", produces = "application/json")
+    @GetMapping("{movieId}")
     public String getOneMovie(@PathVariable("movieId") String movieId, Model model, HttpServletRequest request) {
         try {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
-            return "redirect:/login";
+            return "redirect:/login?redirect=/movie/" + movieId;
         }
 
+        Movie movie = movieRepository.findMovieById(Long.valueOf(movieId));
+
         try {
-            model.addAttribute("movie", movieRepository.findMovieById(Long.valueOf(movieId)));
-            model.addAttribute("comments", movieRepository.findMovieById(Long.valueOf(movieId)).getComments());
+            model.addAttribute("movie", movie);
+            model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
+            model.addAttribute("comments", movie.getComments());
             model.addAttribute("page", "movie");
             return "template";
         } catch (NullPointerException | NumberFormatException e) {
@@ -83,7 +90,7 @@ public class MovieController {
         }
     }
 
-    @GetMapping(value = "/genre/{genre}", produces = "application/json")
+    @GetMapping("/genre/{genre}")
     public List<Movie> getMoviesForGenre(@PathVariable("genre") String genreParam, Model model) {
         List<Genre> genres = genreRepository.findGenresByName(genreParam);
 
@@ -91,6 +98,7 @@ public class MovieController {
         for (Genre genre : genres) {
             movieList.add(genre.getMovie());
         }
+
         model.addAttribute("movies", movieList);
         return movieList;
     }

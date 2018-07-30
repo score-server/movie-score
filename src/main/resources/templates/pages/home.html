@@ -2,6 +2,10 @@
 
 <h1>Home</h1>
 
+<div th:if="${param.logout}" class="alert alert-secondary">
+    Logged out
+</div>
+
 <form action="/" id="search">
     <div class="row">
         <br>

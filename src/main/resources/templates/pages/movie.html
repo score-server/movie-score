@@ -34,8 +34,19 @@
     <br>
     <button class="btn btn-primary" type="submit">Save Comment</button>
 </form>
+<div th:if="${similar.size()} != 0">
+    <br>
+    <div class="card">
+        <div class="card-header">Similar Movies</div>
+        <div class="row card-body">
+            <div th:each="movie : ${similar}" class="col-sm-4" style="margin-bottom: 20px">
+                <div th:include="'static/movieCard.html'"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <br>
-<a href="/">Back</a>
+<a href="/" class="btn btn-primary">Back</a>
 <script th:inline="javascript">
     fluidPlayer(
         'movie',

@@ -67,6 +67,6 @@ public class BlogController {
         blog.setTimestamp(new Timestamp(new Date().getTime()));
         blogRepository.save(blog);
 
-        return "redirect:/blog";
+        return "redirect:/blog?new";
     }
 }
