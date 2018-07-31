@@ -2,6 +2,10 @@
 
 <h1>Settings</h1>
 
+<div th:if="${running}" class="alert alert-warning">
+    Import in progress
+</div>
+
 <div class="card">
     <div class="card-header">Import</div>
     <div class="card-body">

@@ -42,7 +42,6 @@ public class LoginController {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
         }
-
         model.addAttribute("page", "login");
         return "template";
     }
@@ -51,9 +50,8 @@ public class LoginController {
     public String login(@RequestParam(name = "redirect", required = false, defaultValue = "") String redirectParam,
                         @RequestParam("name") String nameParam,
                         @RequestParam("password") String passwordParam,
-                        HttpServletResponse response) {
+                        HttpServletResponse response, Model model) {
         User user = userRepository.findUserByNameAndPasswordSha(nameParam, shaService.encode(passwordParam));
-
         try {
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
             cookieService.setUserCookie(response, sessionId);
@@ -65,7 +63,7 @@ public class LoginController {
                 return "redirect:" + redirectParam;
             }
         } catch (NullPointerException e) {
-            return "redirect:/login?error";
+            return "redirect:/login?error&user=" + nameParam;
         }
     }
 

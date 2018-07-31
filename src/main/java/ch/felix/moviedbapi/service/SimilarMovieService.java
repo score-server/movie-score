@@ -20,7 +20,7 @@ public class SimilarMovieService {
 
     public List<Movie> getSimilarMovies(Movie movie) {
         List<Movie> movies = new ArrayList<>();
-        List<Movie> moviesByName = movieRepository.findMoviesByTitleContainingOrderByVoteAverageDesc(
+        List<Movie> moviesByName = movieRepository.findMoviesByTitleContainingOrderByYearDesc(
                 movie.getTitle().replace("the ", "").split(" ")[0]);
         for (Movie similarMovie : moviesByName) {
             if (similarMovie != movie) {
@@ -33,9 +33,11 @@ public class SimilarMovieService {
             }
         }
 
-        List<Movie> moviesByGenre = movieRepository.findMoviesByTitleContainingOrderByVoteAverageDesc("");
+        List<Movie> moviesByGenre = movieRepository.findMoviesByTitleContainingOrderByYearDesc("");
         for (Movie similarMovie : moviesByGenre) {
-            if (similarMovie.getGenres().get(0).getName().equals(movie.getGenres().get(0).getName())) {
+            if (similarMovie.getGenres().get(0).getName().equals(movie.getGenres().get(0).getName())
+                    && similarMovie.getGenres().get(similarMovie.getGenres().size() - 1).getName()
+                    .equals(movie.getGenres().get(movie.getGenres().size() - 1).getName())) {
                 if (similarMovie != movie) {
                     if (movies.size() != 3) {
                         movies.add(similarMovie);

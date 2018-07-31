@@ -23,7 +23,7 @@ public class ImportComponent {
         this.movieImportService = movieImportService;
     }
 
-    @Scheduled(fixedRate = 86400000)
+//    @Scheduled(fixedRate = 86400000)
     public void updateMovieAndSeriesList() {
         movieImportService.importFile("moviePath");
         seriesImportService.importFile("seriePath");

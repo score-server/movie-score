@@ -2,6 +2,7 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
+import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.GenreRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.SimilarMovieService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  * Package: ch.felix.moviedbapi.controller
  **/
 
+@Slf4j
 @Controller
 @RequestMapping("movie")
 public class MovieController {
@@ -77,8 +80,11 @@ public class MovieController {
         }
 
         Movie movie = movieRepository.findMovieById(Long.valueOf(movieId));
-
         try {
+            User currentUser = cookieService.getCurrentUser(request);
+            log.info(currentUser.getName() + " request movie " + movie.getId() + ". " + movie.getTitle());
+
+
             model.addAttribute("movie", movie);
             model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
             model.addAttribute("comments", movie.getComments());

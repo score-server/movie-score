@@ -40,7 +40,6 @@ public class ImportController {
         }
         settingsService.setValue("import", "1");
         movieImportService.importFile("moviePath");
-        settingsService.setValue("import", "0");
         return "redirect:/settings";
     }
 
@@ -51,7 +50,6 @@ public class ImportController {
         }
         settingsService.setValue("import", "1");
         seriesImportService.importFile("seriePath");
-        settingsService.setValue("import", "0");
         return "redirect:/settings";
     }
 

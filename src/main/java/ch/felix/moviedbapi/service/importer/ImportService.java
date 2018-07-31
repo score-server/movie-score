@@ -4,6 +4,8 @@ import ch.felix.moviedbapi.service.SettingsService;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,6 +32,7 @@ public abstract class ImportService {
 
     public abstract void filterUpdateFile(File movieFile);
 
+    @Async
     public void importFile(String pathKey) {
         File file = new File(settingsService.getKey(pathKey));
         for (File movieFile : file.listFiles()) {
@@ -40,6 +43,7 @@ public abstract class ImportService {
             }
         }
         updateFile();
+        settingsService.setValue("import", "0");
     }
 
     public void updateFile() {
