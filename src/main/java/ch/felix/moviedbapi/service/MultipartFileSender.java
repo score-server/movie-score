@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Created by kevin on 10/02/15.
+ * See full code here : https://github.com/davinkevin/Podcast-Server/blob/d927d9b8cb9ea1268af74316cd20b7192ca92da7/src/main/java/lan/dk/podcastserver/utils/multipart/MultipartFileSender.java
+ */
 public class MultipartFileSender {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -152,8 +156,6 @@ public class MultipartFileSender {
             // If any valid If-Range header, then process each part of byte range.
             if (ranges.isEmpty()) {
                 for (String part : range.substring(6).split(",")) {
-                    // Assuming a file with length of 100, the following examples returns bytes at:
-                    // 50-80 (50 to 80), 40- (40 to length=100), -20 (length-20=80 to length=100).
                     long start = Range.sublong(part, 0, part.indexOf("-"));
                     long end = Range.sublong(part, part.indexOf("-") + 1, part.length());
 
@@ -277,8 +279,9 @@ public class MultipartFileSender {
 
         /**
          * Construct a byte range.
+         *
          * @param start Start of the byte range.
-         * @param end End of the byte range.
+         * @param end   End of the byte range.
          * @param total Total length of the byte source.
          */
         public Range(long start, long end, long total) {
@@ -320,12 +323,15 @@ public class MultipartFileSender {
             }
         }
     }
+
     private static class HttpUtils {
 
         /**
          * Returns true if the given accept header accepts the given value.
+         *
          * @param acceptHeader The accept header.
-         * @param toAccept The value to be accepted.
+         * @param toAccept     The value to be accepted.
+         *
          * @return True if the given accept header accepts the given value.
          */
         public static boolean accepts(String acceptHeader, String toAccept) {
@@ -339,8 +345,10 @@ public class MultipartFileSender {
 
         /**
          * Returns true if the given match header matches the given value.
+         *
          * @param matchHeader The match header.
-         * @param toMatch The value to be matched.
+         * @param toMatch     The value to be matched.
+         *
          * @return True if the given match header matches the given value.
          */
         public static boolean matches(String matchHeader, String toMatch) {

@@ -14,13 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author Felix
- * @date 24.05.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.controller
- **/
-
+ * @author Wetwer
+ * @project movie-db
+ */
 @Controller
 @RequestMapping("login")
 public class LoginController {

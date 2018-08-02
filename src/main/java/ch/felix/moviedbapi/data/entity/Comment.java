@@ -12,13 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author Felix
- * @date 05.06.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.data.entity
- **/
-
+ * @author Wetwer
+ * @project movie-db
+ */
 @Data
 @Entity
 public class Comment {

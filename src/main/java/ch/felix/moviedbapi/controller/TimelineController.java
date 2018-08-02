@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Controller
 @RequestMapping("list")
 public class TimelineController {
@@ -69,7 +73,7 @@ public class TimelineController {
             }
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
-            return "redirect:/login?redirect";
+            return "redirect:/login?redirect=/list/" + timeLineId + "/edit";
         }
 
         model.addAttribute("timeline", timelineRepository.findTimelineById(Long.valueOf(timeLineId)));

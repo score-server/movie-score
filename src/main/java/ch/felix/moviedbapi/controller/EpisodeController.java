@@ -11,13 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author Felix
- * @date 30.05.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.controller
- **/
-
+ * @author Wetwer
+ * @project movie-db
+ */
 @Controller
 @RequestMapping("episode")
 public class EpisodeController {

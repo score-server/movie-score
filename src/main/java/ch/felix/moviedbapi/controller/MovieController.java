@@ -20,13 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author Felix
- * @date 23.05.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.controller
- **/
-
+ * @author Wetwer
+ * @project movie-db
+ */
 @Slf4j
 @Controller
 @RequestMapping("movie")

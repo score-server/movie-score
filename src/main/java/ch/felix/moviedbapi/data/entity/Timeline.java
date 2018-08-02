@@ -5,6 +5,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Data
 @Entity
 public class Timeline {

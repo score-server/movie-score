@@ -15,13 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * @author Felix
- * @date 30.05.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.service.importer
- **/
-
+ * @author Wetwer
+ * @project movie-db
+ */
 @Slf4j
 @Service
 public class SeriesImportService extends ImportService {

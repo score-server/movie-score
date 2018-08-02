@@ -10,11 +10,11 @@ import java.nio.file.Paths;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
 
+
 /**
- * @author Felix Spörri
- * @project Menthe
- * @with IntelliJ IDEA
- **/
+ * @author Wetwer
+ * @project movie-db
+ */
 public class FileHandler {
 
     private String filePath;

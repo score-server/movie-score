@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Repository
 public interface RequestRepository extends JpaRepository<Request, Long> {
 

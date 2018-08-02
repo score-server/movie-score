@@ -9,6 +9,10 @@ import ch.felix.moviedbapi.jsonmodel.tmdb.GenreJson;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Service
 public class GenreImportService {
 

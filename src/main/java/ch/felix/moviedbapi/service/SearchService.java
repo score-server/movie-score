@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Service
 public class SearchService {
 
@@ -50,16 +54,16 @@ public class SearchService {
 
         switch (orderBy) {
             case "":
-                movies = movieRepository.findTop50ByTitleContainingOrderByTitle(search);
+                movies = movieRepository.findTop25ByTitleContainingOrderByTitle(search);
                 break;
             case "rating":
-                movies = movieRepository.findTop50ByTitleContainingOrderByVoteAverageDesc(search);
+                movies = movieRepository.findTop25ByTitleContainingOrderByVoteAverageDesc(search);
                 break;
             case "year":
-                movies = movieRepository.findTop50ByTitleContainingOrderByYearDesc(search);
+                movies = movieRepository.findTop25ByTitleContainingOrderByYearDesc(search);
                 break;
             default:
-                movies = movieRepository.findTop50ByTitleContainingOrderByTitle(search);
+                movies = movieRepository.findTop25ByTitleContainingOrderByTitle(search);
                 break;
         }
 
@@ -71,7 +75,7 @@ public class SearchService {
     }
 
     public List<Serie> searchSerieTop(String search) {
-        return serieRepository.findTop50ByTitleContainingOrderByTitle(search);
+        return serieRepository.findTop25ByTitleContainingOrderByTitle(search);
     }
 
 

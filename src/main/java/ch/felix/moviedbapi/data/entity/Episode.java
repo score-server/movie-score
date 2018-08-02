@@ -13,13 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
- * @author Felix
- * @date 30.05.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.data.entity
- **/
-
+ * @author Wetwer
+ * @project movie-db
+ */
 @Data
 @Entity
 public class Episode {

@@ -12,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Data
 @Entity
 public class Movie {

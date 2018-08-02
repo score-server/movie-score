@@ -14,13 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author Felix
- * @date 24.05.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.controller
- **/
-
+ * @author Wetwer
+ * @project movie-db
+ */
 @Slf4j
 @Controller
 @RequestMapping("register")
@@ -64,7 +60,7 @@ public class RegisterController {
                 user.setRole(1);
                 userRepository.save(user);
                 log.info("Registered User - " + nameParam);
-                return "redirect:/login";
+                return "redirect:/user?added";
             } catch (ConstraintViolationException e) {
                 return "redirect:/register";
             }

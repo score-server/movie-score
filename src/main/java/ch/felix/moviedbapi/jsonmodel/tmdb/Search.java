@@ -4,13 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
+
 /**
- * @author Felix
- * @date 11.05.2018
- * <p>
- * Project: tmdbApi
- * Package: model
- **/
+ * @author Wetwer
+ * @project movie-db
+ */
 public class Search {
 
     @SerializedName("results")

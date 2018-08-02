@@ -9,13 +9,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
- * @author Felix
- * @date 30.05.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.service.importer
- **/
-
+ * @author Wetwer
+ * @project movie-db
+ */
 @Service
 public abstract class ImportService {
 

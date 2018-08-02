@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 /**
- * @author Felix
- * @project Menthe2.0
+ * @author Wetwer
+ * @project movie-db
  */
 public class PropertiesHandler {
     public Properties properties;

@@ -1,6 +1,5 @@
 package ch.felix.moviedbapi.data.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -15,6 +14,10 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Data
 @Entity
 public class User {

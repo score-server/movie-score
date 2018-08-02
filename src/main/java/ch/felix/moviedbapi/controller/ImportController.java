@@ -12,13 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * @author Felix
- * @date 30.05.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.controller
- **/
-
+ * @author Wetwer
+ * @project movie-db
+ */
 @Controller
 @RequestMapping("import")
 public class ImportController {

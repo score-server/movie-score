@@ -5,10 +5,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.springframework.stereotype.Service;
 
-/**
- * @PROJECT Hermann
- */
 
+/**
+ * @author Wetwer
+ * @project hermann
+ */
 @Service
 public class ShaService {
 

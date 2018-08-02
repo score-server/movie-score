@@ -3,6 +3,10 @@ package ch.felix.moviedbapi.service;
 import ch.felix.moviedbapi.service.filehandler.PropertiesHandler;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Service
 public class SettingsService {
 

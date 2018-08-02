@@ -8,11 +8,9 @@ import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
 
 /**
- * @author Felix
- * @date 11.05.2018
- * <p>
- * Project: tmdbApi
- **/
+ * @author Wetwer
+ * @project movie-db
+ */
 @Service
 public class SearchMovieService {
 

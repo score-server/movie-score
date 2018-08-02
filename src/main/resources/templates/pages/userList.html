@@ -2,6 +2,10 @@
 
 <h1>User List</h1>
 
+<div th:if="${param.added}" class="alert alert-success">
+    User added
+</div>
+
 <form action="/user" id="search">
     <div class="row">
         <br>

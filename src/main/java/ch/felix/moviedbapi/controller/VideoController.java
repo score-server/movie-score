@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.nio.file.Paths;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Controller
 @RequestMapping("video")
 public class VideoController {

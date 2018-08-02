@@ -5,13 +5,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
- * @author Felix
- * @date 05.06.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.controller.importside
- **/
-
+ * @author Wetwer
+ * @project movie-db
+ */
 @Component
 public class ImportComponent {
 

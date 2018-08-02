@@ -4,6 +4,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Data
 @Entity
 public class ListMovie {

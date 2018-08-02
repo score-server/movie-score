@@ -5,9 +5,7 @@ import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.CookieService;
-import ch.felix.moviedbapi.service.ViolationService;
 
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
@@ -19,16 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author Felix
- * @date 24.05.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.controller
- **/
-
+ * @author Wetwer
+ * @project movie-db
+ */
 @Slf4j
 @Controller
 @RequestMapping("request")
@@ -67,7 +60,7 @@ public class RequestController {
         try {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
         } catch (NullPointerException e) {
-            return "redirect:/login";
+            return "redirect:/login?redirect=/request/create";
         }
         model.addAttribute("page", "createRequest");
         return "template";

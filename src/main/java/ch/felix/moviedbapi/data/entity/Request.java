@@ -12,6 +12,10 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Data
 @Entity
 public class Request {

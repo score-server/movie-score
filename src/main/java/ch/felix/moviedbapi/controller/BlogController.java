@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.Date;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Controller
 @RequestMapping("blog")
 public class BlogController {

@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 
 /**
- * @PROJECT Hermann
+ * @author Wetwer
+ * @project hermann
  */
-
-
 @Service
 public class CookieService {
 

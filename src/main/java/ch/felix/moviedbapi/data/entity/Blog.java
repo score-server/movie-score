@@ -6,6 +6,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Data
 @Entity
 public class Blog {

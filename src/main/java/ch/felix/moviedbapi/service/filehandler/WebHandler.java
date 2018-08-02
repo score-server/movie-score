@@ -12,10 +12,9 @@ import java.util.Base64;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * @author Felix
- * @project Menthe2.0
- * @with IntelliJ IDEA
- **/
+ * @author Wetwer
+ * @project movie-db
+ */
 public class WebHandler {
 
     private URL url;

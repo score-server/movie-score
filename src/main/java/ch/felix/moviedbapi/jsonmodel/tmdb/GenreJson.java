@@ -3,6 +3,10 @@ package ch.felix.moviedbapi.jsonmodel.tmdb;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 public class GenreJson {
 
     @SerializedName("id")

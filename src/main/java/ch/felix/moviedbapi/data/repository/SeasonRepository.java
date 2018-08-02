@@ -7,12 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * @author Felix
- * @date 30.05.2018
- * <p>
- * Project: movie-db-api
- * Package: ch.felix.moviedbapi.data.repository
- **/
+ * @author Wetwer
+ * @project movie-db
+ */
 @Repository
 public interface SeasonRepository extends JpaRepository<Season, Long> {
 
