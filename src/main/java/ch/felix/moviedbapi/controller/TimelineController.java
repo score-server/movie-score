@@ -2,6 +2,7 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.ListMovie;
 import ch.felix.moviedbapi.data.entity.Timeline;
+import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.ListMovieRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.TimelineRepository;
@@ -75,12 +76,17 @@ public class TimelineController {
         } catch (NullPointerException e) {
             return "redirect:/login?redirect=/list/" + timeLineId + "/edit";
         }
+        Timeline timeline = timelineRepository.findTimelineById(Long.valueOf(timeLineId));
+        User currentUser = cookieService.getCurrentUser(request);
 
-        model.addAttribute("timeline", timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
-        model.addAttribute("movies", movieRepository.findMoviesByTitleContainingOrderByTitle(""));
 
-        model.addAttribute("page", "editTimeline");
-        return "template";
+        if (currentUser == timeline.getUser() || currentUser.getRole() == 2) {
+            model.addAttribute("timeline", timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
+            model.addAttribute("movies", movieRepository.findMoviesByTitleContainingOrderByTitle(""));
+            model.addAttribute("page", "editTimeline");
+            return "template";
+        }
+        return "redirect:/list/" + timeLineId;
     }
 
     @PostMapping("{timelineId}/edit")
@@ -95,12 +101,15 @@ public class TimelineController {
         } catch (NullPointerException e) {
             return "redirect:/login?redirect";
         }
-
-        ListMovie listMovie = new ListMovie();
-        listMovie.setPlace(Integer.valueOf(place));
-        listMovie.setMovie(movieRepository.findMovieById(Long.valueOf(movieId)));
-        listMovie.setTimeline(timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
-        listMovieRepository.save(listMovie);
+        Timeline timeline = timelineRepository.findTimelineById(Long.valueOf(timeLineId));
+        User currentUser = cookieService.getCurrentUser(request);
+        if (currentUser == timeline.getUser() || currentUser.getRole() == 2) {
+            ListMovie listMovie = new ListMovie();
+            listMovie.setPlace(Integer.valueOf(place));
+            listMovie.setMovie(movieRepository.findMovieById(Long.valueOf(movieId)));
+            listMovie.setTimeline(timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
+            listMovieRepository.save(listMovie);
+        }
         return "redirect:/list/" + timeLineId + "/edit";
     }
 
@@ -114,11 +123,14 @@ public class TimelineController {
         } catch (NullPointerException e) {
             return "redirect:/login?redirect";
         }
-
-        ListMovie listMovie = listMovieRepository.findListMovieById(Long.valueOf(movieParId));
-        listMovieRepository.delete(listMovie);
-
-        return "redirect:/list/" + listMovie.getTimeline().getId() + "/edit";
+        Timeline timeline = listMovieRepository.findListMovieById(Long.valueOf(movieParId)).getTimeline();
+        User currentUser = cookieService.getCurrentUser(request);
+        if (currentUser == timeline.getUser() || currentUser.getRole() == 2) {
+            ListMovie listMovie = listMovieRepository.findListMovieById(Long.valueOf(movieParId));
+            listMovieRepository.delete(listMovie);
+            return "redirect:/list/" + listMovie.getTimeline().getId() + "/edit";
+        }
+        return "redirect:/list";
     }
 
     @GetMapping("new")
@@ -150,6 +162,7 @@ public class TimelineController {
 
         Timeline timeline = new Timeline();
         timeline.setTitle(title);
+        timeline.setUser(cookieService.getCurrentUser(request));
         timeline.setDescription(description);
         timelineRepository.save(timeline);
 

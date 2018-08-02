@@ -2,6 +2,7 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.RequestRepository;
+import ch.felix.moviedbapi.data.repository.TimelineRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.SearchService;
@@ -28,16 +29,19 @@ public class UserController {
 
     private UserRepository userRepository;
     private RequestRepository requestRepository;
+    private TimelineRepository timelineRepository;
 
     private ShaService shaService;
     private CookieService cookieService;
     private SearchService searchService;
 
 
-    public UserController(UserRepository userRepository, RequestRepository requestRepository, ShaService shaService,
-                          CookieService cookieService, SearchService searchService) {
+    public UserController(UserRepository userRepository, RequestRepository requestRepository,
+                          TimelineRepository timelineRepository, ShaService shaService, CookieService cookieService,
+                          SearchService searchService) {
         this.userRepository = userRepository;
         this.requestRepository = requestRepository;
+        this.timelineRepository = timelineRepository;
         this.shaService = shaService;
         this.cookieService = cookieService;
         this.searchService = searchService;
@@ -70,8 +74,9 @@ public class UserController {
 
         User user = userRepository.findUserById(Long.valueOf(userId));
 
-        model.addAttribute("user", userRepository.findUserById(Long.valueOf(userId)));
+        model.addAttribute("user", user);
         model.addAttribute("requests", requestRepository.findAllByUser(user));
+        model.addAttribute("timelines", timelineRepository.findTimelinesByUser(user));
         model.addAttribute("page", "user");
         return "template";
     }

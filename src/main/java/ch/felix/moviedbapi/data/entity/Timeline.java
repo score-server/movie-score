@@ -17,12 +17,14 @@ public class Timeline {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String title;
 
     @Lob
     @Column
     private String description;
+
+    @ManyToOne
+    private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "timeline")
     private List<ListMovie> listMovies;

@@ -2,6 +2,15 @@
 
 <h1 th:text="'List ' + ${timeline.title}"></h1>
 <br>
+<div class="card card-body">
+    <a th:utext="${timeline.description}"></a>
+    <br>
+    <small class="text-muted">
+        <span>List created by </span>
+        <a th:text="${timeline.user.name}" th:href="'/user/' + ${timeline.user.id}"></a>
+    </small>
+</div>
+<br>
 <div class="row">
     <div th:each="moviePar : ${timeline.listMovies}" class="col-sm-4" style="margin-bottom: 20px">
         <div th:include="'static/movieListCard.html'"></div>
@@ -14,7 +23,7 @@
         </div>
     </div>
 </div>
-<div th:if="${currentUser?.role} == 2">
+<div th:if="${currentUser?.name} == ${timeline.user.name} OR ${currentUser?.role} == 2">
     <a th:href="'/list/' + ${timeline.id} + '/edit'" class="btn btn-primary">Edit</a>
     <br><br>
 </div>
