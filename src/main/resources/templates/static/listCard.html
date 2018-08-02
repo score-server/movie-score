@@ -7,9 +7,12 @@
         </div>
         <div class="card-body nodec">
             <h5 class="card-title" th:text="${timeline.title}"></h5>
-            <div th:if="${currentUser?.role} == 2">
-                <a class="btn btn-primary" th:href="'/list/' + ${timeline.id} + '/edit'">Edit</a>
-            </div>
+            <small class="text-muted">
+                <a>List created by </a>
+                <a th:text="${timeline.user.name}" th:href="'/user/' + ${timeline.user.id}"></a>
+            </small>
+            <a th:if="${currentUser?.role} == 2" class="btn btn-primary float-right"
+               th:href="'/list/' + ${timeline.id} + '/edit'">Edit</a>
         </div>
     </div>
 </a>

@@ -37,10 +37,13 @@
     <div class="col-sm-4" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No movies found</a>
+            <br>
+            <br>
+            <a href="/request/create">Request movie to be added</a>
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" th:if="${movies.size()} != 0">
     <div class="col-sm-4" style="margin-bottom: 20px">
         <div class="card card-body">
             <a href="/movie">All movies</a>
@@ -60,10 +63,13 @@
     <div class="col-sm-4" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No series found</a>
+            <br>
+            <br>
+            <a href="/request/create">Request serie to be added</a>
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" th:if="${series.size()} != 0">
     <div class="col-sm-4" style="margin-bottom: 20px">
         <div class="card card-body">
             <a href="/serie">All series</a>
