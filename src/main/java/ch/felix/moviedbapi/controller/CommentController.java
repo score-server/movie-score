@@ -36,7 +36,8 @@ public class CommentController {
 
 
     public CommentController(MovieRepository movieRepository, EpisodeRepository episodeRepository,
-                             UserRepository userRepository, CommentRepository commentRepository, CookieService cookieService) {
+                             UserRepository userRepository, CommentRepository commentRepository,
+                             CookieService cookieService) {
         this.movieRepository = movieRepository;
         this.episodeRepository = episodeRepository;
         this.userRepository = userRepository;

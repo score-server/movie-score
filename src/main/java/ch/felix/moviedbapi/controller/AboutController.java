@@ -14,14 +14,16 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("about")
 public class AboutController {
 
-    private CookieService cookieService;
     private EpisodeRepository episodeRepository;
     private MovieRepository movieRepository;
 
-    public AboutController(CookieService cookieService, EpisodeRepository episodeRepository, MovieRepository movieRepository) {
-        this.cookieService = cookieService;
+    private CookieService cookieService;
+
+    public AboutController(EpisodeRepository episodeRepository, MovieRepository movieRepository,
+                           CookieService cookieService) {
         this.episodeRepository = episodeRepository;
         this.movieRepository = movieRepository;
+        this.cookieService = cookieService;
     }
 
     @GetMapping

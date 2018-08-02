@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 public class EpisodeController {
 
     private EpisodeRepository episodeRepository;
+
     private CookieService cookieService;
 
     public EpisodeController(EpisodeRepository episodeRepository, CookieService cookieService) {

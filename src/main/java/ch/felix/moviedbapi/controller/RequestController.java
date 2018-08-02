@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Package: ch.felix.moviedbapi.controller
  **/
 
+@Slf4j
 @Controller
 @RequestMapping("request")
 public class RequestController {
@@ -79,7 +81,7 @@ public class RequestController {
             request.setUser(userRepository.findUserById(Long.valueOf(userId)));
             request.setActive("1");
             requestRepository.save(request);
-            System.out.println("Saved Request - " + requestParam);
+            log.info("Saved Request - " + requestParam);
             return "redirect:/user/" + userId + "?request";
         } catch (NullPointerException | ConstraintViolationException e) {
             return "redirect:/user/" + userId;

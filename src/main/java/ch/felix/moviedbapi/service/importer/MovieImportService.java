@@ -4,9 +4,13 @@ import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.jsonmodel.tmdb.MovieJson;
 import ch.felix.moviedbapi.service.SettingsService;
+
 import java.io.File;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class MovieImportService extends ImportService {
 
@@ -67,9 +71,9 @@ public class MovieImportService extends ImportService {
                 movie.setVoteAverage(movieJson.getVoteAverage());
                 movieRepository.save(movie);
                 genreImportService.setGenre(movie, movieJson.getGenres());
-                System.out.println("Movieadd - Added " + movie.getTitle());
+                log.info("Movieadd - Added " + movie.getTitle());
             } catch (NullPointerException e) {
-                System.err.println("Movieadd - Can't add " + getName(filename));
+                log.error("Movieadd - Can't add " + getName(filename));
             }
         } else {
             super.filesToUpdate.add(movieFile);
@@ -91,7 +95,7 @@ public class MovieImportService extends ImportService {
         movie.setBackgroundImg("https://image.tmdb.org/t/p/original" + movieJson.getBackdropPath());
         movie.setVoteAverage(movieJson.getVoteAverage());
         movieRepository.save(movie);
-        System.out.println("Updated Movie: " + getName(filename));
+        log.info("Updated Movie: " + getName(filename));
         try {
             Thread.sleep(300);
         } catch (InterruptedException e) {

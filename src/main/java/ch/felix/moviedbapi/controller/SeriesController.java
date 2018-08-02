@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SeriesController {
 
     private SerieRepository serieRepository;
+
     private CookieService cookieService;
     private SearchService searchService;
 

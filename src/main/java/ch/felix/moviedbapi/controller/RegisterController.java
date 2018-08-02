@@ -8,6 +8,7 @@ import ch.felix.moviedbapi.service.ShaService;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * Package: ch.felix.moviedbapi.controller
  **/
 
+@Slf4j
 @Controller
 @RequestMapping("register")
 public class RegisterController {
@@ -61,7 +63,7 @@ public class RegisterController {
                 user.setPasswordSha(shaService.encode(password));
                 user.setRole(1);
                 userRepository.save(user);
-                System.out.println("Registered User - " + nameParam);
+                log.info("Registered User - " + nameParam);
                 return "redirect:/login";
             } catch (ConstraintViolationException e) {
                 return "redirect:/register";

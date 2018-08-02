@@ -1,30 +1,45 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <h1>About</h1>
-<div class="card card-body">
-    <a>
-        If you want an account contact Wetwer via Mail, Discord, Whatsapp or Personal. If i dont know you, you wont get
-        a login...
-    </a>
-    <br>
-    <div class="row card-body">
-        <table class="col-sm-4 table">
-            <tr>
-                <th>Currently Database:</th>
-                <th></th>
-            </tr>
-            <tr>
-                <td>Movies</td>
-                <td th:text="${movies}"></td>
-            </tr>
-            <tr>
-                <td>Serie Episodes</td>
-                <td th:text="${episodes}"></td>
-            </tr>
-        </table>
+<div class="card">
+    <div class="card-header">General</div>
+    <div class="card-body">
+        <a>
+            If you want an account contact Wetwer via Mail, Discord, Whatsapp or Personal. If i dont know you, you wont
+            get a login...
+        </a>
+        <br>
+        <div class="row card-body">
+            <table class="col-sm-4 table">
+                <tr>
+                    <th>Currently in Database:</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td>Movies</td>
+                    <td th:text="${movies}"></td>
+                </tr>
+                <tr>
+                    <td>Serie Episodes</td>
+                    <td th:text="${episodes}"></td>
+                </tr>
+            </table>
+        </div>
     </div>
-
-    <p>Donate Money for further development on this Site!</p>
-    <a href="https://www.paypal.com/pools/c/86A2S1yQrF" target="_blank">Donate</a>
+</div>
+<br>
+<div class="card">
+    <div class="card-header">Premium</div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item active">Premium Account</li>
+            <li class="list-group-item">Faster viewing Speed</li>
+            <li class="list-group-item">Download Movies to view offline</li>
+            <li class="list-group-item">Create own Lists</li>
+            <li class="list-group-item">Create 5 new Accounts for Friends</li>
+            <li class="list-group-item">Cool Badge to show off on your User Account <i class="fas fa-trophy"></i></li>
+            <li class="list-group-item list-group-item-dark">2 CHF</li>
+        </ul>
+    </div>
 </div>
 <br>
 <div class="row">

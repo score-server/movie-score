@@ -27,7 +27,8 @@ public class ImportController {
     private SeriesImportService seriesImportService;
     private SettingsService settingsService;
 
-    public ImportController(MovieImportService movieImportService, SeriesImportService seriesImportService, SettingsService settingsService) {
+    public ImportController(MovieImportService movieImportService, SeriesImportService seriesImportService,
+                            SettingsService settingsService) {
         this.movieImportService = movieImportService;
         this.seriesImportService = seriesImportService;
         this.settingsService = settingsService;

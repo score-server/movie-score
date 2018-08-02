@@ -11,6 +11,7 @@ import ch.felix.moviedbapi.service.SettingsService;
 
 import java.io.File;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
  * Package: ch.felix.moviedbapi.service.importer
  **/
 
+@Slf4j
 @Service
 public class SeriesImportService extends ImportService {
 
@@ -60,7 +62,7 @@ public class SeriesImportService extends ImportService {
             serie.setCaseImg("https://image.tmdb.org/t/p/original" + serieJson.getPosterPath());
             serie.setBackgroundImg("https://image.tmdb.org/t/p/original" + serieJson.getBackdropPath());
             serie.setPopularity(serieJson.getPopularity());
-            System.out.println("Saved Series: " + getName(seriesName));
+            log.info("Saved Series: " + getName(seriesName));
             serieRepository.save(serie);
             genreImportService.setGenre(serieRepository.findSerieByTitle(getName(seriesName)), serieJson.getGenres());
         } else {
@@ -76,7 +78,7 @@ public class SeriesImportService extends ImportService {
             season.setSerie(serieRepository.findSerieByTitle(getName(seriesName)));
             season.setSeason(Integer.valueOf(getSeason(seriesName)));
             season.setYear(getYear(seriesName));
-            System.out.println("Saved Season: Season " + getSeason(seriesName));
+            log.info("Saved Season: Season " + getSeason(seriesName));
             seasonRepository.save(season);
         }
 
@@ -93,7 +95,7 @@ public class SeriesImportService extends ImportService {
             episode.setEpisode(Integer.valueOf(getEpisode(seriesName)));
             episode.setQuality(getQuality(seriesName));
             episodeRepository.save(episode);
-            System.out.println("Saved Episode: " + getName(seriesName) + " Season " + getSeason(seriesName)
+            log.info("Saved Episode: " + getName(seriesName) + " Season " + getSeason(seriesName)
                     + " Episode " + getEpisode(seriesName));
         }
     }
@@ -113,7 +115,7 @@ public class SeriesImportService extends ImportService {
 
         serie.setDescript(serieJson.getOverview());
         serie.setPopularity(serieJson.getPopularity());
-        System.out.println("Updated Series: " + getName(seriesName));
+        log.info("Updated Series: " + getName(seriesName));
         serieRepository.save(serie);
         try {
             Thread.sleep(300);

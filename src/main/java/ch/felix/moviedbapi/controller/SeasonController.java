@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SeasonController {
 
     private SeasonRepository seasonRepository;
+
     private CookieService cookieService;
 
     public SeasonController(SeasonRepository seasonRepository, CookieService cookieService) {
