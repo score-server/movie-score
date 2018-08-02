@@ -14,7 +14,7 @@
                + (${blog.timestamp.getYear()} + 1900)" class="float-right"></a>
         </div>
         <div class="card-body">
-            <p th:text="${blog.text}"></p>
+            <p th:utext="${blog.text}"></p>
             <small class="text-muted">
                 <span>By </span>
                 <a th:text="${blog.user.name}" th:href="'/user/' + ${blog.user.id}"></a>

@@ -1,5 +1,6 @@
 package ch.felix.moviedbapi.service;
 
+import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class SimilarMovieService {
             if (similarMovie != movie) {
                 if (movies.size() != 3) {
                     movies.add(similarMovie);
-                    removeDuplicates(movies);
+                    movies = removeDuplicates(movies);
                 } else {
                     return movies;
                 }
@@ -35,13 +36,11 @@ public class SimilarMovieService {
 
         List<Movie> moviesByGenre = movieRepository.findMoviesByTitleContainingOrderByYearDesc("");
         for (Movie similarMovie : moviesByGenre) {
-            if (similarMovie.getGenres().get(0).getName().equals(movie.getGenres().get(0).getName())
-                    && similarMovie.getGenres().get(similarMovie.getGenres().size() - 1).getName()
-                    .equals(movie.getGenres().get(movie.getGenres().size() - 1).getName())) {
+            if (compareGenres(movie, similarMovie)) {
                 if (similarMovie != movie) {
                     if (movies.size() != 3) {
                         movies.add(similarMovie);
-                        removeDuplicates(movies);
+                        movies = removeDuplicates(movies);
                     } else {
                         return movies;
                     }
@@ -59,4 +58,18 @@ public class SimilarMovieService {
         return movies;
     }
 
+    private boolean compareGenres(Movie movie, Movie movie2) {
+        int common = 0;
+        for (Genre genre : movie.getGenres()) {
+            for (Genre genre2 : movie2.getGenres()) {
+                if (genre.getName().equals(genre2.getName())) {
+                    common++;
+                    if (common == movie.getGenres().size()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

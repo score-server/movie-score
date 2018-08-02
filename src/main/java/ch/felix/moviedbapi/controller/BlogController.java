@@ -62,7 +62,7 @@ public class BlogController {
 
         Blog blog = new Blog();
         blog.setTitle(title);
-        blog.setText(text);
+        blog.setText(text.replace("\r\n", "<br>"));
         blog.setUser(userRepository.findUserById(Long.valueOf(userId)));
         blog.setTimestamp(new Timestamp(new Date().getTime()));
         blogRepository.save(blog);
