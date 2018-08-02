@@ -7,7 +7,7 @@
         <button class="btn btn-primary">Submit</button>
     </form>
 </div>
-<div th:if="${currentUser.role} == 2">
+<div th:if="${currentUser?.role} == 2">
     <br>
     <a class="btn btn-primary" href="/request">Request List</a>
 </div>

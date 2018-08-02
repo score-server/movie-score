@@ -42,3 +42,13 @@ body {
     color: white;
     padding: 5px 10px;
 }
+
+.place-badge {
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    background: darkblue;
+    text-align: center;
+    color: white;
+    padding: 5px 10px;
+}

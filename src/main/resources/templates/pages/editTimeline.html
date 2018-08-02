@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<h1>Edit List</h1>
+<div class="card card-body">
+    <table class="table">
+        <tr>
+            <th width="10%">Place</th>
+            <th width="70%">Movie</th>
+            <th>Year</th>
+            <th></th>
+        </tr>
+        <tr th:each="moviePar : ${timeline.listMovies}">
+            <td th:text="${moviePar.place}"></td>
+            <td th:text="${moviePar.movie.title}"></td>
+            <td th:text="${moviePar.movie.year}"></td>
+            <td>
+                <form th:action="'/list/delete/movie/' + ${moviePar.id}" class="float-right" method="post">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        <form th:action="'/list/' + ${timeline.id} + '/edit'" method="post">
+            <tr>
+                <td>
+                    <input class="form-control" type="number" name="place" required/>
+                </td>
+                <td colspan="2">
+                    <select class="form-control" name="movie" required>
+                        <option disabled>Chose Movie...</option>
+                        <option th:each="movie : ${movies}" th:text="${movie.title} + ' ' + ${movie.year}"
+                                th:value="${movie.id}"></option>
+                    </select>
+                </td>
+                <td>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </td>
+            </tr>
+        </form>
+    </table>
+    <a th:href="'/list/' + ${timeline.id}">Back</a>
+</div>

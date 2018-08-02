@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1>Movie Lists</h1>
+<br>
+<div th:if="${currentUser?.role} == 2">
+    <a href="/list/new" class="btn btn-primary">Create new List</a>
+    <br><br>
+</div>
+<div class="row">
+    <div th:each="timeline : ${timelines}" class="col-sm-4" style="margin-bottom: 20px">
+        <div th:include="'static/listCard.html'"></div>
+    </div>
+</div>
+<div class="row" th:if="${timelines.size()} == 0">
+    <div class="col-sm-4" style="margin-bottom: 20px">
+        <div class="alert alert-secondary">
+            <a>No Lists found</a>
+        </div>
+    </div>
+</div>

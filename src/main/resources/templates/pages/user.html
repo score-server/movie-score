@@ -22,7 +22,7 @@
     Error while saving changes
 </div>
 
-<div th:if="${currentUser.role} == 2">
+<div th:if="${currentUser?.role} == 2">
     <div class="card">
         <div class="card-header">
             Admin Tools
@@ -134,7 +134,7 @@
             <br>
             <a href="/request/create" class="btn btn-primary">Create Request</a>
         </div>
-        <div th:if="${currentUser.role} == 2">
+        <div th:if="${currentUser?.role} == 2">
             <br>
             <a class="btn btn-primary" href="/request">Request List</a>
         </div>

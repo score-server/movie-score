@@ -12,7 +12,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     Movie findMovieById(Long id);
 
-    Movie findMoviesByTitle(String title);
+    Movie findMovieByTitle(String title);
 
     List<Movie> findMoviesByTitleContainingOrderByTitle(String title);
 
@@ -25,7 +25,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<Movie> findTop50ByTitleContainingOrderByVoteAverageDesc(String title);
 
     List<Movie> findMoviesByTitleContainingOrderByVoteAverageDesc(String title);
-
 
 }
 

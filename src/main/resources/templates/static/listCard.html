@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<a th:href="'/list/' + ${timeline.id}">
+    <div class="card moviecard">
+        <div th:if="${timeline.listMovies.size()} != 0">
+            <img class="card-img-top" th:src="${timeline.listMovies.get(0).movie.caseImg}">
+        </div>
+        <div class="card-body nodec">
+            <h5 class="card-title" th:text="${timeline.title}"></h5>
+            <div th:if="${currentUser?.role} == 2">
+                <a class="btn btn-primary" th:href="'/list/' + ${timeline.id} + '/edit'">Edit</a>
+            </div>
+        </div>
+    </div>
+</a>

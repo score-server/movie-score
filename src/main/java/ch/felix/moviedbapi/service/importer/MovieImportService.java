@@ -39,7 +39,7 @@ public class MovieImportService extends ImportService {
     public void filterFile(File movieFile) {
         String filename = movieFile.getName().replace(".mp4", "");
 
-        Movie movie = movieRepository.findMoviesByTitle(getName(filename));
+        Movie movie = movieRepository.findMovieByTitle(getName(filename));
 
         if (movie == null) {
             movie = new Movie();
@@ -79,7 +79,7 @@ public class MovieImportService extends ImportService {
     @Override
     public void filterUpdateFile(File movieFile) {
         String filename = movieFile.getName().replace(".mp4", "");
-        Movie movie = movieRepository.findMoviesByTitle(getName(filename));
+        Movie movie = movieRepository.findMovieByTitle(getName(filename));
 
         SearchMovieService searchMovieService = new SearchMovieService();
         int movieId = searchMovieService.findMovieId(movie.getTitle(), movie.getYear());

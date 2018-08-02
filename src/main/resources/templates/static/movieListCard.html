@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<a th:href="'/movie/' + ${moviePar.movie.id}">
+    <div class="card moviecard">
+        <div>
+            <span class="place-badge" th:text="${moviePar.place}"></span>
+            <span class="quality-badge" th:text="${moviePar.movie.quality}"></span>
+            <img class="card-img-top" th:src="${moviePar.movie.caseImg}">
+        </div>
+        <div class="card-body nodec">
+            <h5 class="card-title" th:text="${moviePar.movie.title}"></h5>
+            <a>
+                <span style="color: #D7D700;" class="fa fa-star checked"></span>
+                <span th:text="${moviePar.movie.voteAverage}"></span>
+            </a>
+            <a class="float-right" th:text="${moviePar.movie.year}"></a>
+        </div>
+    </div>
+</a>
