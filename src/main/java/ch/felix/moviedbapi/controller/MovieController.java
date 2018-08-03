@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.DuplicateService;
 import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.SimilarMovieService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,20 +35,23 @@ public class MovieController {
     private CookieService cookieService;
     private SearchService searchService;
     private SimilarMovieService similarMovieService;
+    private DuplicateService duplicateService;
 
     public MovieController(MovieRepository movieRepository, GenreRepository genreRepository,
                            CookieService cookieService, SearchService searchService,
-                           SimilarMovieService similarMovieService) {
+                           SimilarMovieService similarMovieService, DuplicateService duplicateService) {
         this.movieRepository = movieRepository;
         this.genreRepository = genreRepository;
         this.cookieService = cookieService;
         this.searchService = searchService;
         this.similarMovieService = similarMovieService;
+        this.duplicateService = duplicateService;
     }
 
     @GetMapping
     public String getMovies(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                             @RequestParam(name = "orderBy", required = false, defaultValue = "") String orderBy,
+                            @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                             Model model, HttpServletRequest request) {
         try {
             model.addAttribute("currentUser", cookieService.getCurrentUser(request));
@@ -55,10 +59,20 @@ public class MovieController {
         }
 
         try {
-            model.addAttribute("movies", searchService.searchMovies(search, orderBy));
+
+            List<String> genres = new ArrayList<>();
+            for (Genre genre : genreRepository.findAllByNameContainingOrderByName(search)) {
+                genres.add(genre.getName());
+            }
+            genres = duplicateService.removeStringDuplicates(genres);
+            model.addAttribute("genres", genres);
+
+            model.addAttribute("movies", searchService.searchMovies(search, orderBy, genreParam));
+
 
             model.addAttribute("search", search);
             model.addAttribute("orderBy", orderBy);
+            model.addAttribute("currentGenre", genreParam);
 
             model.addAttribute("page", "movieList");
             return "template";
@@ -70,17 +84,13 @@ public class MovieController {
     @GetMapping("{movieId}")
     public String getOneMovie(@PathVariable("movieId") String movieId, Model model, HttpServletRequest request) {
         try {
-            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
+            User currentUser = cookieService.getCurrentUser(request);
+            model.addAttribute("currentUser", currentUser);
         } catch (NullPointerException e) {
-            return "redirect:/login?redirect=/movie/" + movieId;
         }
 
         Movie movie = movieRepository.findMovieById(Long.valueOf(movieId));
         try {
-            User currentUser = cookieService.getCurrentUser(request);
-            log.info(currentUser.getName() + " request movie " + movie.getId() + ". " + movie.getTitle());
-
-
             model.addAttribute("movie", movie);
             model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
             model.addAttribute("comments", movie.getComments());
@@ -104,4 +114,5 @@ public class MovieController {
         model.addAttribute("movies", movieList);
         return movieList;
     }
+
 }

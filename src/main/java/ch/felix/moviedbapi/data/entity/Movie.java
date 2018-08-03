@@ -31,6 +31,7 @@ public class Movie {
     private String videoPath;
     private String backgroundImg;
     private String caseImg;
+    private String trailerKey;
 
     @Lob
     @Column
@@ -50,6 +51,5 @@ public class Movie {
     private Integer runtime;
     private Double popularity;
     private Double voteAverage;
-
 
 }

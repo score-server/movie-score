@@ -6,9 +6,7 @@ import ch.felix.moviedbapi.data.repository.MovieRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Wetwer
@@ -19,8 +17,11 @@ public class SimilarMovieService {
 
     private MovieRepository movieRepository;
 
-    public SimilarMovieService(MovieRepository movieRepository) {
+    private DuplicateService duplicateService;
+
+    public SimilarMovieService(MovieRepository movieRepository, DuplicateService duplicateService) {
         this.movieRepository = movieRepository;
+        this.duplicateService = duplicateService;
     }
 
     public List<Movie> getSimilarMovies(Movie movie) {
@@ -31,7 +32,7 @@ public class SimilarMovieService {
             if (similarMovie != movie) {
                 if (movies.size() != 3) {
                     movies.add(similarMovie);
-                    movies = removeDuplicates(movies);
+                    movies = duplicateService.removeMovieDuplicates(movies);
                 } else {
                     return movies;
                 }
@@ -44,21 +45,13 @@ public class SimilarMovieService {
                 if (similarMovie != movie) {
                     if (movies.size() != 3) {
                         movies.add(similarMovie);
-                        movies = removeDuplicates(movies);
+                        movies = duplicateService.removeMovieDuplicates(movies);
                     } else {
                         return movies;
                     }
                 }
             }
         }
-        return movies;
-    }
-
-    private List<Movie> removeDuplicates(List<Movie> movies) {
-        Set<Movie> movieSet = new HashSet<>();
-        movieSet.addAll(movies);
-        movies.clear();
-        movies.addAll(movieSet);
         return movies;
     }
 

@@ -9,11 +9,19 @@
 <form action="/" id="search">
     <div class="row">
         <br>
-        <div class="col-8">
+        <div class="col-6">
             <input th:value="${search}" class="form-control" type="text" name="search"
                    placeholder="Search" autocomplete="off">
         </div>
-        <div class="col">
+        <div class="col-3">
+            <select class="form-control" name="genre"
+                    onchange="document.getElementById('search').submit()">
+                <option th:selected="true" value="">All</option>
+                <option th:each="genre : ${genres}" th:selected="${currentGenre} == ${genre}" th:value="${genre}"
+                        th:text="${genre}"></option>
+            </select>
+        </div>
+        <div class="col-3">
             <select class="form-control" name="orderBy"
                     onchange="document.getElementById('search').submit()">
                 <option selected disabled>Order By</option>

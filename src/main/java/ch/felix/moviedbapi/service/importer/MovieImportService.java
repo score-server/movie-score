@@ -64,6 +64,12 @@ public class MovieImportService extends ImportService {
             SearchMovieService searchMovieService = new SearchMovieService();
             int movieId = searchMovieService.findMovieId(movie.getTitle(), movie.getYear());
             MovieJson movieJson = searchMovieService.getMovieInfo(movieId);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            movie.setTrailerKey(searchMovieService.getTrailer(movieId));
 
 
             try {
@@ -92,6 +98,12 @@ public class MovieImportService extends ImportService {
         SearchMovieService searchMovieService = new SearchMovieService();
         int movieId = searchMovieService.findMovieId(movie.getTitle(), movie.getYear());
         MovieJson movieJson = searchMovieService.getMovieInfo(movieId);
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        movie.setTrailerKey(searchMovieService.getTrailer(movieId));
 
         movie.setDescript(movieJson.getOverview());
         movie.setPopularity(movieJson.getPopularity());

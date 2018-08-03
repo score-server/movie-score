@@ -3,14 +3,26 @@
 <script src="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.js"></script>
 
 
-<video id="movie" th:src="'/video/movie/' + ${movie.id}" controls width="100%"></video>
-<br>
+<div th:if="${currentUser} != null">
+    <video id="movie" th:src="'/video/movie/' + ${movie.id}" controls width="100%"></video>
+</div>
+<div th:if="${currentUser} == null">
+    <center>
+        <iframe width="853" height="480" th:src="'https://www.youtube.com/embed/' + ${movie.trailerKey}" frameborder="0"
+                allowfullscreen></iframe>
+        <div class="alert alert-secondary col-3">
+            Login to view full Movie
+        </div>
+    </center>
+</div>
+
 <div class="card card-body">
     <h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'"></h1>
     <p th:text="'Quality: ' + ${movie.quality}"></p>
     <p>Genres:
         <span th:each="genre : ${movie.genres}">
-            <a class="badge" th:text="${genre.name}" style="color: white;"></a>
+            <a class="badge" th:text="${genre.name}" th:href="'/movie?genre=' + ${genre.name}"
+               style="color: white;"></a>
         </span>
     </p>
     <p th:text="'Rating: ' + ${movie.voteAverage}"></p>
@@ -27,13 +39,14 @@
 </ul>
 
 <br>
-
-<form th:action="'/comment/add/movie?userId=' + ${currentUser.id} + '&movieId=' + ${movie.id}" method="post">
-    <textarea name="comment" class="form-control" th:placeholder="'Comment as ' + ${currentUser.name}"
-              required></textarea>
-    <br>
-    <button class="btn btn-primary" type="submit">Save Comment</button>
-</form>
+<div th:if="${currentUser} != null">
+    <form th:action="'/comment/add/movie?userId=' + ${currentUser.id} + '&movieId=' + ${movie.id}" method="post">
+        <textarea name="comment" class="form-control" th:placeholder="'Comment as ' + ${currentUser.name}"
+                  required></textarea>
+        <br>
+        <button class="btn btn-primary" type="submit">Save Comment</button>
+    </form>
+</div>
 <div th:if="${similar.size()} != 0">
     <br>
     <div class="card">
