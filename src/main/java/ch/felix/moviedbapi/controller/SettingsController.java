@@ -4,6 +4,7 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.SettingsService;
+import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,21 +22,17 @@ public class SettingsController {
 
     private SettingsService settingsService;
     private CookieService cookieService;
+    private UserIndicatorService userIndicatorService;
 
-    public SettingsController(SettingsService settingsService, CookieService cookieService) {
+    public SettingsController(SettingsService settingsService, CookieService cookieService, UserIndicatorService userIndicatorService) {
         this.settingsService = settingsService;
         this.cookieService = cookieService;
+        this.userIndicatorService = userIndicatorService;
     }
 
     @GetMapping
     private String getSettings(Model model, HttpServletRequest request) {
-        try {
-            User user = cookieService.getCurrentUser(request);
-            model.addAttribute("currentUser", user);
-            if (user.getRole() != 2) {
-                return "redirect:/";
-            }
-        } catch (NullPointerException e) {
+        if (userIndicatorService.disallowUserAccess(model, request)) {
             return "redirect:/";
         }
 

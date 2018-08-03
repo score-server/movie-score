@@ -4,6 +4,7 @@ import ch.felix.moviedbapi.data.entity.Blog;
 import ch.felix.moviedbapi.data.repository.BlogRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,20 +24,17 @@ public class BlogController {
     private BlogRepository blogRepository;
     private UserRepository userRepository;
 
-    private CookieService cookieService;
+    private UserIndicatorService userIndicatorService;
 
-    public BlogController(CookieService cookieService, BlogRepository blogRepository, UserRepository userRepository) {
-        this.cookieService = cookieService;
+    public BlogController(BlogRepository blogRepository, UserRepository userRepository, UserIndicatorService userIndicatorService) {
         this.blogRepository = blogRepository;
         this.userRepository = userRepository;
+        this.userIndicatorService = userIndicatorService;
     }
 
     @GetMapping
     public String getBlogList(Model model, HttpServletRequest request) {
-        try {
-            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
-        } catch (NullPointerException e) {
-        }
+        userIndicatorService.allowGuestAccess(model, request);
 
         model.addAttribute("blogs", blogRepository.findBlogsByOrderByTimestampDesc());
         model.addAttribute("page", "blog");
@@ -45,9 +43,8 @@ public class BlogController {
 
     @GetMapping("new")
     public String getBlogForm(Model model, HttpServletRequest request) {
-        try {
-            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
-        } catch (NullPointerException e) {
+        if (userIndicatorService.disallowUserAccess(model, request)) {
+            return "redirect:/blog";
         }
 
         model.addAttribute("page", "createBlog");
@@ -59,9 +56,8 @@ public class BlogController {
     public String saveNewPost(@PathVariable("userId") String userId,
                               @RequestParam("title") String title,
                               @RequestParam("text") String text, Model model, HttpServletRequest request) {
-        try {
-            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
-        } catch (NullPointerException e) {
+        if (userIndicatorService.disallowUserAccess(model, request)) {
+            return "redirect:/blog";
         }
 
         Blog blog = new Blog();

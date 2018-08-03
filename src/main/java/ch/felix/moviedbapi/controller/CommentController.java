@@ -5,11 +5,12 @@ import ch.felix.moviedbapi.data.repository.CommentRepository;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
-import ch.felix.moviedbapi.service.CookieService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
+import ch.felix.moviedbapi.model.UserIndicator;
+import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,36 +26,35 @@ public class CommentController {
 
     private MovieRepository movieRepository;
     private EpisodeRepository episodeRepository;
-    private UserRepository userRepository;
     private CommentRepository commentRepository;
 
-    private CookieService cookieService;
-
+    private UserIndicatorService userIndicatorService;
 
     public CommentController(MovieRepository movieRepository, EpisodeRepository episodeRepository,
-                             UserRepository userRepository, CommentRepository commentRepository,
-                             CookieService cookieService) {
+                             CommentRepository commentRepository, UserIndicatorService userIndicatorService) {
         this.movieRepository = movieRepository;
         this.episodeRepository = episodeRepository;
-        this.userRepository = userRepository;
         this.commentRepository = commentRepository;
-        this.cookieService = cookieService;
+        this.userIndicatorService = userIndicatorService;
     }
 
     @PostMapping("add/movie")
-    public String addCommentForMovie(@RequestParam("userId") String userId,
-                                     @RequestParam("movieId") String movieId,
-                                     @RequestParam("comment") String commentParam) {
+    public String addCommentForMovie(@RequestParam("movieId") String movieId,
+                                     @RequestParam("comment") String commentParam, HttpServletRequest request) {
         try {
-            Comment comment = new Comment();
-            comment.setUser(userRepository.findUserById(Long.valueOf(userId)));
-            comment.setMovie(movieRepository.findMovieById(Long.valueOf(movieId)));
-            comment.setComment(commentParam);
-            commentRepository.save(comment);
+            UserIndicator userIndicator = userIndicatorService.getUser(request);
+
+            if (userIndicator.isLoggedIn()) {
+                Comment comment = new Comment();
+                comment.setUser(userIndicator.getUser());
+                comment.setMovie(movieRepository.findMovieById(Long.valueOf(movieId)));
+                comment.setComment(commentParam);
+                commentRepository.save(comment);
+            }
             return "redirect:/movie/" + movieId;
         } catch (ConstraintViolationException e) {
             e.printStackTrace();
-            return "redirect:/movie/" + movieId + "?error=Could Not Comment";
+            return "redirect:/movie/" + movieId + "?error";
         }
     }
 
@@ -62,15 +62,19 @@ public class CommentController {
     public String addCommentForEpisode(@RequestParam("episodeId") String episodeId,
                                        @RequestParam("comment") String commentParam, HttpServletRequest request) {
         try {
-            Comment comment = new Comment();
-            comment.setUser(cookieService.getCurrentUser(request));
-            comment.setEpisode(episodeRepository.findEpisodeById(Long.valueOf(episodeId)));
-            comment.setComment(commentParam);
-            commentRepository.save(comment);
+            UserIndicator userIndicator = userIndicatorService.getUser(request);
+
+            if (userIndicator.isLoggedIn()) {
+                Comment comment = new Comment();
+                comment.setUser(userIndicator.getUser());
+                comment.setEpisode(episodeRepository.findEpisodeById(Long.valueOf(episodeId)));
+                comment.setComment(commentParam);
+                commentRepository.save(comment);
+            }
             return "redirect:/episode/" + episodeId;
         } catch (ConstraintViolationException e) {
             e.printStackTrace();
-            return "redirect:/episode/" + episodeId + "?error=Could Not Comment";
+            return "redirect:/episode/" + episodeId + "?error";
         }
 
     }

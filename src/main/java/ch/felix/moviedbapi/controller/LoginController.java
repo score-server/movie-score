@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,19 +26,19 @@ public class LoginController {
 
     private CookieService cookieService;
     private ShaService shaService;
+    private UserIndicatorService userIndicatorService;
 
-    public LoginController(UserRepository userRepository, CookieService cookieService, ShaService shaService) {
+    public LoginController(UserRepository userRepository, CookieService cookieService, ShaService shaService, UserIndicatorService userIndicatorService) {
         this.userRepository = userRepository;
         this.cookieService = cookieService;
         this.shaService = shaService;
+        this.userIndicatorService = userIndicatorService;
     }
 
     @GetMapping
     public String getLogin(Model model, HttpServletRequest request) {
-        try {
-            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
-        } catch (NullPointerException e) {
-        }
+        userIndicatorService.allowGuestAccess(model, request);
+
         model.addAttribute("page", "login");
         return "template";
     }
