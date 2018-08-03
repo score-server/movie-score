@@ -6,6 +6,12 @@
 <div class="card card-body">
     <h1 th:text="${episode.season.serie.title} + ' Season ' + ${episode.season.season} +  ' Episode ' + ${episode.episode}"></h1>
     <p th:text="'Quality: ' + ${episode.quality}"></p>
+    <p>Genres:
+        <span th:each="genre : ${episode.season.serie.genres}">
+            <a class="badge" th:text="${genre.name}" th:href="'/serie?genre=' + ${genre.name}"
+               style="color: white;"></a>
+        </span>
+    </p>
 </div>
 <br>
 <ul class="list-group">
@@ -31,7 +37,8 @@
         'movie',
         {
             layoutControls: {
-                autoPlay: true,
+                primaryColor: "#3299FF",
+                posterImage: [[${episode.season.serie.backgroundImg}]],
                 playButtonShowing: true,
                 playPauseAnimation: true,
                 mute: false,
