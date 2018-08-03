@@ -24,7 +24,7 @@
     </div>
 </div>
 <div th:if="${currentUser?.name} == ${timeline.user.name} OR ${currentUser?.role} == 2">
-    <a th:href="'/list/' + ${timeline.id} + '/edit'" class="btn btn-primary">Edit</a>
+    <a th:href="'/timeline/edit/' + ${timeline.id} " class="btn btn-primary">Edit</a>
     <br><br>
 </div>
 <a href="/list" class="btn btn-primary">Back</a>

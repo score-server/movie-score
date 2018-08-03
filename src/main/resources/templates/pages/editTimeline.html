@@ -1,4 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<style>
+    body {
+        background: url("https://i.imgur.com/qV8wWKL.jpg") no-repeat fixed;
+        background-size: 100%;
+    }
+</style>
+
 <h1>Edit List</h1>
 <div class="card card-body">
     <table class="table">
@@ -13,14 +20,14 @@
             <td th:text="${moviePar.movie.title}"></td>
             <td th:text="${moviePar.movie.year}"></td>
             <td>
-                <form th:action="'/list/delete/movie/' + ${moviePar.id}" class="float-right" method="post">
+                <form th:action="'/timeline/delete/movie/' + ${moviePar.id}" class="float-right" method="post">
                     <button type="submit" class="btn btn-danger">
                         <i class="fas fa-times"></i>
                     </button>
                 </form>
             </td>
         </tr>
-        <form th:action="'/list/' + ${timeline.id} + '/edit'" method="post">
+        <form th:action="'/timeline/edit/' + ${timeline.id}" method="post">
             <tr>
                 <td>
                     <input class="form-control" type="number" name="place" required/>
@@ -39,4 +46,5 @@
         </form>
     </table>
 </div>
-<a th:href="'/list/' + ${timeline.id}">Back</a>
+<br>
+<a class="btn btn-primary" th:href="'/list/' + ${timeline.id}">Back</a>

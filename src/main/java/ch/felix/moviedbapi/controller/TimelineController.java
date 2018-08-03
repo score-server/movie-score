@@ -13,12 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * @author Wetwer
- * @project movie-db
- */
 @Controller
-@RequestMapping("list")
+@RequestMapping("timeline")
 public class TimelineController {
 
     private TimelineRepository timelineRepository;
@@ -35,37 +31,7 @@ public class TimelineController {
         this.cookieService = cookieService;
     }
 
-    @GetMapping
-    public String getTimelines(@RequestParam(name = "search", required = false, defaultValue = "") String search,
-                               Model model, HttpServletRequest request) {
-        try {
-            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
-        } catch (NullPointerException e) {
-        }
-
-        model.addAttribute("timelines", timelineRepository.findTimelinesByTitleContaining(search));
-
-        model.addAttribute("search", search);
-
-        model.addAttribute("page", "timelineList");
-        return "template";
-    }
-
-    @GetMapping("{timelineId}")
-    public String getOneTimeLine(@PathVariable("timelineId") String timeLineId,
-                                 Model model, HttpServletRequest request) {
-        try {
-            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
-        } catch (NullPointerException e) {
-        }
-
-        model.addAttribute("timeline", timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
-
-        model.addAttribute("page", "timeline");
-        return "template";
-    }
-
-    @GetMapping("{timelineId}/edit")
+    @GetMapping("edit/{timelineId}")
     public String editTimeline(@PathVariable("timelineId") String timeLineId,
                                Model model, HttpServletRequest request) {
         try {
@@ -83,13 +49,14 @@ public class TimelineController {
         if (currentUser == timeline.getUser() || currentUser.getRole() == 2) {
             model.addAttribute("timeline", timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
             model.addAttribute("movies", movieRepository.findMoviesByTitleContainingOrderByTitle(""));
+
             model.addAttribute("page", "editTimeline");
             return "template";
         }
         return "redirect:/list/" + timeLineId;
     }
 
-    @PostMapping("{timelineId}/edit")
+    @PostMapping("edit/{timelineId}")
     public String saveNewMovie(@PathVariable("timelineId") String timeLineId,
                                @RequestParam("place") String place,
                                @RequestParam("movie") String movieId,
@@ -110,7 +77,7 @@ public class TimelineController {
             listMovie.setTimeline(timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
             listMovieRepository.save(listMovie);
         }
-        return "redirect:/list/" + timeLineId + "/edit";
+        return "redirect:/timeline/edit/" + timeLineId;
     }
 
     @PostMapping("delete/movie/{movieParId}")
@@ -128,7 +95,7 @@ public class TimelineController {
         if (currentUser == timeline.getUser() || currentUser.getRole() == 2) {
             ListMovie listMovie = listMovieRepository.findListMovieById(Long.valueOf(movieParId));
             listMovieRepository.delete(listMovie);
-            return "redirect:/list/" + listMovie.getTimeline().getId() + "/edit";
+            return "redirect:/timeline/edit/" + listMovie.getTimeline().getId();
         }
         return "redirect:/list";
     }

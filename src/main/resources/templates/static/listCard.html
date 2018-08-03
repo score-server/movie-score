@@ -12,7 +12,7 @@
                 <a th:text="${timeline.user.name}" th:href="'/user/' + ${timeline.user.id}"></a>
             </small>
             <a th:if="${currentUser?.role} == 2" class="btn btn-primary float-right"
-               th:href="'/list/' + ${timeline.id} + '/edit'">Edit</a>
+               th:href="'/timeline/edit/' + ${timeline.id} ">Edit</a>
         </div>
     </div>
 </a>
