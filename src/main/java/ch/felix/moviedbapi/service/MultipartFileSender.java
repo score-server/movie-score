@@ -1,7 +1,8 @@
 package ch.felix.moviedbapi.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,6 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,17 +19,18 @@ import java.util.List;
  * Created by kevin on 10/02/15.
  * See full code here : https://github.com/davinkevin/Podcast-Server/blob/d927d9b8cb9ea1268af74316cd20b7192ca92da7/src/main/java/lan/dk/podcastserver/utils/multipart/MultipartFileSender.java
  */
-public class MultipartFileSender {
 
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+@Slf4j
+@Service
+public class MultipartFileSender {
 
     private static final int DEFAULT_BUFFER_SIZE = 20480; // ..bytes = 20KB.
     private static final long DEFAULT_EXPIRE_TIME = 604800000L; // ..ms = 1 week.
     private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
 
-    Path filepath;
-    HttpServletRequest request;
-    HttpServletResponse response;
+    private Path filepath;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
 
     public MultipartFileSender() {
     }
@@ -38,15 +39,6 @@ public class MultipartFileSender {
         return new MultipartFileSender().setFilepath(path);
     }
 
-    public static MultipartFileSender fromFile(File file) {
-        return new MultipartFileSender().setFilepath(file.toPath());
-    }
-
-    public static MultipartFileSender fromURIString(String uri) {
-        return new MultipartFileSender().setFilepath(Paths.get(uri));
-    }
-
-    //** internal setter **//
     private MultipartFileSender setFilepath(Path filepath) {
         this.filepath = filepath;
         return this;
@@ -68,7 +60,7 @@ public class MultipartFileSender {
         }
 
         if (!Files.exists(filepath)) {
-            logger.error("File doesn't exist at URI : {}", filepath.toAbsolutePath().toString());
+            log.error("File doesn't exist at URI : {}", filepath.toAbsolutePath().toString());
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
@@ -200,14 +192,14 @@ public class MultipartFileSender {
         }
 
         disposition = "attachment";
-        logger.debug("Content-Type : {}", contentType);
+        log.debug("Content-Type : {}", contentType);
         // Initialize response.
         response.reset();
         response.setBufferSize(DEFAULT_BUFFER_SIZE);
         response.setHeader("Content-Type", contentType);
         response.setHeader("Content-Disposition", disposition + ";filename=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
-        logger.info(disposition);
-        logger.debug("Content-Disposition : {}", disposition);
+        log.info(disposition);
+        log.debug("Content-Disposition : {}", disposition);
         response.setHeader("Accept-Ranges", "bytes");
         response.setHeader("ETag", fileName);
         response.setDateHeader("Last-Modified", lastModified);
@@ -222,17 +214,15 @@ public class MultipartFileSender {
             if (ranges.isEmpty() || ranges.get(0) == full) {
 
                 // Return full file.
-                logger.info("Return full file");
+                log.info("Return full file");
                 response.setContentType(contentType);
                 response.setHeader("Content-Range", "bytes " + full.start + "-" + full.end + "/" + full.total);
                 response.setHeader("Content-Length", String.valueOf(full.length));
                 Range.copy(input, output, length, full.start, full.length);
 
             } else if (ranges.size() == 1) {
-
-                // Return single part of file.
                 Range r = ranges.get(0);
-                logger.info("Return 1 part of file : from ({}) to ({})", r.start, r.end);
+                log.info("Return 1 part of file : from ({}) to ({}) > total ({})", r.start, r.end, r.end - r.start);
                 response.setContentType(contentType);
                 response.setHeader("Content-Range", "bytes " + r.start + "-" + r.end + "/" + r.total);
                 response.setHeader("Content-Length", String.valueOf(r.length));
@@ -252,7 +242,7 @@ public class MultipartFileSender {
 
                 // Copy multi part range.
                 for (Range r : ranges) {
-                    logger.info("Return multi part of file : from ({}) to ({})", r.start, r.end);
+                    log.info("Return multi part of file : from ({}) to ({})", r.start, r.end);
                     // Add multipart boundary and header fields for every range.
                     sos.println();
                     sos.println("--" + MULTIPART_BOUNDARY);
@@ -331,7 +321,6 @@ public class MultipartFileSender {
          *
          * @param acceptHeader The accept header.
          * @param toAccept     The value to be accepted.
-         *
          * @return True if the given accept header accepts the given value.
          */
         public static boolean accepts(String acceptHeader, String toAccept) {
@@ -348,7 +337,6 @@ public class MultipartFileSender {
          *
          * @param matchHeader The match header.
          * @param toMatch     The value to be matched.
-         *
          * @return True if the given match header matches the given value.
          */
         public static boolean matches(String matchHeader, String toMatch) {

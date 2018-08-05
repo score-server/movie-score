@@ -52,7 +52,7 @@
     <div class="card">
         <div class="card-header">Similar Movies</div>
         <div class="row card-body">
-            <div th:each="movie : ${similar}" class="col-sm-4" style="margin-bottom: 20px">
+            <div th:each="movie : ${similar}" class="col-sm-3" style="margin-bottom: 20px">
                 <div th:include="'static/movieCard.html'"></div>
             </div>
         </div>
@@ -71,7 +71,7 @@
                 playPauseAnimation: true,
                 mute: false,
                 allowDownload: false,
-                allowTheatre: false,
+                allowTheatre: true,
                 playbackRateEnabled: false,
                 controlBar: {
                     autoHide: true,

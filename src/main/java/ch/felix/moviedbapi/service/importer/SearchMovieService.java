@@ -46,9 +46,13 @@ public class SearchMovieService {
     }
 
     public String getTrailer(int movieId) {
-        return new Gson().fromJson(new WebHandler("https://api.themoviedb.org/3/movie/" + String.valueOf(movieId)
-                + "/videos?api_key=" + API_KEY + "&language=en-US").getContent(), TrailerResult.class)
-                .getTrailers().get(0).getKey();
+        try {
+            return new Gson().fromJson(new WebHandler("https://api.themoviedb.org/3/movie/" + String.valueOf(movieId)
+                    + "/videos?api_key=" + API_KEY + "&language=en-US").getContent(), TrailerResult.class)
+                    .getTrailers().get(0).getKey();
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            return "mvM2eyk1frk";
+        }
     }
 
     public MovieJson getMovieInfo(int id) {
