@@ -30,7 +30,7 @@
         <form th:action="'/timeline/edit/' + ${timeline.id}" method="post">
             <tr>
                 <td>
-                    <input class="form-control" type="number" name="place" required/>
+                    <input th:value="${nextPlace}" class="form-control" type="number" name="place" required/>
                 </td>
                 <td colspan="2">
                     <select class="form-control" name="movie" required>
@@ -45,6 +45,10 @@
             </tr>
         </form>
     </table>
+    <br>
+    <form class="form" th:action="'/timeline/delete/' + ${timeline.id}" method="post">
+        <button class="btn btn-danger">Delete</button>
+    </form>
 </div>
 <br>
 <a class="btn btn-primary" th:href="'/list/' + ${timeline.id}">Back</a>

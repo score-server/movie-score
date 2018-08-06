@@ -15,7 +15,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.2.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <properties>
@@ -75,31 +75,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
-
     </dependencies>
-
-
-    <!--<profiles>-->
-        <!--<profile>-->
-            <!--<id>work</id>-->
-            <!--<properties>-->
-                <!--<moviedb.profile>work</moviedb.profile>-->
-            <!--</properties>-->
-        <!--</profile>-->
-        <!--<profile>-->
-            <!--<id>home</id>-->
-            <!--<properties>-->
-                <!--<moviedb.profile>home</moviedb.profile>-->
-            <!--</properties>-->
-        <!--</profile>-->
-        <!--<profile>-->
-            <!--<id>tim</id>-->
-            <!--<properties>-->
-                <!--<moviedb.profile>tim</moviedb.profile>-->
-            <!--</properties>-->
-        <!--</profile>-->
-    <!--</profiles>-->
-
 
     <build>
         <plugins>

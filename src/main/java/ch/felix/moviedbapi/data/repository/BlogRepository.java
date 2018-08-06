@@ -15,4 +15,5 @@ public interface BlogRepository extends JpaRepository<Blog, Long> {
 
     List<Blog> findBlogsByOrderByTimestampDesc();
 
+    Blog findBlogById(Long id);
 }

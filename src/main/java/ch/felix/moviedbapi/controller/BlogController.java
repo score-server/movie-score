@@ -69,4 +69,16 @@ public class BlogController {
 
         return "redirect:/blog?new";
     }
+
+    @PostMapping("{blogId}/delete")
+    public String deleteBlog(@PathVariable("blogId") String blogId,
+                             Model model, HttpServletRequest request) {
+        if (userIndicatorService.disallowUserAccess(model, request)) {
+            return "redirect:/blog?notdeleted";
+        }
+
+        blogRepository.delete(blogRepository.findBlogById(Long.valueOf(blogId)));
+
+        return "redirect:/blog?deleted";
+    }
 }

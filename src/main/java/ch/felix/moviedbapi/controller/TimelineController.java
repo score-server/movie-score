@@ -7,6 +7,7 @@ import ch.felix.moviedbapi.data.repository.ListMovieRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.TimelineRepository;
 import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,15 @@ public class TimelineController {
     private ListMovieRepository listMovieRepository;
 
     private CookieService cookieService;
+    private UserIndicatorService userIndicatorService;
 
     public TimelineController(TimelineRepository timelineRepository, MovieRepository movieRepository,
-                              ListMovieRepository listMovieRepository, CookieService cookieService) {
+                              ListMovieRepository listMovieRepository, CookieService cookieService, UserIndicatorService userIndicatorService) {
         this.timelineRepository = timelineRepository;
         this.movieRepository = movieRepository;
         this.listMovieRepository = listMovieRepository;
         this.cookieService = cookieService;
+        this.userIndicatorService = userIndicatorService;
     }
 
     @GetMapping("edit/{timelineId}")
@@ -47,8 +50,15 @@ public class TimelineController {
 
 
         if (currentUser == timeline.getUser() || currentUser.getRole() == 2) {
-            model.addAttribute("timeline", timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
+            Timeline timeLine = timelineRepository.findTimelineById(Long.valueOf(timeLineId));
+            model.addAttribute("timeline", timeLine);
             model.addAttribute("movies", movieRepository.findMoviesByTitleContainingOrderByTitle(""));
+            try {
+                model.addAttribute("nextPlace",
+                        timeLine.getListMovies().get(timeLine.getListMovies().size() - 1).getPlace() + 1);
+            } catch (NullPointerException | IndexOutOfBoundsException e) {
+                model.addAttribute("nextPlace", 1);
+            }
 
             model.addAttribute("page", "editTimeline");
             return "template";
@@ -118,13 +128,9 @@ public class TimelineController {
     @PostMapping("new")
     public String createList(@RequestParam("title") String title,
                              @RequestParam("description") String description,
-                             HttpServletRequest request) {
-        try {
-            if (cookieService.getCurrentUser(request).getRole() != 2) {
-                return "redirect:/list";
-            }
-        } catch (NullPointerException e) {
-            return "redirect:/login?redirect";
+                             Model model, HttpServletRequest request) {
+        if (userIndicatorService.disallowUserAccess(model, request)) {
+            return "redirect:/list";
         }
 
         Timeline timeline = new Timeline();
@@ -134,6 +140,16 @@ public class TimelineController {
         timelineRepository.save(timeline);
 
         return "redirect:/list";
+    }
+
+    @PostMapping("delete/{timelineId}")
+    public String deleteTimeline(@PathVariable("timelineId") String timeLineId,
+                                 Model model, HttpServletRequest request) {
+        if (userIndicatorService.disallowUserAccess(model, request)) {
+            return "redirect:/list/" + timeLineId + "?notdeleted";
+        }
+        timelineRepository.delete(timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
+        return "redirect:/list?deleted";
     }
 
 }

@@ -29,11 +29,6 @@ public class CookieService {
         response.addCookie(userCookie);
     }
 
-    /**
-     * Returns Current User
-     * <p>
-     * Wenn cookie user heisst und der Wert nicht null ist gebe den username zurück
-     */
     public User getCurrentUser(HttpServletRequest request) throws NullPointerException {
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("session")) {

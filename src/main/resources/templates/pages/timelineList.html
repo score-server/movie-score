@@ -1,6 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
 <h1>Movie Lists</h1>
+
+<div th:if="${param.deleted}" class="alert alert-success">
+    List deleted
+</div>
+
 <br>
 <div th:if="${currentUser?.role} == 2">
     <a href="/timeline/new" class="btn btn-primary">Create new List</a>

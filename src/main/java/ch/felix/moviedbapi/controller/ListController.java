@@ -1,7 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.repository.TimelineRepository;
-import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,11 +1,16 @@
 package ch.felix.moviedbapi.service;
 
+import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.model.UserIndicator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Service
 public class UserIndicatorService {
 
@@ -51,6 +56,18 @@ public class UserIndicatorService {
         if (userIndicator.isLoggedIn()) {
             model.addAttribute("currentUser", userIndicator.getUser());
             if (userIndicator.getUser().getRole() == 2) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean disallowOtherUserAccess(Model model, HttpServletRequest request, User user) {
+        UserIndicator userIndicator = getUser(request);
+
+        if (userIndicator.isLoggedIn()) {
+            model.addAttribute("currentUser", userIndicator.getUser());
+            if (userIndicator.getUser() == user) {
                 return false;
             }
         }

@@ -1,6 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
 <h1 th:text="'List ' + ${timeline.title}"></h1>
+
+<div th:if="${param.notdeleted}" class="alert alert-danger">
+    List not deleted
+</div>
+
 <br>
 <div class="card card-body">
     <a th:utext="${timeline.description}"></a>
@@ -24,7 +29,13 @@
     </div>
 </div>
 <div th:if="${currentUser?.name} == ${timeline.user.name} OR ${currentUser?.role} == 2">
-    <a th:href="'/timeline/edit/' + ${timeline.id} " class="btn btn-primary">Edit</a>
+    <div>
+        <a th:href="'/timeline/edit/' + ${timeline.id} " class="btn btn-primary">Edit</a>
+        <br>
+        <form class="form" th:action="'/timeline/delete/' + ${timeline.id}" method="post">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
     <br><br>
 </div>
 <a href="/list" class="btn btn-primary">Back</a>
