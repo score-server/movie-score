@@ -32,10 +32,11 @@
     <div>
         <a th:href="'/timeline/edit/' + ${timeline.id} " class="btn btn-primary">Edit</a>
         <br>
+        <br>
         <form class="form" th:action="'/timeline/delete/' + ${timeline.id}" method="post">
             <button type="submit" class="btn btn-danger">Delete</button>
         </form>
     </div>
-    <br><br>
+    <br>
 </div>
 <a href="/list" class="btn btn-primary">Back</a>

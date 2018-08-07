@@ -65,7 +65,6 @@ public class SearchService {
 
     public List<Movie> searchMoviesTop(String search, String orderBy, String genreParam) {
         List<Movie> movies;
-        List<Movie> movies2 = new ArrayList<>();
 
         switch (orderBy) {
             case "":
@@ -81,19 +80,7 @@ public class SearchService {
                 movies = movieRepository.findTop25ByTitleContainingOrderByTitle(search);
                 break;
         }
-
-        if (genreParam.equals("")) {
-            return movies;
-        } else {
-            for (Movie movie : movies) {
-                for (Genre genre : movie.getGenres()) {
-                    if (genre.getName().equals(genreParam)) {
-                        movies2.add(movie);
-                    }
-                }
-            }
-        }
-        return movies2;
+        return movies;
     }
 
     public List<Serie> searchSerie(String search) {
@@ -124,20 +111,7 @@ public class SearchService {
 
     public List<Serie> searchSerieTop(String search, String genreParam) {
         List<Serie> series = serieRepository.findTop25ByTitleContainingOrderByTitle(search);
-        List<Serie> series2 = new ArrayList<>();
-
-        if (genreParam.equals("")) {
-            return series;
-        } else {
-            for (Serie serie : series) {
-                for (Genre genre : serie.getGenres()) {
-                    if (genre.getName().equals(genreParam)) {
-                        series2.add(serie);
-                    }
-                }
-            }
-        }
-        return series2;
+        return series;
     }
 
 

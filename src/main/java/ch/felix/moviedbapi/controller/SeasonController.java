@@ -2,7 +2,6 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Season;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
-import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +30,7 @@ public class SeasonController {
 
     @GetMapping(value = "/{seasonId}", produces = "application/json")
     public String getOneSeason(@PathVariable("seasonId") String seasonParam, Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuestAccess(model, request);
+        userIndicatorService.allowGuest(model, request);
 
         Season season = seasonRepository.findSeasonById(Long.valueOf(seasonParam));
 

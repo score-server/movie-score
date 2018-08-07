@@ -1,14 +1,12 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Request;
-import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
-import ch.felix.moviedbapi.service.CookieService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
 
+import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,80 +28,73 @@ public class RequestController {
     private RequestRepository requestRepository;
     private UserRepository userRepository;
 
-    private CookieService cookieService;
+    private UserIndicatorService userIndicatorService;
 
     public RequestController(RequestRepository requestRepository, UserRepository userRepository,
-                             CookieService cookieService) {
+                             UserIndicatorService userIndicatorService) {
         this.requestRepository = requestRepository;
         this.userRepository = userRepository;
-        this.cookieService = cookieService;
+        this.userIndicatorService = userIndicatorService;
     }
 
     @GetMapping(produces = "application/json")
     public String getRequestList(Model model, HttpServletRequest request) {
-        try {
-            User user = cookieService.getCurrentUser(request);
-            model.addAttribute("currentUser", user);
-            if (user.getRole() != 2) {
-                return "redirect:/";
-            }
-        } catch (NullPointerException e) {
+        if (userIndicatorService.isAdministrator(model, request)) {
+            model.addAttribute("requests", requestRepository.findAll());
+            model.addAttribute("page", "requestList");
+            return "template";
+        } else {
             return "redirect:/";
         }
-        model.addAttribute("requests", requestRepository.findAll());
-        model.addAttribute("page", "requestList");
-        return "template";
     }
 
     @GetMapping(value = "create", produces = "application/json")
     public String getCreateForm(Model model, HttpServletRequest request) {
-        try {
-            model.addAttribute("currentUser", cookieService.getCurrentUser(request));
-        } catch (NullPointerException e) {
+        if (userIndicatorService.isUser(model, request)) {
+            model.addAttribute("page", "createRequest");
+            return "template";
+        } else {
             return "redirect:/login?redirect=/request/create";
         }
-        model.addAttribute("page", "createRequest");
-        return "template";
+
     }
 
     @PostMapping("create/{userId}")
-    public String createRequest(@PathVariable("userId") String userId, @RequestParam("request") String requestParam) {
-        try {
-            Request request = new Request();
-            request.setRequest(requestParam);
-            request.setUser(userRepository.findUserById(Long.valueOf(userId)));
-            request.setActive("1");
-            requestRepository.save(request);
+    public String createRequest(@PathVariable("userId") String userId, @RequestParam("request") String requestParam,
+                                HttpServletRequest request) {
+        if (userIndicatorService.isUser(request)) {
+            Request movieRequest = new Request();
+            movieRequest.setRequest(requestParam);
+            movieRequest.setUser(userRepository.findUserById(Long.valueOf(userId)));
+            movieRequest.setActive("1");
+            requestRepository.save(movieRequest);
             log.info("Saved Request - " + requestParam);
             return "redirect:/user/" + userId + "?request";
-        } catch (NullPointerException | ConstraintViolationException e) {
+        } else {
             return "redirect:/user/" + userId;
         }
-
     }
 
     @PostMapping("{requestId}/close")
-    public String closeRequest(@PathVariable("requestId") String requestParam) {
-        try {
-            Request request = requestRepository.findRequestById(Long.valueOf(requestParam));
-            request.setActive("0");
-            requestRepository.save(request);
-            return "redirect:/request";//Added
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+    public String closeRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
+        if (userIndicatorService.isAdministrator(request)) {
+            Request movieRequest = requestRepository.findRequestById(Long.valueOf(requestParam));
+            movieRequest.setActive("0");
+            requestRepository.save(movieRequest);
             return "redirect:/request";
+        } else {
+            return "redirect:/request?error";
         }
     }
 
     @PostMapping("{requestId}/open")
-    public String openRequest(@PathVariable("requestId") String requestParam) {
-        try {
-            Request request = requestRepository.findRequestById(Long.valueOf(requestParam));
-            request.setActive("1");
-            requestRepository.save(request);
-            return "redirect:/request";//Added
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+    public String openRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
+        if (userIndicatorService.isAdministrator(request)) {
+            Request movieRequest = requestRepository.findRequestById(Long.valueOf(requestParam));
+            movieRequest.setActive("1");
+            requestRepository.save(movieRequest);
+            return "redirect:/request";
+        } else {
             return "redirect:/request";
         }
     }

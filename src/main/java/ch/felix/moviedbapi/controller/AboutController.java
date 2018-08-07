@@ -2,7 +2,6 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
-import ch.felix.moviedbapi.model.UserIndicator;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +32,7 @@ public class AboutController {
 
     @GetMapping
     public String getAboutPage(Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuestAccess(model, request);
+        userIndicatorService.allowGuest(model, request);
 
         model.addAttribute("episodes", episodeRepository.findAll().size());
         model.addAttribute("movies", movieRepository.findAll().size());

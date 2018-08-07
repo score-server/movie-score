@@ -1,8 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
-import ch.felix.moviedbapi.model.UserIndicator;
-import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,14 +29,14 @@ public class EpisodeController {
 
     @GetMapping(value = "/{episodeId}", produces = "application/json")
     public String getOneEpisode(@PathVariable("episodeId") String episodeId, Model model, HttpServletRequest request) {
-        if (userIndicatorService.disallowGuestAccess(model, request)) {
+        if (userIndicatorService.isUser(model, request)) {
+            model.addAttribute("episode", episodeRepository.findEpisodeById(Long.valueOf(episodeId)));
+            model.addAttribute("comments", episodeRepository.findEpisodeById(Long.valueOf(episodeId)).getComments());
+            model.addAttribute("page", "episode");
+            return "template";
+        } else {
             return "redirect:/login?redirect=/episode/" + episodeId;
         }
-
-        model.addAttribute("episode", episodeRepository.findEpisodeById(Long.valueOf(episodeId)));
-        model.addAttribute("comments", episodeRepository.findEpisodeById(Long.valueOf(episodeId)).getComments());
-        model.addAttribute("page", "episode");
-        return "template";
     }
 
 }

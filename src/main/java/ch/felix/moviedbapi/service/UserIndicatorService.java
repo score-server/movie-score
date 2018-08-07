@@ -31,7 +31,7 @@ public class UserIndicatorService {
         return userIndicator;
     }
 
-    public void allowGuestAccess(Model model, HttpServletRequest request) {
+    public void allowGuest(Model model, HttpServletRequest request) {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
@@ -39,38 +39,70 @@ public class UserIndicatorService {
         }
     }
 
-    public boolean disallowGuestAccess(Model model, HttpServletRequest request) {
+    public boolean isUser(Model model, HttpServletRequest request) {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
             model.addAttribute("currentUser", userIndicator.getUser());
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
-    public boolean disallowUserAccess(Model model, HttpServletRequest request) {
+    public boolean isUser(HttpServletRequest request) {
+        UserIndicator userIndicator = getUser(request);
+
+        if (userIndicator.isLoggedIn()) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean isAdministrator(Model model, HttpServletRequest request) {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
             model.addAttribute("currentUser", userIndicator.getUser());
             if (userIndicator.getUser().getRole() == 2) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
-    public boolean disallowOtherUserAccess(Model model, HttpServletRequest request, User user) {
+    public boolean isAdministrator(HttpServletRequest request) {
+        UserIndicator userIndicator = getUser(request);
+
+        if (userIndicator.isLoggedIn()) {
+            if (userIndicator.getUser().getRole() == 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isCurrentUser(Model model, HttpServletRequest request, User user) {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
             model.addAttribute("currentUser", userIndicator.getUser());
             if (userIndicator.getUser() == user) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+
+    public boolean isCurrentUser(HttpServletRequest request, User user) {
+        UserIndicator userIndicator = getUser(request);
+
+        if (userIndicator.isLoggedIn()) {
+            if (userIndicator.getUser() == user) {
+                return true;
+            }
+        }
+        return false;
     }
 }

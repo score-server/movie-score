@@ -41,19 +41,16 @@ public class CommentController {
     @PostMapping("add/movie")
     public String addCommentForMovie(@RequestParam("movieId") String movieId,
                                      @RequestParam("comment") String commentParam, HttpServletRequest request) {
-        try {
-            UserIndicator userIndicator = userIndicatorService.getUser(request);
 
-            if (userIndicator.isLoggedIn()) {
-                Comment comment = new Comment();
-                comment.setUser(userIndicator.getUser());
-                comment.setMovie(movieRepository.findMovieById(Long.valueOf(movieId)));
-                comment.setComment(commentParam);
-                commentRepository.save(comment);
-            }
+        if (userIndicatorService.isUser(request)) {
+            UserIndicator userIndicator = userIndicatorService.getUser(request);
+            Comment comment = new Comment();
+            comment.setUser(userIndicator.getUser());
+            comment.setMovie(movieRepository.findMovieById(Long.valueOf(movieId)));
+            comment.setComment(commentParam);
+            commentRepository.save(comment);
             return "redirect:/movie/" + movieId;
-        } catch (ConstraintViolationException e) {
-            e.printStackTrace();
+        } else {
             return "redirect:/movie/" + movieId + "?error";
         }
     }
@@ -61,21 +58,16 @@ public class CommentController {
     @PostMapping("add/episode")
     public String addCommentForEpisode(@RequestParam("episodeId") String episodeId,
                                        @RequestParam("comment") String commentParam, HttpServletRequest request) {
-        try {
+        if (userIndicatorService.isUser(request)) {
             UserIndicator userIndicator = userIndicatorService.getUser(request);
-
-            if (userIndicator.isLoggedIn()) {
-                Comment comment = new Comment();
-                comment.setUser(userIndicator.getUser());
-                comment.setEpisode(episodeRepository.findEpisodeById(Long.valueOf(episodeId)));
-                comment.setComment(commentParam);
-                commentRepository.save(comment);
-            }
+            Comment comment = new Comment();
+            comment.setUser(userIndicator.getUser());
+            comment.setEpisode(episodeRepository.findEpisodeById(Long.valueOf(episodeId)));
+            comment.setComment(commentParam);
+            commentRepository.save(comment);
             return "redirect:/episode/" + episodeId;
-        } catch (ConstraintViolationException e) {
-            e.printStackTrace();
+        } else {
             return "redirect:/episode/" + episodeId + "?error";
         }
-
     }
 }

@@ -4,7 +4,6 @@ import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.repository.GenreRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 
-import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.DuplicateService;
 import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
@@ -30,7 +29,6 @@ public class SeriesController {
     private SerieRepository serieRepository;
     private GenreRepository genreRepository;
 
-    private CookieService cookieService;
     private SearchService searchService;
     private DuplicateService duplicateService;
     private UserIndicatorService userIndicatorService;
@@ -49,8 +47,7 @@ public class SeriesController {
     public String getSeries(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                             @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                             Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuestAccess(model, request);
-
+        userIndicatorService.allowGuest(model, request);
 
         List<String> genres = new ArrayList<>();
         for (Genre genre : genreRepository.findAllByNameContainingOrderByName(search)) {
@@ -70,7 +67,7 @@ public class SeriesController {
 
     @GetMapping(value = "/{serieId}", produces = "application/json")
     public String getOneSerie(@PathVariable("serieId") String serieParam, Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuestAccess(model, request);
+        userIndicatorService.allowGuest(model, request);
 
         model.addAttribute("serie", serieRepository.findSerieById(Long.valueOf(serieParam)));
         model.addAttribute("page", "serie");

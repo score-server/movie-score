@@ -1,4 +1,10 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
 <h1>Register new User</h1>
+
+<div th:if="${param.exists}" class="alert alert-danger">
+    User allready exists
+</div>
 
 <form action="/register" method="post">
     Username: <input class="form-control" type="text" name="name" required>

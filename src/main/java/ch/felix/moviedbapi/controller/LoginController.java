@@ -37,7 +37,7 @@ public class LoginController {
 
     @GetMapping
     public String getLogin(Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuestAccess(model, request);
+        userIndicatorService.allowGuest(model, request);
 
         model.addAttribute("page", "login");
         return "template";
@@ -66,14 +66,19 @@ public class LoginController {
 
     @PostMapping("logout")
     public String logout(HttpServletRequest request) {
-        try {
-            User user = cookieService.getCurrentUser(request);
-            String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
-            user.setSessionId(sessionId);
-            userRepository.save(user);
-            return "redirect:/?logout";
-        } catch (NullPointerException e) {
+        if (userIndicatorService.isUser(request)) {
+            try {
+                User user = cookieService.getCurrentUser(request);
+                String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
+                user.setSessionId(sessionId);
+                userRepository.save(user);
+                return "redirect:/?logout";
+            } catch (NullPointerException e) {
+                return "redirect:/";
+            }
+        } else {
             return "redirect:/";
         }
+
     }
 }

@@ -2,7 +2,6 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.repository.GenreRepository;
-import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.DuplicateService;
 import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
@@ -43,7 +42,11 @@ public class DashboardController {
                                @RequestParam(name = "orderBy", required = false, defaultValue = "") String orderBy,
                                @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                                Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuestAccess(model, request);
+        userIndicatorService.allowGuest(model, request);
+
+        if (genreParam.equals("")) {
+            return "redirect:/movie?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
+        }
 
         List<String> genres = new ArrayList<>();
         for (Genre genre : genreRepository.findAllByNameContainingOrderByName(search)) {

@@ -8,6 +8,7 @@ import ch.felix.moviedbapi.service.ShaService;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
+import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,34 +27,32 @@ public class RegisterController {
 
     private ShaService shaService;
     private CookieService cookieService;
+    private UserIndicatorService userIndicatorService;
 
-    public RegisterController(UserRepository userRepository, ShaService shaService, CookieService cookieService) {
+    public RegisterController(UserRepository userRepository, ShaService shaService, CookieService cookieService,
+                              UserIndicatorService userIndicatorService) {
         this.userRepository = userRepository;
         this.shaService = shaService;
         this.cookieService = cookieService;
+        this.userIndicatorService = userIndicatorService;
     }
 
     @GetMapping
     public String getRegister(Model model, HttpServletRequest request) {
-        try {
-            User currentUser = cookieService.getCurrentUser(request);
-            if (currentUser.getRole() != 2) {
-                return "redirect:/?";
-            }
-
-            model.addAttribute("currentUser", currentUser);
-        } catch (NullPointerException e) {
-            return "redirect:/login?redirect=/register";
+        if (userIndicatorService.isAdministrator(model, request)) {
+            model.addAttribute("page", "register");
+            return "template";
+        } else {
+            return "redirect:/";
         }
-
-        model.addAttribute("page", "register");
-        return "template";
     }
 
     @PostMapping
-    public String register(@RequestParam("name") String nameParam, @RequestParam("password") String password) {
-        if (userRepository.findUserByName(nameParam) == null) {
-            try {
+    public String register(@RequestParam("name") String nameParam,
+                           @RequestParam("password") String password,
+                           HttpServletRequest request) {
+        if (userIndicatorService.isAdministrator(request)) {
+            if (userRepository.findUserByName(nameParam) == null) {
                 User user = new User();
                 user.setName(nameParam);
                 user.setPasswordSha(shaService.encode(password));
@@ -61,12 +60,13 @@ public class RegisterController {
                 userRepository.save(user);
                 log.info("Registered User - " + nameParam);
                 return "redirect:/user?added";
-            } catch (ConstraintViolationException e) {
-                return "redirect:/register";
+            } else {
+                return "redirect:/register?exists";
             }
         } else {
-            return "redirect:/register";
+            return "redirect:/user";
         }
+
     }
 
 }

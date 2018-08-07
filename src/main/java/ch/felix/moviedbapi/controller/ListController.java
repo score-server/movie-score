@@ -28,12 +28,10 @@ public class ListController {
     @GetMapping
     public String getLists(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                            Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuestAccess(model, request);
+        userIndicatorService.allowGuest(model, request);
 
         model.addAttribute("timelines", timelineRepository.findTimelinesByTitleContaining(search));
-
         model.addAttribute("search", search);
-
         model.addAttribute("page", "timelineList");
         return "template";
     }
@@ -41,10 +39,9 @@ public class ListController {
     @GetMapping("{timelineId}")
     public String getOneTimeLine(@PathVariable("timelineId") String timeLineId,
                                  Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuestAccess(model, request);
+        userIndicatorService.allowGuest(model, request);
 
         model.addAttribute("timeline", timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
-
         model.addAttribute("page", "timeline");
         return "template";
     }

@@ -35,60 +35,60 @@ public class ImportController {
 
     @PostMapping(value = "movie", produces = "application/json")
     public String importMovies(Model model, HttpServletRequest request) {
-        if (userIndicatorService.disallowUserAccess(model, request)) {
+        if (userIndicatorService.isAdministrator(model, request)) {
+            if (settingsService.getKey("import").equals("1")) {
+                return "redirect:/settings";
+            }
+            settingsService.setValue("import", "1");
+            movieImportService.importFile("moviePath");
+            return "redirect:/settings";
+        } else {
             return "redirect:/";
         }
-
-        if (settingsService.getKey("import").equals("1")) {
-            return "redirect:/settings";
-        }
-        settingsService.setValue("import", "1");
-        movieImportService.importFile("moviePath");
-        return "redirect:/settings";
     }
 
     @PostMapping(value = "serie", produces = "application/json")
     public String importSeries(Model model, HttpServletRequest request) {
-        if (userIndicatorService.disallowUserAccess(model, request)) {
+        if (userIndicatorService.isAdministrator(model, request)) {
+            if (settingsService.getKey("import").equals("1")) {
+                return "redirect:/settings";
+            }
+            settingsService.setValue("import", "1");
+            seriesImportService.importFile("seriePath");
+            return "redirect:/settings";
+        } else {
             return "redirect:/";
         }
-
-        if (settingsService.getKey("import").equals("1")) {
-            return "redirect:/settings";
-        }
-        settingsService.setValue("import", "1");
-        seriesImportService.importFile("seriePath");
-        return "redirect:/settings";
     }
 
 
     @PostMapping("path/movie")
     public String setMovieImportPath(@RequestParam("path") String pathParam, Model model, HttpServletRequest request) {
-        if (userIndicatorService.disallowUserAccess(model, request)) {
+        if (userIndicatorService.isAdministrator(model, request)) {
+            settingsService.setValue("moviePath", pathParam);
+            return "redirect:/settings";
+        } else {
             return "redirect:/";
         }
-
-        settingsService.setValue("moviePath", pathParam);
-        return "redirect:/settings";
     }
 
     @PostMapping("path/serie")
     public String setSerieImportPath(@RequestParam("path") String pathParam, Model model, HttpServletRequest request) {
-        if (userIndicatorService.disallowUserAccess(model, request)) {
+        if (userIndicatorService.isAdministrator(model, request)) {
+            settingsService.setValue("seriePath", pathParam);
+            return "redirect:/settings";
+        } else {
             return "redirect:/";
         }
-
-        settingsService.setValue("seriePath", pathParam);
-        return "redirect:/settings";
     }
 
     @PostMapping("reset")
     public String importReset(Model model, HttpServletRequest request) {
-        if (userIndicatorService.disallowUserAccess(model, request)) {
+        if (userIndicatorService.isAdministrator(model, request)) {
+            settingsService.setValue("import", "0");
+            return "redirect:/settings";
+        } else {
             return "redirect:/";
         }
-
-        settingsService.setValue("import", "0");
-        return "redirect:/settings";
     }
 }
