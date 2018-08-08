@@ -1,1 +1,1 @@
-create database moviesdbtest;
+create database moviesdb;

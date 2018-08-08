@@ -13,13 +13,15 @@ echo spring.datasource.password=%dbpassword%
 echo server.port=%port%
 ) > src\main\resources\application.properties
 
-C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe -u %dbuser% -p %dbpassword% < sqlinstall/createDb.sql
+pause
 
-mvnw.cmd clean
-mvnw.cmd install
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u %dbuser% -p < sqlinstall/createDb.sql
 
-start java -jar target/movie-db-api-1.0.jar
+pause
 
-timeout 15 >nul
+start mvnw.cmd install
 
-C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe -u %dbuser% -p %dbpassword% < sqlinstall/addUser.sql
+echo Building Project Please wait (Wait time: 15 Seconds)
+timeout 15
+
+java -jar target/movie-db-api-1.0.jar
