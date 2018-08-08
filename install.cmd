@@ -13,11 +13,8 @@ echo spring.datasource.password=%dbpassword%
 echo server.port=%port%
 ) > src\main\resources\application.properties
 
-pause
-
+echo Enter Mysql password again
 "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u %dbuser% -p < sqlinstall/createDb.sql
-
-pause
 
 start mvnw.cmd install
 

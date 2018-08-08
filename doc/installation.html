@@ -7,3 +7,19 @@ For Windows:
 
 For Linux:
 <pre>$ ./install.sh</pre>
+
+<hr>
+
+<p>Example Configuration</p>
+<pre>
+MySql Server:localhost:3306
+Database User (Should be root):root
+Database Password:1234
+Application port (fx: 8080):8080
+</pre>
+
+<p>Server should start after at least 30 Seconds, if configured correctly:</p>
+<pre>
+    2018-08-08 14:23:47.678  INFO 8176 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8080 (http) with context path ''
+    2018-08-08 14:23:47.684  INFO 8176 --- [main] ch.felix.moviedbapi.MovieDb             : Started MovieDb in 8.81 seconds (JVM running for 9.38)
+</pre>
