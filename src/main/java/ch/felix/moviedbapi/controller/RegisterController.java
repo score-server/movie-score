@@ -6,7 +6,6 @@ import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
 
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;

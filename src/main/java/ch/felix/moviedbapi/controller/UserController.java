@@ -3,12 +3,10 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.TimelineRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
-import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.ShaService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
 
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
@@ -55,7 +53,6 @@ public class UserController {
         } else {
             return "redirect:/login?redirect=/user";
         }
-
     }
 
     @GetMapping(value = "{userId}", produces = "application/json")

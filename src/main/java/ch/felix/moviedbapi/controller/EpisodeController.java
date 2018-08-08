@@ -1,5 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
@@ -30,8 +31,19 @@ public class EpisodeController {
     @GetMapping(value = "/{episodeId}", produces = "application/json")
     public String getOneEpisode(@PathVariable("episodeId") String episodeId, Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
-            model.addAttribute("episode", episodeRepository.findEpisodeById(Long.valueOf(episodeId)));
-            model.addAttribute("comments", episodeRepository.findEpisodeById(Long.valueOf(episodeId)).getComments());
+
+            Episode episode = episodeRepository.findEpisodeById(Long.valueOf(episodeId));
+
+            model.addAttribute("episode", episode);
+            model.addAttribute("comments", episode.getComments());
+
+            try {
+                model.addAttribute("nextEpisode", episodeRepository.findEpisodeById(
+                        Long.valueOf(episodeId) + 1));
+            } catch (NullPointerException | IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+
             model.addAttribute("page", "episode");
             return "template";
         } else {

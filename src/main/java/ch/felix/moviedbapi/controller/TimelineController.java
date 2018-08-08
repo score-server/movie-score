@@ -2,11 +2,9 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.ListMovie;
 import ch.felix.moviedbapi.data.entity.Timeline;
-import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.ListMovieRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.TimelineRepository;
-import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,15 +20,13 @@ public class TimelineController {
     private MovieRepository movieRepository;
     private ListMovieRepository listMovieRepository;
 
-    private CookieService cookieService;
     private UserIndicatorService userIndicatorService;
 
     public TimelineController(TimelineRepository timelineRepository, MovieRepository movieRepository,
-                              ListMovieRepository listMovieRepository, CookieService cookieService, UserIndicatorService userIndicatorService) {
+                              ListMovieRepository listMovieRepository, UserIndicatorService userIndicatorService) {
         this.timelineRepository = timelineRepository;
         this.movieRepository = movieRepository;
         this.listMovieRepository = listMovieRepository;
-        this.cookieService = cookieService;
         this.userIndicatorService = userIndicatorService;
     }
 
@@ -102,7 +98,7 @@ public class TimelineController {
         if (userIndicatorService.isAdministrator(request)) {
             Timeline timeline = new Timeline();
             timeline.setTitle(title);
-            timeline.setUser(cookieService.getCurrentUser(request));
+            timeline.setUser(userIndicatorService.getUser(request).getUser());
             timeline.setDescription(description);
             timelineRepository.save(timeline);
 
