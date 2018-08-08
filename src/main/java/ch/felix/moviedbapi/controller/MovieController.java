@@ -58,9 +58,7 @@ public class MovieController {
             }
             genres = duplicateService.removeStringDuplicates(genres);
             model.addAttribute("genres", genres);
-
             model.addAttribute("movies", searchService.searchMovies(search, orderBy, genreParam));
-
 
             model.addAttribute("search", search);
             model.addAttribute("orderBy", orderBy);
@@ -81,7 +79,11 @@ public class MovieController {
         model.addAttribute("movie", movie);
         model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
 
-        log.info(userIndicatorService.getUser(request).getUser().getName() + " gets Movie " + movie.getTitle());
+        try {
+            log.info(userIndicatorService.getUser(request).getUser().getName() + " gets Movie " + movie.getTitle());
+        } catch (NullPointerException e) {
+            log.info("Guest gets Trailer " + movie.getTitle());
+        }
 
         model.addAttribute("page", "movie");
         return "template";

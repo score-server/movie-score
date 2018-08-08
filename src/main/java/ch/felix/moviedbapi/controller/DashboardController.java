@@ -44,7 +44,7 @@ public class DashboardController {
                                Model model, HttpServletRequest request) {
         userIndicatorService.allowGuest(model, request);
 
-        if (genreParam.equals("")) {
+        if (!genreParam.equals("")) {
             return "redirect:/movie?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
         }
 

@@ -2,18 +2,19 @@
 <link rel="stylesheet" href="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.css" type="text/css"/>
 <script src="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.js"></script>
 
-
-<div th:if="${currentUser} != null">
+<div id="movie-div" th:if="${currentUser} != null">
     <video id="movie" th:src="'/video/movie/' + ${movie.id}" controls width="100%"></video>
 </div>
-<div th:if="${currentUser} == null">
-    <center>
-        <iframe width="853" height="480" th:src="'https://www.youtube.com/embed/' + ${movie.trailerKey}" frameborder="0"
-                allowfullscreen></iframe>
-        <div class="alert alert-secondary col-3">
-            <a href="/login">Login</a> to view full Movie
-        </div>
-    </center>
+<div id="trailer-div" th:if="${currentUser}== null">
+    <div>
+        <center>
+            <iframe width="853" height="480" th:src="'https://www.youtube.com/embed/' + ${movie.trailerKey}"
+                    frameborder="0" allowfullscreen></iframe>
+            <div class="alert alert-secondary col-3">
+                <a href="/login">Login</a> to view full Movie
+            </div>
+        </center>
+    </div>
 </div>
 
 <div class="card card-body">
@@ -29,6 +30,23 @@
     <p th:text="${movie.descript}"></p>
     <p th:text="'Runtime: ' + ${movie.runtime} + ' Min'"></p>
 </div>
+
+<br>
+<div class="card card-body">
+    <details>
+        <summary style="outline: none;">
+            Trailer
+            <i class="fas fa-caret-down float-right"></i>
+        </summary>
+        <div class="card-body">
+            <center>
+                <iframe width="853" height="480" th:src="'https://www.youtube.com/embed/' + ${movie.trailerKey}"
+                        frameborder="0" allowfullscreen></iframe>
+            </center>
+        </div>
+    </details>
+</div>
+
 <br>
 <ul class="list-group">
     <li class="list-group-item active">Comments</li>
@@ -82,3 +100,9 @@
         }
     );
 </script>
+<style>
+    details summary::-webkit-details-marker {
+        display: none;
+        outline: none;
+    }
+</style>

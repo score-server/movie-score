@@ -2,9 +2,15 @@ package ch.felix.moviedbapi.jsonmodel.tmdb;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
+@Data
 public class TrailerResult {
 
     @SerializedName("id")
@@ -14,22 +20,6 @@ public class TrailerResult {
     @SerializedName("results")
     @Expose
     private List<Trailer> trailers = null;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public List<Trailer> getTrailers() {
-        return trailers;
-    }
-
-    public void setTrailers(List<Trailer> trailers) {
-        this.trailers = trailers;
-    }
 }
 
 
