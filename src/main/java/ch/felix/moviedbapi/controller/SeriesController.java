@@ -50,7 +50,7 @@ public class SeriesController {
         userIndicatorService.allowGuest(model, request);
 
         List<String> genres = new ArrayList<>();
-        for (Genre genre : genreRepository.findAllByNameContainingOrderByName(search)) {
+        for (Genre genre : genreRepository.findAll()) {
             genres.add(genre.getName());
         }
         genres = duplicateService.removeStringDuplicates(genres);

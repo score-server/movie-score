@@ -37,12 +37,12 @@
 
 <h3>Movies</h3>
 <div class="row">
-    <div th:each="movie : ${movies}" class="col-sm-3" style="margin-bottom: 20px">
+    <div th:each="movie : ${movies}" class="col-sm-2" style="margin-bottom: 20px">
         <div th:include="'static/movieCard.html'"></div>
     </div>
 </div>
 <div class="row" th:if="${movies.size()} == 0">
-    <div class="col-sm-3" style="margin-bottom: 20px">
+    <div class="col-sm-2" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No movies found</a>
             <br>
@@ -52,9 +52,9 @@
     </div>
 </div>
 <div class="row" th:if="${movies.size()} != 0">
-    <div class="col-sm-3" style="margin-bottom: 20px">
+    <div class="col-sm-2" style="margin-bottom: 20px">
         <div class="card card-body">
-            <a href="/movie">All movies</a>
+            <a href="/movies/1">All movies</a>
         </div>
     </div>
 </div>
@@ -63,12 +63,12 @@
 
 <h3>Series</h3>
 <div class="row">
-    <div th:each="serie : ${series}" class="col-sm-3" style="margin-bottom: 20px">
+    <div th:each="serie : ${series}" class="col-sm-2" style="margin-bottom: 20px">
         <div th:include="'static/serieCard.html'"></div>
     </div>
 </div>
 <div class="row" th:if="${series.size()} == 0">
-    <div class="col-sm-3" style="margin-bottom: 20px">
+    <div class="col-sm-2" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No series found</a>
             <br>
@@ -78,7 +78,7 @@
     </div>
 </div>
 <div class="row" th:if="${series.size()} != 0">
-    <div class="col-sm-3" style="margin-bottom: 20px">
+    <div class="col-sm-2" style="margin-bottom: 20px">
         <div class="card card-body">
             <a href="/serie">All series</a>
         </div>

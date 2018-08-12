@@ -17,12 +17,12 @@
 </div>
 <br>
 <div class="row">
-    <div th:each="moviePar : ${timeline.listMovies}" class="col-sm-3" style="margin-bottom: 20px">
+    <div th:each="moviePar : ${timeline.listMovies}" class="col-sm-2" style="margin-bottom: 20px">
         <div th:include="'static/movieListCard.html'"></div>
     </div>
 </div>
 <div class="row" th:if="${timeline.listMovies.size()} == 0">
-    <div class="col-sm-3" style="margin-bottom: 20px">
+    <div class="col-sm-2" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No movies found</a>
         </div>

@@ -45,11 +45,11 @@ public class DashboardController {
         userIndicatorService.allowGuest(model, request);
 
         if (!genreParam.equals("")) {
-            return "redirect:/movie?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
+            return "redirect:/movie/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
         }
 
         List<String> genres = new ArrayList<>();
-        for (Genre genre : genreRepository.findAllByNameContainingOrderByName(search)) {
+        for (Genre genre : genreRepository.findAll()) {
             genres.add(genre.getName());
         }
         genres = duplicateService.removeStringDuplicates(genres);

@@ -16,6 +16,5 @@ public interface GenreRepository extends JpaRepository<Genre, Long> {
 
     List<Genre> findGenresByName(String name);
 
-    List<Genre> findAllByNameContainingOrderByName(String name);
 
 }

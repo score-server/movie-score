@@ -3,7 +3,9 @@
 <script src="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.js"></script>
 
 <div id="movie-div" th:if="${currentUser} != null">
-    <video id="movie" th:src="'/video/movie/' + ${movie.id}" controls width="100%"></video>
+    <center>
+        <video id="movie" th:src="'/video/movie/' + ${movie.id}" controls width="80%"></video>
+    </center>
 </div>
 <div id="trailer-div" th:if="${currentUser}== null">
     <div>
@@ -22,7 +24,7 @@
     <p th:text="'Quality: ' + ${movie.quality}"></p>
     <p>Genres:
         <span th:each="genre : ${movie.genres}">
-            <a class="badge" th:text="${genre.name}" th:href="'/movie?genre=' + ${genre.name}"
+            <a class="badge" th:text="${genre.name}" th:href="'/movies/1?genre=' + ${genre.name}"
                style="color: white;"></a>
         </span>
     </p>
@@ -70,14 +72,14 @@
     <div class="card">
         <div class="card-header">Similar Movies</div>
         <div class="row card-body">
-            <div th:each="movie : ${similar}" class="col-sm-3" style="margin-bottom: 20px">
+            <div th:each="movie : ${similar}" class="col-sm-2" style="margin-bottom: 20px">
                 <div th:include="'static/movieCard.html'"></div>
             </div>
         </div>
     </div>
 </div>
 <br>
-<a href="/" class="btn btn-primary">Back</a>
+<a href="/movies/1" class="btn btn-primary">Back</a>
 <script th:inline="javascript">
     fluidPlayer(
         'movie',

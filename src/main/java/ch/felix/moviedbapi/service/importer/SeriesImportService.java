@@ -51,16 +51,30 @@ public class SeriesImportService extends ImportService {
 
 
         Serie serie = serieRepository.findSerieByTitle(getName(seriesName));
+
         if (serie == null) {
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             serie = new Serie();
             serie.setTitle(getName(seriesName));
-            serie.setDescript(serieJson.getOverview());
-            serie.setCaseImg("https://image.tmdb.org/t/p/original" + serieJson.getPosterPath());
-            serie.setBackgroundImg("https://image.tmdb.org/t/p/original" + serieJson.getBackdropPath());
-            serie.setPopularity(serieJson.getPopularity());
+            try {
+                serie.setDescript(serieJson.getOverview());
+                serie.setCaseImg("https://image.tmdb.org/t/p/original" + serieJson.getPosterPath());
+                serie.setBackgroundImg("https://image.tmdb.org/t/p/original" + serieJson.getBackdropPath());
+                serie.setPopularity(serieJson.getPopularity());
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
             log.info("Saved Series: " + getName(seriesName));
             serieRepository.save(serie);
-            genreImportService.setGenre(serieRepository.findSerieByTitle(getName(seriesName)), serieJson.getGenres());
+            try {
+                genreImportService.setGenre(serieRepository.findSerieByTitle(getName(seriesName)), serieJson.getGenres());
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         } else {
             super.filesToUpdate.add(movieFile);
         }
@@ -109,8 +123,13 @@ public class SeriesImportService extends ImportService {
 
         Serie serie = serieRepository.findSerieByTitle(getName(seriesName));
 
-        serie.setDescript(serieJson.getOverview());
-        serie.setPopularity(serieJson.getPopularity());
+        try {
+            serie.setDescript(serieJson.getOverview());
+            serie.setPopularity(serieJson.getPopularity());
+        } catch (NullPointerException e) {
+            log.error("No json found for " + getName(seriesName));
+        }
+
         log.info("Updated Series: " + getName(seriesName));
         serieRepository.save(serie);
         try {

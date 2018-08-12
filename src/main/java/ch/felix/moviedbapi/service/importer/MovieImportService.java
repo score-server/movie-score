@@ -22,8 +22,8 @@ public class MovieImportService extends ImportService {
 
     private GenreImportService genreImportService;
 
-    public MovieImportService(MovieRepository movieRepository, SearchMovieService searchMovieService,
-                              SettingsService settingsService, GenreImportService genreImportService) {
+    public MovieImportService(MovieRepository movieRepository, SettingsService settingsService,
+                              GenreImportService genreImportService) {
         super(settingsService);
         this.movieRepository = movieRepository;
         this.genreImportService = genreImportService;
@@ -84,6 +84,7 @@ public class MovieImportService extends ImportService {
                 log.info("Movieadd - Added " + movie.getTitle());
             } catch (NullPointerException e) {
                 log.error("Movieadd - Can't add " + getName(filename));
+                e.printStackTrace();
             }
         } else {
             super.filesToUpdate.add(movieFile);

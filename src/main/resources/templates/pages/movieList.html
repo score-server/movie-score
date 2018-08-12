@@ -2,7 +2,7 @@
 
 <h1>Movies</h1>
 
-<form action="/movie" id="search">
+<form action="/movies/1" id="search">
     <div class="row">
         <br>
         <div class="col-6">
@@ -30,12 +30,12 @@
 </form>
 <br>
 <div class="row">
-    <div th:each="movie : ${movies}" class="col-sm-3" style="margin-bottom: 20px">
+    <div th:each="movie : ${movies}" class="col-sm-2" style="margin-bottom: 20px">
         <div th:include="'static/movieCard.html'"></div>
     </div>
 </div>
 <div class="row" th:if="${movies.size()} == 0">
-    <div class="col-sm-3" style="margin-bottom: 20px">
+    <div class="col-sm-2" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No movies found</a>
             <br>
@@ -44,3 +44,13 @@
         </div>
     </div>
 </div>
+<center>
+    <div class="btn-group">
+        <a th:if="${lastDisabled}" class="btn btn-primary" th:href="'/movies/' + ${pageIndexLast}
+        + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}">Last</a>
+        <a class="btn btn-secondary" th:href="'/movies/' + ${pageIndex} + '?search=' + ${search}  + '&genre=' + ${currentGenre}
+           + '&orderBy=' + ${orderBy}" th:text="${pageIndex}"></a>
+        <a th:href="'/movies/' + ${pageIndexNext} + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
+           class="btn btn-primary">Next</a>
+    </div>
+</center>

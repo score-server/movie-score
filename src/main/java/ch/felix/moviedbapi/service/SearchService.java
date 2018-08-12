@@ -68,16 +68,16 @@ public class SearchService {
 
         switch (orderBy) {
             case "":
-                movies = movieRepository.findTop25ByTitleContainingOrderByTitle(search);
+                movies = movieRepository.findTop24ByTitleContainingOrderByTitle(search);
                 break;
             case "rating":
-                movies = movieRepository.findTop25ByTitleContainingOrderByVoteAverageDesc(search);
+                movies = movieRepository.findTop24ByTitleContainingOrderByVoteAverageDesc(search);
                 break;
             case "year":
-                movies = movieRepository.findTop25ByTitleContainingOrderByYearDesc(search);
+                movies = movieRepository.findTop24ByTitleContainingOrderByYearDesc(search);
                 break;
             default:
-                movies = movieRepository.findTop25ByTitleContainingOrderByTitle(search);
+                movies = movieRepository.findTop24ByTitleContainingOrderByTitle(search);
                 break;
         }
         return movies;
@@ -106,11 +106,11 @@ public class SearchService {
     }
 
     public List<Serie> searchSerieTop(String search) {
-        return serieRepository.findTop25ByTitleContainingOrderByTitle(search);
+        return serieRepository.findTop24ByTitleContainingOrderByTitle(search);
     }
 
     public List<Serie> searchSerieTop(String search, String genreParam) {
-        List<Serie> series = serieRepository.findTop25ByTitleContainingOrderByTitle(search);
+        List<Serie> series = serieRepository.findTop24ByTitleContainingOrderByTitle(search);
         return series;
     }
 

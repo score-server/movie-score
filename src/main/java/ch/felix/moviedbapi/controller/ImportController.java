@@ -39,6 +39,7 @@ public class ImportController {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
+            settingsService.setValue("importProgress", "0");
             settingsService.setValue("import", "1");
             movieImportService.importFile("moviePath");
             return "redirect:/settings";
@@ -53,6 +54,7 @@ public class ImportController {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
+            settingsService.setValue("importProgress", "0");
             settingsService.setValue("import", "1");
             seriesImportService.importFile("seriePath");
             return "redirect:/settings";
@@ -85,6 +87,7 @@ public class ImportController {
     @PostMapping("reset")
     public String importReset(Model model, HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(model, request)) {
+            settingsService.setValue("importProgress", "0");
             settingsService.setValue("import", "0");
             return "redirect:/settings";
         } else {

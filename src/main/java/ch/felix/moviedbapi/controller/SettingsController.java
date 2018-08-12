@@ -32,6 +32,7 @@ public class SettingsController {
 
             model.addAttribute("moviePath", settingsService.getKey("moviePath"));
             model.addAttribute("seriePath", settingsService.getKey("seriePath"));
+            model.addAttribute("importProgress", settingsService.getKey("importProgress"));
             try {
                 model.addAttribute("running", settingsService.getKey("import").equals("1"));
             } catch (NullPointerException e) {
