@@ -13,7 +13,7 @@
             <iframe width="853" height="480" th:src="'https://www.youtube.com/embed/' + ${movie.trailerKey}"
                     frameborder="0" allowfullscreen></iframe>
             <div class="alert alert-secondary col-3">
-                <a href="/login">Login</a> to view full Movie
+                <a th:href="'/login?redirect=/movie/' + ${movie.id}">Login</a> to view full Movie
             </div>
         </center>
     </div>

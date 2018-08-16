@@ -1,5 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.entity.User;
+import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SettingsService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import ch.felix.moviedbapi.service.importer.MovieImportService;
@@ -24,17 +26,21 @@ public class ImportController {
     private SeriesImportService seriesImportService;
     private SettingsService settingsService;
     private UserIndicatorService userIndicatorService;
+    private ActivityService activityService;
 
     public ImportController(MovieImportService movieImportService, SeriesImportService seriesImportService,
-                            SettingsService settingsService, UserIndicatorService userIndicatorService) {
+                            SettingsService settingsService, UserIndicatorService userIndicatorService,
+                            ActivityService activityService) {
         this.movieImportService = movieImportService;
         this.seriesImportService = seriesImportService;
         this.settingsService = settingsService;
         this.userIndicatorService = userIndicatorService;
+        this.activityService = activityService;
     }
 
     @PostMapping(value = "movie", produces = "application/json")
     public String importMovies(Model model, HttpServletRequest request) {
+        User user = userIndicatorService.getUser(request).getUser();
         if (userIndicatorService.isAdministrator(model, request)) {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
@@ -42,6 +48,7 @@ public class ImportController {
             settingsService.setValue("importProgress", "0");
             settingsService.setValue("import", "1");
             movieImportService.importFile("moviePath");
+            activityService.log(user.getName() + " started Movie Import");
             return "redirect:/settings";
         } else {
             return "redirect:/";
@@ -50,6 +57,7 @@ public class ImportController {
 
     @PostMapping(value = "serie", produces = "application/json")
     public String importSeries(Model model, HttpServletRequest request) {
+        User user = userIndicatorService.getUser(request).getUser();
         if (userIndicatorService.isAdministrator(model, request)) {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
@@ -57,6 +65,7 @@ public class ImportController {
             settingsService.setValue("importProgress", "0");
             settingsService.setValue("import", "1");
             seriesImportService.importFile("seriePath");
+            activityService.log(user.getName() + " started Movie Import");
             return "redirect:/settings";
         } else {
             return "redirect:/";

@@ -8,7 +8,11 @@ import ch.felix.moviedbapi.data.repository.TimelineRepository;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -60,10 +64,9 @@ public class TimelineController {
             listMovieRepository.save(listMovie);
             return "redirect:/timeline/edit/" + timeLineId;
         } else {
-            return "redirect:/login?redirect";
+            return "redirect:/login?redirect=/timeline/edit/" + timeLineId;
         }
     }
-
 
     @PostMapping("delete/movie/{movieParId}")
     public String deleteFromList(@PathVariable("movieParId") String movieParId,
