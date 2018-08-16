@@ -4,7 +4,6 @@
 
 <form action="/movies/1" id="search">
     <div class="row">
-        <br>
         <div class="col-6">
             <input th:value="${search}" class="form-control" type="text" name="search"
                    placeholder="Search" autocomplete="off">
@@ -21,7 +20,7 @@
             <select class="form-control" name="orderBy"
                     onchange="document.getElementById('search').submit()">
                 <option selected disabled>Order By</option>
-                <option th:selected="${orderBy.contains('')}" value="">Title
+                <option th:selected="${orderBy.contains('')}" value="">Title</option>
                 <option th:selected="${orderBy.contains('rating')}" value="rating">Rating</option>
                 <option th:selected="${orderBy.contains('year')}" value="year">Year</option>
             </select>
@@ -48,9 +47,9 @@
     <div class="btn-group">
         <a th:if="${lastDisabled}" class="btn btn-primary" th:href="'/movies/' + ${pageIndexLast}
         + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}">Last</a>
-        <a class="btn btn-secondary" th:href="'/movies/' + ${pageIndex} + '?search=' + ${search}  + '&genre=' + ${currentGenre}
-           + '&orderBy=' + ${orderBy}" th:text="${pageIndex}"></a>
+        <a th:href="'/movies/' + ${pageIndex} + '?search=' + ${search} + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
+           th:text="${pageIndex}" class="btn btn-secondary"></a>
         <a th:href="'/movies/' + ${pageIndexNext} + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
-           class="btn btn-primary">Next</a>
+           class="btn btn-primary" th:if="${movies.size()} == 24">Next</a>
     </div>
 </center>

@@ -1,14 +1,16 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Movie;
-import ch.felix.moviedbapi.data.repository.GenreRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
-
-import ch.felix.moviedbapi.service.*;
+import ch.felix.moviedbapi.service.ActivityService;
+import ch.felix.moviedbapi.service.SimilarMovieService;
+import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,12 +27,14 @@ public class MovieController {
 
     private SimilarMovieService similarMovieService;
     private UserIndicatorService userIndicatorService;
+    private ActivityService activityService;
 
     public MovieController(MovieRepository movieRepository, SimilarMovieService similarMovieService,
-                           UserIndicatorService userIndicatorService) {
+                           UserIndicatorService userIndicatorService, ActivityService activityService) {
         this.movieRepository = movieRepository;
         this.similarMovieService = similarMovieService;
         this.userIndicatorService = userIndicatorService;
+        this.activityService = activityService;
     }
 
 
@@ -43,9 +47,9 @@ public class MovieController {
         model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
 
         try {
-            log.info(userIndicatorService.getUser(request).getUser().getName() + " gets Movie " + movie.getTitle());
+            activityService.log(userIndicatorService.getUser(request).getUser().getName() + " gets Movie " + movie.getTitle());
         } catch (NullPointerException e) {
-            log.info("Guest gets Trailer " + movie.getTitle());
+            activityService.log("Guest gets Trailer " + movie.getTitle());
         }
 
         model.addAttribute("page", "movie");

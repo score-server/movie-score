@@ -197,7 +197,7 @@ public class MultipartFileSender {
         response.setBufferSize(DEFAULT_BUFFER_SIZE);
         response.setHeader("Content-Type", contentType);
         response.setHeader("Content-Disposition", disposition + ";filename=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
-        log.info(disposition);
+        log.debug(disposition);
         log.debug("Content-Disposition : {}", disposition);
         response.setHeader("Accept-Ranges", "bytes");
         response.setHeader("ETag", fileName);
@@ -213,7 +213,7 @@ public class MultipartFileSender {
             if (ranges.isEmpty() || ranges.get(0) == full) {
 
                 // Return full file.
-                log.info("Return full file");
+                log.debug("Return full file");
                 response.setContentType(contentType);
                 response.setHeader("Content-Range", "bytes " + full.start + "-" + full.end + "/" + full.total);
                 response.setHeader("Content-Length", String.valueOf(full.length));
@@ -221,7 +221,7 @@ public class MultipartFileSender {
 
             } else if (ranges.size() == 1) {
                 Range r = ranges.get(0);
-                log.info("Return 1 part of file : from ({}) to ({}) > total ({})", r.start, r.end, r.end - r.start);
+                log.debug("Return 1 part of file : from ({}) to ({}) > total ({})", r.start, r.end, r.end - r.start);
                 response.setContentType(contentType);
                 response.setHeader("Content-Range", "bytes " + r.start + "-" + r.end + "/" + r.total);
                 response.setHeader("Content-Length", String.valueOf(r.length));
@@ -241,7 +241,7 @@ public class MultipartFileSender {
 
                 // Copy multi part range.
                 for (Range r : ranges) {
-                    log.info("Return multi part of file : from ({}) to ({})", r.start, r.end);
+                    log.debug("Return multi part of file : from ({}) to ({})", r.start, r.end);
                     // Add multipart boundary and header fields for every range.
                     sos.println();
                     sos.println("--" + MULTIPART_BOUNDARY);

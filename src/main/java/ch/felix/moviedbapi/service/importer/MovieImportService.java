@@ -3,30 +3,30 @@ package ch.felix.moviedbapi.service.importer;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.jsonmodel.tmdb.MovieJson;
+import ch.felix.moviedbapi.service.ImportLogService;
 import ch.felix.moviedbapi.service.SettingsService;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
-
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Wetwer
  * @project movie-db
  */
-@Slf4j
 @Service
 public class MovieImportService extends ImportService {
 
     private MovieRepository movieRepository;
 
     private GenreImportService genreImportService;
+    private ImportLogService importLogService;
 
     public MovieImportService(MovieRepository movieRepository, SettingsService settingsService,
-                              GenreImportService genreImportService) {
+                              GenreImportService genreImportService, ImportLogService importLogService) {
         super(settingsService);
         this.movieRepository = movieRepository;
         this.genreImportService = genreImportService;
+        this.importLogService = importLogService;
     }
 
     private String getName(String s) {
@@ -81,10 +81,9 @@ public class MovieImportService extends ImportService {
                 movie.setVoteAverage(movieJson.getVoteAverage());
                 movieRepository.save(movie);
                 genreImportService.setGenre(movie, movieJson.getGenres());
-                log.info("Movieadd - Added " + movie.getTitle());
+                importLogService.importLog(movie, "Added Movie " + movie.getTitle());
             } catch (NullPointerException e) {
-                log.error("Movieadd - Can't add " + getName(filename));
-                e.printStackTrace();
+                importLogService.errorLog("Can't add Movie " + getName(filename) + " | " + filename);
             }
         } else {
             super.filesToUpdate.add(movieFile);
@@ -112,7 +111,7 @@ public class MovieImportService extends ImportService {
         movie.setBackgroundImg("https://image.tmdb.org/t/p/original" + movieJson.getBackdropPath());
         movie.setVoteAverage(movieJson.getVoteAverage());
         movieRepository.save(movie);
-        log.info("Updated Movie: " + getName(filename));
+        importLogService.importLog(movie, "Updated Movie: " + getName(filename));
         try {
             Thread.sleep(300);
         } catch (InterruptedException e) {

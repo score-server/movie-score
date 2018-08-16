@@ -2,14 +2,13 @@
 
 <h1>Serie List</h1>
 
-<form action="/serie" id="search">
+<form action="/" id="search">
     <div class="row">
-        <br>
-        <div class="col-9">
+        <div class="col-6">
             <input th:value="${search}" class="form-control" type="text" name="search"
                    placeholder="Search" autocomplete="off">
         </div>
-        <div class="col-3">
+        <div class="col-6">
             <select class="form-control" name="genre"
                     onchange="document.getElementById('search').submit()">
                 <option th:selected="true" value="">All Genres</option>

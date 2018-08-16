@@ -2,21 +2,24 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
-import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.ShaService;
-
-import javax.servlet.http.HttpServletRequest;
-
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Wetwer
  * @project movie-db
  */
+
 @Slf4j
 @Controller
 @RequestMapping("register")
@@ -25,15 +28,15 @@ public class RegisterController {
     private UserRepository userRepository;
 
     private ShaService shaService;
-    private CookieService cookieService;
     private UserIndicatorService userIndicatorService;
+    private ActivityService activityService;
 
-    public RegisterController(UserRepository userRepository, ShaService shaService, CookieService cookieService,
-                              UserIndicatorService userIndicatorService) {
+    public RegisterController(UserRepository userRepository, ShaService shaService,
+                              UserIndicatorService userIndicatorService, ActivityService activityService) {
         this.userRepository = userRepository;
         this.shaService = shaService;
-        this.cookieService = cookieService;
         this.userIndicatorService = userIndicatorService;
+        this.activityService = activityService;
     }
 
     @GetMapping
@@ -50,6 +53,8 @@ public class RegisterController {
     public String register(@RequestParam("name") String nameParam,
                            @RequestParam("password") String password,
                            HttpServletRequest request) {
+        User adminUser = userIndicatorService.getUser(request).getUser();
+
         if (userIndicatorService.isAdministrator(request)) {
             if (userRepository.findUserByName(nameParam) == null) {
                 User user = new User();
@@ -57,7 +62,7 @@ public class RegisterController {
                 user.setPasswordSha(shaService.encode(password));
                 user.setRole(1);
                 userRepository.save(user);
-                log.info("Registered User - " + nameParam);
+                activityService.log(nameParam + " registered by " + adminUser.getName());
                 return "redirect:/user?added";
             } else {
                 return "redirect:/register?exists";

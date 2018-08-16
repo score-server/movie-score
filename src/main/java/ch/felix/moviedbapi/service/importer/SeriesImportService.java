@@ -8,11 +8,10 @@ import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.jsonmodel.tmdb.SerieJson;
 import ch.felix.moviedbapi.service.SettingsService;
-
-import java.io.File;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 
 /**
  * @author Wetwer
@@ -71,7 +70,8 @@ public class SeriesImportService extends ImportService {
             log.info("Saved Series: " + getName(seriesName));
             serieRepository.save(serie);
             try {
-                genreImportService.setGenre(serieRepository.findSerieByTitle(getName(seriesName)), serieJson.getGenres());
+                genreImportService.setGenre(serieRepository.findSerieByTitle(getName(seriesName)),
+                        serieJson.getGenres());
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }

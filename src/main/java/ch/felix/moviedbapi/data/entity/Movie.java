@@ -1,8 +1,7 @@
 package ch.felix.moviedbapi.data.entity;
 
-import lombok.*;
+import lombok.Data;
 
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import java.util.List;
 
 /**
  * @author Wetwer
@@ -45,6 +45,9 @@ public class Movie {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<ListMovie> listMovies;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
+    private List<ImportLog> importLog;
 
     private String year;
     private String quality;

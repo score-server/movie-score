@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("")
-public class DashboardController {
+public class HomeController {
 
     private GenreRepository genreRepository;
 
@@ -29,8 +29,8 @@ public class DashboardController {
     private DuplicateService duplicateService;
     private UserIndicatorService userIndicatorService;
 
-    public DashboardController(GenreRepository genreRepository, SearchService searchService,
-                               DuplicateService duplicateService, UserIndicatorService userIndicatorService) {
+    public HomeController(GenreRepository genreRepository, SearchService searchService,
+                          DuplicateService duplicateService, UserIndicatorService userIndicatorService) {
         this.genreRepository = genreRepository;
         this.searchService = searchService;
         this.duplicateService = duplicateService;
@@ -45,7 +45,7 @@ public class DashboardController {
         userIndicatorService.allowGuest(model, request);
 
         if (!genreParam.equals("")) {
-            return "redirect:/movie/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
+            return "redirect:/movies/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
         }
 
         List<String> genres = new ArrayList<>();

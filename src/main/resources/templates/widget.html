@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Felix Movie Db</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+</head>
+<body>
+<table class="table">
+    <tr>
+        <th>Server</th>
+        <th>Url</th>
+        <th>Status</th>
+    </tr>
+    <tr>
+        <td>Minecraft</td>
+        <td>scorewinner.ch:25565</td>
+        <td th:if="${minecraft} == 'Online'" style="color: forestgreen" th:text="${minecraft}"></td>
+        <td th:if="${minecraft} == 'Offline'" style="color: red" th:text="${minecraft}"></td>
+    </tr>
+    <tr>
+        <td>Movie DB</td>
+        <td>scorewinner.ch:8080</td>
+        <td th:if="${moviedb} == 'Online'" style="color: forestgreen" th:text="${moviedb}"></td>
+        <td th:if="${moviedb} == 'Offline'" style="color: red" th:text="${moviedb}"></td>
+    </tr>
+    <tr>
+        <td>Hermann</td>
+        <td>scorewinner.ch:8090</td>
+        <td th:if="${hermann} == 'Online'" style="color: forestgreen" th:text="${hermann}"></td>
+        <td th:if="${hermann} == 'Offline'" style="color: red" th:text="${hermann}"></td>
+    </tr>
+</table>
+</body>

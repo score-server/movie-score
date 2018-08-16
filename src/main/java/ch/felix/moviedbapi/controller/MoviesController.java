@@ -1,9 +1,12 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Genre;
+import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.GenreRepository;
-import ch.felix.moviedbapi.data.repository.MovieRepository;
-import ch.felix.moviedbapi.service.*;
+import ch.felix.moviedbapi.service.DuplicateService;
+import ch.felix.moviedbapi.service.PageService;
+import ch.felix.moviedbapi.service.SearchService;
+import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,9 +52,12 @@ public class MoviesController {
             for (Genre genre : genreRepository.findAll()) {
                 genres.add(genre.getName());
             }
+
+            List<Movie> movies = pageService.getPage(searchService.searchMovies(search, orderBy, genreParam), page);
+
             genres = duplicateService.removeStringDuplicates(genres);
             model.addAttribute("genres", genres);
-            model.addAttribute("movies", pageService.getPage(searchService.searchMovies(search, orderBy, genreParam), page));
+            model.addAttribute("movies", movies);
 
             model.addAttribute("pageIndex", page);
             if (page - 1 == 0) {

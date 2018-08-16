@@ -6,6 +6,10 @@
     User added
 </div>
 
+<div th:if="${param.deleted}" class="alert alert-success">
+    User deleted
+</div>
+
 <form action="/user" id="search">
     <div class="row">
         <br>
