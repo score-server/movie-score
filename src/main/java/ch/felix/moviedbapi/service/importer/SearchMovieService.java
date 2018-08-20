@@ -25,6 +25,7 @@ public class SearchMovieService {
             try {
                 return search.getResults().get(0).getId();
             } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
                 return 0;
             }
         }
@@ -39,6 +40,7 @@ public class SearchMovieService {
             try {
                 return search.getResults().get(0).getId();
             } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
                 return 0;
             }
         }
@@ -51,6 +53,7 @@ public class SearchMovieService {
                     + "/videos?api_key=" + API_KEY + "&language=en-US").getContent(), TrailerResult.class)
                     .getTrailers().get(0).getKey();
         } catch (NullPointerException | IndexOutOfBoundsException e) {
+            e.printStackTrace();
             return "mvM2eyk1frk";
         }
     }

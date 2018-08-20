@@ -55,7 +55,7 @@ public class LoginController {
     public String login(@RequestParam(name = "redirect", required = false, defaultValue = "") String redirectParam,
                         @RequestParam("name") String nameParam,
                         @RequestParam("password") String passwordParam,
-                        HttpServletResponse response, Model model) {
+                        HttpServletResponse response) {
         User user = userRepository.findUserByNameAndPasswordSha(nameParam, shaService.encode(passwordParam));
         try {
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
@@ -69,6 +69,7 @@ public class LoginController {
                 return "redirect:" + redirectParam;
             }
         } catch (NullPointerException e) {
+            e.printStackTrace();
             return "redirect:/login?error&user=" + nameParam;
         }
     }
@@ -84,6 +85,7 @@ public class LoginController {
                 activityService.log(user.getName() + " logged out");
                 return "redirect:/?logout";
             } catch (NullPointerException e) {
+                e.printStackTrace();
                 return "redirect:/";
             }
         } else {

@@ -12,7 +12,7 @@
 
 
 <div class="card card-body">
-    <form th:action="'/login?redirect=' + ${param.redirect}" method="post">
+    <form  th:action="'/login?redirect=' + ${param.redirect}" method="post">
         Username:<input class="form-control" type="text" name="name" th:value="${param.user}">
         Password:<input class="form-control" type="password" name="password">
         <br>

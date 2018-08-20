@@ -1,9 +1,10 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Genre;
+import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.repository.GenreRepository;
+import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
-
 import ch.felix.moviedbapi.service.DuplicateService;
 import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
@@ -28,16 +29,18 @@ public class SeriesController {
 
     private SerieRepository serieRepository;
     private GenreRepository genreRepository;
+    private SeasonRepository seasonRepository;
 
     private SearchService searchService;
     private DuplicateService duplicateService;
     private UserIndicatorService userIndicatorService;
 
     public SeriesController(SerieRepository serieRepository, GenreRepository genreRepository,
-                            SearchService searchService, DuplicateService duplicateService,
-                            UserIndicatorService userIndicatorService) {
+                            SeasonRepository seasonRepository, SearchService searchService,
+                            DuplicateService duplicateService, UserIndicatorService userIndicatorService) {
         this.serieRepository = serieRepository;
         this.genreRepository = genreRepository;
+        this.seasonRepository = seasonRepository;
         this.searchService = searchService;
         this.duplicateService = duplicateService;
         this.userIndicatorService = userIndicatorService;
@@ -47,30 +50,38 @@ public class SeriesController {
     public String getSeries(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                             @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                             Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuest(model, request);
+        if (userIndicatorService.isUser(model, request)) {
+            List<String> genres = new ArrayList<>();
+            for (Genre genre : genreRepository.findAll()) {
+                genres.add(genre.getName());
+            }
+            genres = duplicateService.removeStringDuplicates(genres);
+            model.addAttribute("genres", genres);
 
-        List<String> genres = new ArrayList<>();
-        for (Genre genre : genreRepository.findAll()) {
-            genres.add(genre.getName());
+            model.addAttribute("series", searchService.searchSerie(search, genreParam));
+
+            model.addAttribute("search", search);
+            model.addAttribute("currentGenre", genreParam);
+
+            model.addAttribute("page", "serieList");
+            return "template";
+        } else {
+            return "redirect:/login?redirect=/serie";
         }
-        genres = duplicateService.removeStringDuplicates(genres);
-        model.addAttribute("genres", genres);
-
-        model.addAttribute("series", searchService.searchSerie(search, genreParam));
-
-        model.addAttribute("search", search);
-        model.addAttribute("currentGenre", genreParam);
-
-        model.addAttribute("page", "serieList");
-        return "template";
     }
 
     @GetMapping(value = "/{serieId}", produces = "application/json")
-    public String getOneSerie(@PathVariable("serieId") String serieParam, Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuest(model, request);
+    public String getOneSerie(@PathVariable("serieId") String serieId, Model model, HttpServletRequest request) {
+        if (userIndicatorService.isUser(model, request)) {
+            Serie serie = serieRepository.findSerieById(Long.valueOf(serieId));
 
-        model.addAttribute("serie", serieRepository.findSerieById(Long.valueOf(serieParam)));
-        model.addAttribute("page", "serie");
-        return "template";
+            model.addAttribute("serie", serie);
+            model.addAttribute("seasons", seasonRepository.findSeasonsBySerieOrderBySeason(serie));
+            model.addAttribute("page", "serie");
+            return "template";
+        } else {
+            return "redirect:/login?redirect=/serie/" + serieId;
+        }
+
     }
 }

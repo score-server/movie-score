@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EpisodeRepository extends JpaRepository<Episode, Long> {
 
-    List<Episode> findEpisodesBySeason(Season season);
+    List<Episode> findEpisodesBySeasonOrderByEpisode(Season season);
 
     Episode findEpisodeById(Long episodeId);
 

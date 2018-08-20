@@ -5,6 +5,7 @@ import ch.felix.moviedbapi.data.repository.ActivityLogRepository;
 import ch.felix.moviedbapi.data.repository.ImportLogRepository;
 import ch.felix.moviedbapi.service.SettingsService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.filehandler.FileHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,6 +52,17 @@ public class SettingsController {
             }
 
             model.addAttribute("page", "settings");
+            return "template";
+        } else {
+            return "redirect:/";
+        }
+    }
+
+    @GetMapping("error")
+    public String getErrorLogs(Model model, HttpServletRequest request) {
+        if (userIndicatorService.isAdministrator(model, request)) {
+            model.addAttribute("error", new FileHandler("log.log").read());
+            model.addAttribute("page", "errorLog");
             return "template";
         } else {
             return "redirect:/";

@@ -83,6 +83,7 @@ public class MovieImportService extends ImportService {
                 genreImportService.setGenre(movie, movieJson.getGenres());
                 importLogService.importLog(movie, "Added Movie " + movie.getTitle());
             } catch (NullPointerException e) {
+                e.printStackTrace();
                 importLogService.errorLog("Can't add Movie " + getName(filename) + " | " + filename);
             }
         } else {

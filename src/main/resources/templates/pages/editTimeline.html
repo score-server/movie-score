@@ -26,7 +26,7 @@
                     <input th:value="${nextPlace}" class="form-control" type="number" name="place" required/>
                 </td>
                 <td colspan="2">
-                    <select class="form-control" name="movie" required>
+                    <select class="form-control" name="movie" required autofocus>
                         <option disabled>Chose Movie...</option>
                         <option th:each="movie : ${movies}" th:text="${movie.title} + ' ' + ${movie.year}"
                                 th:value="${movie.id}"></option>

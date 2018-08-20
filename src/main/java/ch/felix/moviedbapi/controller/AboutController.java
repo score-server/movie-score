@@ -37,21 +37,24 @@ public class AboutController {
 
     @GetMapping
     public String getAboutPage(Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuest(model, request);
-
-        model.addAttribute("episodes", episodeRepository.findAll().size());
-        model.addAttribute("movies", movieRepository.findAll().size());
-        Nice nice = niceRepository.findNiceById(1L);
-        try {
-            nice.getId();
-        } catch (NullPointerException e) {
-            nice = new Nice();
-            nice.setLove(0);
-            niceRepository.save(nice);
+        if (userIndicatorService.isUser(model, request)) {
+            model.addAttribute("episodes", episodeRepository.findAll().size());
+            model.addAttribute("movies", movieRepository.findAll().size());
+            Nice nice = niceRepository.findNiceById(1L);
+            try {
+                nice.getId();
+            } catch (NullPointerException e) {
+                nice = new Nice();
+                nice.setLove(0);
+                niceRepository.save(nice);
+            }
+            model.addAttribute("love", nice.getLove());
+            model.addAttribute("page", "about");
+            return "template";
+        } else {
+            return "redirect:/login?redirect=/about";
         }
-        model.addAttribute("love", nice.getLove());
-        model.addAttribute("page", "about");
-        return "template";
+
     }
 
     @PostMapping("love")

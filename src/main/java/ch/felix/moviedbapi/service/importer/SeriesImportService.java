@@ -127,6 +127,7 @@ public class SeriesImportService extends ImportService {
             serie.setDescript(serieJson.getOverview());
             serie.setPopularity(serieJson.getPopularity());
         } catch (NullPointerException e) {
+            e.printStackTrace();
             log.error("No json found for " + getName(seriesName));
         }
 

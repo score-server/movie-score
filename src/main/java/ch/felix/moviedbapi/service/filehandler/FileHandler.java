@@ -1,14 +1,16 @@
 package ch.felix.moviedbapi.service.filehandler;
 
 import com.google.common.io.Files;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.ArrayUtils;
 
 
 /**
@@ -91,6 +93,7 @@ public class FileHandler {
      * starting row is 1
      *
      * @param row to to read
+     *
      * @return returns String of row
      */
     public String read(int row) {
@@ -172,6 +175,7 @@ public class FileHandler {
 
     /**
      * @param row to be moved 1 down
+     *
      * @return ?
      */
     public String spaceInRow(int row) {

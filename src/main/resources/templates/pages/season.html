@@ -6,7 +6,7 @@
 <br>
 <br>
 <ul class="list-group">
-    <li class="list-group-item" th:each="episode:${season.episodes}">
+    <li class="list-group-item" th:each="episode:${episodes}">
         <a th:text="'Episode ' + ${episode.episode}" th:href="'/episode/' + ${episode.id}"></a>
     </li>
 </ul>

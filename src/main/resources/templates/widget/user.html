@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+
+<style>
+    * {
+        font-family: 'Raleway', sans-serif;
+    }
+</style>
+<div>
+    <div th:if="${currentUser != null}">
+        Currently logged in:
+        <a class="btn btn-link" target="_blank" th:href="'http://scorewinner.ch:8080/user/' + ${currentUser.id}"
+           th:text="${currentUser.name}">
+        </a>
+    </div>
+    <div th:if="${currentUser == null}">Not Logged in.
+        <a class="btn btn-link" target="_blank" href="http://scorewinner.ch:8080/login?goto=dashboard">Login</a>
+    </div>
+</div>

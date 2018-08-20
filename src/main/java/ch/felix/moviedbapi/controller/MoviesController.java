@@ -45,37 +45,39 @@ public class MoviesController {
                             @RequestParam(name = "orderBy", required = false, defaultValue = "") String orderBy,
                             @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                             Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuest(model, request);
+        if (userIndicatorService.isUser(model, request)) {
+            try {
+                List<String> genres = new ArrayList<>();
+                for (Genre genre : genreRepository.findAll()) {
+                    genres.add(genre.getName());
+                }
 
-        try {
-            List<String> genres = new ArrayList<>();
-            for (Genre genre : genreRepository.findAll()) {
-                genres.add(genre.getName());
+                List<Movie> movies = pageService.getPage(searchService.searchMovies(search, orderBy, genreParam), page);
+
+                genres = duplicateService.removeStringDuplicates(genres);
+                model.addAttribute("genres", genres);
+                model.addAttribute("movies", movies);
+
+                model.addAttribute("pageIndex", page);
+                if (page - 1 == 0) {
+                    model.addAttribute("pageIndexLast", page - 1);
+                    model.addAttribute("lastDisabled", false);
+                } else {
+                    model.addAttribute("pageIndexLast", 1);
+                    model.addAttribute("lastDisabled", true);
+                }
+                model.addAttribute("pageIndexNext", page + 1);
+                model.addAttribute("search", search);
+                model.addAttribute("orderBy", orderBy);
+                model.addAttribute("currentGenre", genreParam);
+
+                model.addAttribute("page", "movieList");
+                return "template";
+            } catch (NullPointerException e) {
+                return "redirect:/";
             }
-
-            List<Movie> movies = pageService.getPage(searchService.searchMovies(search, orderBy, genreParam), page);
-
-            genres = duplicateService.removeStringDuplicates(genres);
-            model.addAttribute("genres", genres);
-            model.addAttribute("movies", movies);
-
-            model.addAttribute("pageIndex", page);
-            if (page - 1 == 0) {
-                model.addAttribute("pageIndexLast", page - 1);
-                model.addAttribute("lastDisabled", false);
-            } else {
-                model.addAttribute("pageIndexLast", 1);
-                model.addAttribute("lastDisabled", true);
-            }
-            model.addAttribute("pageIndexNext", page + 1);
-            model.addAttribute("search", search);
-            model.addAttribute("orderBy", orderBy);
-            model.addAttribute("currentGenre", genreParam);
-
-            model.addAttribute("page", "movieList");
-            return "template";
-        } catch (NullPointerException e) {
-            return "redirect:/";
+        } else {
+            return "redirect:/login?redirect=/movies/" + page;
         }
     }
 

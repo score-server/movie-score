@@ -1,9 +1,10 @@
 package ch.felix.moviedbapi.service;
 
+import org.springframework.stereotype.Service;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Wetwer
@@ -16,7 +17,8 @@ public class ShaService {
         try {
             return getEncoded(s).toString();
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            new RuntimeException(ex).printStackTrace();
+            return "";
         }
     }
 

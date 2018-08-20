@@ -40,19 +40,23 @@ public class MovieController {
 
     @GetMapping("{movieId}")
     public String getOneMovie(@PathVariable("movieId") String movieId, Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuest(model, request);
+        if (userIndicatorService.isUser(model, request)) {
 
-        Movie movie = movieRepository.findMovieById(Long.valueOf(movieId));
-        model.addAttribute("movie", movie);
-        model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
 
-        try {
-            activityService.log(userIndicatorService.getUser(request).getUser().getName() + " gets Movie " + movie.getTitle());
-        } catch (NullPointerException e) {
-            activityService.log("Guest gets Trailer " + movie.getTitle());
+            Movie movie = movieRepository.findMovieById(Long.valueOf(movieId));
+            model.addAttribute("movie", movie);
+            model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
+
+            try {
+                activityService.log(userIndicatorService.getUser(request).getUser().getName() + " gets Movie " + movie.getTitle());
+            } catch (NullPointerException e) {
+                activityService.log("Guest gets Trailer " + movie.getTitle());
+            }
+
+            model.addAttribute("page", "movie");
+            return "template";
+        } else {
+            return "redirect:/login?redirect=/movie/" + movieId;
         }
-
-        model.addAttribute("page", "movie");
-        return "template";
     }
 }

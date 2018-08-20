@@ -44,11 +44,13 @@ public class BlogController {
 
     @GetMapping
     public String getBlogList(Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuest(model, request);
-
-        model.addAttribute("blogs", blogRepository.findBlogsByOrderByTimestampDesc());
-        model.addAttribute("page", "blog");
-        return "template";
+        if (userIndicatorService.isUser(model, request)) {
+            model.addAttribute("blogs", blogRepository.findBlogsByOrderByTimestampDesc());
+            model.addAttribute("page", "blog");
+            return "template";
+        } else {
+            return "redirect:/login?redirect=/blog";
+        }
     }
 
     @GetMapping("new")

@@ -2,9 +2,10 @@ package ch.felix.moviedbapi.data.repository;
 
 import ch.felix.moviedbapi.data.entity.Season;
 import ch.felix.moviedbapi.data.entity.Serie;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author Wetwer
@@ -17,6 +18,6 @@ public interface SeasonRepository extends JpaRepository<Season, Long> {
 
     Season findSeasonBySerieAndSeason(Serie serie, Integer season);
 
-    List<Season> findSeasonsBySerie(Serie serie);
+    List<Season> findSeasonsBySerieOrderBySeason(Serie serie);
 
 }

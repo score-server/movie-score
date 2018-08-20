@@ -42,27 +42,29 @@ public class HomeController {
                                @RequestParam(name = "orderBy", required = false, defaultValue = "") String orderBy,
                                @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                                Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuest(model, request);
+        if (userIndicatorService.isUser(model, request)) {
+            if (!genreParam.equals("")) {
+                return "redirect:/movies/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
+            }
 
-        if (!genreParam.equals("")) {
-            return "redirect:/movies/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
+            List<String> genres = new ArrayList<>();
+            for (Genre genre : genreRepository.findAll()) {
+                genres.add(genre.getName());
+            }
+            genres = duplicateService.removeStringDuplicates(genres);
+            model.addAttribute("genres", genres);
+
+            model.addAttribute("movies", searchService.searchMoviesTop(search, orderBy, genreParam));
+            model.addAttribute("series", searchService.searchSerieTop(search, genreParam));
+
+            model.addAttribute("search", search);
+            model.addAttribute("orderBy", orderBy);
+            model.addAttribute("currentGenre", genreParam);
+
+            model.addAttribute("page", "home");
+            return "template";
+        } else {
+            return "redirect:/login";
         }
-
-        List<String> genres = new ArrayList<>();
-        for (Genre genre : genreRepository.findAll()) {
-            genres.add(genre.getName());
-        }
-        genres = duplicateService.removeStringDuplicates(genres);
-        model.addAttribute("genres", genres);
-
-        model.addAttribute("movies", searchService.searchMoviesTop(search, orderBy, genreParam));
-        model.addAttribute("series", searchService.searchSerieTop(search, genreParam));
-
-        model.addAttribute("search", search);
-        model.addAttribute("orderBy", orderBy);
-        model.addAttribute("currentGenre", genreParam);
-
-        model.addAttribute("page", "home");
-        return "template";
     }
 }
