@@ -23,14 +23,14 @@
             <label for="moviepath">Movie Path:</label>
             <input class="form-control col-sm-3 mx-sm-3" id="moviepath" type="text" th:value="${moviePath}"
                    name="path">
-            <input type="submit" class="btn btn-primary" value="Save">
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
         <br>
         <form action="/import/path/serie" method="post" class="form-inline">
             <label for="seriepath">Serie Path:</label>
             <input class="form-control col-sm-3 mx-sm-3" id="seriepath" type="text" th:value="${seriePath}"
                    name="path">
-            <input type="submit" class="btn btn-primary" value="Save">
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
         <br>
         <form action="/import/movie" method="post">
@@ -59,9 +59,12 @@
     <div class="card-body">
         <ul class="list-group">
             <li class="list-group-item" th:each="log : ${importLogs}">
-                <a th:if="${log.type} == 'ok'" th:text="${log.log}"
-                   th:href="'/movie/' + ${log.movie.id}"></a>
+                <a th:if="${log.type} == 'ok'" th:text="${log.log}" th:href="'/movie/' + ${log.movie.id}"></a>
+
+                <a th:if="${log.type} == 'serie'" th:text="${log.log}"></a>
+
                 <a th:if="${log.type} == 'nok'" style="color: red;" th:text="${log.log}"></a>
+
                 <a class="float-right" th:text="${log.timestamp}"></a>
             </li>
         </ul>

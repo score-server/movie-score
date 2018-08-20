@@ -26,6 +26,14 @@ public class ImportLogService {
         importLogRepository.save(importLog);
     }
 
+    public void importLog(String log) {
+        ImportLog importLog = new ImportLog();
+        importLog.setLog(log);
+        importLog.setType("serie");
+        importLog.setTimestamp(new Timestamp(new Date().getTime()));
+        importLogRepository.save(importLog);
+    }
+
     public void errorLog(String log) {
         ImportLog importLog = new ImportLog();
         importLog.setLog(log);

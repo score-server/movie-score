@@ -121,7 +121,7 @@ public class UserController {
                               @RequestParam("old") String oldPassword,
                               @RequestParam("new") String newPassword, Model model, HttpServletRequest request) {
 
-        User user = userRepository.findUserByIdAndPasswordSha(Long.valueOf(userId), oldPassword);
+        User user = userRepository.findUserByIdAndPasswordSha(Long.valueOf(userId), shaService.encode(oldPassword));
 
         if (userIndicatorService.isCurrentUser(model, request, user)) {
             user.setPasswordSha(shaService.encode(newPassword));

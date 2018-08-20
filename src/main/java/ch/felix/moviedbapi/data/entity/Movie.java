@@ -49,6 +49,9 @@ public class Movie {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<ImportLog> importLog;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
+    private List<Likes> likes;
+
     private String year;
     private String quality;
     private Integer runtime;

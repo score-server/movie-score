@@ -18,6 +18,17 @@
 
 <div class="card card-body">
     <h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'"></h1>
+
+    <form th:action="'/movie/' + ${movie.id} + '/like'" method="post" class="float-right">
+        <button th:if="${hasliked} == true" type="submit" class="btn btn-danger">
+            <i class="fas fa-heart"></i>
+        </button>
+        <button th:if="${hasliked} == false" type="submit" class="btn btn-secondary">
+            <i class="fas fa-heart"></i>
+        </button>
+    </form>
+    <p th:text="'Likes: ' + ${movie.likes.size()}"></p>
+    <p th:text="'Rating: ' + ${movie.voteAverage}"></p>
     <p th:text="'Quality: ' + ${movie.quality}"></p>
     <p>Genres:
         <span th:each="genre : ${movie.genres}">
@@ -25,7 +36,6 @@
                style="color: white;"></a>
         </span>
     </p>
-    <p th:text="'Rating: ' + ${movie.voteAverage}"></p>
     <p th:text="${movie.descript}"></p>
     <p th:text="'Runtime: ' + ${movie.runtime} + ' Min'"></p>
 </div>

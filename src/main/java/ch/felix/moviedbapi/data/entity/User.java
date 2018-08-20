@@ -1,9 +1,8 @@
 package ch.felix.moviedbapi.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Data;
 
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * @author Wetwer
@@ -50,5 +50,8 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Timeline> timelines;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Likes> likes;
 
 }

@@ -48,7 +48,7 @@ public class HomeController {
             }
 
             List<String> genres = new ArrayList<>();
-            for (Genre genre : genreRepository.findAll()) {
+            for (Genre genre : genreRepository.findAllByOrderByName()) {
                 genres.add(genre.getName());
             }
             genres = duplicateService.removeStringDuplicates(genres);

@@ -1,6 +1,5 @@
 package ch.felix.moviedbapi.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -9,27 +8,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-/**
- * @author Wetwer
- * @project movie-db
- */
 @Data
 @Entity
-public class Genre {
+public class Likes {
 
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
+    @ManyToOne
+    private User user;
+
     @ManyToOne
     private Movie movie;
 
-    @JsonIgnore
-    @ManyToOne
-    private Serie serie;
-
-    private String name;
+//    @ManyToOne
+//    private Episode episode;
 
 }
