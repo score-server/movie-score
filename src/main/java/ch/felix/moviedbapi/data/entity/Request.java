@@ -1,6 +1,5 @@
 package ch.felix.moviedbapi.data.entity;
 
-
 import lombok.*;
 
 import javax.persistence.Column;

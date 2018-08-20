@@ -83,10 +83,6 @@ public class SearchService {
         return movies;
     }
 
-    public List<Serie> searchSerie(String search) {
-        return serieRepository.findSeriesByTitleContainingOrderByTitle(search);
-    }
-
     public List<Serie> searchSerie(String search, String genreParam) {
         List<Serie> series = serieRepository.findSeriesByTitleContainingOrderByTitle(search);
         List<Serie> series2 = new ArrayList<>();
@@ -106,10 +102,6 @@ public class SearchService {
     }
 
     public List<Serie> searchSerieTop(String search) {
-        return serieRepository.findTop24ByTitleContainingOrderByTitle(search);
-    }
-
-    public List<Serie> searchSerieTop(String search, String genreParam) {
         List<Serie> series = serieRepository.findTop24ByTitleContainingOrderByTitle(search);
         return series;
     }

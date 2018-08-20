@@ -9,6 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Data
 @Entity
 public class ImportLog {

@@ -6,6 +6,10 @@ import ch.felix.moviedbapi.data.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
 @Repository
 public interface LikesRepository extends JpaRepository<Likes, Long> {
 

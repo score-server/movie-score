@@ -55,7 +55,7 @@ public class HomeController {
             model.addAttribute("genres", genres);
 
             model.addAttribute("movies", searchService.searchMoviesTop(search, orderBy, genreParam));
-            model.addAttribute("series", searchService.searchSerieTop(search, genreParam));
+            model.addAttribute("series", searchService.searchSerieTop(search));
 
             model.addAttribute("search", search);
             model.addAttribute("orderBy", orderBy);
