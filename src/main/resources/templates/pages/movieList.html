@@ -4,11 +4,11 @@
 
 <form action="/movies/1" id="search">
     <div class="row">
-        <div class="col-6">
+        <div class="col-12 col-md-6 col-lg-6">
             <input th:value="${search}" class="form-control" type="text" name="search"
                    placeholder="Search" autocomplete="off">
         </div>
-        <div class="col-3">
+        <div class="col-6 col-md-3 col-lg-3">
             <select class="form-control" name="genre"
                     onchange="document.getElementById('search').submit()">
                 <option th:selected="true" value="">All Genres</option>
@@ -16,7 +16,7 @@
                         th:text="${genre}"></option>
             </select>
         </div>
-        <div class="col-3">
+        <div class="col-6 col-md-3 col-lg-3">
             <select class="form-control" name="orderBy"
                     onchange="document.getElementById('search').submit()">
                 <option selected disabled>Order By</option>
@@ -29,12 +29,12 @@
 </form>
 <br>
 <div class="row">
-    <div th:each="movie : ${movies}" class="col-sm-2" style="margin-bottom: 20px">
+    <div th:each="movie : ${movies}" class="col-12 col-md-4 col-lg-2" style="margin-bottom: 20px">
         <div th:include="'static/movieCard.html'"></div>
     </div>
 </div>
 <div class="row" th:if="${movies.size()} == 0">
-    <div class="col-sm-2" style="margin-bottom: 20px">
+    <div class="col-12 col-md-4 col-lg-2" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No movies found</a>
             <br>

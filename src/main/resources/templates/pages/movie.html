@@ -79,7 +79,7 @@
     <div class="card">
         <div class="card-header">Similar Movies</div>
         <div class="row card-body">
-            <div th:each="movie : ${similar}" class="col-sm-2" style="margin-bottom: 20px">
+            <div th:each="movie : ${similar}" class="col-12 col-md-4 col-lg-2" style="margin-bottom: 20px">
                 <div th:include="'static/movieCard.html'"></div>
             </div>
         </div>

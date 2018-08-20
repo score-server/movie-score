@@ -63,10 +63,13 @@ public class LoginController {
             user.setSessionId(sessionId);
             userRepository.save(user);
             activityService.log(user.getName() + " logged in");
-            if (redirectParam.equals("null")) {
-                return "redirect:/";
-            } else {
-                return "redirect:" + redirectParam;
+            switch (redirectParam) {
+                case "null":
+                    return "redirect:/";
+                case "score":
+                    return "redirect:http://scorewinner.ch";
+                default:
+                    return "redirect:" + redirectParam;
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
