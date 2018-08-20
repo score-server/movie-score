@@ -1,4 +1,4 @@
-<h1>Haudi</h1>
+<h1>Movie Score</h1>
 <p>A Movie Streaming Webapplication by <a href="https://github.com/scorewinner">Scorewinner</a> and <a href="https://github.com/Wetwer">Me</a></p>
 <h3>Preview</h3>
 <p><img src="https://i.imgur.com/Zxn3gv2.png"></p>
