@@ -2,9 +2,11 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.ListMovie;
 import ch.felix.moviedbapi.data.entity.Timeline;
+import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.ListMovieRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.TimelineRepository;
+import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,13 +27,15 @@ public class TimelineController {
     private ListMovieRepository listMovieRepository;
 
     private UserIndicatorService userIndicatorService;
+    private ActivityService activityService;
 
     public TimelineController(TimelineRepository timelineRepository, MovieRepository movieRepository,
-                              ListMovieRepository listMovieRepository, UserIndicatorService userIndicatorService) {
+                              ListMovieRepository listMovieRepository, UserIndicatorService userIndicatorService, ActivityService activityService) {
         this.timelineRepository = timelineRepository;
         this.movieRepository = movieRepository;
         this.listMovieRepository = listMovieRepository;
         this.userIndicatorService = userIndicatorService;
+        this.activityService = activityService;
     }
 
     @GetMapping("edit/{timelineId}")
@@ -99,12 +103,15 @@ public class TimelineController {
                              @RequestParam("description") String description,
                              HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
+            User user = userIndicatorService.getUser(request).getUser();
+
             Timeline timeline = new Timeline();
             timeline.setTitle(title);
-            timeline.setUser(userIndicatorService.getUser(request).getUser());
+            timeline.setUser(user);
             timeline.setDescription(description);
             timelineRepository.save(timeline);
 
+            activityService.log(user.getName() + " created list " + title);
             return "redirect:/list?list";
         } else {
             return "redirect:/list";

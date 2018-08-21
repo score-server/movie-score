@@ -35,9 +35,11 @@ public class WidgetController {
 
     @GetMapping
     public String getServerStatus(Model model) {
-        model.addAttribute("hermann", checkOnline("scorewinner.ch", 8090));
-        model.addAttribute("moviedb", checkOnline("scorewinner.ch", 8080));
         model.addAttribute("minecraft", checkOnline("scorewinner.ch", 25565));
+        model.addAttribute("steam", checkOnline("scorewinner.ch", 7777));
+        model.addAttribute("gamemaster", checkOnline("scorewinner.ch", 8081));
+        model.addAttribute("moviedb", checkOnline("scorewinner.ch", 8080));
+        model.addAttribute("hermann", checkOnline("scorewinner.ch", 8090));
         return "widget/status.html";
     }
 

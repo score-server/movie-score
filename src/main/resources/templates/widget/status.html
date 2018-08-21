@@ -23,6 +23,18 @@
         <td th:if="${minecraft} == 'Offline'" style="color: red" th:text="${minecraft}"></td>
     </tr>
     <tr>
+        <td><a target="_blank">Steam Server</a></td>
+        <td>scorewinner.ch:7777</td>
+        <td th:if="${steam} == 'Online'" style="color: forestgreen" th:text="${steam}"></td>
+        <td th:if="${steam} == 'Offline'" style="color: red" th:text="${steam}"></td>
+    </tr>
+    <tr>
+        <td><a target="_blank" href="http://scorewinner.ch:8081">gamemaster</a></td>
+        <td>scorewinner.ch:8081</td>
+        <td th:if="${gamemaster} == 'Online'" style="color: forestgreen" th:text="${gamemaster}"></td>
+        <td th:if="${gamemaster} == 'Offline'" style="color: red" th:text="${gamemaster}"></td>
+    </tr>
+    <tr>
         <td><a target="_blank" href="http://scorewinner.ch:8080">MovieScore</a></td>
         <td>scorewinner.ch:8080</td>
         <td th:if="${moviedb} == 'Online'" style="color: forestgreen" th:text="${moviedb}"></td>
@@ -34,5 +46,6 @@
         <td th:if="${hermann} == 'Online'" style="color: forestgreen" th:text="${hermann}"></td>
         <td th:if="${hermann} == 'Offline'" style="color: red" th:text="${hermann}"></td>
     </tr>
+
 </table>
 </body>
