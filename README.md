@@ -8,9 +8,7 @@
   <p>This application is free for my friends.</p>
 <p>If you want an Account and the Application Url contact me via Mail, Discord, Whatsapp or Personal. If i dont know you, you wont get a 
   login...</p>
-  
-  <a href="https://github.com/Wetwer/movie-db-api/wiki/Installation">Install it yourself</a>
-
+ 
 <pre>
 MIT License
 
