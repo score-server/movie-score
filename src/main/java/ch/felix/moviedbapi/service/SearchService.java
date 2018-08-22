@@ -36,6 +36,9 @@ public class SearchService {
 
         switch (orderByParam) {
             case "":
+                movies = movieRepository.findMoviesByTitleContainingOrderByPopularityDesc(searchParam);
+                break;
+            case "title":
                 movies = movieRepository.findMoviesByTitleContainingOrderByTitle(searchParam);
                 break;
             case "rating":
@@ -68,6 +71,9 @@ public class SearchService {
 
         switch (orderBy) {
             case "":
+                movies = movieRepository.findTop24ByTitleContainingOrderByPopularityDesc(search);
+                break;
+            case "title":
                 movies = movieRepository.findTop24ByTitleContainingOrderByTitle(search);
                 break;
             case "rating":
@@ -84,7 +90,7 @@ public class SearchService {
     }
 
     public List<Serie> searchSerie(String search, String genreParam) {
-        List<Serie> series = serieRepository.findSeriesByTitleContainingOrderByTitle(search);
+        List<Serie> series = serieRepository.findSeriesByTitleContainingOrderByPopularityDesc(search);
         List<Serie> series2 = new ArrayList<>();
 
         if (genreParam.equals("")) {
@@ -102,7 +108,7 @@ public class SearchService {
     }
 
     public List<Serie> searchSerieTop(String search) {
-        List<Serie> series = serieRepository.findTop24ByTitleContainingOrderByTitle(search);
+        List<Serie> series = serieRepository.findTop24ByTitleContainingOrderByPopularityDesc(search);
         return series;
     }
 

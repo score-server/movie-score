@@ -1,12 +1,13 @@
 package ch.felix.moviedbapi.service.importer;
 
+import ch.felix.moviedbapi.data.entity.Movie;
+import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.service.SettingsService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +19,12 @@ import java.util.List;
 public abstract class ImportService {
 
 
-    public List<File> filesToUpdate = new ArrayList<>();
-
     private SettingsService settingsService;
+    private MovieRepository movieRepository;
 
-    protected ImportService(SettingsService settingsService) {
+    protected ImportService(SettingsService settingsService, MovieRepository movieRepository) {
         this.settingsService = settingsService;
+        this.movieRepository = movieRepository;
     }
 
     public abstract void filterFile(File movieFile);
@@ -66,10 +67,17 @@ public abstract class ImportService {
 
 
     public void updateFile() {
-        for (File movieFile : filesToUpdate) {
-            filterUpdateFile(movieFile);
-        }
-        filesToUpdate = new ArrayList<>();
-    }
+        List<Movie> movies = movieRepository.findAll();
+        int currentFileIndex = 0;
+        int allFiles = movies.size();
 
+        for (Movie movie : movies) {
+            filterUpdateFile(new File(movie.getVideoPath()));
+            settingsService.setValue("importProgress",
+                    String.valueOf(round(getPercent(currentFileIndex, allFiles), 1)));
+            currentFileIndex++;
+        }
+        settingsService.setValue("import", "0");
+        settingsService.setValue("importProgress", "0");
+    }
 }

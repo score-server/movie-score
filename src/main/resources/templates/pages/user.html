@@ -128,7 +128,7 @@
             </li>
         </ul>
         <div class="row" th:if="${requests.size()} == 0">
-            <div class="col-12 col-md-4 col-lg-2">
+            <div class="col-12 col-md-4 col-lg-3">
                 <div class="alert alert-secondary">
                     <a>No Requests</a>
                 </div>
@@ -149,12 +149,12 @@
     <div class="card-header">Lists</div>
     <div class="card-body">
         <div class="row">
-            <div th:each="timeline : ${timelines}" class="col-12 col-md-4 col-lg-2" style="margin-bottom: 20px">
+            <div th:each="timeline : ${timelines}" class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
                 <div th:include="'static/listCard.html'"></div>
             </div>
         </div>
         <div class="row" th:if="${timelines.size()} == 0">
-            <div class="col-12 col-md-4 col-lg-2">
+            <div class="col-12 col-md-4 col-lg-3">
                 <div class="alert alert-secondary">
                     <a>No Lists found</a>
                 </div>
@@ -167,12 +167,12 @@
     <div class="card-header">Likes</div>
     <div class="card-body">
         <div class="row">
-            <div th:each="like : ${user.likes}" class="col-12 col-md-4 col-lg-2" style="margin-bottom: 20px">
+            <div th:each="like : ${user.likes}" class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
                 <div th:include="'static/likesMovieCard.html'"></div>
             </div>
         </div>
         <div class="row" th:if="${user.likes.size()} == 0">
-            <div class="col-12 col-md-4 col-lg-2">
+            <div class="col-12 col-md-4 col-lg-3">
                 <div class="alert alert-secondary">
                     <a>No Likes</a>
                 </div>

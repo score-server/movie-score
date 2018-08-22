@@ -78,10 +78,13 @@ public class UserController {
     @PostMapping(value = "{userId}/role/{role}", produces = "application/json")
     public String setRole(@PathVariable("userId") String userId, @PathVariable("role") String role,
                           HttpServletRequest request) {
+        User currentUser = userIndicatorService.getUser(request).getUser();
+
         if (userIndicatorService.isAdministrator(request)) {
             User user = userRepository.findUserById(Long.valueOf(userId));
             user.setRole(Integer.valueOf(role));
             userRepository.save(user);
+            activityService.log(currentUser.getName() + " changed role of " + user.getName() + " to " + role);
             return "redirect:/user/" + userId + "?role";
         } else {
             return "redirect:/user/" + userId + "?error";

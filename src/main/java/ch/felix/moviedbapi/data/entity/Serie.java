@@ -1,8 +1,7 @@
 package ch.felix.moviedbapi.data.entity;
 
-import lombok.*;
+import lombok.Data;
 
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import java.util.List;
 
 /**
  * @author Wetwer
@@ -24,6 +24,7 @@ public class Serie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String title;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "serie")
@@ -39,6 +40,7 @@ public class Serie {
     private String caseImg;
     private String backgroundImg;
     private Double popularity;
+    private Double voteAverage;
 
 
 }

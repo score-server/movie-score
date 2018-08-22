@@ -33,13 +33,21 @@
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
         <br>
-        <form action="/import/movie" method="post">
-            <button class="btn btn-primary" th:disabled="${running}">Import Movies</button>
-        </form>
+        <div class="card card-body">
+            <form action="/import/movie" method="post">
+                <button class="btn btn-primary" th:disabled="${running}">Import Movies</button>
+            </form>
+            <br>
+            <form action="/import/movie/update" method="post">
+                <button class="btn btn-primary" th:disabled="${running}">Update Movies</button>
+            </form>
+        </div>
         <br>
-        <form action="/import/serie" method="post">
-            <button class="btn btn-primary" th:disabled="${running}">Import Series</button>
-        </form>
+        <div class="card card-body">
+            <form action="/import/serie" method="post">
+                <button class="btn btn-primary" th:disabled="${running}">Import Series</button>
+            </form>
+        </div>
         <br>
         <form action="/import/reset" method="post">
             <button class="btn btn-danger">Reset Import deactivation</button>

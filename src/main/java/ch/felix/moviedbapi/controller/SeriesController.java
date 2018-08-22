@@ -46,7 +46,7 @@ public class SeriesController {
         this.userIndicatorService = userIndicatorService;
     }
 
-    @GetMapping(produces = "application/json")
+    @GetMapping
     public String getSeries(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                             @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                             Model model, HttpServletRequest request) {
@@ -70,7 +70,7 @@ public class SeriesController {
         }
     }
 
-    @GetMapping(value = "/{serieId}", produces = "application/json")
+    @GetMapping(value = "/{serieId}")
     public String getOneSerie(@PathVariable("serieId") String serieId, Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
             Serie serie = serieRepository.findSerieById(Long.valueOf(serieId));

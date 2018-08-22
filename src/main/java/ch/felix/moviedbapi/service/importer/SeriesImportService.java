@@ -4,6 +4,7 @@ import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.entity.Season;
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
+import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.jsonmodel.tmdb.SerieJson;
@@ -24,19 +25,24 @@ public class SeriesImportService extends ImportService {
     private SerieRepository serieRepository;
     private SeasonRepository seasonRepository;
     private EpisodeRepository episodeRepository;
+    private MovieRepository movieRepository;
 
     private GenreImportService genreImportService;
     private ImportLogService importLogService;
+    private SearchMovieService searchMovieService;
 
     protected SeriesImportService(SettingsService settingsService, SerieRepository serieRepository,
                                   SeasonRepository seasonRepository, EpisodeRepository episodeRepository,
-                                  GenreImportService genreImportService, ImportLogService importLogService) {
-        super(settingsService);
+                                  MovieRepository movieRepository, GenreImportService genreImportService,
+                                  ImportLogService importLogService, SearchMovieService searchMovieService) {
+        super(settingsService, movieRepository);
         this.serieRepository = serieRepository;
         this.seasonRepository = seasonRepository;
         this.episodeRepository = episodeRepository;
+        this.movieRepository = movieRepository;
         this.genreImportService = genreImportService;
         this.importLogService = importLogService;
+        this.searchMovieService = searchMovieService;
     }
 
     @Override
@@ -46,22 +52,17 @@ public class SeriesImportService extends ImportService {
                 .replace(".avi", "")
                 .replace(".mkv", "");
 
-        SearchMovieService searchMovieService = new SearchMovieService();
-        int serieId = searchMovieService.findSeriesId(getName(seriesName), getYear(seriesName));
-        SerieJson serieJson = searchMovieService.getSerieInfo(serieId);
-
 
         Serie serie = serieRepository.findSerieByTitle(getName(seriesName));
 
         if (serie == null) {
-            try {
-                Thread.sleep(300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             serie = new Serie();
             serie.setTitle(getName(seriesName));
+            int serieId = searchMovieService.findSeriesId(getName(seriesName), getYear(seriesName));
+            SerieJson serieJson = searchMovieService.getSerieInfo(serieId);
+            sleep();
             try {
+                serie.setVoteAverage(serieJson.getVoteAverage());
                 serie.setDescript(serieJson.getOverview());
                 serie.setCaseImg("https://image.tmdb.org/t/p/original" + serieJson.getPosterPath());
                 serie.setBackgroundImg("https://image.tmdb.org/t/p/original" + serieJson.getBackdropPath());
@@ -74,13 +75,11 @@ public class SeriesImportService extends ImportService {
             try {
                 genreImportService.setGenre(serieRepository.findSerieByTitle(getName(seriesName)),
                         serieJson.getGenres());
+                sleep();
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-        } else {
-            super.filesToUpdate.add(movieFile);
         }
-
 
         Season season = seasonRepository.findSeasonBySerieAndSeason(
                 serieRepository.findSerieByTitle(getName(seriesName)),
@@ -119,7 +118,6 @@ public class SeriesImportService extends ImportService {
                 .replace(".avi", "")
                 .replace(".mkv", "");
 
-        SearchMovieService searchMovieService = new SearchMovieService();
         int serieId = searchMovieService.findSeriesId(getName(seriesName), getYear(seriesName));
         SerieJson serieJson = searchMovieService.getSerieInfo(serieId);
 
@@ -135,6 +133,10 @@ public class SeriesImportService extends ImportService {
 
         importLogService.importLog("Updated Series: " + getName(seriesName));
         serieRepository.save(serie);
+        sleep();
+    }
+
+    private void sleep() {
         try {
             Thread.sleep(300);
         } catch (InterruptedException e) {

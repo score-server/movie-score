@@ -24,7 +24,8 @@
             <select class="form-control" name="orderBy"
                     onchange="document.getElementById('search').submit()">
                 <option selected disabled>Order By</option>
-                <option th:selected="${orderBy.contains('')}" value="">Title</option>
+                <option th:selected="${orderBy.contains('')}" value="">Popularity</option>
+                <option th:selected="${orderBy.contains('title')}" value="title">Title</option>
                 <option th:selected="${orderBy.contains('rating')}" value="rating">Rating</option>
                 <option th:selected="${orderBy.contains('year')}" value="year">Year</option>
             </select>
@@ -36,12 +37,12 @@
 
 <h3>Movies</h3>
 <div class="row">
-    <div th:each="movie : ${movies}" class="col-12 col-md-4 col-lg-2" style="margin-bottom: 20px">
+    <div th:each="movie : ${movies}" class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div th:include="'static/movieCard.html'"></div>
     </div>
 </div>
 <div class="row" th:if="${movies.size()} == 0">
-    <div class="col-12 col-md-4 col-lg-2" style="margin-bottom: 20px">
+    <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No movies found</a>
             <br>
@@ -51,7 +52,7 @@
     </div>
 </div>
 <div class="row" th:if="${movies.size()} != 0">
-    <div class="col-12 col-md-4 col-lg-2" style="margin-bottom: 20px">
+    <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div class="card card-body">
             <a href="/movies/1">All movies</a>
         </div>
@@ -62,12 +63,12 @@
 
 <h3>Series</h3>
 <div class="row">
-    <div th:each="serie : ${series}" class="col-12 col-md-4 col-lg-2" style="margin-bottom: 20px">
+    <div th:each="serie : ${series}" class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div th:include="'static/serieCard.html'"></div>
     </div>
 </div>
 <div class="row" th:if="${series.size()} == 0">
-    <div class="col-12 col-md-4 col-lg-2" style="margin-bottom: 20px">
+    <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No series found</a>
             <br>
@@ -77,7 +78,7 @@
     </div>
 </div>
 <div class="row" th:if="${series.size()} != 0">
-    <div class="col-12 col-md-4 col-lg-2" style="margin-bottom: 20px">
+    <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div class="card card-body">
             <a href="/serie">All series</a>
         </div>

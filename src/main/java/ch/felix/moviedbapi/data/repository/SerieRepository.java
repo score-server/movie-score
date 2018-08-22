@@ -18,7 +18,7 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
 
     Serie findSerieByTitle(String title);
 
-    List<Serie> findSeriesByTitleContainingOrderByTitle(String search);
+    List<Serie> findSeriesByTitleContainingOrderByPopularityDesc(String search);
 
-    List<Serie> findTop24ByTitleContainingOrderByTitle(String search);
+    List<Serie> findTop24ByTitleContainingOrderByPopularityDesc(String search);
 }

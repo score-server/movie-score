@@ -21,13 +21,16 @@ public class MovieImportService extends ImportService {
 
     private GenreImportService genreImportService;
     private ImportLogService importLogService;
+    private SearchMovieService searchMovieService;
 
     public MovieImportService(MovieRepository movieRepository, SettingsService settingsService,
-                              GenreImportService genreImportService, ImportLogService importLogService) {
-        super(settingsService);
+                              GenreImportService genreImportService, ImportLogService importLogService,
+                              SearchMovieService searchMovieService) {
+        super(settingsService, movieRepository);
         this.movieRepository = movieRepository;
         this.genreImportService = genreImportService;
         this.importLogService = importLogService;
+        this.searchMovieService = searchMovieService;
     }
 
     private String getName(String s) {
@@ -62,7 +65,6 @@ public class MovieImportService extends ImportService {
                 e.printStackTrace();
             }
 
-            SearchMovieService searchMovieService = new SearchMovieService();
             int movieId = searchMovieService.findMovieId(movie.getTitle(), movie.getYear());
             MovieJson movieJson = searchMovieService.getMovieInfo(movieId);
             try {
@@ -87,8 +89,6 @@ public class MovieImportService extends ImportService {
                 e.printStackTrace();
                 importLogService.errorLog("Can't add Movie " + getName(filename) + " | " + filename);
             }
-        } else {
-            super.filesToUpdate.add(movieFile);
         }
     }
 
@@ -97,7 +97,6 @@ public class MovieImportService extends ImportService {
         String filename = movieFile.getName().replace(".mp4", "");
         Movie movie = movieRepository.findMovieByTitle(getName(filename));
 
-        SearchMovieService searchMovieService = new SearchMovieService();
         int movieId = searchMovieService.findMovieId(movie.getTitle(), movie.getYear());
         MovieJson movieJson = searchMovieService.getMovieInfo(movieId);
         try {
@@ -105,9 +104,6 @@ public class MovieImportService extends ImportService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        movie.setTrailerKey(searchMovieService.getTrailer(movieId));
-
-        movie.setDescript(movieJson.getOverview());
         movie.setPopularity(movieJson.getPopularity());
         movie.setCaseImg("https://image.tmdb.org/t/p/original" + movieJson.getPoster_path());
         movie.setBackgroundImg("https://image.tmdb.org/t/p/original" + movieJson.getBackdropPath());
@@ -119,8 +115,6 @@ public class MovieImportService extends ImportService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 
 }

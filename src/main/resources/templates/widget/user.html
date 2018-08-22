@@ -8,14 +8,15 @@
         font-family: 'Raleway', sans-serif;
     }
 </style>
-<div>
+<div style="padding: 5px">
     <div th:if="${currentUser != null}">
-        Currently logged in:
-        <a class="btn btn-link" target="_blank" th:href="'http://scorewinner.ch:8080/user/' + ${currentUser.id}"
-           th:text="${currentUser.name}">
+        <a>
+            Currently logged in:
+            <a class="btn btn-link" target="_parent" th:href="'http://scorewinner.ch:8080/user/' + ${currentUser.id}"
+               th:text="${currentUser.name}">
+            </a>
         </a>
     </div>
-    <div th:if="${currentUser == null}">Not Logged in.
-        <a class="btn btn-link" target="_parent" href="http://scorewinner.ch/login.php">Login</a>
-    </div>
+    <a th:if="${currentUser == null}" target="_parent" href="http://scorewinner.ch/login.php"
+       class="btn btn-outline-primary float-right">Sign In</a>
 </div>
