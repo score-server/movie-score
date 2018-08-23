@@ -6,8 +6,8 @@
 <div class="card card-body">
     <h1 th:text="${episode.season.serie.title} + ' Season ' + ${episode.season.season}
     + ' Episode ' + ${episode.episode}"></h1>
-    <a th:text="'Quality: ' + ${episode.quality}"></a>
-    <a class="float-right" th:href="'/episode/' + ${nextEpisode.id}">Next Episode</a>
+    <p th:text="'Quality: ' + ${episode.quality}"></p>
+    <!--<a class="float-right" th:href="'/episode/' + ${nextEpisode.id}">Next Episode</a>-->
     <p>Genres:
         <span th:each="genre : ${episode.season.serie.genres}">
             <a class="badge" th:text="${genre.name}" th:href="'/serie?genre=' + ${genre.name}"

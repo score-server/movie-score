@@ -1,8 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <div>
     <a th:if="${currentUser != null}">
-        Currently logged in:
+        Logged in:
         <a th:href="'/user/' + ${currentUser.id}" th:text="${currentUser.name}" class="btn btn-link"></a>
     </a>
-    <a th:if="${currentUser == null}" href="/login" class="btn btn-outline-primary">Sign In</a>
+    <a th:if="${currentUser == null}" href="/login" class="btn btn-primary">Sign In</a>
 </div>
