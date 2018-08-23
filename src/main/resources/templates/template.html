@@ -7,17 +7,19 @@
     <title>MovieScore</title>
     <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/18ENHCC.png"/>
 
-    <link rel="stylesheet" type="text/css" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="'../assets/bootstrap/css/bootstrap.min.css'">
     <link rel="stylesheet" th:href="'../style.css'">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
     <style>
         body {
             background: url("https://i.imgur.com/qV8wWKL.jpg") no-repeat fixed;
             background-size: 100%;
         }
+
         .nav-logo {
             margin-right: 5px;
             width: 30px;
@@ -26,12 +28,13 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-light p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm darker">
     <a class="navbar-brand" href="/">
-        <img src="../assets/images/logo-rounded.png" class="d-inline-block align-top nav-logo" alt="nav brand">
+        <img src="https://i.imgur.com/18ENHCC.png" class="d-inline-block align-top nav-logo" alt="nav brand">
         MovieScore
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -60,23 +63,13 @@
             <li class="nav-item">
                 <a class="nav-link text-dark" href="/about">About</a>
             </li>
-        </ul>
-        <ul class="navbar-nav">
-            <li><a class="nav-link text-dark" href="/pages/login.php"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-        </ul>
-        <ul class="navbar-nav">
-            <li class="nav-link text-dark" th:if="${page} != 'login'">
-                <a th:if="${currentUser?.role} == 2" class="nav-link text-dark"
-                   href="/settings"><i>Settings</i></a>
+            <li class="nav-item" th:if="${page} != 'login'">
+                <a th:if="${currentUser?.role} == 2" class="nav-link text-dark" href="/settings"><i>Settings</i></a>
             </li>
-            <li class="nav-link text-dark">
-                <div th:if="${currentUser != null}">
-                    <a th:href="'/user/' + ${currentUser.id}"><i class="fas fa-sign-out-alt"></i>Log Out</a>
-                </div>
-                <div th:if="${currentUser == null}">
-                    <a href="/login"><i class="fas fa-sign-in-alt"></i>Login</a>
-                </div>
-                <a class="nav-link text-dark" href="/about">Login</a>
+        </ul>
+        <ul class="navbar-nav">
+            <li>
+                <div class="nav-link text-dark" th:include="'static/currentuser.html'"></div>
             </li>
         </ul>
     </div>
@@ -94,5 +87,5 @@
     </div>
 </center>
 </body>
-<script src="../assets/bootstrap/js/bootstrap.js"></script>
+<script th:src="'../assets/bootstrap/js/bootstrap.js'"></script>
 </html>
