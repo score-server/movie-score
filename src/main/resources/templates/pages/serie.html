@@ -5,6 +5,14 @@
 <img class="img-thumbnail" th:src="${serie.caseImg}" width="100px">
 <br>
 <br>
+<div class="card card-body">
+    <p>
+        <span style="color: #D7D700;" class="fa fa-star checked"></span>
+        <span th:text="'Rating: ' + ${serie.voteAverage}"></span>
+    </p>
+    <p th:text="${serie.descript}"></p>
+</div>
+<br>
 <ul class="list-group">
     <li class="list-group-item" th:each="season:${seasons}">
         <a th:text="'Season ' + ${season.season}" th:href="'/season/' + ${season.id}"></a>

@@ -5,6 +5,11 @@
         <img class="card-img-top" th:src="${serie.caseImg}">
         <div class="card-body nodec">
             <h5 class="card-title" th:text="${serie.title}"></h5>
+            <a>
+                <span style="color: #D7D700;" class="fa fa-star checked"></span>
+                <span th:text="${serie.voteAverage}"></span>
+            </a>
+            <a class="float-right" th:text="'Seasons: ' + ${serie.seasons.size()}"></a>
         </div>
     </div>
 </a>

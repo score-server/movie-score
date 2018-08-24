@@ -10,9 +10,11 @@ import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.jsonmodel.tmdb.SerieJson;
 import ch.felix.moviedbapi.service.ImportLogService;
 import ch.felix.moviedbapi.service.SettingsService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * @author Wetwer
@@ -30,11 +32,13 @@ public class SeriesImportService extends ImportService {
     private GenreImportService genreImportService;
     private ImportLogService importLogService;
     private SearchMovieService searchMovieService;
+    private SettingsService settingsService;
 
     protected SeriesImportService(SettingsService settingsService, SerieRepository serieRepository,
                                   SeasonRepository seasonRepository, EpisodeRepository episodeRepository,
                                   MovieRepository movieRepository, GenreImportService genreImportService,
-                                  ImportLogService importLogService, SearchMovieService searchMovieService) {
+                                  ImportLogService importLogService, SearchMovieService searchMovieService,
+                                  SettingsService settingsService1) {
         super(settingsService, movieRepository);
         this.serieRepository = serieRepository;
         this.seasonRepository = seasonRepository;
@@ -43,6 +47,7 @@ public class SeriesImportService extends ImportService {
         this.genreImportService = genreImportService;
         this.importLogService = importLogService;
         this.searchMovieService = searchMovieService;
+        this.settingsService = settingsService1;
     }
 
     @Override
@@ -62,10 +67,10 @@ public class SeriesImportService extends ImportService {
             SerieJson serieJson = searchMovieService.getSerieInfo(serieId);
             sleep();
             try {
-                serie.setVoteAverage(serieJson.getVoteAverage());
                 serie.setDescript(serieJson.getOverview());
                 serie.setCaseImg("https://image.tmdb.org/t/p/original" + serieJson.getPosterPath());
                 serie.setBackgroundImg("https://image.tmdb.org/t/p/original" + serieJson.getBackdropPath());
+                serie.setVoteAverage(serieJson.getVoteAverage());
                 serie.setPopularity(serieJson.getPopularity());
             } catch (NullPointerException e) {
                 e.printStackTrace();
@@ -113,28 +118,43 @@ public class SeriesImportService extends ImportService {
 
     @Override
     public void filterUpdateFile(File movieFile) {
-        String seriesName = movieFile.getName()
-                .replace(".mp4", "")
-                .replace(".avi", "")
-                .replace(".mkv", "");
 
-        int serieId = searchMovieService.findSeriesId(getName(seriesName), getYear(seriesName));
+    }
+
+    public void filterUpdateFile(Serie serie) {
+        int serieId = searchMovieService.findSeriesId(serie.getTitle());
         SerieJson serieJson = searchMovieService.getSerieInfo(serieId);
-
-        Serie serie = serieRepository.findSerieByTitle(getName(seriesName));
 
         try {
             serie.setDescript(serieJson.getOverview());
+            serie.setVoteAverage(serieJson.getVoteAverage());
             serie.setPopularity(serieJson.getPopularity());
         } catch (NullPointerException e) {
             e.printStackTrace();
-            importLogService.errorLog("No json found for " + getName(seriesName));
+            importLogService.errorLog("No json found for " + serie.getTitle());
         }
 
-        importLogService.importLog("Updated Series: " + getName(seriesName));
+        importLogService.importLog("Updated Series: " + serie.getTitle());
         serieRepository.save(serie);
         sleep();
     }
+
+    @Async
+    public void update() {
+        List<Serie> serieList = serieRepository.findSerieByOrderByTitle();
+
+        int currentFileIndex = 0;
+        int allFiles = serieList.size();
+
+        for (Serie serie : serieList) {
+            filterUpdateFile(serie);
+            settingsService.setValue("importProgress", String.valueOf(round(getPercent(currentFileIndex, allFiles), 1)));
+            currentFileIndex++;
+        }
+        settingsService.setValue("import", "0");
+        settingsService.setValue("importProgress", "0");
+    }
+
 
     private void sleep() {
         try {

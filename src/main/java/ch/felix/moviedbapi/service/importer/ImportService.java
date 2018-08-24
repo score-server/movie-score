@@ -54,7 +54,7 @@ public abstract class ImportService {
         settingsService.setValue("import", "0");
     }
 
-    private float getPercent(int current, int all) {
+    public float getPercent(int current, int all) {
         return (current * 100.0f) / all;
     }
 

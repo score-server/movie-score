@@ -47,6 +47,11 @@
             <form action="/import/serie" method="post">
                 <button class="btn btn-primary" th:disabled="${running}">Import Series</button>
             </form>
+            <br>
+            <form action="/import/serie/update" method="post">
+                <button class="btn btn-primary" th:disabled="${running}">Update Series</button>
+            </form>
+
         </div>
         <br>
         <form action="/import/reset" method="post">

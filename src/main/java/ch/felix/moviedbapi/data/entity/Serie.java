@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +31,7 @@ public class Serie {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "serie")
     private List<Season> seasons;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "serie")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "serie")
     private List<Genre> genres;
 
     @Lob
