@@ -1,6 +1,7 @@
 package ch.felix.moviedbapi.service;
 
 import ch.felix.moviedbapi.data.entity.ActivityLog;
+import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.ActivityLogRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,10 @@ public class ActivityService {
         this.activityLogRepository = activityLogRepository;
     }
 
-    public void log(String log) {
+    public void log(String log, User user) {
         ActivityLog activityLog = new ActivityLog();
         activityLog.setLog(log);
+        activityLog.setUser(user);
         activityLog.setTimestamp(new Timestamp(new Date().getTime()));
         activityLogRepository.save(activityLog);
     }

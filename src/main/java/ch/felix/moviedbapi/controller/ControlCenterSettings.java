@@ -3,6 +3,7 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.repository.ActivityLogRepository;
 import ch.felix.moviedbapi.data.repository.ImportLogRepository;
+import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.service.SettingsService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import ch.felix.moviedbapi.service.filehandler.FileHandler;
@@ -20,23 +21,26 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping("settings")
-public class SettingsController {
+public class ControlCenterSettings {
 
     private SettingsService settingsService;
     private UserIndicatorService userIndicatorService;
     private ImportLogRepository importLogRepository;
     private ActivityLogRepository activityLogRepository;
+    private RequestRepository requestRepository;
 
-    public SettingsController(SettingsService settingsService, UserIndicatorService userIndicatorService,
-                              ImportLogRepository importLogRepository, ActivityLogRepository activityLogRepository) {
+    public ControlCenterSettings(SettingsService settingsService, UserIndicatorService userIndicatorService,
+                                 ImportLogRepository importLogRepository, ActivityLogRepository activityLogRepository,
+                                 RequestRepository requestRepository) {
         this.settingsService = settingsService;
         this.userIndicatorService = userIndicatorService;
         this.importLogRepository = importLogRepository;
         this.activityLogRepository = activityLogRepository;
+        this.requestRepository = requestRepository;
     }
 
     @GetMapping
-    private String getSettings(Model model, HttpServletRequest request) {
+    private String getControlCenter(Model model, HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(model, request)) {
 
             model.addAttribute("moviePath", settingsService.getKey("moviePath"));
@@ -44,6 +48,7 @@ public class SettingsController {
             model.addAttribute("importProgress", settingsService.getKey("importProgress"));
             model.addAttribute("importLogs", importLogRepository.findAllByOrderByTimestampDesc());
             model.addAttribute("activityLogs", activityLogRepository.findAllByOrderByTimestampDesc());
+            model.addAttribute("requests", requestRepository.findAll());
             try {
                 model.addAttribute("running", settingsService.getKey("import").equals("1"));
             } catch (NullPointerException e) {
@@ -51,7 +56,7 @@ public class SettingsController {
                 model.addAttribute("running", settingsService.getKey("import").equals("1"));
             }
 
-            model.addAttribute("page", "settings");
+            model.addAttribute("page", "controlCenter");
             return "template";
         } else {
             return "redirect:/";

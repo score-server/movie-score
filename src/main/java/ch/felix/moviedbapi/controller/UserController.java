@@ -1,6 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.User;
+import ch.felix.moviedbapi.data.repository.ActivityLogRepository;
 import ch.felix.moviedbapi.data.repository.TimelineRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ActivityService;
@@ -35,19 +36,22 @@ public class UserController {
     private SearchService searchService;
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
+    private ActivityLogRepository activityLogRepository;
 
 
     public UserController(UserRepository userRepository, TimelineRepository timelineRepository, ShaService shaService,
-                          SearchService searchService, UserIndicatorService userIndicatorService, ActivityService activityService) {
+                          SearchService searchService, UserIndicatorService userIndicatorService,
+                          ActivityService activityService, ActivityLogRepository activityLogRepository) {
         this.userRepository = userRepository;
         this.timelineRepository = timelineRepository;
         this.shaService = shaService;
         this.searchService = searchService;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
+        this.activityLogRepository = activityLogRepository;
     }
 
-    @GetMapping(produces = "application/json")
+    @GetMapping
     public String getUserList(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                               Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
@@ -60,7 +64,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "{userId}", produces = "application/json")
+    @GetMapping(value = "{userId}")
     public String getOneUser(@PathVariable("userId") String userId, Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
             User user = userRepository.findUserById(Long.valueOf(userId));
@@ -68,6 +72,8 @@ public class UserController {
             model.addAttribute("user", user);
             model.addAttribute("requests", user.getRequests());
             model.addAttribute("timelines", timelineRepository.findTimelinesByUser(user));
+            model.addAttribute("activities",
+                    activityLogRepository.findActivityLogsByUserOrderByTimestampDesc(user));
             model.addAttribute("page", "user");
             return "template";
         } else {
@@ -75,7 +81,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "{userId}/role/{role}", produces = "application/json")
+    @PostMapping(value = "{userId}/role/{role}")
     public String setRole(@PathVariable("userId") String userId, @PathVariable("role") String role,
                           HttpServletRequest request) {
         User currentUser = userIndicatorService.getUser(request).getUser();
@@ -84,20 +90,20 @@ public class UserController {
             User user = userRepository.findUserById(Long.valueOf(userId));
             user.setRole(Integer.valueOf(role));
             userRepository.save(user);
-            activityService.log(currentUser.getName() + " changed role of " + user.getName() + " to " + role);
+            activityService.log(currentUser.getName() + " changed role of " + user.getName() + " to " + role, user);
             return "redirect:/user/" + userId + "?role";
         } else {
             return "redirect:/user/" + userId + "?error";
         }
     }
 
-    @PostMapping(value = "{userId}/delete", produces = "application/json")
+    @PostMapping(value = "{userId}/delete")
     public String deleteUser(@PathVariable("userId") String userId,
                              HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
             User user = userRepository.findUserById(Long.valueOf(userId));
             userRepository.delete(user);
-            activityService.log(user.getName() + " removed");
+            activityService.log(user.getName() + " removed", user);
             return "redirect:/user/?deleted";
         } else {
             return "redirect:/user/" + userId + "?error";
@@ -112,7 +118,7 @@ public class UserController {
         if (userIndicatorService.isCurrentUser(model, request, user)) {
             user.setName(newName);
             userRepository.save(user);
-            activityService.log(oldName + " changed Username to " + newName);
+            activityService.log(oldName + " changed Username to " + newName, user);
             return "redirect:/user/" + userId + "?username";
         } else {
             return "redirect:/user/" + userId + "?error";
@@ -129,7 +135,7 @@ public class UserController {
         if (userIndicatorService.isCurrentUser(model, request, user)) {
             user.setPasswordSha(shaService.encode(newPassword));
             userRepository.save(user);
-            activityService.log(user.getName() + " changed Password");
+            activityService.log(user.getName() + " changed Password", user);
             return "redirect:/user/" + userId + "?password";
         } else {
             return "redirect:/user/" + userId + "?error";

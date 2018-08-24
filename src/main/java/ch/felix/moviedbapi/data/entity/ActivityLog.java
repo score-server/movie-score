@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
 
 /**
@@ -21,6 +22,9 @@ public class ActivityLog {
     private Long id;
 
     private String log;
+
+    @ManyToOne
+    private User user;
 
     private Timestamp timestamp;
 

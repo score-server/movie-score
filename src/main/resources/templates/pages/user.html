@@ -140,7 +140,7 @@
         </div>
         <div th:if="${currentUser?.role} == 2">
             <br>
-            <a class="btn btn-primary" href="/request">Request List</a>
+            <a class="btn btn-primary" href="/settings">Request List</a>
         </div>
     </div>
 </div>
@@ -178,5 +178,17 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<br>
+<div class="card" th:if="${currentUser?.role} == 2">
+    <div class="card-header">Activity Logs</div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item" th:each="log : ${activities}">
+                <a th:text="${log.log}"></a>
+                <a class="float-right" th:text="${log.timestamp}"></a>
+            </li>
+        </ul>
     </div>
 </div>

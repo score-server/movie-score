@@ -77,7 +77,7 @@ public class BlogController {
             blog.setUser(user);
             blog.setTimestamp(new Timestamp(new Date().getTime()));
             blogRepository.save(blog);
-            activityService.log(user.getName() + " created new Blog Post");
+            activityService.log(user.getName() + " created new Blog Post", user);
             return "redirect:/blog?new";
         } else {
             return "redirect:/blog";

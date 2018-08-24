@@ -54,4 +54,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Likes> likes;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<ActivityLog> activityLogs;
+
 }

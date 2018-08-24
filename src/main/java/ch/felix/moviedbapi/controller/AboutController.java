@@ -4,6 +4,7 @@ import ch.felix.moviedbapi.data.entity.Nice;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.NiceRepository;
+import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,20 +27,24 @@ public class AboutController {
 
     private UserIndicatorService userIndicatorService;
     private NiceRepository niceRepository;
+    private SerieRepository serieRepository;
 
     public AboutController(EpisodeRepository episodeRepository, MovieRepository movieRepository,
-                           UserIndicatorService userIndicatorService, NiceRepository niceRepository) {
+                           UserIndicatorService userIndicatorService, NiceRepository niceRepository,
+                           SerieRepository serieRepository) {
         this.episodeRepository = episodeRepository;
         this.movieRepository = movieRepository;
         this.userIndicatorService = userIndicatorService;
         this.niceRepository = niceRepository;
+        this.serieRepository = serieRepository;
     }
 
     @GetMapping
     public String getAboutPage(Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
-            model.addAttribute("episodes", episodeRepository.findAll().size());
             model.addAttribute("movies", movieRepository.findAll().size());
+            model.addAttribute("series", serieRepository.findAll().size());
+            model.addAttribute("episodes", episodeRepository.findAll().size());
             Nice nice = niceRepository.findNiceById(1L);
             try {
                 nice.getId();

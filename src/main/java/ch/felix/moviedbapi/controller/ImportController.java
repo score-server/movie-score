@@ -38,7 +38,7 @@ public class ImportController {
         this.activityService = activityService;
     }
 
-    @PostMapping(value = "movie", produces = "application/json")
+    @PostMapping(value = "movie")
     public String importMovies(Model model, HttpServletRequest request) {
         User user = userIndicatorService.getUser(request).getUser();
         if (userIndicatorService.isAdministrator(model, request)) {
@@ -48,14 +48,14 @@ public class ImportController {
             settingsService.setValue("importProgress", "0");
             settingsService.setValue("import", "1");
             movieImportService.importFile("moviePath");
-            activityService.log(user.getName() + " started Movie Import");
+            activityService.log(user.getName() + " started Movie Import", user);
             return "redirect:/settings";
         } else {
             return "redirect:/";
         }
     }
 
-    @PostMapping(value = "movie/update", produces = "application/json")
+    @PostMapping(value = "movie/update")
     public String updateMovies(Model model, HttpServletRequest request) {
         User user = userIndicatorService.getUser(request).getUser();
         if (userIndicatorService.isAdministrator(model, request)) {
@@ -65,14 +65,14 @@ public class ImportController {
             settingsService.setValue("importProgress", "0");
             settingsService.setValue("import", "1");
             movieImportService.updateFile();
-            activityService.log(user.getName() + " started Movie Update");
+            activityService.log(user.getName() + " started Movie Update", user);
             return "redirect:/settings";
         } else {
             return "redirect:/";
         }
     }
 
-    @PostMapping(value = "serie/update", produces = "application/json")
+    @PostMapping(value = "serie/update")
     public String updateSeries(Model model, HttpServletRequest request) {
         User user = userIndicatorService.getUser(request).getUser();
         if (userIndicatorService.isAdministrator(model, request)) {
@@ -82,14 +82,14 @@ public class ImportController {
             settingsService.setValue("importProgress", "0");
             settingsService.setValue("import", "1");
             seriesImportService.update();
-            activityService.log(user.getName() + " started Series Update");
+            activityService.log(user.getName() + " started Series Update", user);
             return "redirect:/settings";
         } else {
             return "redirect:/";
         }
     }
 
-    @PostMapping(value = "serie", produces = "application/json")
+    @PostMapping(value = "serie")
     public String importSeries(Model model, HttpServletRequest request) {
         User user = userIndicatorService.getUser(request).getUser();
         if (userIndicatorService.isAdministrator(model, request)) {
@@ -99,7 +99,7 @@ public class ImportController {
             settingsService.setValue("importProgress", "0");
             settingsService.setValue("import", "1");
             seriesImportService.importFile("seriePath");
-            activityService.log(user.getName() + " started Movie Import");
+            activityService.log(user.getName() + " started Movie Import", user);
             return "redirect:/settings";
         } else {
             return "redirect:/";

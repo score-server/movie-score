@@ -62,7 +62,7 @@ public class RegisterController {
                 user.setPasswordSha(shaService.encode(password));
                 user.setRole(1);
                 userRepository.save(user);
-                activityService.log(nameParam + " registered by " + adminUser.getName());
+                activityService.log(nameParam + " registered by " + adminUser.getName(), adminUser);
                 return "redirect:/user?added";
             } else {
                 return "redirect:/register?exists";

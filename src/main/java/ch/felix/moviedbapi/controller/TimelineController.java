@@ -111,7 +111,7 @@ public class TimelineController {
             timeline.setDescription(description);
             timelineRepository.save(timeline);
 
-            activityService.log(user.getName() + " created list " + title);
+            activityService.log(user.getName() + " created list " + title, user);
             return "redirect:/list?list";
         } else {
             return "redirect:/list";

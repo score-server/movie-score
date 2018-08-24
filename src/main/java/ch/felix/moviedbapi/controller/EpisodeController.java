@@ -34,7 +34,7 @@ public class EpisodeController {
         this.activityService = activityService;
     }
 
-    @GetMapping(value = "/{episodeId}", produces = "application/json")
+    @GetMapping(value = "/{episodeId}")
     public String getOneEpisode(@PathVariable("episodeId") String episodeId, Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
 
@@ -46,7 +46,7 @@ public class EpisodeController {
             activityService.log(userIndicatorService.getUser(request).getUser().getName()
                     + " gets Episode " + episode.getSeason().getSerie().getTitle()
                     + " S" + episode.getSeason().getSeason()
-                    + "E" + episode.getEpisode());
+                    + "E" + episode.getEpisode(), userIndicatorService.getUser(request).getUser());
 
 
             try {

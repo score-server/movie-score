@@ -62,7 +62,7 @@ public class LoginController {
             cookieService.setUserCookie(response, sessionId);
             user.setSessionId(sessionId);
             userRepository.save(user);
-            activityService.log(user.getName() + " logged in");
+            activityService.log(user.getName() + " logged in", user);
             switch (redirectParam) {
                 case "null":
                     return "redirect:/";
@@ -85,7 +85,7 @@ public class LoginController {
                 String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
                 user.setSessionId(sessionId);
                 userRepository.save(user);
-                activityService.log(user.getName() + " logged out");
+                activityService.log(user.getName() + " logged out", user);
                 return "redirect:/?logout";
             } catch (NullPointerException e) {
                 e.printStackTrace();

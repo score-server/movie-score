@@ -32,7 +32,7 @@ public class SeasonController {
         this.episodeRepository = episodeRepository;
     }
 
-    @GetMapping(value = "/{seasonId}", produces = "application/json")
+    @GetMapping(value = "/{seasonId}")
     public String getOneSeason(@PathVariable("seasonId") String seasonId, Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
             Season season = seasonRepository.findSeasonById(Long.valueOf(seasonId));

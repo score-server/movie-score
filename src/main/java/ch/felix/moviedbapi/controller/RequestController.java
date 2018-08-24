@@ -41,18 +41,7 @@ public class RequestController {
         this.activityService = activityService;
     }
 
-    @GetMapping(produces = "application/json")
-    public String getRequestList(Model model, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(model, request)) {
-            model.addAttribute("requests", requestRepository.findAll());
-            model.addAttribute("page", "requestList");
-            return "template";
-        } else {
-            return "redirect:/";
-        }
-    }
-
-    @GetMapping(value = "create", produces = "application/json")
+    @GetMapping(value = "create")
     public String getCreateForm(Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
             model.addAttribute("page", "createRequest");
@@ -74,7 +63,7 @@ public class RequestController {
             movieRequest.setUser(user);
             movieRequest.setActive("1");
             requestRepository.save(movieRequest);
-            activityService.log(user.getName() + " created Request for " + requestParam);
+            activityService.log(user.getName() + " created Request for " + requestParam, user);
             return "redirect:/user/" + userId + "?request";
         } else {
             return "redirect:/user/" + userId;
@@ -87,9 +76,9 @@ public class RequestController {
             Request movieRequest = requestRepository.findRequestById(Long.valueOf(requestParam));
             movieRequest.setActive("0");
             requestRepository.save(movieRequest);
-            return "redirect:/request";
+            return "redirect:/settings";
         } else {
-            return "redirect:/request?error";
+            return "redirect:/settings?error";
         }
     }
 
@@ -99,9 +88,9 @@ public class RequestController {
             Request movieRequest = requestRepository.findRequestById(Long.valueOf(requestParam));
             movieRequest.setActive("1");
             requestRepository.save(movieRequest);
-            return "redirect:/request";
+            return "redirect:/settings";
         } else {
-            return "redirect:/request";
+            return "redirect:/settings?error";
         }
     }
 

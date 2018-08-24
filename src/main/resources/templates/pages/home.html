@@ -6,6 +6,10 @@
     Logged out
 </div>
 
+<div th:if="${param.created}" class="alert alert-success">
+    Created Request
+</div>
+
 <form action="/" id="search">
     <div class="row">
         <div class="col-12 col-md-6 col-lg-6" style="margin-bottom: 5px">

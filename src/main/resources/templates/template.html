@@ -16,7 +16,7 @@
 
     <style>
 
-        body{
+        body {
             background: url("https://i.imgur.com/RHuethK.jpg") no-repeat fixed;
             background-size: 100%;
 
@@ -77,7 +77,9 @@
                 <a class="nav-link text-dark" href="/about">About</a>
             </li>
             <li class="nav-item" th:if="${page} != 'login'">
-                <a th:if="${currentUser?.role} == 2" class="nav-link text-dark" href="/settings"><i>Settings</i></a>
+                <a th:if="${currentUser?.role} == 2" class="nav-link text-dark" href="/settings">
+                    <i>Control Center</i>
+                </a>
             </li>
         </ul>
         <ul class="navbar-nav">

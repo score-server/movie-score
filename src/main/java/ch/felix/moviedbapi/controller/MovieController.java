@@ -58,11 +58,11 @@ public class MovieController {
             } catch (NullPointerException e) {
                 model.addAttribute("hasliked", false);
             }
-
+            User user = userIndicatorService.getUser(request).getUser();
             try {
-                activityService.log(userIndicatorService.getUser(request).getUser().getName() + " gets Movie " + movie.getTitle());
+                activityService.log(user.getName() + " gets Movie " + movie.getTitle(), user);
             } catch (NullPointerException e) {
-                activityService.log("Guest gets Trailer " + movie.getTitle());
+                activityService.log("Guest gets Trailer " + movie.getTitle(), null);
             }
 
             model.addAttribute("page", "movie");
@@ -81,13 +81,13 @@ public class MovieController {
                 Likes likes = likesRepository.findLikeByUserAndMovie(user, movie);
                 likes.getId();
                 likesRepository.delete(likes);
-                activityService.log(user.getName() + " removed like on movie " + movie.getTitle());
+                activityService.log(user.getName() + " removed like on movie " + movie.getTitle(), user);
             } catch (NullPointerException e) {
                 Likes likes = new Likes();
                 likes.setMovie(movie);
                 likes.setUser(user);
                 likesRepository.save(likes);
-                activityService.log(user.getName() + " likes movie " + movie.getTitle());
+                activityService.log(user.getName() + " likes movie " + movie.getTitle(), user);
             }
             return "redirect:/movie/" + movieId;
         } else {
