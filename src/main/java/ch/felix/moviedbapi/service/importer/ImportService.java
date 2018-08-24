@@ -66,6 +66,7 @@ public abstract class ImportService {
     }
 
 
+    @Async
     public void updateFile() {
         List<Movie> movies = movieRepository.findAll();
         int currentFileIndex = 0;

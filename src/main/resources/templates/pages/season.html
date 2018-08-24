@@ -2,11 +2,11 @@
 
 <h1 th:text=" ${season.serie.title} + ' Season ' + ${season.season} + ' (' + ${season.year} + ')'"></h1>
 
-<img class="img-thumbnail" th:src="${season.serie.caseImg}" width="100px">
+<img th:src="${season.serie.caseImg}" class="img-thumbnail" width="100px">
 <br>
 <br>
 <ul class="list-group">
-    <li class="list-group-item" th:each="episode:${episodes}">
+    <li th:each="episode:${episodes}" class="list-group-item">
         <a th:text="'Episode ' + ${episode.episode}" th:href="'/episode/' + ${episode.id}"></a>
     </li>
 </ul>

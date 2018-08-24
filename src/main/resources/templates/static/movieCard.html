@@ -3,16 +3,16 @@
 <a th:href="'/movie/' + ${movie.id}">
     <div class="card moviecard">
         <div>
-            <span class="quality-badge" th:text="${movie.quality}"></span>
-            <img class="card-img-top" th:src="${movie.caseImg}">
+            <span th:text="${movie.quality}" class="quality-badge"></span>
+            <img th:src="${movie.caseImg}" class="card-img-top">
         </div>
         <div class="card-body nodec">
-            <h5 class="card-title" th:text="${movie.title}"></h5>
+            <h5 th:text="${movie.title}" class="card-title"></h5>
             <a>
-                <span style="color: #D7D700;" class="fa fa-star checked"></span>
+                <span class="fa fa-star checked" style="color: #D7D700;"></span>
                 <span th:text="${movie.voteAverage}"></span>
             </a>
-            <a class="float-right" th:text="${movie.year}"></a>
+            <a th:text="${movie.year}" class="float-right"></a>
         </div>
     </div>
 </a>

@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <link rel="stylesheet" href="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.css" type="text/css"/>
 <script src="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.js"></script>
-<video id="movie" th:src="'/video/episode/' + ${episode.id}" controls width="100%"></video>
+<video th:src="'/video/episode/' + ${episode.id}" id="movie"  controls width="100%"></video>
 <br>
 <div class="card card-body">
     <h1 th:text="${episode.season.serie.title} + ' Season ' + ${episode.season.season}
@@ -10,7 +10,7 @@
     <!--<a class="float-right" th:href="'/episode/' + ${nextEpisode.id}">Next Episode</a>-->
     <p>Genres:
         <span th:each="genre : ${episode.season.serie.genres}">
-            <a class="badge" th:text="${genre.name}" th:href="'/serie?genre=' + ${genre.name}"
+            <a th:text="${genre.name}" th:href="'/serie?genre=' + ${genre.name}" class="badge"
                style="color: white;"></a>
         </span>
     </p>
@@ -18,8 +18,8 @@
 <br>
 <ul class="list-group">
     <li class="list-group-item active">Comments</li>
-    <li class="list-group-item" th:each="comment:${comments}">
-        <a th:href="'/user/' + ${comment.user.id}" th:text="${comment.user.name}"></a>
+    <li th:each="comment:${comments}" class="list-group-item">
+        <a th:text="${comment.user.name}" th:href="'/user/' + ${comment.user.id}"></a>
         <span th:text="': ' + ${comment.comment}"></span>
     </li>
 </ul>
@@ -27,7 +27,7 @@
 <br>
 
 <form th:action="'/comment/add/episode?userId=' + ${currentUser.id} + '&episodeId=' + ${episode.id}" method="post">
-    <textarea name="comment" class="form-control" th:placeholder="'Comment as ' + ${currentUser.name}"
+    <textarea th:placeholder="'Comment as ' + ${currentUser.name}" name="comment" class="form-control"
               required></textarea>
     <br>
     <button class="btn btn-primary" type="submit">Save Comment</button>

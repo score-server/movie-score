@@ -34,7 +34,7 @@
         <div th:include="'static/movieCard.html'"></div>
     </div>
 </div>
-<div class="row" th:if="${movies.size()} == 0">
+<div th:if="${movies.isEmpty()}" class="row">
     <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No movies found</a>
@@ -50,7 +50,8 @@
         + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}">Last</a>
         <a th:href="'/movies/' + ${pageIndex} + '?search=' + ${search} + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
            th:text="${pageIndex}" class="btn btn-secondary"></a>
-        <a th:href="'/movies/' + ${pageIndexNext} + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
-           class="btn btn-primary" th:if="${movies.size()} == 24">Next</a>
+        <a th:if="${movies.size()} == 24"
+           th:href="'/movies/' + ${pageIndexNext} + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
+           class="btn btn-primary">Next</a>
     </div>
 </center>

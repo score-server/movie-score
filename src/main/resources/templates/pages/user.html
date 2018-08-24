@@ -22,7 +22,7 @@
     Error while saving changes
 </div>
 
-<div th:if="${currentUser?.role} == 2">
+<div th:if="${currentUser.isAdmin()}">
     <div class="card">
         <div class="card-header">
             Admin Tools
@@ -120,14 +120,14 @@
     <div class="card-header">Requests</div>
     <div class="card-body">
         <ul class="list-group">
-            <li class="list-group-item" th:each="request : ${requests}">
+            <li th:each="request : ${requests}" class="list-group-item">
                     <span th:switch="${request.active}">
                         <span th:case="1" th:text="${request.request}"></span>
                         <span th:case="0" th:text="${request.request} + ' - closed'"></span>
                     </span>
             </li>
         </ul>
-        <div class="row" th:if="${requests.size()} == 0">
+        <div th:if="${requests.isEmpty()}" class="row">
             <div class="col-12 col-md-4 col-lg-3">
                 <div class="alert alert-secondary">
                     <a>No Requests</a>
@@ -138,7 +138,7 @@
             <br>
             <a href="/request/create" class="btn btn-primary">Create Request</a>
         </div>
-        <div th:if="${currentUser?.role} == 2">
+        <div th:if="${currentUser.isAdmin()}">
             <br>
             <a class="btn btn-primary" href="/settings">Request List</a>
         </div>
@@ -153,7 +153,7 @@
                 <div th:include="'static/listCard.html'"></div>
             </div>
         </div>
-        <div class="row" th:if="${timelines.size()} == 0">
+        <div th:if="${timelines.isEmpty()}" class="row">
             <div class="col-12 col-md-4 col-lg-3">
                 <div class="alert alert-secondary">
                     <a>No Lists found</a>
@@ -171,7 +171,7 @@
                 <div th:include="'static/likesMovieCard.html'"></div>
             </div>
         </div>
-        <div class="row" th:if="${user.likes.size()} == 0">
+        <div th:if="${user.likes.isEmpty()}" class="row">
             <div class="col-12 col-md-4 col-lg-3">
                 <div class="alert alert-secondary">
                     <a>No Likes</a>
@@ -181,13 +181,13 @@
     </div>
 </div>
 <br>
-<div class="card" th:if="${currentUser?.role} == 2">
+<div th:if="${currentUser.isAdmin()}" class="card">
     <div class="card-header">Activity Logs</div>
     <div class="card-body">
         <ul class="list-group">
-            <li class="list-group-item" th:each="log : ${activities}">
+            <li th:each="log : ${activities}" class="list-group-item">
                 <a th:text="${log.log}"></a>
-                <a class="float-right" th:text="${log.timestamp}"></a>
+                <a th:text="${log.timestamp}" class="float-right"></a>
             </li>
         </ul>
     </div>

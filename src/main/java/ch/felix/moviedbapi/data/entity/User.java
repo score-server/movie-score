@@ -57,4 +57,11 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<ActivityLog> activityLogs;
 
+    public boolean isAdmin() {
+        if (role == 2) {
+            return true;
+        }
+        return false;
+    }
+
 }

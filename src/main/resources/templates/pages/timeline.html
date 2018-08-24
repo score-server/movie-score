@@ -21,19 +21,19 @@
         <div th:include="'static/movieListCard.html'"></div>
     </div>
 </div>
-<div class="row" th:if="${timeline.listMovies.size()} == 0">
+<div th:if="${timeline.listMovies.isEmpty()}" class="row">
     <div class="col-sm-2" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No movies found</a>
         </div>
     </div>
 </div>
-<div th:if="${currentUser?.name} == ${timeline.user.name} OR ${currentUser?.role} == 2">
+<div th:if="${currentUser} == ${timeline.user} OR ${currentUser.isAdmin()}">
     <div>
         <a th:href="'/timeline/edit/' + ${timeline.id} " class="btn btn-primary">Edit</a>
         <br>
         <br>
-        <form class="form" th:action="'/timeline/delete/' + ${timeline.id}" method="post">
+        <form th:action="'/timeline/delete/' + ${timeline.id}" method="post" class="form">
             <button type="submit" class="btn btn-danger">Delete</button>
         </form>
     </div>

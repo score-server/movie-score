@@ -2,7 +2,7 @@
 
 <h1 th:text="'Serie ' + ${serie.title}"></h1>
 
-<img class="img-thumbnail" th:src="${serie.caseImg}" width="100px">
+<img th:src="${serie.caseImg}" class="img-thumbnail"  width="100px">
 <br>
 <br>
 <div class="card card-body">
@@ -14,7 +14,7 @@
 </div>
 <br>
 <ul class="list-group">
-    <li class="list-group-item" th:each="season:${seasons}">
+    <li th:each="season:${seasons}" class="list-group-item">
         <a th:text="'Season ' + ${season.season}" th:href="'/season/' + ${season.id}"></a>
     </li>
 </ul>

@@ -121,6 +121,7 @@ public class SeriesImportService extends ImportService {
 
     }
 
+    @Async
     public void filterUpdateFile(Serie serie) {
         int serieId = searchMovieService.findSeriesId(serie.getTitle());
         SerieJson serieJson = searchMovieService.getSerieInfo(serieId);

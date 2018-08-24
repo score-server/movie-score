@@ -19,32 +19,32 @@
     <tr>
         <td>Minecraft</td>
         <td>scorewinner.ch:25565</td>
-        <td th:if="${minecraft} == 'Online'" style="color: forestgreen" th:text="${minecraft}"></td>
-        <td th:if="${minecraft} == 'Offline'" style="color: red" th:text="${minecraft}"></td>
+        <td th:if="${minecraft} == 'Online'" th:text="${minecraft}" style="color: forestgreen"></td>
+        <td th:if="${minecraft} == 'Offline'" th:text="${minecraft}" style="color: red"></td>
     </tr>
     <tr>
         <td><a target="_blank">Steam Server</a></td>
         <td>scorewinner.ch:7777</td>
-        <td th:if="${steam} == 'Online'" style="color: forestgreen" th:text="${steam}"></td>
-        <td th:if="${steam} == 'Offline'" style="color: red" th:text="${steam}"></td>
+        <td th:if="${steam} == 'Online'" th:text="${steam}" style="color: forestgreen"></td>
+        <td th:if="${steam} == 'Offline'" th:text="${steam}" style="color: red"></td>
     </tr>
     <tr>
         <td><a target="_blank" href="http://scorewinner.ch:8081">gamemaster</a></td>
         <td>scorewinner.ch:8081</td>
-        <td th:if="${gamemaster} == 'Online'" style="color: forestgreen" th:text="${gamemaster}"></td>
-        <td th:if="${gamemaster} == 'Offline'" style="color: red" th:text="${gamemaster}"></td>
+        <td th:if="${gamemaster} == 'Online'" th:text="${gamemaster}" style="color: forestgreen"></td>
+        <td th:if="${gamemaster} == 'Offline'" th:text="${gamemaster}" style="color: red"></td>
     </tr>
     <tr>
-        <td><a target="_blank" href="http://scorewinner.ch:8080">MovieScore</a></td>
-        <td>scorewinner.ch:8080</td>
-        <td th:if="${moviedb} == 'Online'" style="color: forestgreen" th:text="${moviedb}"></td>
-        <td th:if="${moviedb} == 'Offline'" style="color: red" th:text="${moviedb}"></td>
+        <td><a target="_blank" href="http://movie.scorewinner.ch">MovieScore</a></td>
+        <td>movie.scorewinner.ch</td>
+        <td th:if="${moviedb} == 'Online'" th:text="${moviedb}" style="color: forestgreen"></td>
+        <td th:if="${moviedb} == 'Offline'" th:text="${moviedb}" style="color: red"></td>
     </tr>
     <tr>
         <td><a target="_blank" href="http://scorewinner.ch:8090">Hermann</a></td>
-        <td>scorewinner.ch:8080</td>
-        <td th:if="${hermann} == 'Online'" style="color: forestgreen" th:text="${hermann}"></td>
-        <td th:if="${hermann} == 'Offline'" style="color: red" th:text="${hermann}"></td>
+        <td>scorewinner.ch:8090</td>
+        <td th:if="${hermann} == 'Online'" th:text="${hermann}" style="color: forestgreen"></td>
+        <td th:if="${hermann} == 'Offline'" th:text="${hermann}" style="color: red"></td>
     </tr>
 
 </table>

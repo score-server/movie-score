@@ -2,14 +2,14 @@
 
 <a th:href="'/serie/' + ${serie.id}">
     <div class="card moviecard">
-        <img class="card-img-top" th:src="${serie.caseImg}">
+        <img th:src="${serie.caseImg}" class="card-img-top">
         <div class="card-body nodec">
-            <h5 class="card-title" th:text="${serie.title}"></h5>
+            <h5 th:text="${serie.title}" class="card-title"></h5>
             <a>
-                <span style="color: #D7D700;" class="fa fa-star checked"></span>
+                <span class="fa fa-star checked" style="color: #D7D700;"></span>
                 <span th:text="${serie.voteAverage}"></span>
             </a>
-            <a class="float-right" th:text="'Seasons: ' + ${serie.seasons.size()}"></a>
+            <a th:text="'Seasons: ' + ${serie.seasons.size()}" class="float-right"></a>
         </div>
     </div>
 </a>

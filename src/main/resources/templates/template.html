@@ -49,8 +49,8 @@
         <img src="https://i.imgur.com/kHO4IKs.png" class="d-inline-block align-top nav-logo" alt="nav brand">
         MovieScore
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler btn" type="button" data-toggle="collapse" aria-label="Toggle navigation"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -76,8 +76,8 @@
             <li class="nav-item">
                 <a class="nav-link text-dark" href="/about">About</a>
             </li>
-            <li class="nav-item" th:if="${page} != 'login'">
-                <a th:if="${currentUser?.role} == 2" class="nav-link text-dark" href="/settings">
+            <li th:if="${page} != 'login'" class="nav-item">
+                <a th:if="${currentUser.isAdmin()}" class="nav-link text-dark" href="/settings">
                     <i>Control Center</i>
                 </a>
             </li>

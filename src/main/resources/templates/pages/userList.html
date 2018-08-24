@@ -21,11 +21,11 @@
 </form>
 <br>
 <ul class="list-group">
-    <li class="list-group-item" th:each="user:${users}">
+    <li th:each="user:${users}" class="list-group-item" >
         <a th:text="${user.name}" th:href="'/user/' + ${user.id}"></a>
-        <div class="float-right" th:switch="${user.role}" th:if="${currentUser?.role} == 2">
+        <div th:if="${currentUser.isAdmin()}" class="float-right" th:switch="${user.role}" >
             <form th:case="'1'" th:action="'/user/' + ${user.id} + '/role/2'" method="post">
-                <button class="btn btn-primary">
+                <button class="btn btn-secondary">
                     <i class="fas fa-chess-pawn"></i>
                 </button>
             </form>
@@ -37,7 +37,7 @@
         </div>
     </li>
 </ul>
-<div class="row" th:if="${users.size()} == 0">
+<div th:if="${users.isEmpty()}" class="row" >
     <div class="col-sm-3" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No Users found</a>

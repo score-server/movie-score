@@ -13,7 +13,7 @@
             <td th:text="${moviePar.movie.title}"></td>
             <td th:text="${moviePar.movie.year}"></td>
             <td>
-                <form th:action="'/timeline/delete/movie/' + ${moviePar.id}" class="float-right" method="post">
+                <form th:action="'/timeline/delete/movie/' + ${moviePar.id}" method="post" class="float-right">
                     <button type="submit" class="btn btn-danger">
                         <i class="fas fa-times"></i>
                     </button>
@@ -39,7 +39,7 @@
         </form>
     </table>
     <br>
-    <form class="form" th:action="'/timeline/delete/' + ${timeline.id}" method="post">
+    <form th:action="'/timeline/delete/' + ${timeline.id}" method="post" class="form">
         <button class="btn btn-danger">Delete</button>
     </form>
 </div>

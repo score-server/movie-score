@@ -72,23 +72,6 @@ public class ImportController {
         }
     }
 
-    @PostMapping(value = "serie/update")
-    public String updateSeries(Model model, HttpServletRequest request) {
-        User user = userIndicatorService.getUser(request).getUser();
-        if (userIndicatorService.isAdministrator(model, request)) {
-            if (settingsService.getKey("import").equals("1")) {
-                return "redirect:/settings";
-            }
-            settingsService.setValue("importProgress", "0");
-            settingsService.setValue("import", "1");
-            seriesImportService.update();
-            activityService.log(user.getName() + " started Series Update", user);
-            return "redirect:/settings";
-        } else {
-            return "redirect:/";
-        }
-    }
-
     @PostMapping(value = "serie")
     public String importSeries(Model model, HttpServletRequest request) {
         User user = userIndicatorService.getUser(request).getUser();
@@ -100,6 +83,23 @@ public class ImportController {
             settingsService.setValue("import", "1");
             seriesImportService.importFile("seriePath");
             activityService.log(user.getName() + " started Movie Import", user);
+            return "redirect:/settings";
+        } else {
+            return "redirect:/";
+        }
+    }
+
+    @PostMapping(value = "serie/update")
+    public String updateSeries(Model model, HttpServletRequest request) {
+        User user = userIndicatorService.getUser(request).getUser();
+        if (userIndicatorService.isAdministrator(model, request)) {
+            if (settingsService.getKey("import").equals("1")) {
+                return "redirect:/settings";
+            }
+            settingsService.setValue("importProgress", "0");
+            settingsService.setValue("import", "1");
+            seriesImportService.update();
+            activityService.log(user.getName() + " started Series Update", user);
             return "redirect:/settings";
         } else {
             return "redirect:/";
