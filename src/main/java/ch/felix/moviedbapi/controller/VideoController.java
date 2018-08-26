@@ -5,7 +5,6 @@ import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.service.MultipartFileSender;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

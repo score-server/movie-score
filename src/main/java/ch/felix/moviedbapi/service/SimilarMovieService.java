@@ -30,7 +30,7 @@ public class SimilarMovieService {
                 movie.getTitle().replace("the ", "").split(" ")[0]);
         for (Movie similarMovie : moviesByName) {
             if (similarMovie != movie) {
-                if (movies.size() != 6) {
+                if (movies.size() != 4) {
                     movies.add(similarMovie);
                     movies = duplicateService.removeMovieDuplicates(movies);
                 } else {
@@ -43,7 +43,7 @@ public class SimilarMovieService {
         for (Movie similarMovie : moviesByGenre) {
             if (compareGenres(movie, similarMovie)) {
                 if (similarMovie != movie) {
-                    if (movies.size() != 6) {
+                    if (movies.size() != 4) {
                         movies.add(similarMovie);
                         movies = duplicateService.removeMovieDuplicates(movies);
                     } else {
