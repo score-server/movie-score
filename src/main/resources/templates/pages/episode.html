@@ -1,7 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<link rel="stylesheet" href="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.css" type="text/css"/>
-<script src="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.js"></script>
-<video th:src="'/video/episode/' + ${episode.id}" id="movie"  controls width="100%"></video>
+<link rel='stylesheet' href='https://cdn.plyr.io/3.2.4/plyr.css'>
+<script src='https://cdn.plyr.io/3.2.4/plyr.js'></script>
+
+<link rel="stylesheet" th:href="'../plyr/style.css'">
+<script th:src="'../plyr/index.js'"></script>
+
+<video controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}" id="player">
+    <source th:src="'/video/episode/' + ${episode.id}">
+</video>
 <br>
 <div class="card card-body">
     <h1 th:text="${episode.season.serie.title} + ' Season ' + ${episode.season.season}
@@ -34,25 +40,3 @@
 </form>
 <br>
 <a class="btn btn-primary" th:href="'/season/' + ${episode.season.id}">Back</a>
-<script th:inline="javascript">
-    fluidPlayer(
-        'movie',
-        {
-            layoutControls: {
-                primaryColor: "#3299FF",
-                posterImage: [[${episode.season.serie.backgroundImg}]],
-                playButtonShowing: true,
-                playPauseAnimation: true,
-                mute: false,
-                allowDownload: false,
-                allowTheatre: true,
-                playbackRateEnabled: false,
-                controlBar: {
-                    autoHide: true,
-                    autoHideTimeout: 3,
-                    animated: true
-                }
-            }
-        }
-    );
-</script>

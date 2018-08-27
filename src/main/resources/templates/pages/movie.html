@@ -1,21 +1,14 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<link rel="stylesheet" href="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.css" type="text/css"/>
-<script src="https://cdn.fluidplayer.com/v2/current/fluidplayer.min.js"></script>
+<link rel='stylesheet' href='https://cdn.plyr.io/3.2.4/plyr.css'>
+<script src='https://cdn.plyr.io/3.2.4/plyr.js'></script>
+
+<link rel="stylesheet" th:href="'../plyr/style.css'">
+<script th:src="'../plyr/index.js'"></script>
 
 <div th:if="${currentUser} != null" id="movie-div">
-    <center>
-        <video id="movie" controls width="100%">
-            <source th:src="'/video/movie/' + ${movie.id}">
-        </video>
-    </center>
-</div>
-<div th:if="${currentUser}== null" id="trailer-div">
-    <div>
-        <center>
-            <iframe th:src="'https://www.youtube.com/embed/' + ${movie.trailerKey}" width="853" height="480"
-                    frameborder="0" allowfullscreen></iframe>
-        </center>
-    </div>
+    <video controls crossorigin playsinline th:poster="${movie.backgroundImg}" id="player">
+        <source th:src="'/video/movie/' + ${movie.id}">
+    </video>
 </div>
 
 <div class="card card-body">
@@ -50,10 +43,11 @@
             <i class="fas fa-caret-down float-right"></i>
         </summary>
         <div class="card-body">
-            <center>
-                <iframe th:src="'https://www.youtube.com/embed/' + ${movie.trailerKey}" width="853" height="480"
+            <div class="plyr__video-embed" id="trailer">
+                <iframe th:src="'https://www.youtube.com/embed/' + ${movie.trailerKey}
+                        + '?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1'"
                         frameborder="0" allowfullscreen></iframe>
-            </center>
+            </div>
         </div>
     </details>
 </div>
@@ -89,31 +83,32 @@
 </div>
 <br>
 <a href="/movies/1" class="btn btn-primary">Back</a>
-<script th:inline="javascript">
-    fluidPlayer(
-        'movie',
-        {
-            layoutControls: {
-                primaryColor: "#3299FF",
-                posterImage: [[${movie.backgroundImg}]],
-                playButtonShowing: true,
-                playPauseAnimation: true,
-                mute: false,
-                allowDownload: false,
-                allowTheatre: true,
-                playbackRateEnabled: false,
-                controlBar: {
-                    autoHide: true,
-                    autoHideTimeout: 3,
-                    animated: true
-                }
-            }
-        }
-    );
-</script>
 <style>
     details summary::-webkit-details-marker {
         display: none;
         outline: none;
     }
 </style>
+<script type="application/javascript">
+    window.onbeforeunload = function (e) {
+        e.preventDefault();
+        // Do an AJAX post
+        console.log([[${currentUser.id}]])
+        console.log([[${movie.id}]])
+        $.ajax({
+            type: "POST",
+            url: "/time",
+            data: {
+                userId: [[${currentUser.id}]],
+                movieId: [[${movie.id}]],
+                time: player.currentTime
+            }
+        });
+    };
+
+    $(window).bind("load", function () {
+        player.currentTime = [[${time}]]
+    });
+
+
+</script>

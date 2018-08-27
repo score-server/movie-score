@@ -5,6 +5,7 @@ import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.LikesRepository;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
+import ch.felix.moviedbapi.data.repository.TimeRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SimilarMovieService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
@@ -28,15 +29,17 @@ public class MovieController {
 
     private MovieRepository movieRepository;
     private LikesRepository likesRepository;
+    private TimeRepository timeRepository;
 
     private SimilarMovieService similarMovieService;
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
 
     public MovieController(MovieRepository movieRepository, LikesRepository likesRepository, SimilarMovieService similarMovieService,
-                           UserIndicatorService userIndicatorService, ActivityService activityService) {
+                           UserIndicatorService userIndicatorService, ActivityService activityService, TimeRepository timeRepository) {
         this.movieRepository = movieRepository;
         this.likesRepository = likesRepository;
+        this.timeRepository = timeRepository;
         this.similarMovieService = similarMovieService;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
@@ -63,6 +66,12 @@ public class MovieController {
                 activityService.log(user.getName() + " gets Movie " + movie.getTitle(), user);
             } catch (NullPointerException e) {
                 activityService.log("Guest gets Trailer " + movie.getTitle(), null);
+            }
+
+            try {
+                model.addAttribute("time", timeRepository.findTimeByUserAndMovie(user, movie).getTime());
+            } catch (NullPointerException e) {
+                model.addAttribute("time", 0);
             }
 
             model.addAttribute("page", "movie");

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -48,9 +49,11 @@ public class MoviesController {
         if (userIndicatorService.isUser(model, request)) {
             try {
                 List<String> genres = new ArrayList<>();
-                for (Genre genre : genreRepository.findAllByOrderByName()) {
+                for (Genre genre : genreRepository.findGenreByOrderByName()) {
                     genres.add(genre.getName());
                 }
+
+                Collections.sort(genres, (s1, s2) -> s1.compareToIgnoreCase(s2));
 
                 List<Movie> movies = pageService.getPage(searchService.searchMovies(search, orderBy, genreParam), page);
 

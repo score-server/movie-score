@@ -60,6 +60,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<ActivityLog> activityLogs;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Time> times;
+
     public boolean isAdmin() {
         if (role == 2) {
             return true;

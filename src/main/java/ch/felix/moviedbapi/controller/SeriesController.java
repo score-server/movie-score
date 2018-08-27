@@ -52,7 +52,7 @@ public class SeriesController {
                             Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
             List<String> genres = new ArrayList<>();
-            for (Genre genre : genreRepository.findAllByOrderByName()) {
+            for (Genre genre : genreRepository.findGenreByOrderByName()) {
                 genres.add(genre.getName());
             }
             genres = duplicateService.removeStringDuplicates(genres);
