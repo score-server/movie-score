@@ -42,4 +42,9 @@ public class UserApiController {
             return null;
         }
     }
+
+    @GetMapping(value = "current", produces = "application/json")
+    public User getCurrentUser(HttpServletRequest request) {
+        return userIndicatorService.getUser(request).getUser();
+    }
 }

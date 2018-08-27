@@ -24,7 +24,7 @@
 <hr>
 <h3>Get One User <i>GET</i></h3>
 <p>Requires to be Logged in</p>
-<pre>movie.scorewinner.ch/api/user</pre>
+<pre>movie.scorewinner.ch/api/user/{userId}</pre>
 <h4>Response</h4>
 <p>User</p>
 <pre>
@@ -33,6 +33,20 @@
   "name": "Low",
   "role": 1,
   "admin": false
+}
+</pre>
+<hr>
+<h3>Get Current User <i>GET</i></h3>
+<p>Requires to be Logged in</p>
+<pre>movie.scorewinner.ch/api/user/current</pre>
+<h4>Response</h4>
+<p>User</p>
+<pre>
+{
+  "id": 3,
+  "name": "Administrator",
+  "role": 2,
+  "admin": true
 }
 </pre>
 <hr>
