@@ -37,7 +37,7 @@
 </pre>
 <hr>
 <h3>Login <i>POST</i></h3>
-<pre>movie.scorewinner.ch/api/login
+<pre>movie.scorewinner.ch/api/login</pre>
 <b>Params</b>
 <p><i>name</i> String required</p>
 <p><i>password</i> String required</p>
