@@ -18,4 +18,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     List<Request> findAllByUser(User user);
 
+    void deleteRequestByUser(User user);
+
 }

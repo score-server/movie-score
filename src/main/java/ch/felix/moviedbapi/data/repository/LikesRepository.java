@@ -15,4 +15,6 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
 
     Likes findLikeByUserAndMovie(User user, Movie movie);
 
+    void deleteLikesByUser(User user);
+
 }

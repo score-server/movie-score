@@ -1,6 +1,7 @@
 package ch.felix.moviedbapi.data.repository;
 
 import ch.felix.moviedbapi.data.entity.Comment;
+import ch.felix.moviedbapi.data.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    Comment findCommentById(Long id);
+    void deleteCommentByUser(User user);
 
 }

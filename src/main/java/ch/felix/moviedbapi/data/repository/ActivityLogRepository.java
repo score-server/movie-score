@@ -19,4 +19,6 @@ public interface ActivityLogRepository extends JpaRepository<ActivityLog, Long> 
 
     List<ActivityLog> findActivityLogsByUserOrderByTimestampDesc(User user);
 
+    void deleteActivityLogsByUser(User user);
+
 }

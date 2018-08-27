@@ -1,7 +1,11 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.entity.Timeline;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.ActivityLogRepository;
+import ch.felix.moviedbapi.data.repository.CommentRepository;
+import ch.felix.moviedbapi.data.repository.LikesRepository;
+import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.data.repository.TimelineRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ActivityService;
@@ -37,11 +41,16 @@ public class UserController {
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
     private ActivityLogRepository activityLogRepository;
+    private RequestRepository requestRepository;
+    private CommentRepository commentRepository;
+    private LikesRepository likesRepository;
 
 
     public UserController(UserRepository userRepository, TimelineRepository timelineRepository, ShaService shaService,
                           SearchService searchService, UserIndicatorService userIndicatorService,
-                          ActivityService activityService, ActivityLogRepository activityLogRepository) {
+                          ActivityService activityService, ActivityLogRepository activityLogRepository,
+                          RequestRepository requestRepository, CommentRepository commentRepository,
+                          LikesRepository likesRepository) {
         this.userRepository = userRepository;
         this.timelineRepository = timelineRepository;
         this.shaService = shaService;
@@ -49,6 +58,9 @@ public class UserController {
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
         this.activityLogRepository = activityLogRepository;
+        this.requestRepository = requestRepository;
+        this.commentRepository = commentRepository;
+        this.likesRepository = likesRepository;
     }
 
     @GetMapping
@@ -92,19 +104,6 @@ public class UserController {
             userRepository.save(user);
             activityService.log(currentUser.getName() + " changed role of " + user.getName() + " to " + role, user);
             return "redirect:/user/" + userId + "?role";
-        } else {
-            return "redirect:/user/" + userId + "?error";
-        }
-    }
-
-    @PostMapping(value = "{userId}/delete")
-    public String deleteUser(@PathVariable("userId") String userId,
-                             HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
-            User user = userRepository.findUserById(Long.valueOf(userId));
-            userRepository.delete(user);
-            activityService.log(user.getName() + " removed", user);
-            return "redirect:/user/?deleted";
         } else {
             return "redirect:/user/" + userId + "?error";
         }
