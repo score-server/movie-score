@@ -141,7 +141,7 @@ public class SeriesImportService extends ImportService {
     }
 
     @Async
-    public void update() {
+    public void updateSeries() {
         List<Serie> serieList = serieRepository.findSerieByOrderByTitle();
 
         int currentFileIndex = 0;

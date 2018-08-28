@@ -6,7 +6,7 @@
 <script th:src="'../plyr/index.js'"></script>
 
 <div th:if="${currentUser} != null" id="movie-div">
-    <video controls crossorigin playsinline th:poster="${movie.backgroundImg}" id="player">
+    <video controls playsinline th:poster="${movie.backgroundImg}" id="player">
         <source th:src="'/video/movie/' + ${movie.id}">
     </video>
 </div>

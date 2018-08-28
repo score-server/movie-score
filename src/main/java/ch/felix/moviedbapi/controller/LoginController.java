@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -61,6 +63,7 @@ public class LoginController {
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
             cookieService.setUserCookie(response, sessionId);
             user.setSessionId(sessionId);
+            user.setLastLogin(new Timestamp(new Date().getTime()));
             userRepository.save(user);
             activityService.log(user.getName() + " logged in", user);
             switch (redirectParam) {

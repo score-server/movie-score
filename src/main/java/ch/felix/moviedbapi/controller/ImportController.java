@@ -98,7 +98,7 @@ public class ImportController {
             }
             settingsService.setValue("importProgress", "0");
             settingsService.setValue("import", "1");
-            seriesImportService.update();
+            seriesImportService.updateSeries();
             activityService.log(user.getName() + " started Series Update", user);
             return "redirect:/settings";
         } else {

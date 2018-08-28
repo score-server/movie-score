@@ -76,7 +76,7 @@ public class RequestController {
             Request movieRequest = requestRepository.findRequestById(Long.valueOf(requestParam));
             movieRequest.setActive("0");
             requestRepository.save(movieRequest);
-            return "redirect:/settings";
+            return "redirect:/settings#request";
         } else {
             return "redirect:/settings?error";
         }
@@ -88,7 +88,18 @@ public class RequestController {
             Request movieRequest = requestRepository.findRequestById(Long.valueOf(requestParam));
             movieRequest.setActive("1");
             requestRepository.save(movieRequest);
-            return "redirect:/settings";
+            return "redirect:/settings#request";
+        } else {
+            return "redirect:/settings?error";
+        }
+    }
+
+    @PostMapping("{requestId}/delete")
+    public String deleteRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
+        if (userIndicatorService.isAdministrator(request)) {
+            Request movieRequest = requestRepository.findRequestById(Long.valueOf(requestParam));
+            requestRepository.delete(movieRequest);
+            return "redirect:/settings#request";
         } else {
             return "redirect:/settings?error";
         }

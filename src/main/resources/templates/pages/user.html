@@ -22,6 +22,53 @@
     Error while saving changes
 </div>
 
+<div th:if="${currentUser} == ${user}">
+    <div class="card">
+        <div class="card-header">Profile</div>
+        <div class="card-body">
+            <div data-toggle="modal" data-target="#changeImg">
+                <span class="btn btn-primary" th:if="${user.profileImg} == null">Set Profile Image</span>
+                <img th:if="${user.profileImg} != null" class="img-thumbnail" th:src="'/img/' + ${user.id}"
+                     style="max-height: 100px; min-height: 100px"/>
+            </div>
+            <br>
+            <p>
+                <a th:text="'Name: ' + ${user.name}"></a>
+                <a data-toggle="modal" data-target="#changeName" class="btn">
+                    <i class="fas fa-pen"></i>
+                </a>
+            </p>
+            <p>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changePsw">
+                    Change Password
+                </button>
+            </p>
+            <p th:if="${user.lastLogin} != null" th:text="'Last Login: ' + ${user.lastLogin}"></p>
+            <form action="/login/logout" method="post">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </div>
+    </div>
+    <br>
+</div>
+
+<div th:if="${currentUser} != ${user}">
+    <div class="card">
+        <div class="card-header">Profile</div>
+        <div class="card-body">
+            <div th:if="${user.profileImg} != null">
+                <img class="img-thumbnail" th:src="'/img/' + ${user.id}" style="max-height: 100px; min-height: 100px"/>
+                <br>
+                <br>
+            </div>
+            <p th:text="'Name: ' + ${user.name}"></p>
+            <p th:if="${user.lastLogin} != null" th:text="'Last Login: ' + ${user.lastLogin}"></p>
+        </div>
+    </div>
+    <br>
+</div>
+
+
 <div th:if="${currentUser.isAdmin()}">
     <div class="card">
         <div class="card-header">
@@ -37,75 +84,16 @@
             </div>
             <div th:switch="${user.role}">
                 <form th:case="'1'" th:action="'/user/' + ${user.id} + '/role/2'" method="post">
-                    <button class="btn btn-primary">
+                    <button class="btn btn-light">
                         <i class="fas fa-chess-pawn"></i>
                     </button>
                 </form>
                 <form th:case="'2'" th:action="'/user/' + ${user.id} + '/role/1'" method="post">
-                    <button class="btn btn-primary">
+                    <button class="btn btn-dark">
                         <i class="fas fa-chess-king"></i>
                     </button>
                 </form>
             </div>
-        </div>
-    </div>
-    <br>
-</div>
-
-
-<div th:if="${currentUser} == ${user}">
-    <div class="card">
-        <div class="card-header">Settings</div>
-        <div class="card-body">
-            <form th:action="'/user/' + ${user.id} + '/name'" method="post">
-                <table>
-                    <tr>
-                        <th>Change Username</th>
-                    </tr>
-                    <tr>
-                        <td>Username</td>
-                        <td>
-                            <input class="form-control" type="text" name="name" required width="400px"
-                                   th:value="${user.name}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button class="btn btn-primary">Save Name</button>
-                        </td>
-                    </tr>
-
-                </table>
-            </form>
-            <br>
-            <form th:action="'/user/' + ${user.id} + '/password'" method="post">
-                <table>
-                    <tr>
-                        <th>Change Password</th>
-                    </tr>
-                    <tr>
-                        <td>Old Password</td>
-                        <td><input class="form-control" type="password" name="old" required></td>
-                    </tr>
-                    <tr>
-                        <td>New Password</td>
-                        <td><input class="form-control" type="password" name="new" required></td>
-                    </tr>
-                    <tr>
-                        <td>Confirm Password</td>
-                        <td><input class="form-control" type="password" name="name" required></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button class="btn btn-primary">Save Password</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-            <br>
-            <form action="/login/logout" method="post">
-                <button type="submit" class="btn btn-primary">Logout</button>
-            </form>
         </div>
     </div>
     <br>
@@ -136,7 +124,7 @@
         </div>
         <div th:if="${currentUser.isAdmin()}">
             <br>
-            <a class="btn btn-primary" href="/settings">Request List</a>
+            <a class="btn btn-primary" href="/settings#request">Request List</a>
         </div>
     </div>
 </div>
@@ -188,3 +176,79 @@
         </ul>
     </div>
 </div>
+
+
+<div class="modal fade" id="changeName" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change Username</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="'/user/' + ${user.id} + '/name'" method="post">
+                <div class="modal-body">
+                    <input class="form-control" type="text" name="name" required th:value="${user.name}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="changePsw" tabindex="-1" role="dialog" aria-labelledby="password"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="password">Change Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="'/user/' + ${user.id} + '/password'" method="post">
+                <div class="modal-body">
+                    <input class="form-control" type="password" name="old" placeholder="Old Password" required><br>
+                    <input class="form-control" type="password" name="new" placeholder="New Password" required><br>
+                    <input class="form-control" type="password" name="name" placeholder="Confirm Password" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="changeImg" tabindex="-1" role="dialog" aria-labelledby="img"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="img">Set Profile Img</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="'/img/' + ${user.id}" enctype="multipart/form-data" method="POST">
+                <div class="modal-body">
+                    <div class="custom-file">
+                        <input name="file" type="file" class="custom-file-input" id="validatedCustomFile" required>
+                        <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

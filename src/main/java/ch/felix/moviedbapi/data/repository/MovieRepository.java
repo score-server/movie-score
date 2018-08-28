@@ -33,5 +33,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     List<Movie> findTop24ByTitleContainingOrderByPopularityDesc(String title);
 
+    List<Movie> findMoviesByOrderByTitle();
+
 }
 

@@ -7,12 +7,33 @@
         Import in progress
     </div>
     <div class="progress">
-        <div th:text="${importProgress} + '%'" th:style="'width: ' + ${importProgress}  + '%;'"
+        <div th:style="'width: ' + ${importProgress}  + '%;'"
              class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="25"
-             aria-valuemin="0" aria-valuemax="100">
+             aria-valuemin="0" aria-valuemax="100" id="progress">
         </div>
     </div>
     <br>
+    <script type="application/javascript">
+
+        var importBlub = 0;
+
+        setInterval(function () {
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: "/reactive/importstatus",
+                success: function (responseText) {
+                    if (importBlub <= responseText) {
+                        importBlub = responseText;
+                        document.getElementById('progress').style.width = responseText + '%'
+                        document.getElementById('progress').innerText = responseText + '%'
+                    } else {
+                        location.reload();
+                    }
+                }
+            });
+        }, 500);
+    </script>
 </div>
 
 
@@ -86,23 +107,39 @@
 <br>
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header" id="request">
         Movie Requests
     </div>
     <div class="card-body">
         <ul class="list-group">
             <li th:each="request : ${requests}" th:switch="${request.active}" class="list-group-item">
-                <div th:case="1">
-                    <form th:action="'/request/' + ${request.id} + '/close'" method="post">
+                <div>
+                    <div th:case="1">
                         <span th:text="${request.user.name}  + ': ' +${request.request}"></span>
-                        <button class="float-right btn"><i class="far fa-square"></i></button>
-                    </form>
-                </div>
-                <div th:case="0">
-                    <form th:action="'/request/' + ${request.id} + '/open'" method="post">
+                        <div class="float-right">
+                            <form th:action="'/request/' + ${request.id} + '/close'" method="post"
+                                  style="display: inline">
+                                <button class="btn"><i class="far fa-square"></i></button>
+                            </form>
+                            <form th:action="'/request/' + ${request.id} + '/delete'" method="post"
+                                  style="display: inline">
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                    <div th:case="0">
                         <span th:text="${request.user.name}  + ': ' + ${request.request}"></span>
-                        <button class="float-right btn"><i class="far fa-check-square"></i></button>
-                    </form>
+                        <div class="float-right">
+                            <form th:action="'/request/' + ${request.id} + '/open'" method="post"
+                                  style="display: inline">
+                                <button class="btn"><i class="far fa-check-square"></i></button>
+                            </form>
+                            <form th:action="'/request/' + ${request.id} + '/delete'" method="post"
+                                  style="display: inline">
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </li>
         </ul>
