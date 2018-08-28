@@ -82,10 +82,11 @@ public class MovieImportService extends ImportService {
                 movie.setCaseImg("https://image.tmdb.org/t/p/original" + movieJson.getPoster_path());
                 movie.setBackgroundImg("https://image.tmdb.org/t/p/original" + movieJson.getBackdropPath());
                 movie.setVoteAverage(movieJson.getVoteAverage());
+                movie.setFiletype(setMimeType(movieFile.getName()));
                 movieRepository.save(movie);
                 genreImportService.setGenre(movie, movieJson.getGenres());
                 importLogService.importLog(movie, "Added Movie " + movie.getTitle());
-            } catch (NullPointerException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 importLogService.errorLog("Can't add Movie " + getName(filename) + " | " + filename);
             }
@@ -108,6 +109,11 @@ public class MovieImportService extends ImportService {
         movie.setCaseImg("https://image.tmdb.org/t/p/original" + movieJson.getPoster_path());
         movie.setBackgroundImg("https://image.tmdb.org/t/p/original" + movieJson.getBackdropPath());
         movie.setVoteAverage(movieJson.getVoteAverage());
+        try {
+            movie.setFiletype(setMimeType(movieFile.getName()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         movieRepository.save(movie);
         importLogService.importLog(movie, "Updated Movie: " + getName(filename));
         try {
@@ -117,4 +123,16 @@ public class MovieImportService extends ImportService {
         }
     }
 
-}
+    public String setMimeType(String filename) throws Exception {
+        String[] parts = filename.split("\\.");
+        String ending = parts[parts.length - 1];
+        switch (ending.toLowerCase()) {
+            case "mp4":
+                return "video/mp4";
+            case "avi":
+                return "video/avi";
+            case "mkv":
+                return "video/webm";
+        }
+        throw new Exception("Filetype not know!!");
+    }}

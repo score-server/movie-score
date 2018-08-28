@@ -69,3 +69,9 @@
 <pre>ok</pre>
 <p>Not logged out</p>
 <pre>nok</pre>
+<hr>
+<h3>Get Profile Img for User <i>GET</i></h3>
+<p>Requires to be Logged in</p>
+<pre>movie.scorewinner.ch/img/{userId}</pre>
+<h4>Response</h4>
+<p>Returns Img</p>

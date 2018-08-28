@@ -60,5 +60,6 @@ public class Movie {
     private Integer runtime;
     private Double popularity;
     private Double voteAverage;
+    private String filetype;
 
 }

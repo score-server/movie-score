@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -39,7 +37,7 @@ public class WidgetController {
     public String getServerStatus(Model model) {
         model.addAttribute("minecraft", checkOnline("scorewinner.ch", 25565));
         model.addAttribute("steam", checkOnline("scorewinner.ch", 7777));
-        model.addAttribute("gamemaster", checkOnline("scorewinner.ch", 8081));
+        model.addAttribute("pterodactyl", checkOnline("games.scorewinner.ch", 80));
         model.addAttribute("moviedb", checkOnline("movie.scorewinner.ch", 80));
         model.addAttribute("hermann", checkOnline("scorewinner.ch", 8090));
         return "widget/status.html";

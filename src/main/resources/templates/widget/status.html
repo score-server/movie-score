@@ -2,6 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Felix Movie Db</title>
+    <meta name="robots" content="noindex">
 
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
@@ -17,22 +18,22 @@
         <th>Status</th>
     </tr>
     <tr>
-        <td>Minecraft</td>
-        <td>scorewinner.ch:25565</td>
+        <td><a target="_parent" href="https://scorewinner.ch/games/minecraft.php">Minecraft Server</a></td>
+        <td>scorewinner.ch</td>
         <td th:if="${minecraft} == 'Online'" th:text="${minecraft}" style="color: forestgreen"></td>
         <td th:if="${minecraft} == 'Offline'" th:text="${minecraft}" style="color: red"></td>
     </tr>
     <tr>
-        <td><a target="_blank">Steam Server</a></td>
+        <td><a target="_parent" href="https://scorewinner.ch/games/killingfloor.php">Killing Floor 2 Server</a></td>
         <td>scorewinner.ch:7777</td>
         <td th:if="${steam} == 'Online'" th:text="${steam}" style="color: forestgreen"></td>
         <td th:if="${steam} == 'Offline'" th:text="${steam}" style="color: red"></td>
     </tr>
     <tr>
-        <td><a target="_blank" href="http://scorewinner.ch:8081">gamemaster</a></td>
-        <td>scorewinner.ch:8081</td>
-        <td th:if="${gamemaster} == 'Online'" th:text="${gamemaster}" style="color: forestgreen"></td>
-        <td th:if="${gamemaster} == 'Offline'" th:text="${gamemaster}" style="color: red"></td>
+        <td><a target="_blank" href="http://games.scorewinner.ch">Pterodactyl</a></td>
+        <td>games.scorewinner.ch</td>
+        <td th:if="${pterodactyl} == 'Online'" th:text="${pterodactyl}" style="color: forestgreen"></td>
+        <td th:if="${pterodactyl} == 'Offline'" th:text="${pterodactyl}" style="color: red"></td>
     </tr>
     <tr>
         <td><a target="_blank" href="http://movie.scorewinner.ch">MovieScore</a></td>
