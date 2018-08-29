@@ -22,5 +22,8 @@ public class Time {
     @ManyToOne
     private Movie movie;
 
+    @ManyToOne
+    private Episode episode;
+
     private Float time;
 }

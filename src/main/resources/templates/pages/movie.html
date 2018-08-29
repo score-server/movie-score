@@ -5,6 +5,12 @@
 <link rel="stylesheet" th:href="'../plyr/style.css'">
 <script th:src="'../plyr/index.js'"></script>
 
+<script type="application/javascript">
+    $(window).bind("load", function () {
+        player.currentTime = [[${time}]]
+    });
+</script>
+
 <div th:if="${currentUser} != null" id="movie-div">
     <video controls playsinline th:poster="${movie.backgroundImg}" id="player">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
@@ -92,12 +98,9 @@
 <script type="application/javascript">
     window.onbeforeunload = function (e) {
         e.preventDefault();
-        // Do an AJAX post
-        console.log([[${currentUser.id}]])
-        console.log([[${movie.id}]])
         $.ajax({
             type: "POST",
-            url: "/time",
+            url: "/time/movie",
             data: {
                 userId: [[${currentUser.id}]],
                 movieId: [[${movie.id}]],
@@ -105,10 +108,4 @@
             }
         });
     };
-
-    $(window).bind("load", function () {
-        player.currentTime = [[${time}]]
-    });
-
-
 </script>

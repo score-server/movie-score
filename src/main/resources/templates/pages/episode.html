@@ -5,6 +5,12 @@
 <link rel="stylesheet" th:href="'../plyr/style.css'">
 <script th:src="'../plyr/index.js'"></script>
 
+<script type="application/javascript">
+    $(window).bind("load", function () {
+        player.currentTime = [[${time}]]
+    });
+</script>
+
 <video controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}" id="player">
     <source th:src="'/video/episode/' + ${episode.id}">
 </video>
@@ -40,3 +46,17 @@
 </form>
 <br>
 <a class="btn btn-primary" th:href="'/season/' + ${episode.season.id}">Back</a>
+<script type="application/javascript">
+    window.onbeforeunload = function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/time/episode",
+            data: {
+                userId: [[${currentUser.id}]],
+                episodeId: [[${episode.id}]],
+                time: player.currentTime
+            }
+        });
+    };
+</script>

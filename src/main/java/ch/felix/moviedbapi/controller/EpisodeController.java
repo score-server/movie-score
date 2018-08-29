@@ -1,7 +1,9 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Episode;
+import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
+import ch.felix.moviedbapi.data.repository.TimeRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +26,15 @@ import javax.servlet.http.HttpServletRequest;
 public class EpisodeController {
 
     private EpisodeRepository episodeRepository;
+    private TimeRepository timeRepository;
 
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
 
-    public EpisodeController(EpisodeRepository episodeRepository, UserIndicatorService userIndicatorService, ActivityService activityService) {
+    public EpisodeController(EpisodeRepository episodeRepository, TimeRepository timeRepository,
+                             UserIndicatorService userIndicatorService, ActivityService activityService) {
         this.episodeRepository = episodeRepository;
+        this.timeRepository = timeRepository;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
     }
@@ -38,12 +43,18 @@ public class EpisodeController {
     public String getOneEpisode(@PathVariable("episodeId") String episodeId, Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
 
+            User user = userIndicatorService.getUser(request).getUser();
             Episode episode = episodeRepository.findEpisodeById(Long.valueOf(episodeId));
 
             model.addAttribute("episode", episode);
             model.addAttribute("comments", episode.getComments());
+            try {
+                model.addAttribute("time", timeRepository.findTimeByUserAndEpisode(user, episode).getTime());
+            } catch (NullPointerException e) {
+                model.addAttribute("time", 0);
+            }
 
-            activityService.log(userIndicatorService.getUser(request).getUser().getName()
+            activityService.log(user.getName()
                     + " gets Episode " + episode.getSeason().getSerie().getTitle()
                     + " S" + episode.getSeason().getSeason()
                     + "E" + episode.getEpisode(), userIndicatorService.getUser(request).getUser());

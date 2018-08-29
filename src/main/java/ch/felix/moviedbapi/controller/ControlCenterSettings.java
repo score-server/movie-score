@@ -59,7 +59,7 @@ public class ControlCenterSettings {
             model.addAttribute("page", "controlCenter");
             return "template";
         } else {
-            return "redirect:/";
+            return "redirect:/login?redirect=/settings";
         }
     }
 
@@ -70,20 +70,28 @@ public class ControlCenterSettings {
             model.addAttribute("page", "errorLog");
             return "template";
         } else {
-            return "redirect:/";
+            return "redirect:/login?redirect=/settings/error";
         }
     }
 
     @PostMapping("clear")
-    private String clearImportLogs() {
-        importLogRepository.deleteAll();
+    private String clearImportLogs(HttpServletRequest request) {
+        if (userIndicatorService.isAdministrator(request)) {
+            importLogRepository.deleteAll();
+            return "redirect:/settings";
+        } else {
+            return "redirect:/login?redirect=/settings/error";
+        }
 
-        return "redirect:/settings";
     }
 
     @PostMapping("clearactivity")
-    private String clearActivityLogs() {
-        activityLogRepository.deleteAll();
-        return "redirect:/settings";
+    private String clearActivityLogs(HttpServletRequest request) {
+        if (userIndicatorService.isAdministrator(request)) {
+            activityLogRepository.deleteAll();
+            return "redirect:/settings";
+        } else {
+            return "redirect:/login?redirect=/settings/error";
+        }
     }
 }

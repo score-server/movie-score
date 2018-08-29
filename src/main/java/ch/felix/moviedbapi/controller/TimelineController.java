@@ -68,7 +68,7 @@ public class TimelineController {
             listMovieRepository.save(listMovie);
             return "redirect:/timeline/edit/" + timeLineId;
         } else {
-            return "redirect:/login?redirect=/timeline/edit/" + timeLineId;
+            return "redirect:/" + timeLineId;
         }
     }
 

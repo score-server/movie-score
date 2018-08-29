@@ -30,4 +30,10 @@ public class ActivityService {
         activityLogRepository.save(activityLog);
     }
 
+    public void log(String log) {
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setLog(log);
+        activityLog.setTimestamp(new Timestamp(new Date().getTime()));
+        activityLogRepository.save(activityLog);
+    }
 }
