@@ -105,6 +105,7 @@ public class MovieImportService extends ImportService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        movie.setQuality(getQuality(filename));
         movie.setPopularity(movieJson.getPopularity());
         movie.setCaseImg("https://image.tmdb.org/t/p/original" + movieJson.getPoster_path());
         movie.setBackgroundImg("https://image.tmdb.org/t/p/original" + movieJson.getBackdropPath());

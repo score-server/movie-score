@@ -59,22 +59,7 @@
                     <form class="row" th:action="'/user/' + ${user.id} + '/player'" method="post" id="videoPlayerForm">
                         <div class="col-6">
                             <div class="card">
-                                <div class="card-header">Plyr.io (default)</div>
-                                <div class="card-body">
-                                    <img src="https://i.imgur.com/Y3RAwxP.png" width="100%"><br>
-                                    <br>
-                                    <div class="custom-control custom-radio">
-                                        <input th:checked="${user.videoPlayer} == 'plyr'" checked="checked" type="radio"
-                                               id="plyr.io" name="player" value="plyr" class="custom-control-input"
-                                               onchange="document.getElementById('videoPlayerForm').submit()">
-                                        <label class="custom-control-label" for="plyr.io">Plyr.io (Default)</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="card">
-                                <div class="card-header">HTML 5 Player</div>
+                                <div class="card-header">HTML 5 Player (default)</div>
                                 <div class="card-body">
                                     <img src="https://i.imgur.com/OXf4cP6.png" width="100%"><br>
                                     <br>
@@ -82,7 +67,22 @@
                                         <input th:checked="${user.videoPlayer} == 'html5'" type="radio" id="html5"
                                                name="player" value="html5" class="custom-control-input"
                                                onchange="document.getElementById('videoPlayerForm').submit()">
-                                        <label class="custom-control-label" for="html5">HTML 5</label>
+                                        <label class="custom-control-label" for="html5">HTML 5 (default)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">Plyr.io</div>
+                                <div class="card-body">
+                                    <img src="https://i.imgur.com/Y3RAwxP.png" width="100%"><br>
+                                    <br>
+                                    <div class="custom-control custom-radio">
+                                        <input th:checked="${user.videoPlayer} == 'plyr'" type="radio"
+                                               id="plyr.io" name="player" value="plyr" class="custom-control-input"
+                                               onchange="document.getElementById('videoPlayerForm').submit()">
+                                        <label class="custom-control-label" for="plyr.io">Plyr.io</label>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +91,8 @@
                 </div>
             </div>
             <br>
-            <p th:if="${user.lastLogin} != null" th:text="'Last Login: ' + ${user.lastLogin}"></p>
+            <p th:if="${user.lastLogin} != null"
+               th:text="'Last Login: ' + ${#dates.format(user.lastLogin, 'dd.MM.yyyy HH:mm')}"></p>
             <form action="/login/logout" method="post">
                 <button type="submit" class="btn btn-danger">Logout</button>
             </form>
@@ -111,7 +112,8 @@
                 <br>
             </div>
             <p th:text="'Name: ' + ${user.name}"></p>
-            <p th:if="${user.lastLogin} != null" th:text="'Last Login: ' + ${user.lastLogin}"></p>
+            <p th:if="${user.lastLogin} != null"
+               th:text="'Last Login: ' + ${#dates.format(user.lastLogin, 'dd.MM.yyyy HH:mm')}"></p>
         </div>
     </div>
     <br>
@@ -220,7 +222,7 @@
         <ul class="list-group">
             <li th:each="log : ${activities}" class="list-group-item">
                 <a th:text="${log.log}"></a>
-                <a th:text="${log.timestamp}" class="float-right"></a>
+                <a th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}" class="float-right"></a>
             </li>
         </ul>
     </div>

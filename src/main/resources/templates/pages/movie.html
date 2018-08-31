@@ -12,10 +12,10 @@
 </script>
 
 <div th:if="${currentUser} != null" th:switch="${currentUser.videoPlayer}" id="movie-div">
-    <video th:case="'html5'" controls playsinline th:poster="${movie.backgroundImg}" width="100%">
+    <video th:case="'plyr'" controls playsinline th:poster="${movie.backgroundImg}" id="player">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
     </video>
-    <video th:case="*" controls playsinline th:poster="${movie.backgroundImg}" id="player">
+    <video th:case="*" controls playsinline th:poster="${movie.backgroundImg}" width="100%" controlsList="nodownload">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
     </video>
 </div>
@@ -79,6 +79,21 @@
         <button class="btn btn-primary" type="submit">Save Comment</button>
     </form>
 </div>
+<br>
+<div class="card" th:if="${currentUser.isAdmin()}">
+    <div class="card-header">Movie Settings</div>
+    <div class="card-body">
+        <div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i>
+            Change Video Path
+        </div>
+        <form th:action="'/movie/' + ${movie.id} + '/path'" method="post">
+            <input th:value="${movie.videoPath}" type="text" class="form-control" name="path">
+            <br>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+<br>
 <div th:if="${!similar.isEmpty()}">
     <br>
     <div class="card">

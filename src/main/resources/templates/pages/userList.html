@@ -22,6 +22,8 @@
 <br>
 <ul class="list-group">
     <li th:each="user : ${users}" class="list-group-item">
+        <img th:if="${user.profileImg} != null" class="img-thumbnail" th:src="'/img/' + ${user.id}"
+             style="max-height: 40px; min-height: 40px"/>
         <a th:text="${user.name}" th:href="'/user/' + ${user.id}"></a>
         <div th:if="${currentUser.isAdmin()}" class="float-right" th:switch="${user.role}">
             <form th:case="'1'" th:action="'/user/' + ${user.id} + '/role/2'" method="post">

@@ -47,12 +47,6 @@ public class LoginController {
 
     @GetMapping
     public String getLogin(Model model, HttpServletRequest request) {
-
-        String ipAddress = request.getHeader("X-FORWARDED-FOR");
-        if (ipAddress == null) {
-            activityService.log("Guest gets Login Page from ip: " + request.getRemoteAddr());
-        }
-
         userIndicatorService.allowGuest(model, request);
         model.addAttribute("page", "login");
         return "template";

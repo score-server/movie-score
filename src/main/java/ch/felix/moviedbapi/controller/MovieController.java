@@ -9,14 +9,17 @@ import ch.felix.moviedbapi.data.repository.TimeRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SimilarMovieService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.importer.MovieImportService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 
 /**
  * @author Wetwer
@@ -34,15 +37,19 @@ public class MovieController {
     private SimilarMovieService similarMovieService;
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
+    private MovieImportService movieImportService;
 
-    public MovieController(MovieRepository movieRepository, LikesRepository likesRepository, SimilarMovieService similarMovieService,
-                           UserIndicatorService userIndicatorService, ActivityService activityService, TimeRepository timeRepository) {
+    public MovieController(MovieRepository movieRepository, LikesRepository likesRepository,
+                           SimilarMovieService similarMovieService, UserIndicatorService userIndicatorService,
+                           ActivityService activityService, TimeRepository timeRepository,
+                           MovieImportService movieImportService) {
         this.movieRepository = movieRepository;
         this.likesRepository = likesRepository;
         this.timeRepository = timeRepository;
         this.similarMovieService = similarMovieService;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
+        this.movieImportService = movieImportService;
     }
 
 
@@ -101,6 +108,23 @@ public class MovieController {
             return "redirect:/movie/" + movieId;
         } else {
             return "redirect:/login?redirect=/movie/" + movieId;
+        }
+    }
+
+
+    @PostMapping("{movieId}/path")
+    public String likeMovie(@PathVariable("movieId") Long movieId, @RequestParam("path") String path,
+                            HttpServletRequest request) {
+        if (userIndicatorService.isAdministrator(request)) {
+            User user = userIndicatorService.getUser(request).getUser();
+            Movie movie = movieRepository.findMovieById(movieId);
+            movie.setVideoPath(path);
+            movieRepository.save(movie);
+            movieImportService.filterUpdateFile(new File(path));
+            activityService.log(user.getName() + " changed Path on Movie " + movie.getTitle() + " to " + path, user);
+            return "redirect:/movie/" + movieId + "?path";
+        } else {
+            return "redirect:/movie/" + movieId;
         }
     }
 }

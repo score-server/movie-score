@@ -12,11 +12,12 @@
 </script>
 
 <div th:switch="${currentUser.videoPlayer}">
-    <video th:case="'html5'" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
-           width="100%">
+    <video th:case="'plyr'" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
+           id="player">
         <source th:src="'/video/episode/' + ${episode.id}">
     </video>
-    <video th:case="*" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}" id="player">
+    <video th:case="*" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
+           width="100%" controlsList="nodownload">
         <source th:src="'/video/episode/' + ${episode.id}">
     </video>
 </div>

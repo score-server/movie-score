@@ -19,8 +19,7 @@
     <div class="card">
         <div class="card-header">
             <b th:text="${blog.title}"></b>
-            <a th:text="${blog.timestamp.getDate()} + '.' + (${blog.timestamp.getMonth()} + 1) + '.'
-               + (${blog.timestamp.getYear()} + 1900)" class="float-right"></a>
+            <a th:text="${#dates.format(blog.timestamp, 'dd.MM.yyyy HH:mm')}" class="float-right"></a>
         </div>
         <div class="card-body">
             <p th:utext="${blog.text}"></p>

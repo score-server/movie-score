@@ -99,7 +99,7 @@
 
                 <a th:if="${log.type} == 'nok'" th:text="${log.log}" style="color: red;"></a>
 
-                <a th:text="${log.timestamp}" class="float-right"></a>
+                <a th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}" class="float-right"></a>
             </li>
         </ul>
     </div>
@@ -157,7 +157,7 @@
         <ul class="list-group">
             <li th:each="log : ${activityLogs}" class="list-group-item">
                 <a th:text="${log.log}"></a>
-                <a th:text="${log.timestamp}" class="float-right"></a>
+                <a th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}" class="float-right"></a>
             </li>
         </ul>
     </div>
