@@ -98,6 +98,8 @@ public class MovieImportService extends ImportService {
         String filename = movieFile.getName().replace(".mp4", "");
         Movie movie = movieRepository.findMovieByTitle(getName(filename));
 
+        Double popularity = movie.getPopularity();
+
         int movieId = searchMovieService.findMovieId(movie.getTitle(), movie.getYear());
         MovieJson movieJson = searchMovieService.getMovieInfo(movieId);
         try {
@@ -116,7 +118,18 @@ public class MovieImportService extends ImportService {
             e.printStackTrace();
         }
         movieRepository.save(movie);
-        importLogService.importLog(movie, "Updated Movie: " + getName(filename));
+
+        Double popularityChange = Math.round((movie.getPopularity() - popularity) * 100.0) / 100.0;
+        String popularityIndex;
+        if (popularityChange > 0.0) {
+            popularityIndex = "<a style=\"color:green\">+" + popularityChange + "</a>";
+        } else if (popularityChange < 0.0) {
+            popularityIndex = "<a style=\"color:red\">" + popularityChange + "</a>";
+        } else {
+            popularityIndex = "";
+        }
+
+        importLogService.importLog(movie, "Updated Movie: " + getName(filename) + " " + popularityIndex);
         try {
             Thread.sleep(300);
         } catch (InterruptedException e) {
@@ -136,4 +149,5 @@ public class MovieImportService extends ImportService {
                 return "video/webm";
         }
         throw new Exception("Filetype not know!!");
-    }}
+    }
+}

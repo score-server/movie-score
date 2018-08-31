@@ -93,11 +93,11 @@
     <div class="card-body">
         <ul class="list-group">
             <li th:each="log : ${importLogs}" class="list-group-item">
-                <a th:if="${log.type} == 'ok'" th:text="${log.log}" th:href="'/movie/' + ${log.movie.id}"></a>
+                <a th:if="${log.type} == 'ok'" th:utext="${log.log}"></a>
 
-                <a th:if="${log.type} == 'serie'" th:text="${log.log}"></a>
+                <a th:if="${log.type} == 'serie'" th:utext="${log.log}"></a>
 
-                <a th:if="${log.type} == 'nok'" th:text="${log.log}" style="color: red;"></a>
+                <a th:if="${log.type} == 'nok'" th:utext="${log.log}" style="color: red;"></a>
 
                 <a th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}" class="float-right"></a>
             </li>
