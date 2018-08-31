@@ -1,6 +1,5 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.entity.Timeline;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.ActivityLogRepository;
 import ch.felix.moviedbapi.data.repository.CommentRepository;
@@ -136,6 +135,29 @@ public class UserController {
             userRepository.save(user);
             activityService.log(user.getName() + " changed Password", user);
             return "redirect:/user/" + userId + "?password";
+        } else {
+            return "redirect:/user/" + userId + "?error";
+        }
+    }
+
+    @PostMapping("{userId}/player")
+    public String setPlayer(@PathVariable("userId") String userId,
+                            @RequestParam("player") String videoPlayer, Model model, HttpServletRequest request) {
+
+        User user = userRepository.findUserById(Long.valueOf(userId));
+
+        if (userIndicatorService.isCurrentUser(model, request, user)) {
+            user.setVideoPlayer(videoPlayer);
+            userRepository.save(user);
+            activityService.log(user.getName() + " set Video Player to " + videoPlayer, user);
+            switch (videoPlayer) {
+                case "plyr":
+                    return "redirect:/user/" + userId + "?player=Plyr.io";
+                case "html5":
+                    return "redirect:/user/" + userId + "?player=HTML 5 Player";
+                default:
+                    return "redirect:/user/" + userId;
+            }
         } else {
             return "redirect:/user/" + userId + "?error";
         }

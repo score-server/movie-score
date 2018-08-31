@@ -11,8 +11,11 @@
     });
 </script>
 
-<div th:if="${currentUser} != null" id="movie-div">
-    <video controls playsinline th:poster="${movie.backgroundImg}" id="player">
+<div th:if="${currentUser} != null" th:switch="${currentUser.videoPlayer}" id="movie-div">
+    <video th:case="'html5'" controls playsinline th:poster="${movie.backgroundImg}" width="100%">
+        <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
+    </video>
+    <video th:case="*" controls playsinline th:poster="${movie.backgroundImg}" id="player">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
     </video>
 </div>

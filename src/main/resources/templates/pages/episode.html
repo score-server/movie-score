@@ -11,9 +11,15 @@
     });
 </script>
 
-<video controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}" id="player">
-    <source th:src="'/video/episode/' + ${episode.id}">
-</video>
+<div th:switch="${currentUser.videoPlayer}">
+    <video th:case="'html5'" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
+           width="100%">
+        <source th:src="'/video/episode/' + ${episode.id}">
+    </video>
+    <video th:case="*" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}" id="player">
+        <source th:src="'/video/episode/' + ${episode.id}">
+    </video>
+</div>
 <br>
 <div class="card card-body">
     <h1 th:text="${episode.season.serie.title} + ' Season ' + ${episode.season.season}

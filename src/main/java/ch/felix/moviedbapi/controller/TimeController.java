@@ -40,6 +40,7 @@ public class TimeController {
     @PostMapping("movie")
     public String setTime(@RequestParam("userId") Long userId, @RequestParam("movieId") Long movieId,
                           @RequestParam("time") Float timeParam, HttpServletRequest request) {
+        System.out.println(timeParam + " u:" + userId + " m:" + movieId);
         if (userIndicatorService.isUser(request)) {
             Movie movie = movieRepository.findMovieById(movieId);
             User user = userRepository.findUserById(userId);

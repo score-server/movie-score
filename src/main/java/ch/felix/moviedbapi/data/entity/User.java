@@ -42,6 +42,8 @@ public class User {
 
     private Integer role;
 
+    private String videoPlayer;
+
     private Timestamp lastLogin;
 
     @Lob

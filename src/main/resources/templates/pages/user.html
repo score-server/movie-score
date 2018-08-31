@@ -18,6 +18,10 @@
     Password changed
 </div>
 
+<div th:if="${param.player}" class="alert alert-success">
+    Player changed to <span th:text="${param.player}"></span>
+</div>
+
 <div th:if="${param.error}" class="alert alert-danger">
     Error while saving changes
 </div>
@@ -43,6 +47,50 @@
                     Change Password
                 </button>
             </p>
+            <div id="accordion">
+                <button class="btn btn-primary" data-toggle="collapse" data-target="#collapsePlayer"
+                        aria-expanded="true" aria-controls="collapseOne">
+                    Video Player
+                </button>
+                <br>
+                <div id="collapsePlayer" class="collapse card card-body" aria-labelledby="headingOne"
+                     data-parent="#accordion">
+
+                    <form class="row" th:action="'/user/' + ${user.id} + '/player'" method="post" id="videoPlayerForm">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">Plyr.io (default)</div>
+                                <div class="card-body">
+                                    <img src="https://i.imgur.com/Y3RAwxP.png" width="100%"><br>
+                                    <br>
+                                    <div class="custom-control custom-radio">
+                                        <input th:checked="${user.videoPlayer} == 'plyr'" checked="checked" type="radio"
+                                               id="plyr.io" name="player" value="plyr" class="custom-control-input"
+                                               onchange="document.getElementById('videoPlayerForm').submit()">
+                                        <label class="custom-control-label" for="plyr.io">Plyr.io (Default)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">HTML 5 Player</div>
+                                <div class="card-body">
+                                    <img src="https://i.imgur.com/OXf4cP6.png" width="100%"><br>
+                                    <br>
+                                    <div class="custom-control custom-radio">
+                                        <input th:checked="${user.videoPlayer} == 'html5'" type="radio" id="html5"
+                                               name="player" value="html5" class="custom-control-input"
+                                               onchange="document.getElementById('videoPlayerForm').submit()">
+                                        <label class="custom-control-label" for="html5">HTML 5</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <br>
             <p th:if="${user.lastLogin} != null" th:text="'Last Login: ' + ${user.lastLogin}"></p>
             <form action="/login/logout" method="post">
                 <button type="submit" class="btn btn-danger">Logout</button>
@@ -57,7 +105,8 @@
         <div class="card-header">Profile</div>
         <div class="card-body">
             <div th:if="${user.profileImg} != null">
-                <img class="img-thumbnail" th:src="'/img/' + ${user.id}" style="max-height: 100px; min-height: 100px"/>
+                <img class="img-thumbnail" th:src="'/img/' + ${user.id}"
+                     style="max-height: 100px; min-height: 100px"/>
                 <br>
                 <br>
             </div>
