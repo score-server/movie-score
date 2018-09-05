@@ -22,20 +22,20 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("import")
 public class ImportController {
 
-    private MovieImportService movieImportService;
-    private SeriesImportService seriesImportService;
-    private SettingsService settingsService;
     private UserIndicatorService userIndicatorService;
+    private MovieImportService newMovieMovieImportService;
+    private SeriesImportService newSeriesImportService;
     private ActivityService activityService;
+    private SettingsService settingsService;
 
-    public ImportController(MovieImportService movieImportService, SeriesImportService seriesImportService,
-                            SettingsService settingsService, UserIndicatorService userIndicatorService,
-                            ActivityService activityService) {
-        this.movieImportService = movieImportService;
-        this.seriesImportService = seriesImportService;
-        this.settingsService = settingsService;
+    public ImportController(UserIndicatorService userIndicatorService, MovieImportService newMovieMovieImportService,
+                            SeriesImportService newSeriesImportService, ActivityService activityService,
+                            SettingsService settingsService) {
         this.userIndicatorService = userIndicatorService;
+        this.newMovieMovieImportService = newMovieMovieImportService;
+        this.newSeriesImportService = newSeriesImportService;
         this.activityService = activityService;
+        this.settingsService = settingsService;
     }
 
     @PostMapping(value = "movie")
@@ -45,9 +45,7 @@ public class ImportController {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
-            settingsService.setValue("importProgress", "0");
-            settingsService.setValue("import", "1");
-            movieImportService.importFile("moviePath");
+            newMovieMovieImportService.importAll();
             activityService.log(user.getName() + " started Movie Import", user);
             return "redirect:/settings";
         } else {
@@ -62,9 +60,7 @@ public class ImportController {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
-            settingsService.setValue("importProgress", "0");
-            settingsService.setValue("import", "1");
-            movieImportService.updateFile();
+            newMovieMovieImportService.updateAll();
             activityService.log(user.getName() + " started Movie Update", user);
             return "redirect:/settings";
         } else {
@@ -79,10 +75,8 @@ public class ImportController {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
-            settingsService.setValue("importProgress", "0");
-            settingsService.setValue("import", "1");
-            seriesImportService.importFile("seriePath");
-            activityService.log(user.getName() + " started Movie Import", user);
+            newSeriesImportService.importAll();
+            activityService.log(user.getName() + " started Series Import", user);
             return "redirect:/settings";
         } else {
             return "redirect:/";
@@ -96,9 +90,7 @@ public class ImportController {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
-            settingsService.setValue("importProgress", "0");
-            settingsService.setValue("import", "1");
-            seriesImportService.updateSeries();
+            newSeriesImportService.updateAll();
             activityService.log(user.getName() + " started Series Update", user);
             return "redirect:/settings";
         } else {
@@ -130,8 +122,7 @@ public class ImportController {
     @PostMapping("reset")
     public String importReset(Model model, HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(model, request)) {
-            settingsService.setValue("importProgress", "0");
-            settingsService.setValue("import", "0");
+            newMovieMovieImportService.setImportStatus("0");
             return "redirect:/settings";
         } else {
             return "redirect:/";

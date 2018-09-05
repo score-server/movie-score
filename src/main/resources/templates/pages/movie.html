@@ -91,6 +91,13 @@
             <br>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
+        <hr>
+        <p>Movie Attributes</p>
+        <form th:action="'/movie/' + ${movie.id} + '/path'" method="post">
+            <input th:value="${movie.videoPath}" type="text" class="form-control" name="path">
+            <br>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
     </div>
 </div>
 <br>

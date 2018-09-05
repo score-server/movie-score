@@ -4,55 +4,82 @@ import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.entity.Season;
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
-import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.jsonmodel.tmdb.SerieJson;
 import ch.felix.moviedbapi.service.ImportLogService;
 import ch.felix.moviedbapi.service.SettingsService;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.List;
 
-/**
- * @author Wetwer
- * @project movie-db
- */
-
 @Service
-public class SeriesImportService extends ImportService {
+public class SeriesImportService extends ImportServiceFactory {
 
     private SerieRepository serieRepository;
-    private SeasonRepository seasonRepository;
     private EpisodeRepository episodeRepository;
-    private MovieRepository movieRepository;
+    private SeasonRepository seasonRepository;
 
-    private GenreImportService genreImportService;
-    private ImportLogService importLogService;
-    private SearchMovieService searchMovieService;
     private SettingsService settingsService;
+    private SearchMovieService searchMovieService;
+    private ImportLogService importLogService;
+    private GenreImportService genreImportService;
 
-    protected SeriesImportService(SettingsService settingsService, SerieRepository serieRepository,
-                                  SeasonRepository seasonRepository, EpisodeRepository episodeRepository,
-                                  MovieRepository movieRepository, GenreImportService genreImportService,
-                                  ImportLogService importLogService, SearchMovieService searchMovieService,
-                                  SettingsService settingsService1) {
-        super(settingsService, movieRepository);
+    protected SeriesImportService(SerieRepository serieRepository, EpisodeRepository episodeRepository, SeasonRepository seasonRepository, SettingsService settingsService,
+                                  SearchMovieService searchMovieService, ImportLogService importLogService, GenreImportService genreImportService) {
+        super(settingsService);
         this.serieRepository = serieRepository;
-        this.seasonRepository = seasonRepository;
         this.episodeRepository = episodeRepository;
-        this.movieRepository = movieRepository;
-        this.genreImportService = genreImportService;
-        this.importLogService = importLogService;
+        this.seasonRepository = seasonRepository;
+        this.settingsService = settingsService;
         this.searchMovieService = searchMovieService;
-        this.settingsService = settingsService1;
+        this.importLogService = importLogService;
+        this.genreImportService = genreImportService;
     }
 
     @Override
-    public void filterFile(File movieFile) {
-        String seriesName = movieFile.getName()
+    public void importAll() {
+        startImport();
+        File file = new File(settingsService.getKey("seriePath"));
+
+        File[] files = file.listFiles();
+        int currentFileIndex = 0;
+        int allFiles = files.length;
+
+
+        for (File movieFile : files) {
+            currentFileIndex++;
+            settingsService.setValue("importProgress",
+                    String.valueOf(round(getPercent(currentFileIndex, allFiles), 1)));
+            if (movieFile.getName().endsWith(".mp4")
+                    || movieFile.getName().endsWith(".avi")
+                    || movieFile.getName().endsWith(".mkv")) {
+                importFile(movieFile);
+            }
+        }
+        stopImport();
+    }
+
+    @Override
+    public void updateAll() {
+        startImport();
+        List<Serie> serieList = serieRepository.findSerieByOrderByTitle();
+
+        int currentFileIndex = 0;
+        int allFiles = serieList.size();
+
+        for (Serie serie : serieList) {
+            updateFile(serie);
+            setImportProgress(getPercent(currentFileIndex, allFiles));
+            currentFileIndex++;
+        }
+        stopImport();
+    }
+
+    @Override
+    public void importFile(File file) {
+        String seriesName = file.getName()
                 .replace(".mp4", "")
                 .replace(".avi", "")
                 .replace(".mkv", "");
@@ -65,7 +92,7 @@ public class SeriesImportService extends ImportService {
             serie.setTitle(getName(seriesName));
             int serieId = searchMovieService.findSeriesId(getName(seriesName), getYear(seriesName));
             SerieJson serieJson = searchMovieService.getSerieInfo(serieId);
-            sleep();
+            sleep(250);
             try {
                 serie.setDescript(serieJson.getOverview());
                 serie.setCaseImg("https://image.tmdb.org/t/p/original" + serieJson.getPosterPath());
@@ -80,7 +107,7 @@ public class SeriesImportService extends ImportService {
             try {
                 genreImportService.setGenre(serieRepository.findSerieByTitle(getName(seriesName)),
                         serieJson.getGenres());
-                sleep();
+                sleep(250);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
@@ -107,7 +134,7 @@ public class SeriesImportService extends ImportService {
         if (episode == null) {
             episode = new Episode();
             episode.setSeason(seasonRepository.findSeasonById(season.getId()));
-            episode.setPath(movieFile.getPath());
+            episode.setPath(file.getPath());
             episode.setEpisode(Integer.valueOf(getEpisode(seriesName)));
             episode.setQuality(getQuality(seriesName));
             episodeRepository.save(episode);
@@ -117,12 +144,11 @@ public class SeriesImportService extends ImportService {
     }
 
     @Override
-    public void filterUpdateFile(File movieFile) {
+    public void updateFile(File file) {
 
     }
 
-    @Async
-    public void filterUpdateFile(Serie serie) {
+    public void updateFile(Serie serie) {
         int serieId = searchMovieService.findSeriesId(serie.getTitle());
         SerieJson serieJson = searchMovieService.getSerieInfo(serieId);
 
@@ -137,32 +163,7 @@ public class SeriesImportService extends ImportService {
 
         importLogService.importLog("Updated Series: " + serie.getTitle());
         serieRepository.save(serie);
-        sleep();
-    }
-
-    @Async
-    public void updateSeries() {
-        List<Serie> serieList = serieRepository.findSerieByOrderByTitle();
-
-        int currentFileIndex = 0;
-        int allFiles = serieList.size();
-
-        for (Serie serie : serieList) {
-            filterUpdateFile(serie);
-            settingsService.setValue("importProgress", String.valueOf(round(getPercent(currentFileIndex, allFiles), 1)));
-            currentFileIndex++;
-        }
-        settingsService.setValue("import", "0");
-        settingsService.setValue("importProgress", "0");
-    }
-
-
-    private void sleep() {
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleep(300);
     }
 
     private String getName(String fileName) {
@@ -192,4 +193,5 @@ public class SeriesImportService extends ImportService {
     private String getEpisode(String s) {
         return getEpisodeStr(s).toLowerCase().split("e")[1];
     }
+
 }

@@ -113,14 +113,14 @@ public class MovieController {
 
 
     @PostMapping("{movieId}/path")
-    public String likeMovie(@PathVariable("movieId") Long movieId, @RequestParam("path") String path,
-                            HttpServletRequest request) {
+    public String setMoviePath(@PathVariable("movieId") Long movieId, @RequestParam("path") String path,
+                               HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
             User user = userIndicatorService.getUser(request).getUser();
             Movie movie = movieRepository.findMovieById(movieId);
             movie.setVideoPath(path);
             movieRepository.save(movie);
-            movieImportService.filterUpdateFile(new File(path));
+            movieImportService.updateFile(new File(path));
             activityService.log(user.getName() + " changed Path on Movie " + movie.getTitle() + " to " + path, user);
             return "redirect:/movie/" + movieId + "?path";
         } else {
