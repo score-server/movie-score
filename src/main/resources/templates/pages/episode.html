@@ -42,15 +42,27 @@
         <span th:text="': ' + ${comment.comment}"></span>
     </li>
 </ul>
-
 <br>
-
 <form th:action="'/comment/add/episode?userId=' + ${currentUser.id} + '&episodeId=' + ${episode.id}" method="post">
     <textarea th:placeholder="'Comment as ' + ${currentUser.name}" name="comment" class="form-control"
               required></textarea>
     <br>
     <button class="btn btn-primary" type="submit">Save Comment</button>
 </form>
+<br>
+<div class="card" th:if="${currentUser.isAdmin()}">
+    <div class="card-header">Episode Settings</div>
+    <div class="card-body">
+        <div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i>
+            Change Video Path
+        </div>
+        <form th:action="'/episode/' + ${episode.id} + '/path'" method="post">
+            <input th:value="${episode.path}" type="text" class="form-control" name="path">
+            <br>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
 <br>
 <a class="btn btn-primary" th:href="'/season/' + ${episode.season.id}">Back</a>
 <script type="application/javascript">

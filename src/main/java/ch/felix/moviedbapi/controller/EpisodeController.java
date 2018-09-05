@@ -1,6 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Episode;
+import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.TimeRepository;
@@ -9,11 +10,10 @@ import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 
 /**
  * @author Wetwer
@@ -74,4 +74,19 @@ public class EpisodeController {
         }
     }
 
+    @PostMapping("{episodeId}/path")
+    public String getOneEpisode(@PathVariable("episodeId") Long episodeId, @RequestParam("path") String path, HttpServletRequest request) {
+        if (userIndicatorService.isAdministrator(request)) {
+            User user = userIndicatorService.getUser(request).getUser();
+            Episode episode = episodeRepository.findEpisodeById(episodeId);
+            episode.setPath(path);
+            episodeRepository.save(episode);
+            activityService.log(user.getName() + " changed Path on "
+                    + "S" + episode.getSeason().getSeason()
+                    + "E" + episode.getEpisode() + " to " + path, user);
+            return "redirect:/episode/" + episodeId + "?path";
+        } else {
+            return "redirect:/episode/" + episodeId;
+        }
+    }
 }

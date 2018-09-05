@@ -49,7 +49,10 @@ public class MovieImportService extends ImportService {
 
     @Override
     public void filterFile(File movieFile) {
-        String filename = movieFile.getName().replace(".mp4", "");
+        String filename = movieFile.getName()
+                .replace(".mp4", "")
+                .replace(".mkv", "")
+                .replace(".avi", "");
 
         Movie movie = movieRepository.findMovieByTitle(getName(filename));
 
@@ -95,7 +98,10 @@ public class MovieImportService extends ImportService {
 
     @Override
     public void filterUpdateFile(File movieFile) {
-        String filename = movieFile.getName().replace(".mp4", "");
+        String filename = movieFile.getName()
+                .replace(".mp4", "")
+                .replace(".mkv", "")
+                .replace(".avi", "");
         Movie movie = movieRepository.findMovieByTitle(getName(filename));
 
         Double popularity = movie.getPopularity();

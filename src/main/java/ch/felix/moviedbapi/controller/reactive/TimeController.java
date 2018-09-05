@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.controller;
+package ch.felix.moviedbapi.controller.reactive;
 
 import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.entity.Movie;
