@@ -128,5 +128,18 @@ public class MovieController {
         }
     }
 
-    //TODO change Quality and Year
+    @PostMapping("{movieId}/attributes")
+    public String setMoviePath(@PathVariable("movieId") Long movieId, @RequestParam("quality") String quality,
+                               @RequestParam("year") String year,
+                               HttpServletRequest request) {
+        if (userIndicatorService.isAdministrator(request)) {
+            Movie movie = movieRepository.findMovieById(movieId);
+            movie.setQuality(quality);
+            movie.setYear(year);
+            movieRepository.save(movie);
+            return "redirect:/movie/" + movieId + "?attributes";
+        } else {
+            return "redirect:/movie/" + movieId;
+        }
+    }
 }

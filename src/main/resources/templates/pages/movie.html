@@ -94,8 +94,11 @@
         </form>
         <hr>
         <p>Movie Attributes</p>
-        <form th:action="'/movie/' + ${movie.id} + '/path'" method="post">
-            <input th:value="${movie.videoPath}" type="text" class="form-control" name="path">
+        <form th:action="'/movie/' + ${movie.id} + '/attributes'" method="post">
+            Quality
+            <input th:value="${movie.quality}" type="text" class="form-control" name="quality">
+            Year
+            <input th:value="${movie.year}" type="text" class="form-control" name="year">
             <br>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
