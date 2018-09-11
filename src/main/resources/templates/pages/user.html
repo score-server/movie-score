@@ -59,22 +59,7 @@
                     <form class="row" th:action="'/user/' + ${user.id} + '/player'" method="post" id="videoPlayerForm">
                         <div class="col-6">
                             <div class="card">
-                                <div class="card-header">HTML 5 Player (default)</div>
-                                <div class="card-body">
-                                    <img src="https://i.imgur.com/OXf4cP6.png" width="100%"><br>
-                                    <br>
-                                    <div class="custom-control custom-radio">
-                                        <input th:checked="${user.videoPlayer} == 'html5'" type="radio" id="html5"
-                                               name="player" value="html5" class="custom-control-input"
-                                               onchange="document.getElementById('videoPlayerForm').submit()">
-                                        <label class="custom-control-label" for="html5">HTML 5 (default)</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="card">
-                                <div class="card-header">Plyr.io</div>
+                                <div class="card-header">Plyr.io (default)</div>
                                 <div class="card-body">
                                     <img src="https://i.imgur.com/Y3RAwxP.png" width="100%"><br>
                                     <br>
@@ -82,7 +67,22 @@
                                         <input th:checked="${user.videoPlayer} == 'plyr'" type="radio"
                                                id="plyr.io" name="player" value="plyr" class="custom-control-input"
                                                onchange="document.getElementById('videoPlayerForm').submit()">
-                                        <label class="custom-control-label" for="plyr.io">Plyr.io</label>
+                                        <label class="custom-control-label" for="plyr.io">Plyr.io (default)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">HTML 5 Player</div>
+                                <div class="card-body">
+                                    <img src="https://i.imgur.com/OXf4cP6.png" width="100%"><br>
+                                    <br>
+                                    <div class="custom-control custom-radio">
+                                        <input th:checked="${user.videoPlayer} == 'html5'" type="radio" id="html5"
+                                               name="player" value="html5" class="custom-control-input"
+                                               onchange="document.getElementById('videoPlayerForm').submit()">
+                                        <label class="custom-control-label" for="html5">HTML 5</label>
                                     </div>
                                 </div>
                             </div>
@@ -145,6 +145,13 @@
                     </button>
                 </form>
             </div>
+            <br>
+            Authkey:
+            <input th:value="${user.authKey}" class="form-control" type="text" disabled>
+            <br>
+            <form th:action="'/user/generate/' + ${user.id}" method="post">
+                <button type="submit" class="btn btn-primary">Generate new Authkey</button>
+            </form>
         </div>
     </div>
     <br>

@@ -12,10 +12,11 @@
 </script>
 
 <div th:if="${currentUser} != null" th:switch="${currentUser.videoPlayer}" id="movie-div">
-    <video th:case="'plyr'" controls playsinline th:poster="${movie.backgroundImg}" id="player">
+    <video th:case="'html5'" controls playsinline th:poster="${movie.backgroundImg}" width="100%"
+           controlsList="nodownload">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
     </video>
-    <video th:case="*" controls playsinline th:poster="${movie.backgroundImg}" width="100%" controlsList="nodownload">
+    <video th:case="*" controls playsinline th:poster="${movie.backgroundImg}" id="player">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
     </video>
 </div>

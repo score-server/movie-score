@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Random;
 
 /**
  * @author Wetwer
@@ -163,4 +164,13 @@ public class UserController {
         }
     }
 
+    @PostMapping("generate/{userId}")
+    public String generateKey(@PathVariable("userId") Long userId, HttpServletRequest request) {
+        if (userIndicatorService.isAdministrator(request)) {
+            User user = userRepository.findUserById(userId);
+            user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
+            userRepository.save(user);
+        }
+        return "redirect:/user/" + userId;
+    }
 }

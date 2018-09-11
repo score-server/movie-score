@@ -6,6 +6,10 @@
     Invalid username or password
 </div>
 
+<div th:if="${param.error}" class="alert alert-info">
+    If you cant Login please contact Felix...
+</div>
+
 <div th:if="${param.redirect}" class="alert alert-warning">
     Requires Login
 </div>
@@ -19,3 +23,5 @@
         <button class="btn btn-primary" type="submit">Login</button>
     </form>
 </div>
+<br>
+<a href="/fastlogin" class="btn btn-primary">Login with Authkey</a>

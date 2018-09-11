@@ -46,6 +46,9 @@ public class User {
 
     private Timestamp lastLogin;
 
+    @JsonIgnore
+    private String authKey;
+
     @Lob
     @JsonIgnore
     private byte[] profileImg;

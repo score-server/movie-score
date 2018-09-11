@@ -40,4 +40,24 @@ public class CookieService {
         }
         throw new NullPointerException();
     }
+
+    public void setFastLoginCookie(HttpServletResponse response, User user) {
+        Cookie userCookie = new Cookie("fast", user.getAuthKey());
+        userCookie.setMaxAge(3600);
+        userCookie.setPath("/");
+        response.addCookie(userCookie);
+    }
+
+    public User getFastLogin(HttpServletRequest request) {
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("fast")) {
+                User user = userRepository.findUserByAuthKey(cookie.getValue());
+                if (user == null) {
+                    return null;
+                }
+                return user;
+            }
+        }
+        return null;
+    }
 }

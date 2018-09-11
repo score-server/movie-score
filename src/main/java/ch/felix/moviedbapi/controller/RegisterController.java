@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Random;
 
 /**
  * @author Wetwer
@@ -50,17 +51,16 @@ public class RegisterController {
     }
 
     @PostMapping
-    public String register(@RequestParam("name") String nameParam,
-                           @RequestParam("password") String password,
-                           HttpServletRequest request) {
+    public String register(@RequestParam("name") String nameParam, HttpServletRequest request) {
         User adminUser = userIndicatorService.getUser(request).getUser();
 
         if (userIndicatorService.isAdministrator(request)) {
             if (userRepository.findUserByName(nameParam) == null) {
                 User user = new User();
                 user.setName(nameParam);
-                user.setPasswordSha(shaService.encode(password));
+                user.setPasswordSha(shaService.encode(String.valueOf(new Random().nextInt())));
                 user.setRole(1);
+                user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
                 userRepository.save(user);
                 activityService.log(nameParam + " registered by " + adminUser.getName(), adminUser);
                 return "redirect:/user?added";

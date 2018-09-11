@@ -76,7 +76,7 @@
                 <a class="nav-link text-dark" href="/about">About</a>
             </li>
             <li th:if="${page} != 'login'" class="nav-item">
-                <a th:if="${currentUser.isAdmin()}" class="nav-link text-dark" href="/settings">
+                <a th:if="${currentUser?.isAdmin()}" class="nav-link text-dark" href="/settings">
                     <i>Control Center</i>
                 </a>
             </li>

@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1>Fast Login</h1>
+
+<div th:if="${param.error}" class="alert alert-danger">
+    Invalid Authkey
+</div>
+<div th:if="${param.authkey}" class="alert alert-danger">
+    Authkey expired, try again
+</div>
+
+
+<div class="card card-body">
+    <form action="/fastlogin" method="post">
+        Authkey: <input class="form-control" type="text" name="authkey">
+        <br>
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+</div>
