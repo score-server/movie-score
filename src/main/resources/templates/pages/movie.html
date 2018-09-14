@@ -1,4 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<meta property="og:title" th:content="${movie.title}"/>
+<meta property="og:type" content="${movie.filetype}"/>
+<meta property="og:image" th:content="${movie.backgroundImg}"/>
+
 <link rel='stylesheet' href='https://cdn.plyr.io/3.2.4/plyr.css'>
 <script src='https://cdn.plyr.io/3.2.4/plyr.js'></script>
 

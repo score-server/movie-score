@@ -102,7 +102,8 @@ public class SeriesImportService extends ImportServiceFactory {
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-            importLogService.importLog("Saved Series: " + getName(seriesName));
+            importLogService.importLog("<i class=\"fas fa-angle-double-down\" style=\"color: green;\"></i> " +
+                    "Saved Series: " + getName(seriesName));
             serieRepository.save(serie);
             try {
                 genreImportService.setGenre(serieRepository.findSerieByTitle(getName(seriesName)),
@@ -121,7 +122,8 @@ public class SeriesImportService extends ImportServiceFactory {
             season.setSerie(serieRepository.findSerieByTitle(getName(seriesName)));
             season.setSeason(Integer.valueOf(getSeason(seriesName)));
             season.setYear(getYear(seriesName));
-            importLogService.importLog("Saved Season: Season " + getSeason(seriesName));
+            importLogService.importLog("<i class=\"fas fa-angle-double-down\" style=\"color: green;\"></i> " +
+                    "Saved Season: Season " + getSeason(seriesName));
             seasonRepository.save(season);
         }
 
@@ -138,7 +140,8 @@ public class SeriesImportService extends ImportServiceFactory {
             episode.setEpisode(Integer.valueOf(getEpisode(seriesName)));
             episode.setQuality(getQuality(seriesName));
             episodeRepository.save(episode);
-            importLogService.importLog("Saved Episode: " + getName(seriesName) + " Season " + getSeason(seriesName)
+            importLogService.importLog("<i class=\"fas fa-angle-double-down\" style=\"color: green;\"></i> " +
+                    "Saved Episode: " + getName(seriesName) + " Season " + getSeason(seriesName)
                     + " Episode " + getEpisode(seriesName));
         }
     }
@@ -158,10 +161,12 @@ public class SeriesImportService extends ImportServiceFactory {
             serie.setPopularity(serieJson.getPopularity());
         } catch (NullPointerException e) {
             e.printStackTrace();
-            importLogService.errorLog("No json found for " + serie.getTitle());
+            importLogService.errorLog("<i class=\"fas fa-times\" style=\"color: red;\"></i> " +
+                    "No json found for " + serie.getTitle());
         }
 
-        importLogService.importLog("Updated Series: " + serie.getTitle());
+        importLogService.importLog("<i class=\"fas fa-angle-down\" style=\"color: blue;\"></i> " +
+                "Updated Series: " + serie.getTitle());
         serieRepository.save(serie);
         sleep(300);
     }

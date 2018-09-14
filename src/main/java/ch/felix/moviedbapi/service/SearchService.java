@@ -114,6 +114,6 @@ public class SearchService {
 
 
     public List<User> searchUser(String search) {
-        return userRepository.findUsersByNameContaining(search);
+        return userRepository.findUsersByNameContainingOrderByRoleDescNameAsc(search);
     }
 }

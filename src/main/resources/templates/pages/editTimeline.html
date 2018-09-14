@@ -6,48 +6,74 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
       integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-<div class="card card-body">
-    <table class="table">
-        <tr>
-            <th width="10%">Place</th>
-            <th width="70%">Movie</th>
-            <th>Year</th>
-            <th></th>
-        </tr>
-        <tr th:each="moviePar : ${timeline.listMovies}">
-            <td th:text="${moviePar.place}"></td>
-            <td th:text="${moviePar.movie.title}"></td>
-            <td th:text="${moviePar.movie.year}"></td>
-            <td>
-                <form th:action="'/timeline/delete/movie/' + ${moviePar.id}" method="post" class="float-right">
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </form>
-            </td>
-        </tr>
-        <form th:action="'/timeline/edit/' + ${timeline.id}" method="post">
+<div class="card ">
+    <div class="card-header">
+        Attributes
+    </div>
+    <div class="card-body">
+        <form th:action="'/timeline/editatt/' + ${timeline.id}" method="post">
+            <input th:value="${timeline.title}" name="title" type="text" class="form-control">
+            <br>
+            <textarea th:text="${timeline.description}" name="description" class="form-control"></textarea>
+            <br>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-header">
+        Movies
+    </div>
+    <div class="card-body">
+        <table class="table">
             <tr>
+                <th width="10%">Place</th>
+                <th width="10%">Img</th>
+                <th width="60%">Movie</th>
+                <th>Year</th>
+                <th></th>
+            </tr>
+            <tr th:each="moviePar : ${timeline.listMovies}">
+                <td th:text="${moviePar.place}"></td>
                 <td>
-                    <input th:value="${nextPlace}" class="form-control" type="number" name="place" required/>
-                </td>
-                <td colspan="2">
-                    <select class="form-control" name="movie" required autofocus>
-                        <option disabled>Chose Movie...</option>
-                        <option th:each="movie : ${movies}" th:text="${movie.title} + ' ' + ${movie.year}"
-                                th:value="${movie.id}"></option>
-                    </select>
+                    <img th:src="${moviePar.movie.caseImg}" style="max-height: 40px; min-height: 40px" class="card"/>
                 </td>
                 <td>
-                    <button class="btn btn-primary" type="submit">Save</button>
+                    <a th:text="${moviePar.movie.title}"></a>
+                </td>
+                <td th:text="${moviePar.movie.year}"></td>
+                <td>
+                    <form th:action="'/timeline/delete/movie/' + ${moviePar.id}" method="post" class="float-right">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
+            <form th:action="'/timeline/edit/' + ${timeline.id}" method="post">
+                <tr>
+                    <td>
+                        <input th:value="${nextPlace}" class="form-control" type="number" name="place" required/>
+                    </td>
+                    <td colspan="2">
+                        <select class="form-control" name="movie" required autofocus>
+                            <option disabled>Chose Movie...</option>
+                            <option th:each="movie : ${movies}" th:text="${movie.title} + ' ' + ${movie.year}"
+                                    th:value="${movie.id}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </td>
+                </tr>
+            </form>
+        </table>
+        <br>
+        <form th:action="'/timeline/delete/' + ${timeline.id}" method="post" class="form">
+            <button class="btn btn-danger">Delete</button>
         </form>
-    </table>
-    <br>
-    <form th:action="'/timeline/delete/' + ${timeline.id}" method="post" class="form">
-        <button class="btn btn-danger">Delete</button>
-    </form>
+    </div>
 </div>
 <br>
 <a class="btn btn-primary" th:href="'/list/' + ${timeline.id}">Back</a>

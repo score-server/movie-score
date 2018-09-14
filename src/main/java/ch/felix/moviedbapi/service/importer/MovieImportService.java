@@ -98,10 +98,12 @@ public class MovieImportService extends ImportServiceFactory {
                 movie.setFiletype(setMimeType(file.getName()));
                 movieRepository.save(movie);
                 genreImportService.setGenre(movie, movieJson.getGenres());
-                importLogService.importLog(movie, "Added Movie " + movie.getTitle());
+                importLogService.importLog(movie, "<i class=\"fas fa-angle-double-down\" style=\"color: green;\"></i>" +
+                        " Added Movie " + movie.getTitle());
             } catch (Exception e) {
                 e.printStackTrace();
-                importLogService.errorLog("Can't add Movie " + getName(filename) + " | " + filename);
+                importLogService.errorLog("<i class=\"fas fa-times\" style=\"color: red;\"></i>" +
+                        " Can't add Movie " + filename);
             }
         }
     }
@@ -130,7 +132,8 @@ public class MovieImportService extends ImportServiceFactory {
 
         String popularityIndex = getPopularityChange(movie.getPopularity(), popularity);
 
-        importLogService.importLog(movie, "Updated Movie: " + getName(filename) + " " + popularityIndex);
+        importLogService.importLog(movie, "<i class=\"fas fa-angle-down\" style=\"color: blue;\"></i>" +
+                " Updated Movie: " + getName(filename) + " " + popularityIndex);
         sleep(300);
     }
 

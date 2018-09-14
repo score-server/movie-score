@@ -29,7 +29,7 @@ public class UserApiController {
     @GetMapping(produces = "application/json")
     public List<User> getUserList(@RequestParam(name = "name", required = false, defaultValue = "") String name,
                                   HttpServletRequest request) {
-            return userRepository.findUsersByNameContaining(name);
+            return userRepository.findUsersByNameContainingOrderByRoleDescNameAsc(name);
     }
 
     @GetMapping(value = "{userid}", produces = "application/json")

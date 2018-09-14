@@ -40,21 +40,14 @@
 <div class="card">
     <div class="card-header">Import</div>
     <div class="card-body">
-        <form action="/import/path/movie" method="post" class="form-inline form-group mb-2">
-            <label for="moviepath">Movie Path:</label>
-            <input class="form-control col-sm-3 mx-sm-3" id="moviepath" type="text" th:value="${moviePath}"
-                   name="path">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
-        <br>
-        <form action="/import/path/serie" method="post" class="form-inline">
-            <label for="seriepath">Serie Path:</label>
-            <input class="form-control col-sm-3 mx-sm-3" id="seriepath" type="text" th:value="${seriePath}"
-                   name="path">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
-        <br>
         <div class="card card-body">
+            <form action="/import/path/movie" method="post" class="form-inline form-group mb-2">
+                <label for="moviepath">Movie Path:</label>
+                <input class="form-control col-sm-3 mx-sm-3" id="moviepath" type="text" th:value="${moviePath}"
+                       name="path">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            <br>
             <form action="/import/movie" method="post">
                 <button class="btn btn-primary" th:disabled="${running}">Import Movies</button>
             </form>
@@ -65,6 +58,13 @@
         </div>
         <br>
         <div class="card card-body">
+            <form action="/import/path/serie" method="post" class="form-inline">
+                <label for="seriepath">Serie Path:</label>
+                <input class="form-control col-sm-3 mx-sm-3" id="seriepath" type="text" th:value="${seriePath}"
+                       name="path">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            <br>
             <form action="/import/serie" method="post">
                 <button class="btn btn-primary" th:disabled="${running}">Import Series</button>
             </form>

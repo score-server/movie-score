@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
 <a th:href="'/movie/' + ${movie.id}">
-    <div class="card moviecard border-light">
+    <div class="card moviecard">
         <div>
             <span th:text="${movie.quality}" class="quality-badge"></span>
             <img th:src="${movie.caseImg}" class="card-img-top">

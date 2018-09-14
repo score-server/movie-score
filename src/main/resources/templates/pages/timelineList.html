@@ -2,15 +2,17 @@
 
 <h1>Movie Lists</h1>
 
+<div th:if="${param.list}" class="alert alert-success">
+    List saved
+</div>
+
 <div th:if="${param.deleted}" class="alert alert-success">
     List deleted
 </div>
 
 <br>
-<div th:if="${currentUser.isAdmin()}">
-    <a href="/timeline/new" class="btn btn-primary">Create new List</a>
-    <br><br>
-</div>
+<a href="/timeline/new" class="btn btn-primary">Create new List</a>
+<br><br>
 <div class="row">
     <div th:each="timeline : ${timelines}" class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div th:include="'static/listCard.html'"></div>

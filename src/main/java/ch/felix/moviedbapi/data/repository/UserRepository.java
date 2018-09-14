@@ -1,11 +1,10 @@
 package ch.felix.moviedbapi.data.repository;
 
 import ch.felix.moviedbapi.data.entity.User;
-
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author Wetwer
@@ -24,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findUserByName(String name);
 
-    List<User> findUsersByNameContaining(String name);
+    List<User> findUsersByNameContainingOrderByRoleDescNameAsc(String name);
 
     User findUserByAuthKey(String value);
 }

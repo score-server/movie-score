@@ -42,17 +42,18 @@ public class TimelineController {
     public String editTimeline(@PathVariable("timelineId") String timeLineId,
                                Model model, HttpServletRequest request) {
 
-        if (userIndicatorService.isAdministrator(model, request)) {
+        if (userIndicatorService.isUser(model, request)) {
             Timeline timeLine = timelineRepository.findTimelineById(Long.valueOf(timeLineId));
-            model.addAttribute("timeline", timeLine);
-            model.addAttribute("movies", movieRepository.findMoviesByTitleContainingOrderByTitle(""));
-            getNextPlace(model, timeLine);
+            if (isCurrentUser(request, timeLine) || isAdministrator(request)) {
+                model.addAttribute("timeline", timeLine);
+                model.addAttribute("movies", movieRepository.findMoviesByTitleContainingOrderByTitle(""));
+                getNextPlace(model, timeLine);
 
-            model.addAttribute("page", "editTimeline");
-            return "template";
-        } else {
-            return "redirect:/list";
+                model.addAttribute("page", "editTimeline");
+                return "template";
+            }
         }
+        return "redirect:/list";
     }
 
     @PostMapping("edit/{timelineId}")
@@ -60,36 +61,54 @@ public class TimelineController {
                                @RequestParam("place") String place,
                                @RequestParam("movie") String movieId,
                                HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
-            ListMovie listMovie = new ListMovie();
-            listMovie.setPlace(Integer.valueOf(place));
-            listMovie.setMovie(movieRepository.findMovieById(Long.valueOf(movieId)));
-            listMovie.setTimeline(timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
-            listMovieRepository.save(listMovie);
-            return "redirect:/timeline/edit/" + timeLineId;
-        } else {
-            return "redirect:/" + timeLineId;
+        if (userIndicatorService.isUser(request)) {
+            Timeline timeline = timelineRepository.findTimelineById(Long.valueOf(timeLineId));
+            if (isCurrentUser(request, timeline) || isAdministrator(request)) {
+                ListMovie listMovie = new ListMovie();
+                listMovie.setPlace(Integer.valueOf(place));
+                listMovie.setMovie(movieRepository.findMovieById(Long.valueOf(movieId)));
+                listMovie.setTimeline(timeline);
+                listMovieRepository.save(listMovie);
+                return "redirect:/timeline/edit/" + timeLineId;
+            }
         }
+        return "redirect:/" + timeLineId;
+    }
+
+    @PostMapping("editatt/{timelineId}")
+    public String editListAttributes(@PathVariable("timelineId") String timeLineId,
+                                     @RequestParam("title") String title,
+                                     @RequestParam("description") String description,
+                                     HttpServletRequest request) {
+        if (userIndicatorService.isUser(request)) {
+            Timeline timeline = timelineRepository.findTimelineById(Long.valueOf(timeLineId));
+            if (isCurrentUser(request, timeline) || isAdministrator(request)) {
+                timeline.setTitle(title);
+                timeline.setDescription(description);
+                timelineRepository.save(timeline);
+                return "redirect:/timeline/edit/" + timeLineId;
+            }
+        }
+        return "redirect:/" + timeLineId;
     }
 
     @PostMapping("delete/movie/{movieParId}")
     public String deleteFromList(@PathVariable("movieParId") String movieParId,
                                  HttpServletRequest request) {
 
-        if (userIndicatorService.isAdministrator(request)) {
+        if (userIndicatorService.isUser(request)) {
             ListMovie listMovie = listMovieRepository.findListMovieById(Long.valueOf(movieParId));
-            listMovieRepository.delete(listMovie);
-            return "redirect:/timeline/edit/" + listMovie.getTimeline().getId();
-        } else {
-            return "redirect:/list";
+            if (isCurrentUser(request, listMovie.getTimeline()) || isAdministrator(request)) {
+                listMovieRepository.delete(listMovie);
+                return "redirect:/timeline/edit/" + listMovie.getTimeline().getId();
+            }
         }
-
-
+        return "redirect:/list";
     }
 
     @GetMapping("new")
     public String getCreateForm(HttpServletRequest request, Model model) {
-        if (userIndicatorService.isAdministrator(model, request)) {
+        if (userIndicatorService.isUser(model, request)) {
             model.addAttribute("page", "createTimeline");
             return "template";
         } else {
@@ -102,7 +121,7 @@ public class TimelineController {
     public String createList(@RequestParam("title") String title,
                              @RequestParam("description") String description,
                              HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
+        if (userIndicatorService.isUser(request)) {
             User user = userIndicatorService.getUser(request).getUser();
 
             Timeline timeline = new Timeline();
@@ -121,14 +140,24 @@ public class TimelineController {
     @PostMapping("delete/{timelineId}")
     public String deleteTimeline(@PathVariable("timelineId") String timeLineId,
                                  Model model, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(model, request)) {
-            timelineRepository.delete(timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
-            return "redirect:/list?deleted";
-        } else {
-            return "redirect:/list/" + timeLineId + "?notdeleted";
+        if (userIndicatorService.isUser(model, request)) {
+            Timeline timeline = timelineRepository.findTimelineById(Long.valueOf(timeLineId));
+            if (isCurrentUser(request, timeline) || isAdministrator(request)) {
+                timelineRepository.delete(timeline);
+                return "redirect:/list?deleted";
+            }
         }
+        return "redirect:/list/" + timeLineId + "?notdeleted";
     }
 
+    private boolean isAdministrator(HttpServletRequest request) {
+        return userIndicatorService.isAdministrator(request);
+    }
+
+
+    private boolean isCurrentUser(HttpServletRequest request, Timeline timeline) {
+        return userIndicatorService.getUser(request).getUser() == timeline.getUser();
+    }
 
     private void getNextPlace(Model model, Timeline timeLine) {
         try {

@@ -1,5 +1,6 @@
 package ch.felix.moviedbapi.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
@@ -27,6 +28,7 @@ public class Movie {
     @Column(unique = true)
     private String title;
 
+    @JsonIgnore
     @Column(unique = true)
     private String videoPath;
     private String backgroundImg;
@@ -40,18 +42,23 @@ public class Movie {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Genre> genres;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Comment> comments;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<ListMovie> listMovies;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<ImportLog> importLog;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Likes> likes;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Time> times;
 

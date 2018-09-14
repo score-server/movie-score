@@ -11,8 +11,8 @@
                 <a>List created by </a>
                 <a th:text="${timeline.user.name}" th:href="'/user/' + ${timeline.user.id}"></a>
             </small>
-            <a th:if="${currentUser.isAdmin()}" class="btn btn-primary float-right"
-               th:href="'/timeline/edit/' + ${timeline.id} ">Edit</a>
+            <a th:if="${currentUser} == ${timeline.user} OR ${currentUser.isAdmin()}"
+               th:href="'/timeline/edit/' + ${timeline.id} " class="btn btn-primary float-right">Edit</a>
         </div>
     </div>
 </a>
