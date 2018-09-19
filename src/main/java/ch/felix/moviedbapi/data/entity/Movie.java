@@ -34,10 +34,12 @@ public class Movie {
     private String backgroundImg;
     private String caseImg;
     private String trailerKey;
+    private Integer tmdbId;
 
     @Lob
     @Column
     private String descript;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Genre> genres;

@@ -53,34 +53,36 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/movies/1">Movies</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/serie">Series</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/list">Lists</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/request/create">Request</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/user">Users</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/blog">Blog</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/about">About</a>
-            </li>
-            <li th:if="${page} != 'login'" class="nav-item">
-                <a th:if="${currentUser?.isAdmin()}" class="nav-link text-dark" href="/settings">
-                    <i>Control Center</i>
-                </a>
-            </li>
-        </ul>
+        <div class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto" th:if="${currentUser} != null">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/movies/1">Movies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/serie">Series</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/list">Lists</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/request/create">Request</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/user">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/blog">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/about">About</a>
+                </li>
+                <li th:if="${page} != 'login'" class="nav-item">
+                    <a th:if="${currentUser?.isAdmin()}" class="nav-link text-dark" href="/settings">
+                        <i>Control Center</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
         <ul class="navbar-nav">
             <li>
                 <div class="nav-link text-dark" th:include="'static/currentuser.html'"></div>

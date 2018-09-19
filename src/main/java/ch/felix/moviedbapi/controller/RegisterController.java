@@ -58,7 +58,7 @@ public class RegisterController {
             if (userRepository.findUserByName(nameParam) == null) {
                 User user = new User();
                 user.setName(nameParam);
-                user.setPasswordSha(shaService.encode(String.valueOf(new Random().nextInt())));
+                user.setPasswordSha(shaService.encode(String.valueOf(new Random().nextInt())) + "-NOK");
                 user.setRole(1);
                 user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
                 userRepository.save(user);

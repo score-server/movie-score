@@ -90,8 +90,8 @@ public class SeriesImportService extends ImportServiceFactory {
         if (serie == null) {
             serie = new Serie();
             serie.setTitle(getName(seriesName));
-            int serieId = searchMovieService.findSeriesId(getName(seriesName), getYear(seriesName));
-            SerieJson serieJson = searchMovieService.getSerieInfo(serieId);
+            serie.setTmdbId(searchMovieService.findSeriesId(getName(seriesName), getYear(seriesName)));
+            SerieJson serieJson = searchMovieService.getSerieInfo(serie.getTmdbId());
             sleep(250);
             try {
                 serie.setDescript(serieJson.getOverview());
@@ -152,8 +152,10 @@ public class SeriesImportService extends ImportServiceFactory {
     }
 
     public void updateFile(Serie serie) {
-        int serieId = searchMovieService.findSeriesId(serie.getTitle());
-        SerieJson serieJson = searchMovieService.getSerieInfo(serieId);
+        if (serie.getTmdbId() == null) {
+            serie.setTmdbId(searchMovieService.findSeriesId(serie.getTitle()));
+        }
+        SerieJson serieJson = searchMovieService.getSerieInfo(serie.getTmdbId());
 
         try {
             serie.setDescript(serieJson.getOverview());

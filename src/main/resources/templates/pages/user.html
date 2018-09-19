@@ -147,8 +147,11 @@
             </div>
             <br>
             Authkey:
-            <input th:value="${user.authKey}" class="form-control" type="text" disabled>
+            <input th:value="'http://scorewinner.ch:8081/fastlogin/' + ${user.authKey}" class="form-control"
+                   type="text" disabled>
             <br>
+            <p th:if="${registered} == true" style="color: green">Registered</p>
+            <p th:if="${registered} == false" style="color: red;">Not Registered</p>
             <form th:action="'/user/generate/' + ${user.id}" method="post">
                 <button type="submit" class="btn btn-primary">Generate new Authkey</button>
             </form>

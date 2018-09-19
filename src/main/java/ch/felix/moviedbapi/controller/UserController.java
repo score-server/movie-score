@@ -86,6 +86,13 @@ public class UserController {
             model.addAttribute("timelines", timelineRepository.findTimelinesByUser(user));
             model.addAttribute("activities",
                     activityLogRepository.findActivityLogsByUserOrderByTimestampDesc(user));
+            if (user.getPasswordSha().endsWith("-NOK")) {
+                model.addAttribute("registered", false);
+            } else {
+                model.addAttribute("registered", true);
+            }
+
+
             model.addAttribute("page", "user");
             return "template";
         } else {

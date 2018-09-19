@@ -42,6 +42,6 @@ public class Serie {
     private String backgroundImg;
     private Double popularity;
     private Double voteAverage;
-
+    private Integer tmdbId;
 
 }

@@ -1,0 +1,11 @@
+spring:
+    jpa:
+        database: MYSQL
+        hibernate:
+            ddl-auto: validate
+
+    datasource:
+        url: jdbc:mysql://mysql:3306/moviesdb
+        username: moviedbuser
+        password: feminist
+        driver-class-name: com.mysql.jdbc.Driver

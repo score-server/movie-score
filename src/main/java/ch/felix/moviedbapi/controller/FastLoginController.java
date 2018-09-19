@@ -47,13 +47,28 @@ public class FastLoginController {
         return "template";
     }
 
+    @GetMapping("{authkey}")
+    public String checkFastLogin(@PathVariable("authkey") String authkey, Model model,
+                                 HttpServletRequest request, HttpServletResponse response) {
+        userIndicatorService.allowGuest(model, request);
+        for (User user : userRepository.findAll()) {
+            if (user.getAuthKey() == null) {
+            } else if (authkey.equals(user.getAuthKey())) {
+                cookieService.setFastLoginCookie(response, user);
+                userRepository.save(user);
+                activityService.log(user.getName() + " logged in with Authkey", user);
+                return "redirect:/fastlogin/settings";
+            }
+        }
+        return "redirect:/fastlogin?error";
+    }
+
     @PostMapping
     public String checkAuth(@RequestParam("authkey") String authkey, HttpServletResponse response) {
         for (User user : userRepository.findAll()) {
             if (user.getAuthKey() == null) {
             } else if (authkey.equals(user.getAuthKey())) {
                 cookieService.setFastLoginCookie(response, user);
-//                user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
                 userRepository.save(user);
                 activityService.log(user.getName() + " logged in with Authkey", user);
                 return "redirect:/fastlogin/settings";
@@ -88,12 +103,16 @@ public class FastLoginController {
             cookieService.setUserCookie(response, sessionId);
             user.setSessionId(sessionId);
             user.setLastLogin(new Timestamp(new Date().getTime()));
-            userRepository.save(user);
+            try {
+                userRepository.save(user);
+            } catch (Exception e) {
+                return "redirect:/fastlogin/settings?exists";
+            }
             activityService.log(user.getName() + " set Settings", user);
 
             userRepository.save(user);
             return "redirect:/";
         }
-        return "redirect:/fastlogin/?error";
+        return "redirect:/fastlogin/settings?error";
     }
 }

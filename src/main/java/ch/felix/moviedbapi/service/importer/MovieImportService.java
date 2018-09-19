@@ -83,10 +83,10 @@ public class MovieImportService extends ImportServiceFactory {
             movie.setVideoPath(file.getPath());
             sleep(300);
 
-            int movieId = searchMovieService.findMovieId(movie.getTitle(), movie.getYear());
-            MovieJson movieJson = searchMovieService.getMovieInfo(movieId);
+            movie.setTmdbId(searchMovieService.findMovieId(movie.getTitle(), movie.getYear()));
+            MovieJson movieJson = searchMovieService.getMovieInfo(movie.getTmdbId());
             sleep(200);
-            movie.setTrailerKey(searchMovieService.getTrailer(movieId));
+            movie.setTrailerKey(searchMovieService.getTrailer(movie.getTmdbId()));
 
             try {
                 movie.setDescript(movieJson.getOverview());
@@ -118,11 +118,17 @@ public class MovieImportService extends ImportServiceFactory {
 
         Double popularity = movie.getPopularity();
 
-        int movieId = searchMovieService.findMovieId(movie.getTitle(), movie.getYear());
-        MovieJson movieJson = searchMovieService.getMovieInfo(movieId);
+        if (movie.getTmdbId() == null) {
+            movie.setTmdbId(searchMovieService.findMovieId(movie.getTitle(), movie.getYear()));
+            sleep(200);
+        }
+        MovieJson movieJson = searchMovieService.getMovieInfo(movie.getTmdbId());
         sleep(200);
         movie.setPopularity(movieJson.getPopularity());
         movie.setVoteAverage(movieJson.getVoteAverage());
+        movie.setCaseImg("https://image.tmdb.org/t/p/original" + movieJson.getPoster_path());
+        movie.setBackgroundImg("https://image.tmdb.org/t/p/original" + movieJson.getBackdropPath());
+
         try {
             movie.setFiletype(setMimeType(file.getName()));
         } catch (Exception e) {
@@ -134,7 +140,6 @@ public class MovieImportService extends ImportServiceFactory {
 
         importLogService.importLog(movie, "<i class=\"fas fa-angle-down\" style=\"color: blue;\"></i>" +
                 " Updated Movie: " + getName(filename) + " " + popularityIndex);
-        sleep(300);
     }
 
     private String getName(String s) {
