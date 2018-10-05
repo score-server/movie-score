@@ -1,7 +1,7 @@
 package ch.felix.moviedbapi.service;
 
+import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
@@ -15,14 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class CookieService {
 
-    private UserRepository userRepository;
+    private UserDto userDto;
 
-    public CookieService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public CookieService(UserDto userDto) {
+        this.userDto = userDto;
     }
 
     public void setUserCookie(HttpServletResponse response, String sessionId) {
-        Cookie userCookie = new Cookie("session", sessionId);
+        Cookie userCookie = new Cookie("sessionId", sessionId);
         userCookie.setMaxAge(31536000);
         userCookie.setPath("/");
         response.addCookie(userCookie);
@@ -30,8 +30,8 @@ public class CookieService {
 
     public User getCurrentUser(HttpServletRequest request) throws NullPointerException {
         for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals("session")) {
-                User user = userRepository.findUserBySessionId(cookie.getValue());
+            if (cookie.getName().equals("sessionId")) {
+                User user = userDto.getBySessionId(cookie.getValue());
                 if (user == null) {
                     throw new NullPointerException();
                 }
@@ -51,7 +51,7 @@ public class CookieService {
     public User getFastLogin(HttpServletRequest request) {
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("fast")) {
-                User user = userRepository.findUserByAuthKey(cookie.getValue());
+                User user = userDto.getByAuthKey(cookie.getValue());
                 if (user == null) {
                     return null;
                 }

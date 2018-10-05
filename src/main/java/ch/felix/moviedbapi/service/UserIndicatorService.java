@@ -1,5 +1,6 @@
 package ch.felix.moviedbapi.service;
 
+import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.model.UserIndicator;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class UserIndicatorService {
 
+    private UserDto userDto;
+
     private CookieService cookieService;
 
-    public UserIndicatorService(CookieService cookieService) {
+    public UserIndicatorService(UserDto userDto, CookieService cookieService) {
+        this.userDto = userDto;
         this.cookieService = cookieService;
     }
 
@@ -57,6 +61,16 @@ public class UserIndicatorService {
             return true;
         }
         return false;
+    }
+
+    public boolean isUser(String sessionId) {
+        User user = userDto.getBySessionId(sessionId);
+
+        if (user == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 

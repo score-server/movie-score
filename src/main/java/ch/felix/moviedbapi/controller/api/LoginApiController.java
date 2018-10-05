@@ -1,7 +1,7 @@
 package ch.felix.moviedbapi.controller.api;
 
+import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Random;
 
@@ -21,16 +20,16 @@ import java.util.Random;
 @RequestMapping("api/login")
 public class LoginApiController {
 
-    private UserRepository userRepository;
+    private UserDto userDto;
 
     private ShaService shaService;
     private CookieService cookieService;
     private ActivityService activityService;
     private UserIndicatorService userIndicatorService;
 
-    public LoginApiController(UserRepository userRepository, ShaService shaService, CookieService cookieService,
+    public LoginApiController(UserDto userDto, ShaService shaService, CookieService cookieService,
                               ActivityService activityService, UserIndicatorService userIndicatorService) {
-        this.userRepository = userRepository;
+        this.userDto = userDto;
         this.shaService = shaService;
         this.cookieService = cookieService;
         this.activityService = activityService;
@@ -40,14 +39,14 @@ public class LoginApiController {
     @PostMapping
     public String login(@RequestParam("name") String name, @RequestParam("password") String password,
                         HttpServletResponse response) {
-        User user = userRepository.findUserByNameAndPasswordSha(name, shaService.encode(password));
+        User user = userDto.login(name, shaService.encode(password));
         try {
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
-            cookieService.setUserCookie(response, sessionId);
             user.setSessionId(sessionId);
-            userRepository.save(user);
+            cookieService.setUserCookie(response, sessionId);
+            userDto.save(user);
             activityService.log(user.getName() + " logged in", user);
-            return "ok";
+            return user.getSessionId();
         } catch (NullPointerException e) {
             e.printStackTrace();
             return "nok";
@@ -55,13 +54,12 @@ public class LoginApiController {
     }
 
     @PostMapping("logout")
-    public String logout(HttpServletRequest request) {
-        if (userIndicatorService.isUser(request)) {
+    public String logout(@RequestParam("sessionId") String sessionId) {
+        if (userIndicatorService.isUser(sessionId)) {
             try {
-                User user = cookieService.getCurrentUser(request);
-                String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
-                user.setSessionId(sessionId);
-                userRepository.save(user);
+                User user = userDto.getBySessionId(sessionId);
+                user.setSessionId(shaService.encode(String.valueOf(new Random().nextInt())));
+                userDto.save(user);
                 activityService.log(user.getName() + " logged out", user);
                 return "ok";
             } catch (NullPointerException e) {

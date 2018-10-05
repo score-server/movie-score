@@ -1,9 +1,9 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.Request;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.RequestRepository;
-import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,15 +28,14 @@ import javax.servlet.http.HttpServletRequest;
 public class RequestController {
 
     private RequestRepository requestRepository;
-    private UserRepository userRepository;
+    private UserDto userDto;
 
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
 
-    public RequestController(RequestRepository requestRepository, UserRepository userRepository,
-                             UserIndicatorService userIndicatorService, ActivityService activityService) {
+    public RequestController(RequestRepository requestRepository, UserDto userDto, UserIndicatorService userIndicatorService, ActivityService activityService) {
         this.requestRepository = requestRepository;
-        this.userRepository = userRepository;
+        this.userDto = userDto;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
     }
@@ -56,7 +55,7 @@ public class RequestController {
     public String createRequest(@PathVariable("userId") String userId, @RequestParam("request") String requestParam,
                                 HttpServletRequest request) {
         if (userIndicatorService.isUser(request)) {
-            User user = userRepository.findUserById(Long.valueOf(userId));
+            User user = userDto.getById(Long.valueOf(userId));
 
             Request movieRequest = new Request();
             movieRequest.setRequest(requestParam);

@@ -1,9 +1,9 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.Blog;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.BlogRepository;
-import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,14 +30,15 @@ import java.util.Date;
 public class BlogController {
 
     private BlogRepository blogRepository;
-    private UserRepository userRepository;
+    private UserDto userDto;
 
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
 
-    public BlogController(BlogRepository blogRepository, UserRepository userRepository, UserIndicatorService userIndicatorService, ActivityService activityService) {
+    public BlogController(BlogRepository blogRepository, UserDto userDto, UserIndicatorService userIndicatorService,
+                          ActivityService activityService) {
         this.blogRepository = blogRepository;
-        this.userRepository = userRepository;
+        this.userDto = userDto;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
     }
@@ -69,7 +70,7 @@ public class BlogController {
                               @RequestParam("title") String title,
                               @RequestParam("text") String text, Model model, HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(model, request)) {
-            User user = userRepository.findUserById(Long.valueOf(userId));
+            User user = userDto.getById(Long.valueOf(userId));
 
             Blog blog = new Blog();
             blog.setTitle(title);

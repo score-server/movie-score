@@ -1,7 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
@@ -24,17 +24,17 @@ import java.util.Random;
 @RequestMapping("fastlogin")
 public class FastLoginController {
 
-    private UserRepository userRepository;
+    private UserDto userDto;
 
     private UserIndicatorService userIndicatorService;
     private CookieService cookieService;
     private ActivityService activityService;
     private ShaService shaService;
 
-    public FastLoginController(UserIndicatorService userIndicatorService, UserRepository userRepository,
-                               CookieService cookieService, ShaService shaService, ActivityService activityService) {
+    public FastLoginController(UserDto userDto, UserIndicatorService userIndicatorService, CookieService cookieService,
+                               ShaService shaService, ActivityService activityService) {
+        this.userDto = userDto;
         this.userIndicatorService = userIndicatorService;
-        this.userRepository = userRepository;
         this.cookieService = cookieService;
         this.shaService = shaService;
         this.activityService = activityService;
@@ -51,11 +51,11 @@ public class FastLoginController {
     public String checkFastLogin(@PathVariable("authkey") String authkey, Model model,
                                  HttpServletRequest request, HttpServletResponse response) {
         userIndicatorService.allowGuest(model, request);
-        for (User user : userRepository.findAll()) {
+        for (User user : userDto.getAll()) {
             if (user.getAuthKey() == null) {
             } else if (authkey.equals(user.getAuthKey())) {
                 cookieService.setFastLoginCookie(response, user);
-                userRepository.save(user);
+                userDto.save(user);
                 activityService.log(user.getName() + " logged in with Authkey", user);
                 return "redirect:/fastlogin/settings";
             }
@@ -65,11 +65,11 @@ public class FastLoginController {
 
     @PostMapping
     public String checkAuth(@RequestParam("authkey") String authkey, HttpServletResponse response) {
-        for (User user : userRepository.findAll()) {
+        for (User user : userDto.getAll()) {
             if (user.getAuthKey() == null) {
             } else if (authkey.equals(user.getAuthKey())) {
                 cookieService.setFastLoginCookie(response, user);
-                userRepository.save(user);
+                userDto.save(user);
                 activityService.log(user.getName() + " logged in with Authkey", user);
                 return "redirect:/fastlogin/settings";
             }
@@ -93,7 +93,7 @@ public class FastLoginController {
                                @RequestParam(name = "player", required = false, defaultValue = "plyr") String player,
                                HttpServletRequest request, HttpServletResponse response) {
         if (cookieService.getFastLogin(request) != null && passwordParam.equals(confirm)) {
-            User user = userRepository.findUserById(userId);
+            User user = userDto.getById(userId);
             user.setName(nameParam);
             user.setPasswordSha(shaService.encode(passwordParam));
             user.setVideoPlayer(player);
@@ -104,13 +104,13 @@ public class FastLoginController {
             user.setSessionId(sessionId);
             user.setLastLogin(new Timestamp(new Date().getTime()));
             try {
-                userRepository.save(user);
+                userDto.save(user);
             } catch (Exception e) {
                 return "redirect:/fastlogin/settings?exists";
             }
             activityService.log(user.getName() + " set Settings", user);
 
-            userRepository.save(user);
+            userDto.save(user);
             return "redirect:/";
         }
         return "redirect:/fastlogin/settings?error";

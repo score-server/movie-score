@@ -1,7 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
@@ -30,15 +30,15 @@ import java.util.Random;
 @RequestMapping("login")
 public class LoginController {
 
-    private UserRepository userRepository;
+    private UserDto userDto;
 
     private CookieService cookieService;
     private ShaService shaService;
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
 
-    public LoginController(UserRepository userRepository, CookieService cookieService, ShaService shaService, UserIndicatorService userIndicatorService, ActivityService activityService) {
-        this.userRepository = userRepository;
+    public LoginController(UserDto userDto, CookieService cookieService, ShaService shaService, UserIndicatorService userIndicatorService, ActivityService activityService) {
+        this.userDto = userDto;
         this.cookieService = cookieService;
         this.shaService = shaService;
         this.userIndicatorService = userIndicatorService;
@@ -57,13 +57,13 @@ public class LoginController {
                         @RequestParam("name") String nameParam,
                         @RequestParam("password") String passwordParam,
                         HttpServletResponse response) {
-        User user = userRepository.findUserByNameAndPasswordSha(nameParam, shaService.encode(passwordParam));
+        User user = userDto.login(nameParam, shaService.encode(passwordParam));
         try {
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
             cookieService.setUserCookie(response, sessionId);
             user.setSessionId(sessionId);
             user.setLastLogin(new Timestamp(new Date().getTime()));
-            userRepository.save(user);
+            userDto.save(user);
             activityService.log(user.getName() + " logged in", user);
             switch (redirectParam) {
                 case "null":
@@ -86,7 +86,7 @@ public class LoginController {
                 User user = cookieService.getCurrentUser(request);
                 String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
                 user.setSessionId(sessionId);
-                userRepository.save(user);
+                userDto.save(user);
                 activityService.log(user.getName() + " logged out", user);
                 return "redirect:/?logout";
             } catch (NullPointerException e) {

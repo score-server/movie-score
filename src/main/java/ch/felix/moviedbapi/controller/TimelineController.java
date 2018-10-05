@@ -32,7 +32,6 @@ public class TimelineController {
     public TimelineController(TimelineRepository timelineRepository, MovieRepository movieRepository,
                               ListMovieRepository listMovieRepository, UserIndicatorService userIndicatorService, ActivityService activityService) {
         this.timelineRepository = timelineRepository;
-        this.movieRepository = movieRepository;
         this.listMovieRepository = listMovieRepository;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;

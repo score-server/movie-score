@@ -1,20 +1,17 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.MovieDto;
 import ch.felix.moviedbapi.data.entity.Comment;
 import ch.felix.moviedbapi.data.repository.CommentRepository;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
-import ch.felix.moviedbapi.data.repository.MovieRepository;
-import ch.felix.moviedbapi.data.repository.UserRepository;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
-
 import ch.felix.moviedbapi.model.UserIndicator;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Wetwer
@@ -24,15 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("comment")
 public class CommentController {
 
-    private MovieRepository movieRepository;
+    private MovieDto movieDto;
     private EpisodeRepository episodeRepository;
     private CommentRepository commentRepository;
 
     private UserIndicatorService userIndicatorService;
 
-    public CommentController(MovieRepository movieRepository, EpisodeRepository episodeRepository,
+    public CommentController(MovieDto movieDto, EpisodeRepository episodeRepository,
                              CommentRepository commentRepository, UserIndicatorService userIndicatorService) {
-        this.movieRepository = movieRepository;
+        this.movieDto = movieDto;
         this.episodeRepository = episodeRepository;
         this.commentRepository = commentRepository;
         this.userIndicatorService = userIndicatorService;
@@ -46,7 +43,7 @@ public class CommentController {
             UserIndicator userIndicator = userIndicatorService.getUser(request);
             Comment comment = new Comment();
             comment.setUser(userIndicator.getUser());
-            comment.setMovie(movieRepository.findMovieById(Long.valueOf(movieId)));
+            comment.setMovie(movieDto.getById(Long.valueOf(movieId)));
             comment.setComment(commentParam);
             commentRepository.save(comment);
             return "redirect:/movie/" + movieId;

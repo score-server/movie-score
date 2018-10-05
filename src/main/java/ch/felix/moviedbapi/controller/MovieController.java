@@ -1,10 +1,10 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.MovieDto;
 import ch.felix.moviedbapi.data.entity.Likes;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.LikesRepository;
-import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.TimeRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SimilarMovieService;
@@ -30,7 +30,7 @@ import java.io.File;
 @RequestMapping("movie")
 public class MovieController {
 
-    private MovieRepository movieRepository;
+    private MovieDto movieDto;
     private LikesRepository likesRepository;
     private TimeRepository timeRepository;
 
@@ -39,11 +39,11 @@ public class MovieController {
     private ActivityService activityService;
     private MovieImportService movieImportService;
 
-    public MovieController(MovieRepository movieRepository, LikesRepository likesRepository,
+    public MovieController(MovieDto movieDto, LikesRepository likesRepository,
                            SimilarMovieService similarMovieService, UserIndicatorService userIndicatorService,
                            ActivityService activityService, TimeRepository timeRepository,
                            MovieImportService movieImportService) {
-        this.movieRepository = movieRepository;
+        this.movieDto = movieDto;
         this.likesRepository = likesRepository;
         this.timeRepository = timeRepository;
         this.similarMovieService = similarMovieService;
@@ -56,7 +56,7 @@ public class MovieController {
     @GetMapping("{movieId}")
     public String getOneMovie(@PathVariable("movieId") String movieId, Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
-            Movie movie = movieRepository.findMovieById(Long.valueOf(movieId));
+            Movie movie = movieDto.getById(Long.valueOf(movieId));
             model.addAttribute("movie", movie);
             model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
 
@@ -92,7 +92,7 @@ public class MovieController {
     public String likeMovie(@PathVariable("movieId") String movieId, HttpServletRequest request) {
         if (userIndicatorService.isUser(request)) {
             User user = userIndicatorService.getUser(request).getUser();
-            Movie movie = movieRepository.findMovieById(Long.valueOf(movieId));
+            Movie movie = movieDto.getById(Long.valueOf(movieId));
             try {
                 Likes likes = likesRepository.findLikeByUserAndMovie(user, movie);
                 likes.getId();
@@ -117,9 +117,9 @@ public class MovieController {
                                HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
             User user = userIndicatorService.getUser(request).getUser();
-            Movie movie = movieRepository.findMovieById(movieId);
+            Movie movie = movieDto.getById(movieId);
             movie.setVideoPath(path);
-            movieRepository.save(movie);
+            movieDto.save(movie);
             movieImportService.updateFile(new File(path));
             activityService.log(user.getName() + " changed Path on Movie " + movie.getTitle() + " to " + path, user);
             return "redirect:/movie/" + movieId + "?path";
@@ -134,11 +134,11 @@ public class MovieController {
                                @RequestParam("tmdbId") Integer tmdbId,
                                HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
-            Movie movie = movieRepository.findMovieById(movieId);
+            Movie movie = movieDto.getById(movieId);
             movie.setQuality(quality);
             movie.setYear(year);
             movie.setTmdbId(tmdbId);
-            movieRepository.save(movie);
+            movieDto.save(movie);
             movieImportService.updateFile(new File(movie.getVideoPath()));
             return "redirect:/movie/" + movieId + "?attributes";
         } else {

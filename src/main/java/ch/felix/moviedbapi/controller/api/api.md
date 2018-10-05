@@ -4,6 +4,7 @@
 <pre>movie.scorewinner.ch/api/user</pre>
 <b>Params</b>
 <p><i>name</i> String not required</p>
+<p><i>sessionId</i> String required</p>
 <p>User List</p>
 <pre>
 [
@@ -25,6 +26,8 @@
 <h3>Get One User <i>GET</i></h3>
 <p>Requires to be Logged in</p>
 <pre>movie.scorewinner.ch/api/user/{userId}</pre>
+<b>Params</b>
+<p><i>sessionId</i> String required</p>
 <h4>Response</h4>
 <p>User</p>
 <pre>
@@ -34,6 +37,15 @@
   "role": 1,
   "admin": false
 }
+</pre>
+<hr>
+<h3>Register User <i>POST</i></h3>
+<p>Requires to be Logged in as Administrator</p>
+<pre>movie.scorewinner.ch/api/user/new?name={username}</pre>
+<h4>Response</h4>
+<p>Authkey</p>
+<pre>
+cac94142672fc9fae2c91daa8043f9bdacd8148efda9c2085862654662ee866e
 </pre>
 <hr>
 <h3>Get Current User <i>GET</i></h3>

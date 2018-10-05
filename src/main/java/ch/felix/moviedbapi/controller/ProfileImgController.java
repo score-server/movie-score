@@ -1,7 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -22,11 +22,12 @@ import java.io.IOException;
 @RequestMapping("img")
 public class ProfileImgController {
 
-    private UserRepository userRepository;
+    private UserDto userDto;
+
     private UserIndicatorService userIndicatorService;
 
-    public ProfileImgController(UserRepository userRepository, UserIndicatorService userIndicatorService) {
-        this.userRepository = userRepository;
+    public ProfileImgController(UserDto userDto, UserIndicatorService userIndicatorService) {
+        this.userDto = userDto;
         this.userIndicatorService = userIndicatorService;
     }
 
@@ -34,7 +35,7 @@ public class ProfileImgController {
     @GetMapping("{userId}")
     public ResponseEntity<ByteArrayResource> getProfileFile(@PathVariable("userId") String userId) {
         ByteArrayResource file = new ByteArrayResource(
-                userRepository.findUserById(Long.valueOf(userId)).getProfileImg());
+                userDto.getById(Long.valueOf(userId)).getProfileImg());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
@@ -44,9 +45,9 @@ public class ProfileImgController {
     public String uploadProfileImg(@RequestParam("file") MultipartFile file, @PathVariable("userId") String userId,
                                    HttpServletRequest request) throws IOException {
         if (userIndicatorService.isUser(request)) {
-            User user = userRepository.findUserById(Long.valueOf(userId));
+            User user = userDto.getById(Long.valueOf(userId));
             user.setProfileImg(file.getBytes());
-            userRepository.save(user);
+            userDto.save(user);
             return "redirect:/user/" + userId + "?profile";
         } else {
             return "redirect:/user/" + userId + "?profileerror";
