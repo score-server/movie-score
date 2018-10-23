@@ -31,15 +31,21 @@ public class Movie {
     @JsonIgnore
     @Column(unique = true)
     private String videoPath;
+
     private String backgroundImg;
     private String caseImg;
     private String trailerKey;
     private Integer tmdbId;
+    private String year;
+    private String quality;
+    private Integer runtime;
+    private Double popularity;
+    private Double voteAverage;
+    private String filetype;
 
     @Lob
     @Column
     private String descript;
-
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Genre> genres;
@@ -64,11 +70,5 @@ public class Movie {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Time> times;
 
-    private String year;
-    private String quality;
-    private Integer runtime;
-    private Double popularity;
-    private Double voteAverage;
-    private String filetype;
 
 }

@@ -1,5 +1,6 @@
 package ch.felix.moviedbapi.service;
 
+import ch.felix.moviedbapi.data.dto.MovieDto;
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Serie;
@@ -20,12 +21,14 @@ import java.util.List;
 public class SearchService {
 
     private MovieRepository movieRepository;
+    private MovieDto movieDto;
     private SerieRepository serieRepository;
     private UserRepository userRepository;
 
-    public SearchService(MovieRepository movieRepository, SerieRepository serieRepository,
+    public SearchService(MovieRepository movieRepository, MovieDto movieDto, SerieRepository serieRepository,
                          UserRepository userRepository) {
         this.movieRepository = movieRepository;
+        this.movieDto = movieDto;
         this.serieRepository = serieRepository;
         this.userRepository = userRepository;
     }
@@ -46,6 +49,9 @@ public class SearchService {
                 break;
             case "year":
                 movies = movieRepository.findMoviesByTitleContainingOrderByYearDesc(searchParam);
+                break;
+            case "recomended":
+                movies = movieDto.searchRecomended(searchParam);
                 break;
             default:
                 movies = movieRepository.findMoviesByTitleContainingOrderByTitle(searchParam);

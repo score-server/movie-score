@@ -17,8 +17,7 @@
 </script>
 
 <div th:if="${currentUser} != null" th:switch="${currentUser.videoPlayer}" id="movie-div">
-    <video th:case="'html5'" controls playsinline th:poster="${movie.backgroundImg}" width="100%"
-           controlsList="nodownload">
+    <video th:case="'html5'" controls playsinline th:poster="${movie.backgroundImg}" width="100%">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
     </video>
     <video th:case="*" controls playsinline th:poster="${movie.backgroundImg}" id="player">
@@ -28,16 +27,17 @@
 
 <div class="card card-body">
     <h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'"></h1>
-
     <form th:action="'/movie/' + ${movie.id} + '/like'" method="post" class="float-right">
         <button th:if="${hasliked} == true" type="submit" class="btn btn-danger">
             <i class="fas fa-heart"></i>
+            <a th:text="' ' + ${movie.likes.size()} + ' likes'"></a>
         </button>
         <button th:if="${hasliked} == false" type="submit" class="btn btn-secondary">
             <i class="fas fa-heart"></i>
+            <a th:text="' ' + ${movie.likes.size()} + ' likes'"></a>
         </button>
     </form>
-    <p th:text="'Likes: ' + ${movie.likes.size()}"></p>
+    <br>
     <p th:text="'Rating: ' + ${movie.voteAverage}"></p>
     <p th:text="'Quality: ' + ${movie.quality}"></p>
     <p>Genres:
@@ -48,6 +48,10 @@
     </p>
     <p th:text="${movie.descript}"></p>
     <p th:text="'Runtime: ' + ${movie.runtime} + ' Min'"></p>
+    <p>
+        <img th:src="'http://www.barcodes4.me/barcode/qr/qr.png?value=http://scorewinner.ch:8081/movie/' + ${movie.id}"
+             class="img-thumbnail">
+    </p>
 </div>
 
 <br>
@@ -132,8 +136,13 @@
     }
 </style>
 <script type="application/javascript">
-    window.onbeforeunload = function (e) {
-        e.preventDefault();
+    setInterval(function () {
+        if (player.currentTime !== 0) {
+            saveTime();
+        }
+    }, 5000);
+
+    function saveTime() {
         $.ajax({
             type: "POST",
             url: "/time/movie",
@@ -143,5 +152,5 @@
                 time: player.currentTime
             }
         });
-    };
+    }
 </script>

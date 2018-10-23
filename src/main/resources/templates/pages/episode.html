@@ -16,8 +16,7 @@
            id="player">
         <source th:src="'/video/episode/' + ${episode.id}">
     </video>
-    <video th:case="*" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
-           width="100%" controlsList="nodownload">
+    <video th:case="*" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}" width="100%">
         <source th:src="'/video/episode/' + ${episode.id}">
     </video>
 </div>
@@ -32,6 +31,10 @@
             <a th:text="${genre.name}" th:href="'/serie?genre=' + ${genre.name}" class="badge"
                style="color: white;"></a>
         </span>
+    </p>
+    <p>
+        <img th:src="'http://www.barcodes4.me/barcode/qr/qr.png?value=http://scorewinner.ch:8081/episode/' + ${episode.id}"
+             class="img-thumbnail">
     </p>
 </div>
 <br>
@@ -66,8 +69,13 @@
 <br>
 <a class="btn btn-primary" th:href="'/season/' + ${episode.season.id}">Back</a>
 <script type="application/javascript">
-    window.onbeforeunload = function (e) {
-        e.preventDefault();
+    setInterval(function () {
+        if (player.currentTime !== 0) {
+            saveTime();
+        }
+    }, 5000);
+
+    function saveTime() {
         $.ajax({
             type: "POST",
             url: "/time/episode",
@@ -77,5 +85,5 @@
                 time: player.currentTime
             }
         });
-    };
+    }
 </script>
