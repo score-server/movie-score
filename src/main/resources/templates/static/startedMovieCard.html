@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<a th:href="'/movie/' + ${startedMovie.movie.id}">
+    <div class="card moviecard">
+        <div>
+            <span th:text="${startedMovie.movie.quality}" class="quality-badge"></span>
+            <img th:src="${startedMovie.movie.caseImg}" class="card-img-top">
+        </div>
+        <div class="card-body nodec">
+            <h5 th:text="${startedMovie.movie.title}" class="card-title"></h5>
+            <a>
+                <span class="fa fa-star checked" style="color: #D7D700;"></span>
+                <span th:text="${startedMovie.movie.voteAverage}"></span>
+            </a>
+            <a th:text="${startedMovie.movie.year}" class="float-right"></a>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" th:style="'width: ' + ${startedMovie.progress} + '%'"
+                     aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

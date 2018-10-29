@@ -3,9 +3,6 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.ActivityLogRepository;
-import ch.felix.moviedbapi.data.repository.CommentRepository;
-import ch.felix.moviedbapi.data.repository.LikesRepository;
-import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.data.repository.TimelineRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SearchService;
@@ -41,16 +38,11 @@ public class UserController {
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
     private ActivityLogRepository activityLogRepository;
-    private RequestRepository requestRepository;
-    private CommentRepository commentRepository;
-    private LikesRepository likesRepository;
 
 
     public UserController(TimelineRepository timelineRepository, UserDto userDto, ShaService shaService,
                           SearchService searchService, UserIndicatorService userIndicatorService,
-                          ActivityService activityService, ActivityLogRepository activityLogRepository,
-                          RequestRepository requestRepository, CommentRepository commentRepository,
-                          LikesRepository likesRepository) {
+                          ActivityService activityService, ActivityLogRepository activityLogRepository) {
         this.timelineRepository = timelineRepository;
         this.userDto = userDto;
         this.shaService = shaService;
@@ -58,9 +50,6 @@ public class UserController {
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
         this.activityLogRepository = activityLogRepository;
-        this.requestRepository = requestRepository;
-        this.commentRepository = commentRepository;
-        this.likesRepository = likesRepository;
     }
 
     @GetMapping
@@ -175,7 +164,7 @@ public class UserController {
     public String generateKey(@PathVariable("userId") Long userId, HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
             User user = userDto.getById(userId);
-            user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
+            user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7));
             userDto.save(user);
         }
         return "redirect:/user/" + userId;

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Controller
 @RequestMapping("time")
@@ -48,12 +50,14 @@ public class TimeController {
             try {
                 time.getId();
                 time.setTime(timeParam);
+                time.setTimestamp(getTimestamp());
                 timeRepository.save(time);
             } catch (NullPointerException e) {
                 time = new Time();
                 time.setTime(timeParam);
                 time.setMovie(movie);
                 time.setUser(user);
+                time.setTimestamp(getTimestamp());
                 timeRepository.save(time);
             }
         }
@@ -71,16 +75,22 @@ public class TimeController {
             try {
                 time.getId();
                 time.setTime(timeParam);
+                time.setTimestamp(getTimestamp());
                 timeRepository.save(time);
             } catch (NullPointerException e) {
                 time = new Time();
                 time.setTime(timeParam);
                 time.setEpisode(episode);
                 time.setUser(user);
+                time.setTimestamp(getTimestamp());
                 timeRepository.save(time);
             }
         }
         return "null";
+    }
+
+    private Timestamp getTimestamp() {
+        return new Timestamp(new Date().getTime());
     }
 
 }

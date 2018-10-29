@@ -1,7 +1,8 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Episode;
-import ch.felix.moviedbapi.data.entity.Movie;
+import ch.felix.moviedbapi.data.entity.Season;
+import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.TimeRepository;
@@ -10,10 +11,13 @@ import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 
 /**
  * @author Wetwer
@@ -58,20 +62,33 @@ public class EpisodeController {
                     + " gets Episode " + episode.getSeason().getSerie().getTitle()
                     + " S" + episode.getSeason().getSeason()
                     + "E" + episode.getEpisode(), userIndicatorService.getUser(request).getUser());
-
-
-            try {
-                model.addAttribute("nextEpisode", episodeRepository.findEpisodeById(
-                        Long.valueOf(episodeId) + 1));
-            } catch (NullPointerException | IndexOutOfBoundsException e) {
-                e.printStackTrace();
-            }
-
+            ;
+            model.addAttribute("nextEpisode", getNextEpisode(episode));
             model.addAttribute("page", "episode");
             return "template";
         } else {
             return "redirect:/login?redirect=/episode/" + episodeId;
         }
+    }
+
+    private Episode getNextEpisode(Episode episode) {
+        Season season = episode.getSeason();
+        for (Episode nextEpisode : season.getEpisodes()) {
+            if (nextEpisode.getEpisode() == episode.getEpisode() + 1) {
+                return nextEpisode;
+            }
+        }
+
+        Serie serie = season.getSerie();
+        for (Season nextSeason : serie.getSeasons()) {
+            if (nextSeason.getSeason() == season.getSeason() + 1)
+                for (Episode nextEpisode : nextSeason.getEpisodes()) {
+                    if (nextEpisode.getEpisode() == 1) {
+                        return nextEpisode;
+                    }
+                }
+        }
+        return null;
     }
 
     @PostMapping("{episodeId}/path")

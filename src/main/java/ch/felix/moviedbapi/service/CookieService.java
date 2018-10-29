@@ -60,4 +60,11 @@ public class CookieService {
         }
         return null;
     }
+
+    public void setGeneralFast(HttpServletResponse response) {
+        Cookie userCookie = new Cookie("fast", "true");
+        userCookie.setMaxAge(3600);
+        userCookie.setPath("/");
+        response.addCookie(userCookie);
+    }
 }

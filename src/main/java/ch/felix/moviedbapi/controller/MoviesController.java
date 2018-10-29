@@ -60,6 +60,7 @@ public class MoviesController {
                 genres = duplicateService.removeStringDuplicates(genres);
                 model.addAttribute("genres", genres);
                 model.addAttribute("movies", movies);
+                model.addAttribute("all", searchService.searchMoviesTop("", orderBy, genreParam));
 
                 model.addAttribute("pageIndex", page);
                 if (page - 1 == 0) {

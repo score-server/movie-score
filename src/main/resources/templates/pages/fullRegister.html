@@ -6,14 +6,14 @@
     User allready exists
 </div>
 
-<div th:if="${param.added}" class="alert alert-success">
-    Authkey:
-    <input th:value="'http://scorewinner.ch:8081/fastlogin/' + ${param.added}" class="form-control" type="text"
-           disabled>
+<div th:if="${param.password}" class="alert alert-danger">
+    Passwords dont match
 </div>
 
-<form action="/register" method="post">
+<form th:action="'/register/' + ${groupKey}" method="post">
     Username: <input class="form-control" type="text" name="name" required>
+    Password: <input class="form-control" type="password" name="password" required>
+    Confirm Password: <input class="form-control" type="password" name="confirm" required>
     <br>
     <input class="btn btn-primary" type="submit">
 </form>

@@ -38,6 +38,9 @@
         </button>
     </form>
     <br>
+    <p>
+        <a th:href="'/video/movie/' + ${movie.id}" target="_blank" class="btn btn-primary">Download</a>
+    </p>
     <p th:text="'Rating: ' + ${movie.voteAverage}"></p>
     <p th:text="'Quality: ' + ${movie.quality}"></p>
     <p>Genres:

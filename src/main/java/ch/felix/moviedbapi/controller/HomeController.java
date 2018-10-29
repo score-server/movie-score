@@ -1,6 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.entity.Genre;
+import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.GenreRepository;
 import ch.felix.moviedbapi.service.DuplicateService;
 import ch.felix.moviedbapi.service.SearchService;
@@ -47,6 +48,8 @@ public class HomeController {
                 return "redirect:/movies/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
             }
 
+            User user = userIndicatorService.getUser(request).getUser();
+
             List<String> genres = new ArrayList<>();
             for (Genre genre : genreRepository.findGenreByOrderByName()) {
                 genres.add(genre.getName());
@@ -54,7 +57,9 @@ public class HomeController {
             genres = duplicateService.removeStringDuplicates(genres);
             model.addAttribute("genres", genres);
 
+            model.addAttribute("startedMovies", searchService.findStartedMovies(user));
             model.addAttribute("movies", searchService.searchMoviesTop(search, orderBy, genreParam));
+            model.addAttribute("all", searchService.searchMoviesTop("", orderBy, genreParam));
             model.addAttribute("series", searchService.searchSerieTop(search));
 
             model.addAttribute("search", search);

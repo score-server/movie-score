@@ -8,6 +8,11 @@
   <p>This application is free for my friends.</p>
 <p>If you want an Account and the Application Url contact me via Mail, Discord, Whatsapp or Personal. If i dont know you, you wont get a 
   login...</p>
+ <h3>Todo</h3>
+ - Time support for html 5 player<br>
+ - Download button on movies<br>
+ - Fix Sound on .mkv Videos
+ <br>
  
 <pre>
 MIT License

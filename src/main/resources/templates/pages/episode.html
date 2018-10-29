@@ -22,10 +22,16 @@
 </div>
 <br>
 <div class="card card-body">
-    <h1 th:text="${episode.season.serie.title} + ' Season ' + ${episode.season.season}
-    + ' Episode ' + ${episode.episode}"></h1>
+    <h1>
+        <a th:text="${episode.season.serie.title} + ' Season ' + ${episode.season.season} + ' Episode '
+    + ${episode.episode}"></a>
+        <a th:if="${nextEpisode} != null" th:href="'/episode/' + ${nextEpisode.id}"
+           class="btn btn-primary float-right">Next Episode</a>
+    </h1>
+    <p>
+        <a th:href="'/video/episode/' + ${episode.id}" target="_blank" class="btn btn-primary">Download</a>
+    </p>
     <p th:text="'Quality: ' + ${episode.quality}"></p>
-    <!--<a class="float-right" th:href="'/episode/' + ${nextEpisode.id}">Next Episode</a>-->
     <p>Genres:
         <span th:each="genre : ${episode.season.serie.genres}">
             <a th:text="${genre.name}" th:href="'/serie?genre=' + ${genre.name}" class="badge"
@@ -33,8 +39,8 @@
         </span>
     </p>
     <p>
-        <img th:src="'http://www.barcodes4.me/barcode/qr/qr.png?value=http://scorewinner.ch:8081/episode/' + ${episode.id}"
-             class="img-thumbnail">
+        <img th:src="'http://www.barcodes4.me/barcode/qr/qr.png?value=http://scorewinner.ch:8081/episode/'
+        + ${episode.id}" class="img-thumbnail">
     </p>
 </div>
 <br>

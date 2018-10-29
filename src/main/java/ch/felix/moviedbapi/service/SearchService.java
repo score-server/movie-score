@@ -1,6 +1,7 @@
 package ch.felix.moviedbapi.service;
 
 import ch.felix.moviedbapi.data.dto.MovieDto;
+import ch.felix.moviedbapi.data.dto.TimeDto;
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Serie;
@@ -8,6 +9,7 @@ import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.data.repository.UserRepository;
+import ch.felix.moviedbapi.model.StartedMovie;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,13 +24,15 @@ public class SearchService {
 
     private MovieRepository movieRepository;
     private MovieDto movieDto;
+    private TimeDto timeDto;
     private SerieRepository serieRepository;
     private UserRepository userRepository;
 
-    public SearchService(MovieRepository movieRepository, MovieDto movieDto, SerieRepository serieRepository,
+    public SearchService(MovieRepository movieRepository, MovieDto movieDto, TimeDto timeDto, SerieRepository serieRepository,
                          UserRepository userRepository) {
         this.movieRepository = movieRepository;
         this.movieDto = movieDto;
+        this.timeDto = timeDto;
         this.serieRepository = serieRepository;
         this.userRepository = userRepository;
     }
@@ -111,6 +115,10 @@ public class SearchService {
             }
             return series2;
         }
+    }
+
+    public List<StartedMovie> findStartedMovies(User user) {
+        return timeDto.getStartedMovies(user);
     }
 
     public List<Serie> searchSerieTop(String search) {

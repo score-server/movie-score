@@ -1,19 +1,26 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.GroupDto;
 import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.entity.GroupInvite;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
+import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -27,17 +34,20 @@ import java.util.Random;
 public class RegisterController {
 
     private UserDto userDto;
+    private GroupDto groupDto;
 
     private ShaService shaService;
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
+    private CookieService cookieService;
 
-    public RegisterController(UserDto userDto, ShaService shaService, UserIndicatorService userIndicatorService,
-                              ActivityService activityService) {
+    public RegisterController(UserDto userDto, GroupDto groupDto, ShaService shaService, UserIndicatorService userIndicatorService, ActivityService activityService, CookieService cookieService) {
         this.userDto = userDto;
+        this.groupDto = groupDto;
         this.shaService = shaService;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
+        this.cookieService = cookieService;
     }
 
     @GetMapping
@@ -50,27 +60,71 @@ public class RegisterController {
         }
     }
 
+    @GetMapping("{groupKey}")
+    public String getGroupRegister(@PathVariable("groupKey") String groupKey, Model model, HttpServletRequest request) {
+        userIndicatorService.allowGuest(model, request);
+
+        for (GroupInvite groupInvite : groupDto.getAll()) {
+            if (groupInvite.getName().equals(groupKey)) {
+                model.addAttribute("groupKey", groupKey);
+                model.addAttribute("page", "fullRegister");
+                return "template";
+            }
+        }
+        return "redirect:/";
+    }
+
     @PostMapping
     public String register(@RequestParam("name") String nameParam, HttpServletRequest request) {
         User adminUser = userIndicatorService.getUser(request).getUser();
-
         if (userIndicatorService.isAdministrator(request)) {
-            if (userDto.search(nameParam) == null) {
+            if (userDto.search(nameParam).size() == 0) {
                 User user = new User();
                 user.setName(nameParam);
                 user.setPasswordSha(shaService.encode(String.valueOf(new Random().nextInt())) + "-NOK");
                 user.setRole(1);
-                user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
+                String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
+                user.setAuthKey(authkey);
                 userDto.save(user);
                 activityService.log(nameParam + " registered by " + adminUser.getName(), adminUser);
-                return "redirect:/user?added";
+                return "redirect:/register?added=" + authkey;
             } else {
                 return "redirect:/register?exists";
             }
         } else {
             return "redirect:/user";
         }
-
     }
 
+    @PostMapping("{groupKey}")
+    public String registerFull(@RequestParam("name") String nameParam,
+                               @RequestParam("password") String password,
+                               @RequestParam("confirm") String confirm,
+                               @PathVariable("groupKey") String groupKey,
+                               HttpServletResponse response) {
+        if (password.equals(confirm)) {
+            if (userDto.search(nameParam).size() == 0) {
+                User user = new User();
+                user.setName(nameParam);
+                user.setPasswordSha(shaService.encode(password));
+                user.setRole(1);
+                String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
+                user.setAuthKey(authkey);
+                userDto.save(user);
+                activityService.log(nameParam + " registered", user);
+
+                String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
+                cookieService.setUserCookie(response, sessionId);
+                user.setSessionId(sessionId);
+                user.setLastLogin(new Timestamp(new Date().getTime()));
+                userDto.save(user);
+                activityService.log(user.getName() + " logged in", user);
+
+                return "redirect:/";
+            } else {
+                return "redirect:/register/" + groupKey + "?exists";
+            }
+        }
+        return "redirect:/register/" + groupKey + "?password";
+    }
 }

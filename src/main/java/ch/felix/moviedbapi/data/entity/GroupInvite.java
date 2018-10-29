@@ -6,27 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import java.sql.Timestamp;
 
 @Data
 @Entity
-public class Time {
+public class GroupInvite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @ManyToOne
-    private User user;
-
-    @ManyToOne
-    private Movie movie;
-
-    @ManyToOne
-    private Episode episode;
-
-    private Float time;
-    private Timestamp timestamp;
+    private String name;
 
 }
