@@ -1,9 +1,9 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.BlogDto;
 import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.Blog;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.BlogRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,15 +29,15 @@ import java.util.Date;
 @RequestMapping("blog")
 public class BlogController {
 
-    private BlogRepository blogRepository;
+    private BlogDto blogDto;
     private UserDto userDto;
 
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
 
-    public BlogController(BlogRepository blogRepository, UserDto userDto, UserIndicatorService userIndicatorService,
+    public BlogController(BlogDto blogDto, UserDto userDto, UserIndicatorService userIndicatorService,
                           ActivityService activityService) {
-        this.blogRepository = blogRepository;
+        this.blogDto = blogDto;
         this.userDto = userDto;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
@@ -46,7 +46,7 @@ public class BlogController {
     @GetMapping
     public String getBlogList(Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
-            model.addAttribute("blogs", blogRepository.findBlogsByOrderByTimestampDesc());
+            model.addAttribute("blogs", blogDto.getAll());
             model.addAttribute("page", "blog");
             return "template";
         } else {
@@ -77,7 +77,7 @@ public class BlogController {
             blog.setText(text.replace("\r\n", "<br>"));
             blog.setUser(user);
             blog.setTimestamp(new Timestamp(new Date().getTime()));
-            blogRepository.save(blog);
+            blogDto.save(blog);
             activityService.log(user.getName() + " created new Blog Post", user);
             return "redirect:/blog?new";
         } else {
@@ -89,7 +89,7 @@ public class BlogController {
     public String deleteBlog(@PathVariable("blogId") String blogId,
                              Model model, HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(model, request)) {
-            blogRepository.delete(blogRepository.findBlogById(Long.valueOf(blogId)));
+            blogDto.delete(blogDto.getById(Long.valueOf(blogId)));
             return "redirect:/blog?deleted";
         } else {
             return "redirect:/blog?notdeleted";

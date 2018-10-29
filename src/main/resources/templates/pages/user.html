@@ -91,8 +91,6 @@
                 </div>
             </div>
             <br>
-            <p th:if="${user.lastLogin} != null"
-               th:text="'Last Login: ' + ${#dates.format(user.lastLogin, 'dd.MM.yyyy HH:mm')}"></p>
             <form action="/login/logout" method="post">
                 <button type="submit" class="btn btn-danger">Logout</button>
             </form>
@@ -145,6 +143,9 @@
                     </button>
                 </form>
             </div>
+            <br>
+            <p th:if="${user.lastLogin} != null"
+               th:text="'Last Login: ' + ${#dates.format(user.lastLogin, 'dd.MM.yyyy HH:mm')}"></p>
             <br>
             Authkey:
             <input th:value="'http://scorewinner.ch:8081/fastlogin/' + ${user.authKey}" class="form-control"

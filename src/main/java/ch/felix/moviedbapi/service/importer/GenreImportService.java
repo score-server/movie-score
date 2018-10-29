@@ -1,10 +1,10 @@
 package ch.felix.moviedbapi.service.importer;
 
 
+import ch.felix.moviedbapi.data.dto.GenreDto;
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Serie;
-import ch.felix.moviedbapi.data.repository.GenreRepository;
 import ch.felix.moviedbapi.jsonmodel.tmdb.GenreJson;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class GenreImportService {
 
-    private GenreRepository genreRepository;
+    private GenreDto genreDto;
 
-    public GenreImportService(GenreRepository genreRepository) {
-        this.genreRepository = genreRepository;
+    public GenreImportService(GenreDto genreDto) {
+        this.genreDto = genreDto;
     }
 
     public void setGenre(Movie movie, List<GenreJson> genreList) {
@@ -27,7 +27,7 @@ public class GenreImportService {
             Genre genre = new Genre();
             genre.setName(genreJson.getName());
             genre.setMovie(movie);
-            genreRepository.save(genre);
+            genreDto.save(genre);
         }
 
     }
@@ -37,7 +37,7 @@ public class GenreImportService {
             Genre genre = new Genre();
             genre.setName(genreJson.getName());
             genre.setSerie(serie);
-            genreRepository.save(genre);
+            genreDto.save(genre);
         }
 
     }

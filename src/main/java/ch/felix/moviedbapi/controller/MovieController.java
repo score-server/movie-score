@@ -1,11 +1,11 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.LikesDto;
 import ch.felix.moviedbapi.data.dto.MovieDto;
+import ch.felix.moviedbapi.data.dto.TimeDto;
 import ch.felix.moviedbapi.data.entity.Likes;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.LikesRepository;
-import ch.felix.moviedbapi.data.repository.TimeRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SimilarMovieService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
@@ -31,21 +31,21 @@ import java.io.File;
 public class MovieController {
 
     private MovieDto movieDto;
-    private LikesRepository likesRepository;
-    private TimeRepository timeRepository;
+    private LikesDto likesDto;
+    private TimeDto timeDto;
 
     private SimilarMovieService similarMovieService;
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
     private MovieImportService movieImportService;
 
-    public MovieController(MovieDto movieDto, LikesRepository likesRepository,
+    public MovieController(MovieDto movieDto, LikesDto likesDto,
                            SimilarMovieService similarMovieService, UserIndicatorService userIndicatorService,
-                           ActivityService activityService, TimeRepository timeRepository,
+                           ActivityService activityService, TimeDto timeDto,
                            MovieImportService movieImportService) {
         this.movieDto = movieDto;
-        this.likesRepository = likesRepository;
-        this.timeRepository = timeRepository;
+        this.likesDto = likesDto;
+        this.timeDto = timeDto;
         this.similarMovieService = similarMovieService;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
@@ -61,7 +61,7 @@ public class MovieController {
             model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
 
             try {
-                Likes likes = likesRepository.findLikeByUserAndMovie(
+                Likes likes = likesDto.getByUserAndMovie(
                         userIndicatorService.getUser(request).getUser(), movie);
                 likes.getId();
                 model.addAttribute("hasliked", true);
@@ -76,7 +76,7 @@ public class MovieController {
             }
 
             try {
-                model.addAttribute("time", timeRepository.findTimeByUserAndMovie(user, movie).getTime());
+                model.addAttribute("time", timeDto.getByUserAndMovie(user, movie).getTime());
             } catch (NullPointerException e) {
                 model.addAttribute("time", 0);
             }
@@ -94,15 +94,15 @@ public class MovieController {
             User user = userIndicatorService.getUser(request).getUser();
             Movie movie = movieDto.getById(Long.valueOf(movieId));
             try {
-                Likes likes = likesRepository.findLikeByUserAndMovie(user, movie);
+                Likes likes = likesDto.getByUserAndMovie(user, movie);
                 likes.getId();
-                likesRepository.delete(likes);
+                likesDto.delete(likes);
                 activityService.log(user.getName() + " removed like on movie " + movie.getTitle(), user);
             } catch (NullPointerException e) {
                 Likes likes = new Likes();
                 likes.setMovie(movie);
                 likes.setUser(user);
-                likesRepository.save(likes);
+                likesDto.save(likes);
                 activityService.log(user.getName() + " likes movie " + movie.getTitle(), user);
             }
             return "redirect:/movie/" + movieId;

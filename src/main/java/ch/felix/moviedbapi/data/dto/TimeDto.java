@@ -1,5 +1,7 @@
 package ch.felix.moviedbapi.data.dto;
 
+import ch.felix.moviedbapi.data.entity.Episode;
+import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Time;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.TimeRepository;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TimeDto {
+public class TimeDto implements DtoInterface<Time> {
 
     private TimeRepository timeRepository;
 
@@ -41,4 +43,26 @@ public class TimeDto {
         return ((time / 60) / runtime) * 100;
     }
 
+    @Override
+    public Time getById(Long id) {
+        return timeRepository.getOne(id);
+    }
+
+    @Override
+    public List<Time> getAll() {
+        return timeRepository.findAll();
+    }
+
+    @Override
+    public void save(Time time) {
+        timeRepository.save(time);
+    }
+
+    public Time getByUserAndMovie(User user, Movie movie) {
+        return timeRepository.findTimeByUserAndMovie(user, movie);
+    }
+
+    public Time getByUserAndEpisode(User user, Episode episode) {
+        return timeRepository.findTimeByUserAndEpisode(user, episode);
+    }
 }

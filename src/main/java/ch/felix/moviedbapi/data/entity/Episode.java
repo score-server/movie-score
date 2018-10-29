@@ -38,4 +38,14 @@ public class Episode {
     private String quality;
     private Integer episode;
 
+    public String getMime() {
+        if (path.endsWith(".mkv")) {
+            return "video/x-matroska; codecs=\"a_ac3, avc\"";
+        } else if (path.endsWith(".mp4")) {
+            return "video/mp4";
+        } else {
+            return "";
+        }
+    }
+
 }

@@ -1,13 +1,13 @@
 package ch.felix.moviedbapi.controller.reactive;
 
+import ch.felix.moviedbapi.data.dto.MovieDto;
+import ch.felix.moviedbapi.data.dto.TimeDto;
+import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Time;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
-import ch.felix.moviedbapi.data.repository.MovieRepository;
-import ch.felix.moviedbapi.data.repository.TimeRepository;
-import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,19 +22,19 @@ import java.util.Date;
 @RequestMapping("time")
 public class TimeController {
 
-    private UserRepository userRepository;
-    private MovieRepository movieRepository;
-    private TimeRepository timeRepository;
+    private UserDto userDto;
+    private MovieDto movieDto;
+    private TimeDto timeDto;
     private EpisodeRepository episodeRepository;
 
     private UserIndicatorService userIndicatorService;
 
-    public TimeController(UserRepository userRepository, MovieRepository movieRepository,
-                          TimeRepository timeRepository, EpisodeRepository episodeRepository,
+    public TimeController(UserDto userDto, MovieDto movieDto,
+                          TimeDto timeDto, EpisodeRepository episodeRepository,
                           UserIndicatorService userIndicatorService) {
-        this.userRepository = userRepository;
-        this.movieRepository = movieRepository;
-        this.timeRepository = timeRepository;
+        this.userDto = userDto;
+        this.movieDto = movieDto;
+        this.timeDto = timeDto;
         this.episodeRepository = episodeRepository;
         this.userIndicatorService = userIndicatorService;
     }
@@ -43,22 +43,22 @@ public class TimeController {
     public String setTime(@RequestParam("userId") Long userId, @RequestParam("movieId") Long movieId,
                           @RequestParam("time") Float timeParam, HttpServletRequest request) {
         if (userIndicatorService.isUser(request)) {
-            Movie movie = movieRepository.findMovieById(movieId);
-            User user = userRepository.findUserById(userId);
+            Movie movie = movieDto.getById(movieId);
+            User user = userDto.getById(userId);
 
-            Time time = timeRepository.findTimeByUserAndMovie(user, movie);
+            Time time = timeDto.getByUserAndMovie(user, movie);
             try {
                 time.getId();
                 time.setTime(timeParam);
                 time.setTimestamp(getTimestamp());
-                timeRepository.save(time);
+                timeDto.save(time);
             } catch (NullPointerException e) {
                 time = new Time();
                 time.setTime(timeParam);
                 time.setMovie(movie);
                 time.setUser(user);
                 time.setTimestamp(getTimestamp());
-                timeRepository.save(time);
+                timeDto.save(time);
             }
         }
         return "null";
@@ -69,21 +69,21 @@ public class TimeController {
                                     @RequestParam("time") Float timeParam, HttpServletRequest request) {
         if (userIndicatorService.isUser(request)) {
             Episode episode = episodeRepository.findEpisodeById(episodeId);
-            User user = userRepository.findUserById(userId);
+            User user = userDto.getById(userId);
 
-            Time time = timeRepository.findTimeByUserAndEpisode(user, episode);
+            Time time = timeDto.getByUserAndEpisode(user, episode);
             try {
                 time.getId();
                 time.setTime(timeParam);
                 time.setTimestamp(getTimestamp());
-                timeRepository.save(time);
+                timeDto.save(time);
             } catch (NullPointerException e) {
                 time = new Time();
                 time.setTime(timeParam);
                 time.setEpisode(episode);
                 time.setUser(user);
                 time.setTimestamp(getTimestamp());
-                timeRepository.save(time);
+                timeDto.save(time);
             }
         }
         return "null";

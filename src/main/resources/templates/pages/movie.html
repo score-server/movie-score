@@ -10,14 +10,21 @@
 <link rel="stylesheet" th:href="'../plyr/style.css'">
 <script th:src="'../plyr/index.js'"></script>
 
-<script type="application/javascript">
-    $(window).bind("load", function () {
-        player.currentTime = [[${time}]]
-    });
-</script>
+<th:block th:switch="${currentUser.videoPlayer}">
+    <script th:case="'html5'" type="application/javascript">
+        $(window).bind("load", function () {
+            document.getElementById('html-player').currentTime = [[${time}]]
+        });
+    </script>
+    <script th:case="*" type="application/javascript">
+        $(window).bind("load", function () {
+            player.currentTime = [[${time}]]
+        });
+    </script>
+</th:block>
 
 <div th:if="${currentUser} != null" th:switch="${currentUser.videoPlayer}" id="movie-div">
-    <video th:case="'html5'" controls playsinline th:poster="${movie.backgroundImg}" width="100%">
+    <video th:case="'html5'" controls playsinline th:poster="${movie.backgroundImg}" width="100%" id="html-player">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
     </video>
     <video th:case="*" controls playsinline th:poster="${movie.backgroundImg}" id="player">
@@ -138,22 +145,44 @@
         outline: none;
     }
 </style>
-<script type="application/javascript">
-    setInterval(function () {
-        if (player.currentTime !== 0) {
-            saveTime();
-        }
-    }, 5000);
 
-    function saveTime() {
-        $.ajax({
-            type: "POST",
-            url: "/time/movie",
-            data: {
-                userId: [[${currentUser.id}]],
-                movieId: [[${movie.id}]],
-                time: player.currentTime
+<th:block th:switch="${currentUser.videoPlayer}">
+    <script th:case="'html5'" type="application/javascript">
+        setInterval(function () {
+            if (document.getElementById('html-player').currentTime !== 0) {
+                saveTime();
             }
-        });
-    }
-</script>
+        }, 5000);
+
+        function saveTime() {
+            $.ajax({
+                type: "POST",
+                url: "/time/movie",
+                data: {
+                    userId: [[${currentUser.id}]],
+                    movieId: [[${movie.id}]],
+                    time: document.getElementById('html-player').currentTime
+                }
+            });
+        }
+    </script>
+    <script th:case="*" type="application/javascript">
+        setInterval(function () {
+            if (player.currentTime !== 0) {
+                saveTime();
+            }
+        }, 5000);
+
+        function saveTime() {
+            $.ajax({
+                type: "POST",
+                url: "/time/movie",
+                data: {
+                    userId: [[${currentUser.id}]],
+                    movieId: [[${movie.id}]],
+                    time: player.currentTime
+                }
+            });
+        }
+    </script>
+</th:block>

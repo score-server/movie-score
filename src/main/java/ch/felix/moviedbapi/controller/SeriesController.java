@@ -1,8 +1,8 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.GenreDto;
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Serie;
-import ch.felix.moviedbapi.data.repository.GenreRepository;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.service.DuplicateService;
@@ -28,18 +28,18 @@ import java.util.List;
 public class SeriesController {
 
     private SerieRepository serieRepository;
-    private GenreRepository genreRepository;
+    private GenreDto genreDto;
     private SeasonRepository seasonRepository;
 
     private SearchService searchService;
     private DuplicateService duplicateService;
     private UserIndicatorService userIndicatorService;
 
-    public SeriesController(SerieRepository serieRepository, GenreRepository genreRepository,
+    public SeriesController(SerieRepository serieRepository, GenreDto genreDto,
                             SeasonRepository seasonRepository, SearchService searchService,
                             DuplicateService duplicateService, UserIndicatorService userIndicatorService) {
         this.serieRepository = serieRepository;
-        this.genreRepository = genreRepository;
+        this.genreDto = genreDto;
         this.seasonRepository = seasonRepository;
         this.searchService = searchService;
         this.duplicateService = duplicateService;
@@ -52,7 +52,7 @@ public class SeriesController {
                             Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
             List<String> genres = new ArrayList<>();
-            for (Genre genre : genreRepository.findGenreByOrderByName()) {
+            for (Genre genre : genreDto.getAll()) {
                 genres.add(genre.getName());
             }
             genres = duplicateService.removeStringDuplicates(genres);

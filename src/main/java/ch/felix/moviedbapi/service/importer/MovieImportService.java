@@ -1,7 +1,7 @@
 package ch.felix.moviedbapi.service.importer;
 
+import ch.felix.moviedbapi.data.dto.MovieDto;
 import ch.felix.moviedbapi.data.entity.Movie;
-import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.jsonmodel.tmdb.MovieJson;
 import ch.felix.moviedbapi.service.ImportLogService;
 import ch.felix.moviedbapi.service.SettingsService;
@@ -13,17 +13,17 @@ import java.util.List;
 @Service
 public class MovieImportService extends ImportServiceFactory {
 
-    private MovieRepository movieRepository;
+    private MovieDto movieDto;
 
     private SettingsService settingsService;
     private SearchMovieService searchMovieService;
     private ImportLogService importLogService;
     private GenreImportService genreImportService;
 
-    public MovieImportService(MovieRepository movieRepository, SettingsService settingsService,
+    public MovieImportService(MovieDto movieDto, SettingsService settingsService,
                               SearchMovieService searchMovieService, ImportLogService importLogService, GenreImportService genreImportService) {
         super(settingsService);
-        this.movieRepository = movieRepository;
+        this.movieDto = movieDto;
         this.settingsService = settingsService;
         this.searchMovieService = searchMovieService;
         this.importLogService = importLogService;
@@ -54,7 +54,7 @@ public class MovieImportService extends ImportServiceFactory {
     @Override
     public void updateAll() {
         startImport();
-        List<Movie> movies = movieRepository.findMoviesByOrderByTitle();
+        List<Movie> movies = movieDto.getOrderByTitle();
         int currentFileIndex = 0;
         int allFiles = movies.size();
 
@@ -73,7 +73,7 @@ public class MovieImportService extends ImportServiceFactory {
                 .replace(".mkv", "")
                 .replace(".avi", "");
 
-        Movie movie = movieRepository.findMovieByTitle(getName(filename));
+        Movie movie = movieDto.getByTitle(getName(filename));
 
         if (movie == null) {
             movie = new Movie();
@@ -96,7 +96,7 @@ public class MovieImportService extends ImportServiceFactory {
                 movie.setBackgroundImg("https://image.tmdb.org/t/p/original" + movieJson.getBackdropPath());
                 movie.setVoteAverage(movieJson.getVoteAverage());
                 movie.setFiletype(setMimeType(file.getName()));
-                movieRepository.save(movie);
+                movieDto.save(movie);
                 genreImportService.setGenre(movie, movieJson.getGenres());
                 importLogService.importLog(movie, "<i class=\"fas fa-angle-double-down\" style=\"color: green;\"></i>" +
                         " Added Movie " + movie.getTitle());
@@ -114,7 +114,7 @@ public class MovieImportService extends ImportServiceFactory {
                 .replace(".mp4", "")
                 .replace(".mkv", "")
                 .replace(".avi", "");
-        Movie movie = movieRepository.findMovieByTitle(getName(filename));
+        Movie movie = movieDto.getByTitle(getName(filename));
 
         Double popularity = movie.getPopularity();
 
@@ -134,7 +134,7 @@ public class MovieImportService extends ImportServiceFactory {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        movieRepository.save(movie);
+        movieDto.save(movie);
 
         String popularityIndex = getPopularityChange(movie.getPopularity(), popularity);
 

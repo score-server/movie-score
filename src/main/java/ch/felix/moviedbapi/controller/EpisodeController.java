@@ -1,11 +1,11 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.TimeDto;
 import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.entity.Season;
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
-import ch.felix.moviedbapi.data.repository.TimeRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,15 +30,15 @@ import javax.servlet.http.HttpServletRequest;
 public class EpisodeController {
 
     private EpisodeRepository episodeRepository;
-    private TimeRepository timeRepository;
+    private TimeDto timeDto;
 
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
 
-    public EpisodeController(EpisodeRepository episodeRepository, TimeRepository timeRepository,
+    public EpisodeController(EpisodeRepository episodeRepository, TimeDto timeDto,
                              UserIndicatorService userIndicatorService, ActivityService activityService) {
         this.episodeRepository = episodeRepository;
-        this.timeRepository = timeRepository;
+        this.timeDto = timeDto;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
     }
@@ -53,7 +53,7 @@ public class EpisodeController {
             model.addAttribute("episode", episode);
             model.addAttribute("comments", episode.getComments());
             try {
-                model.addAttribute("time", timeRepository.findTimeByUserAndEpisode(user, episode).getTime());
+                model.addAttribute("time", timeDto.getByUserAndEpisode(user, episode).getTime());
             } catch (NullPointerException e) {
                 model.addAttribute("time", 0);
             }

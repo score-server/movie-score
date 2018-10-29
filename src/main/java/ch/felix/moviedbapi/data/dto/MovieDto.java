@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
-public class MovieDto {
+public class MovieDto implements DtoInterface<Movie> {
 
     private MovieRepository movieRepository;
 
@@ -18,10 +18,12 @@ public class MovieDto {
         this.movieRepository = movieRepository;
     }
 
+    @Override
     public Movie getById(Long id) {
         return movieRepository.findMovieById(id);
     }
 
+    @Override
     public List<Movie> getAll() {
         return movieRepository.findAll();
     }
@@ -30,6 +32,7 @@ public class MovieDto {
         return movieRepository.findTop10ByTitleContainingOrderByPopularityDesc(search);
     }
 
+    @Override
     public void save(Movie movie) {
         movieRepository.save(movie);
     }
@@ -45,5 +48,13 @@ public class MovieDto {
         recomendedMovies.sort(Comparator.comparing(s -> s.getLikes().size()));
         recomendedMovies = Lists.reverse(recomendedMovies);
         return recomendedMovies;
+    }
+
+    public List<Movie> getOrderByTitle() {
+        return movieRepository.findMoviesByOrderByTitle();
+    }
+
+    public Movie getByTitle(String name) {
+        return movieRepository.findMovieByTitle(name);
     }
 }

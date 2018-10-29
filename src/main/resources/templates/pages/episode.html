@@ -5,18 +5,27 @@
 <link rel="stylesheet" th:href="'../plyr/style.css'">
 <script th:src="'../plyr/index.js'"></script>
 
-<script type="application/javascript">
-    $(window).bind("load", function () {
-        player.currentTime = [[${time}]]
-    });
-</script>
+
+<th:block th:switch="${currentUser.videoPlayer}">
+    <script th:case="'html5'" type="application/javascript">
+        $(window).bind("load", function () {
+            document.getElementById('html-player').currentTime = [[${time}]]
+        });
+    </script>
+    <script th:case="*" type="application/javascript">
+        $(window).bind("load", function () {
+            player.currentTime = [[${time}]]
+        });
+    </script>
+</th:block>
 
 <div th:switch="${currentUser.videoPlayer}">
-    <video th:case="'plyr'" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
-           id="player">
+    <video th:case="'html5'" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
+           width="100%" id="html-player">
         <source th:src="'/video/episode/' + ${episode.id}">
     </video>
-    <video th:case="*" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}" width="100%">
+    <video th:case="*" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
+           id="player">
         <source th:src="'/video/episode/' + ${episode.id}">
     </video>
 </div>
@@ -74,22 +83,44 @@
 </div>
 <br>
 <a class="btn btn-primary" th:href="'/season/' + ${episode.season.id}">Back</a>
-<script type="application/javascript">
-    setInterval(function () {
-        if (player.currentTime !== 0) {
-            saveTime();
-        }
-    }, 5000);
 
-    function saveTime() {
-        $.ajax({
-            type: "POST",
-            url: "/time/episode",
-            data: {
-                userId: [[${currentUser.id}]],
-                episodeId: [[${episode.id}]],
-                time: player.currentTime
+<th:block th:switch="${currentUser.videoPlayer}">
+    <script th:case="'html5'" type="application/javascript">
+        setInterval(function () {
+            if (document.getElementById('html-player').currentTime !== 0) {
+                saveTime();
             }
-        });
-    }
-</script>
+        }, 5000);
+
+        function saveTime() {
+            $.ajax({
+                type: "POST",
+                url: "/time/episode",
+                data: {
+                    userId: [[${currentUser.id}]],
+                    episodeId: [[${episode.id}]],
+                    time: document.getElementById('html-player').currentTime
+                }
+            });
+        }
+    </script>
+    <script th:case="*" type="application/javascript">
+        setInterval(function () {
+            if (player.currentTime !== 0) {
+                saveTime();
+            }
+        }, 5000);
+
+        function saveTime() {
+            $.ajax({
+                type: "POST",
+                url: "/time/episode",
+                data: {
+                    userId: [[${currentUser.id}]],
+                    episodeId: [[${episode.id}]],
+                    time: player.currentTime
+                }
+            });
+        }
+    </script>
+</th:block>
