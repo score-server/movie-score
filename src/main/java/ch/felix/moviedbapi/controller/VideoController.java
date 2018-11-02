@@ -1,7 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.repository.EpisodeRepository;
-import ch.felix.moviedbapi.data.repository.MovieRepository;
+import ch.felix.moviedbapi.data.dto.EpisodeDto;
+import ch.felix.moviedbapi.data.dto.MovieDto;
 import ch.felix.moviedbapi.service.MultipartFileSender;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
@@ -21,15 +21,15 @@ import java.nio.file.Paths;
 @RequestMapping("video")
 public class VideoController {
 
-    private MovieRepository movieRepository;
-    private EpisodeRepository episodeRepository;
+    private MovieDto movieDto;
+    private EpisodeDto episodeDto;
 
     private UserIndicatorService userIndicatorService;
 
-    public VideoController(MovieRepository movieRepository, EpisodeRepository episodeRepository,
+    public VideoController(MovieDto movieDto, EpisodeDto episodeDto,
                            UserIndicatorService userIndicatorService) {
-        this.movieRepository = movieRepository;
-        this.episodeRepository = episodeRepository;
+        this.movieDto = movieDto;
+        this.episodeDto = episodeDto;
         this.userIndicatorService = userIndicatorService;
     }
 
@@ -37,7 +37,7 @@ public class VideoController {
     public void getMovie(@PathVariable("movieId") String movieId, HttpServletRequest request,
                          HttpServletResponse response) throws Exception {
         if (userIndicatorService.isUser(request)) {
-            MultipartFileSender.fromPath(Paths.get(movieRepository.findMovieById(Long.valueOf(movieId)).getVideoPath()))
+            MultipartFileSender.fromPath(Paths.get(movieDto.getById(Long.valueOf(movieId)).getVideoPath()))
                     .with(request)
                     .with(response)
                     .serveResource();
@@ -48,7 +48,7 @@ public class VideoController {
     public void getEpisode(@PathVariable("episodeId") String episodeId,
                            HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (userIndicatorService.isUser(request)) {
-            MultipartFileSender.fromPath(Paths.get(episodeRepository.findEpisodeById(Long.valueOf(episodeId)).getPath()))
+            MultipartFileSender.fromPath(Paths.get(episodeDto.getById(Long.valueOf(episodeId)).getPath()))
                     .with(request)
                     .with(response)
                     .serveResource();

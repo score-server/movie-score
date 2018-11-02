@@ -1,10 +1,10 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.dto.GenreDto;
+import ch.felix.moviedbapi.data.dto.SeasonDto;
+import ch.felix.moviedbapi.data.dto.SerieDto;
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Serie;
-import ch.felix.moviedbapi.data.repository.SeasonRepository;
-import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.service.DuplicateService;
 import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
@@ -27,20 +27,19 @@ import java.util.List;
 @RequestMapping("serie")
 public class SeriesController {
 
-    private SerieRepository serieRepository;
+    private SerieDto serieDto;
     private GenreDto genreDto;
-    private SeasonRepository seasonRepository;
+    private SeasonDto seasonDto;
 
     private SearchService searchService;
     private DuplicateService duplicateService;
     private UserIndicatorService userIndicatorService;
 
-    public SeriesController(SerieRepository serieRepository, GenreDto genreDto,
-                            SeasonRepository seasonRepository, SearchService searchService,
+    public SeriesController(SerieDto serieDto, GenreDto genreDto, SeasonDto seasonDto, SearchService searchService,
                             DuplicateService duplicateService, UserIndicatorService userIndicatorService) {
-        this.serieRepository = serieRepository;
+        this.serieDto = serieDto;
         this.genreDto = genreDto;
-        this.seasonRepository = seasonRepository;
+        this.seasonDto = seasonDto;
         this.searchService = searchService;
         this.duplicateService = duplicateService;
         this.userIndicatorService = userIndicatorService;
@@ -73,10 +72,10 @@ public class SeriesController {
     @GetMapping(value = "/{serieId}")
     public String getOneSerie(@PathVariable("serieId") String serieId, Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
-            Serie serie = serieRepository.findSerieById(Long.valueOf(serieId));
+            Serie serie = serieDto.getById(Long.valueOf(serieId));
 
             model.addAttribute("serie", serie);
-            model.addAttribute("seasons", seasonRepository.findSeasonsBySerieOrderBySeason(serie));
+            model.addAttribute("seasons", seasonDto.getBySerie(serie));
             model.addAttribute("page", "serie");
             return "template";
         } else {

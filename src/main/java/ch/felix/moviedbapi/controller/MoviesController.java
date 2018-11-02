@@ -53,14 +53,14 @@ public class MoviesController {
                     genres.add(genre.getName());
                 }
 
-                Collections.sort(genres, (s1, s2) -> s1.compareToIgnoreCase(s2));
+                genres.sort(String::compareToIgnoreCase);
 
                 List<Movie> movies = pageService.getPage(searchService.searchMovies(search, orderBy, genreParam), page);
 
                 genres = duplicateService.removeStringDuplicates(genres);
                 model.addAttribute("genres", genres);
                 model.addAttribute("movies", movies);
-                model.addAttribute("all", searchService.searchMoviesTop("", orderBy, genreParam));
+                model.addAttribute("all", searchService.searchMoviesTop("", orderBy));
 
                 model.addAttribute("pageIndex", page);
                 if (page - 1 == 0) {

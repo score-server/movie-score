@@ -1,6 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.repository.TimelineRepository;
+import ch.felix.moviedbapi.data.dto.TimeLineDto;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("list")
 public class ListController {
 
-    private TimelineRepository timelineRepository;
+    private TimeLineDto timeLineDto;
 
     private UserIndicatorService userIndicatorService;
 
-    public ListController(TimelineRepository timelineRepository, UserIndicatorService userIndicatorService) {
-        this.timelineRepository = timelineRepository;
+    public ListController(TimeLineDto timeLineDto, UserIndicatorService userIndicatorService) {
+        this.timeLineDto = timeLineDto;
         this.userIndicatorService = userIndicatorService;
     }
 
@@ -32,7 +32,7 @@ public class ListController {
     public String getLists(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                            Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
-            model.addAttribute("timelines", timelineRepository.findTimelinesByTitleContaining(search));
+            model.addAttribute("timelines", timeLineDto.searchTimeLine(search));
             model.addAttribute("search", search);
             model.addAttribute("page", "timelineList");
             return "template";
@@ -46,7 +46,7 @@ public class ListController {
     public String getOneTimeLine(@PathVariable("timelineId") String timeLineId,
                                  Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
-            model.addAttribute("timeline", timelineRepository.findTimelineById(Long.valueOf(timeLineId)));
+            model.addAttribute("timeline", timeLineDto.getById(Long.valueOf(timeLineId)));
             model.addAttribute("page", "timeline");
             return "template";
         } else {

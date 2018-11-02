@@ -2,13 +2,13 @@ package ch.felix.moviedbapi.service;
 
 import ch.felix.moviedbapi.data.dto.MovieDto;
 import ch.felix.moviedbapi.data.dto.TimeDto;
+import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
-import ch.felix.moviedbapi.data.repository.UserRepository;
 import ch.felix.moviedbapi.model.StartedMovie;
 import org.springframework.stereotype.Service;
 
@@ -26,15 +26,15 @@ public class SearchService {
     private MovieDto movieDto;
     private TimeDto timeDto;
     private SerieRepository serieRepository;
-    private UserRepository userRepository;
+    private UserDto userDto;
 
-    public SearchService(MovieRepository movieRepository, MovieDto movieDto, TimeDto timeDto, SerieRepository serieRepository,
-                         UserRepository userRepository) {
+    public SearchService(MovieRepository movieRepository, MovieDto movieDto, TimeDto timeDto, UserDto userDto,
+                         SerieRepository serieRepository) {
         this.movieRepository = movieRepository;
         this.movieDto = movieDto;
         this.timeDto = timeDto;
         this.serieRepository = serieRepository;
-        this.userRepository = userRepository;
+        this.userDto = userDto;
     }
 
     public List<Movie> searchMovies(String searchParam, String orderByParam, String genreParam) {
@@ -76,7 +76,7 @@ public class SearchService {
         return movies2;
     }
 
-    public List<Movie> searchMoviesTop(String search, String orderBy, String genreParam) {
+    public List<Movie> searchMoviesTop(String search, String orderBy) {
         List<Movie> movies;
 
         switch (orderBy) {
@@ -122,12 +122,11 @@ public class SearchService {
     }
 
     public List<Serie> searchSerieTop(String search) {
-        List<Serie> series = serieRepository.findTop24ByTitleContainingOrderByPopularityDesc(search);
-        return series;
+        return serieRepository.findTop24ByTitleContainingOrderByPopularityDesc(search);
     }
 
 
     public List<User> searchUser(String search) {
-        return userRepository.findUsersByNameContainingOrderByRoleDescNameAsc(search);
+        return userDto.search(search);
     }
 }

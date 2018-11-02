@@ -1,8 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.GroupDto;
 import ch.felix.moviedbapi.data.dto.UserDto;
-import ch.felix.moviedbapi.data.entity.GroupInvite;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
@@ -62,7 +60,7 @@ public class FastLoginController {
                 return "redirect:/fastlogin/settings";
             }
         }
-        return "redirect:/fastlogin?error";
+        return "redirect:/login?error";
     }
 
     @PostMapping

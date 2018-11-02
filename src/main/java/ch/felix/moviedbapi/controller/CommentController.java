@@ -1,8 +1,9 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.CommentDto;
+import ch.felix.moviedbapi.data.dto.EpisodeDto;
 import ch.felix.moviedbapi.data.dto.MovieDto;
 import ch.felix.moviedbapi.data.entity.Comment;
-import ch.felix.moviedbapi.data.repository.CommentRepository;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.model.UserIndicator;
 import ch.felix.moviedbapi.service.UserIndicatorService;
@@ -22,16 +23,16 @@ import javax.servlet.http.HttpServletRequest;
 public class CommentController {
 
     private MovieDto movieDto;
-    private EpisodeRepository episodeRepository;
-    private CommentRepository commentRepository;
+    private EpisodeDto episodeDto;
+    private CommentDto commentDto;
 
     private UserIndicatorService userIndicatorService;
 
-    public CommentController(MovieDto movieDto, EpisodeRepository episodeRepository,
-                             CommentRepository commentRepository, UserIndicatorService userIndicatorService) {
+    public CommentController(MovieDto movieDto, EpisodeDto episodeDto,
+                             CommentDto commentDto, UserIndicatorService userIndicatorService) {
         this.movieDto = movieDto;
-        this.episodeRepository = episodeRepository;
-        this.commentRepository = commentRepository;
+        this.episodeDto = episodeDto;
+        this.commentDto = commentDto;
         this.userIndicatorService = userIndicatorService;
     }
 
@@ -45,7 +46,7 @@ public class CommentController {
             comment.setUser(userIndicator.getUser());
             comment.setMovie(movieDto.getById(Long.valueOf(movieId)));
             comment.setComment(commentParam);
-            commentRepository.save(comment);
+            commentDto.save(comment);
             return "redirect:/movie/" + movieId;
         } else {
             return "redirect:/movie/" + movieId + "?error";
@@ -59,9 +60,9 @@ public class CommentController {
             UserIndicator userIndicator = userIndicatorService.getUser(request);
             Comment comment = new Comment();
             comment.setUser(userIndicator.getUser());
-            comment.setEpisode(episodeRepository.findEpisodeById(Long.valueOf(episodeId)));
+            comment.setEpisode(episodeDto.getById(Long.valueOf(episodeId)));
             comment.setComment(commentParam);
-            commentRepository.save(comment);
+            commentDto.save(comment);
             return "redirect:/episode/" + episodeId;
         } else {
             return "redirect:/episode/" + episodeId + "?error";

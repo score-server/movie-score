@@ -1,5 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.EpisodeDto;
 import ch.felix.moviedbapi.data.dto.TimeDto;
 import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.entity.Season;
@@ -29,15 +30,15 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("episode")
 public class EpisodeController {
 
-    private EpisodeRepository episodeRepository;
+    private EpisodeDto episodeDto;
     private TimeDto timeDto;
 
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
 
-    public EpisodeController(EpisodeRepository episodeRepository, TimeDto timeDto,
+    public EpisodeController(EpisodeDto episodeDto, TimeDto timeDto,
                              UserIndicatorService userIndicatorService, ActivityService activityService) {
-        this.episodeRepository = episodeRepository;
+        this.episodeDto = episodeDto;
         this.timeDto = timeDto;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
@@ -48,7 +49,7 @@ public class EpisodeController {
         if (userIndicatorService.isUser(model, request)) {
 
             User user = userIndicatorService.getUser(request).getUser();
-            Episode episode = episodeRepository.findEpisodeById(Long.valueOf(episodeId));
+            Episode episode = episodeDto.getById(Long.valueOf(episodeId));
 
             model.addAttribute("episode", episode);
             model.addAttribute("comments", episode.getComments());
@@ -95,9 +96,9 @@ public class EpisodeController {
     public String getOneEpisode(@PathVariable("episodeId") Long episodeId, @RequestParam("path") String path, HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
             User user = userIndicatorService.getUser(request).getUser();
-            Episode episode = episodeRepository.findEpisodeById(episodeId);
+            Episode episode = episodeDto.getById(episodeId);
             episode.setPath(path);
-            episodeRepository.save(episode);
+            episodeDto.save(episode);
             activityService.log(user.getName() + " changed Path on "
                     + "S" + episode.getSeason().getSeason()
                     + "E" + episode.getEpisode() + " to " + path, user);

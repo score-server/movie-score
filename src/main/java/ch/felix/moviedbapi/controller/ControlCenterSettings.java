@@ -1,9 +1,9 @@
 package ch.felix.moviedbapi.controller;
 
 
-import ch.felix.moviedbapi.data.repository.ActivityLogRepository;
-import ch.felix.moviedbapi.data.repository.ImportLogRepository;
-import ch.felix.moviedbapi.data.repository.RequestRepository;
+import ch.felix.moviedbapi.data.dto.ActivityLogDto;
+import ch.felix.moviedbapi.data.dto.ImportLogDto;
+import ch.felix.moviedbapi.data.dto.RequestDto;
 import ch.felix.moviedbapi.service.SettingsService;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import ch.felix.moviedbapi.service.filehandler.FileHandler;
@@ -23,20 +23,20 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("settings")
 public class ControlCenterSettings {
 
+    private ImportLogDto importLogDto;
+    private ActivityLogDto activityLogDto;
+    private RequestDto requestDto;
+
     private SettingsService settingsService;
     private UserIndicatorService userIndicatorService;
-    private ImportLogRepository importLogRepository;
-    private ActivityLogRepository activityLogRepository;
-    private RequestRepository requestRepository;
 
     public ControlCenterSettings(SettingsService settingsService, UserIndicatorService userIndicatorService,
-                                 ImportLogRepository importLogRepository, ActivityLogRepository activityLogRepository,
-                                 RequestRepository requestRepository) {
+                                 ImportLogDto importLogDto, ActivityLogDto activityLogDto, RequestDto requestDto) {
         this.settingsService = settingsService;
         this.userIndicatorService = userIndicatorService;
-        this.importLogRepository = importLogRepository;
-        this.activityLogRepository = activityLogRepository;
-        this.requestRepository = requestRepository;
+        this.importLogDto = importLogDto;
+        this.activityLogDto = activityLogDto;
+        this.requestDto = requestDto;
     }
 
     @GetMapping
@@ -46,9 +46,9 @@ public class ControlCenterSettings {
             model.addAttribute("moviePath", settingsService.getKey("moviePath"));
             model.addAttribute("seriePath", settingsService.getKey("seriePath"));
             model.addAttribute("importProgress", settingsService.getKey("importProgress"));
-            model.addAttribute("importLogs", importLogRepository.findAllByOrderByTimestampDesc());
-            model.addAttribute("activityLogs", activityLogRepository.findAllByOrderByTimestampDesc());
-            model.addAttribute("requests", requestRepository.findAll());
+            model.addAttribute("importLogs", importLogDto.getAll());
+            model.addAttribute("activityLogs", activityLogDto.getAll());
+            model.addAttribute("requests", requestDto.getAll());
             try {
                 model.addAttribute("running", settingsService.getKey("import").equals("1"));
             } catch (NullPointerException e) {
@@ -77,7 +77,7 @@ public class ControlCenterSettings {
     @PostMapping("clear")
     private String clearImportLogs(HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
-            importLogRepository.deleteAll();
+            importLogDto.delete();
             return "redirect:/settings";
         } else {
             return "redirect:/login?redirect=/settings/error";
@@ -88,7 +88,7 @@ public class ControlCenterSettings {
     @PostMapping("clearactivity")
     private String clearActivityLogs(HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
-            activityLogRepository.deleteAll();
+            activityLogDto.delete();
             return "redirect:/settings";
         } else {
             return "redirect:/login?redirect=/settings/error";

@@ -1,8 +1,9 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.ActivityLogDto;
+import ch.felix.moviedbapi.data.dto.TimeLineDto;
 import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.ActivityLogRepository;
 import ch.felix.moviedbapi.data.repository.TimelineRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SearchService;
@@ -30,26 +31,26 @@ import java.util.Random;
 @RequestMapping("user")
 public class UserController {
 
-    private TimelineRepository timelineRepository;
+    private TimeLineDto timeLineDto;
+    private ActivityLogDto activityLogDto;
     private UserDto userDto;
 
     private ShaService shaService;
     private SearchService searchService;
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
-    private ActivityLogRepository activityLogRepository;
 
 
-    public UserController(TimelineRepository timelineRepository, UserDto userDto, ShaService shaService,
+    public UserController(TimeLineDto timeLineDto, UserDto userDto, ShaService shaService,
                           SearchService searchService, UserIndicatorService userIndicatorService,
-                          ActivityService activityService, ActivityLogRepository activityLogRepository) {
-        this.timelineRepository = timelineRepository;
+                          ActivityService activityService, ActivityLogDto activityLogDto) {
+        this.timeLineDto = timeLineDto;
         this.userDto = userDto;
         this.shaService = shaService;
         this.searchService = searchService;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
-        this.activityLogRepository = activityLogRepository;
+        this.activityLogDto = activityLogDto;
     }
 
     @GetMapping
@@ -72,9 +73,9 @@ public class UserController {
 
             model.addAttribute("user", user);
             model.addAttribute("requests", user.getRequests());
-            model.addAttribute("timelines", timelineRepository.findTimelinesByUser(user));
+            model.addAttribute("timelines", timeLineDto.getByUser(user));
             model.addAttribute("activities",
-                    activityLogRepository.findActivityLogsByUserOrderByTimestampDesc(user));
+                    activityLogDto.getAllByUser(user));
             if (user.getPasswordSha().endsWith("-NOK")) {
                 model.addAttribute("registered", false);
             } else {

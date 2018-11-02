@@ -30,8 +30,8 @@ public class HomeController {
     private DuplicateService duplicateService;
     private UserIndicatorService userIndicatorService;
 
-    public HomeController(GenreDto genreDto, SearchService searchService,
-                          DuplicateService duplicateService, UserIndicatorService userIndicatorService) {
+    public HomeController(GenreDto genreDto, SearchService searchService, DuplicateService duplicateService,
+                          UserIndicatorService userIndicatorService) {
         this.genreDto = genreDto;
         this.searchService = searchService;
         this.duplicateService = duplicateService;
@@ -44,22 +44,26 @@ public class HomeController {
                                @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                                Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
+            User user = userIndicatorService.getUser(request).getUser();
             if (!genreParam.equals("")) {
                 return "redirect:/movies/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
             }
 
-            User user = userIndicatorService.getUser(request).getUser();
 
             List<String> genres = new ArrayList<>();
             for (Genre genre : genreDto.getAll()) {
                 genres.add(genre.getName());
             }
             genres = duplicateService.removeStringDuplicates(genres);
+            if (search.equals("") && genreParam.equals("") && orderBy.equals("")) {
+                model.addAttribute("startedMovies", searchService.findStartedMovies(user));
+            } else {
+                model.addAttribute("startedMovies", new ArrayList<>());
+            }
             model.addAttribute("genres", genres);
 
-            model.addAttribute("startedMovies", searchService.findStartedMovies(user));
-            model.addAttribute("movies", searchService.searchMoviesTop(search, orderBy, genreParam));
-            model.addAttribute("all", searchService.searchMoviesTop("", orderBy, genreParam));
+            model.addAttribute("movies", searchService.searchMoviesTop(search, orderBy));
+            model.addAttribute("all", searchService.searchMoviesTop("", orderBy));
             model.addAttribute("series", searchService.searchSerieTop(search));
 
             model.addAttribute("search", search);

@@ -1,5 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.RequestDto;
 import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.Request;
 import ch.felix.moviedbapi.data.entity.User;
@@ -27,14 +28,15 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("request")
 public class RequestController {
 
-    private RequestRepository requestRepository;
+    private RequestDto requestDto;
     private UserDto userDto;
 
     private UserIndicatorService userIndicatorService;
     private ActivityService activityService;
 
-    public RequestController(RequestRepository requestRepository, UserDto userDto, UserIndicatorService userIndicatorService, ActivityService activityService) {
-        this.requestRepository = requestRepository;
+    public RequestController(RequestDto requestDto, UserDto userDto, UserIndicatorService userIndicatorService,
+                             ActivityService activityService) {
+        this.requestDto = requestDto;
         this.userDto = userDto;
         this.userIndicatorService = userIndicatorService;
         this.activityService = activityService;
@@ -61,7 +63,7 @@ public class RequestController {
             movieRequest.setRequest(requestParam);
             movieRequest.setUser(user);
             movieRequest.setActive("1");
-            requestRepository.save(movieRequest);
+            requestDto.save(movieRequest);
             activityService.log(user.getName() + " created Request for " + requestParam, user);
             return "redirect:/user/" + userId + "?request";
         } else {
@@ -72,9 +74,9 @@ public class RequestController {
     @PostMapping("{requestId}/close")
     public String closeRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
-            Request movieRequest = requestRepository.findRequestById(Long.valueOf(requestParam));
+            Request movieRequest = requestDto.getById(Long.valueOf(requestParam));
             movieRequest.setActive("0");
-            requestRepository.save(movieRequest);
+            requestDto.save(movieRequest);
             return "redirect:/settings#request";
         } else {
             return "redirect:/settings?error";
@@ -84,9 +86,9 @@ public class RequestController {
     @PostMapping("{requestId}/open")
     public String openRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
-            Request movieRequest = requestRepository.findRequestById(Long.valueOf(requestParam));
+            Request movieRequest = requestDto.getById(Long.valueOf(requestParam));
             movieRequest.setActive("1");
-            requestRepository.save(movieRequest);
+            requestDto.save(movieRequest);
             return "redirect:/settings#request";
         } else {
             return "redirect:/settings?error";
@@ -96,8 +98,8 @@ public class RequestController {
     @PostMapping("{requestId}/delete")
     public String deleteRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
         if (userIndicatorService.isAdministrator(request)) {
-            Request movieRequest = requestRepository.findRequestById(Long.valueOf(requestParam));
-            requestRepository.delete(movieRequest);
+            Request movieRequest = requestDto.getById(Long.valueOf(requestParam));
+            requestDto.delete(movieRequest);
             return "redirect:/settings#request";
         } else {
             return "redirect:/settings?error";

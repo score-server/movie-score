@@ -49,4 +49,5 @@ public class UserDto implements DtoInterface<User> {
     public List<User> getAll() {
         return userRepository.findAll();
     }
+
 }

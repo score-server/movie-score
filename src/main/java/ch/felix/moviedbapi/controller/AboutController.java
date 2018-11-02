@@ -1,9 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.EpisodeDto;
 import ch.felix.moviedbapi.data.dto.MovieDto;
-import ch.felix.moviedbapi.data.entity.Nice;
-import ch.felix.moviedbapi.data.repository.EpisodeRepository;
-import ch.felix.moviedbapi.data.repository.NiceRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
@@ -22,20 +20,17 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("about")
 public class AboutController {
 
-    private EpisodeRepository episodeRepository;
+    private EpisodeDto episodeDto;
     private MovieDto movieDto;
-
-    private UserIndicatorService userIndicatorService;
-    private NiceRepository niceRepository;
     private SerieRepository serieRepository;
 
-    public AboutController(EpisodeRepository episodeRepository, MovieDto movieDto,
-                           UserIndicatorService userIndicatorService, NiceRepository niceRepository,
+    private UserIndicatorService userIndicatorService;
+
+    public AboutController(EpisodeDto episodeDto, MovieDto movieDto, UserIndicatorService userIndicatorService,
                            SerieRepository serieRepository) {
-        this.episodeRepository = episodeRepository;
+        this.episodeDto = episodeDto;
         this.movieDto = movieDto;
         this.userIndicatorService = userIndicatorService;
-        this.niceRepository = niceRepository;
         this.serieRepository = serieRepository;
     }
 
@@ -44,16 +39,7 @@ public class AboutController {
         if (userIndicatorService.isUser(model, request)) {
             model.addAttribute("movies", movieDto.getAll().size());
             model.addAttribute("series", serieRepository.findAll().size());
-            model.addAttribute("episodes", episodeRepository.findAll().size());
-            Nice nice = niceRepository.findNiceById(1L);
-            try {
-                nice.getId();
-            } catch (NullPointerException e) {
-                nice = new Nice();
-                nice.setLove(0);
-                niceRepository.save(nice);
-            }
-            model.addAttribute("love", nice.getLove());
+            model.addAttribute("episodes", episodeDto.getAll().size());
             model.addAttribute("page", "about");
             return "template";
         } else {
@@ -61,15 +47,4 @@ public class AboutController {
         }
 
     }
-
-    @PostMapping("love")
-    public String sendNice() {
-        Nice nice = niceRepository.findNiceById(1L);
-        Integer lik = nice.getLove() + 1;
-        nice.setLove(lik);
-        niceRepository.save(nice);
-
-        return "redirect:/about";
-    }
-
 }

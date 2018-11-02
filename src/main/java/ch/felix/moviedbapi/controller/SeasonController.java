@@ -1,8 +1,8 @@
 package ch.felix.moviedbapi.controller;
 
+import ch.felix.moviedbapi.data.dto.EpisodeDto;
+import ch.felix.moviedbapi.data.dto.SeasonDto;
 import ch.felix.moviedbapi.data.entity.Season;
-import ch.felix.moviedbapi.data.repository.EpisodeRepository;
-import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.service.UserIndicatorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,25 +20,24 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("season")
 public class SeasonController {
 
-    private SeasonRepository seasonRepository;
+    private SeasonDto seasonDto;
+    private EpisodeDto episodeDto;
 
     private UserIndicatorService userIndicatorService;
-    private EpisodeRepository episodeRepository;
 
-    public SeasonController(SeasonRepository seasonRepository, UserIndicatorService userIndicatorService,
-                            EpisodeRepository episodeRepository) {
-        this.seasonRepository = seasonRepository;
+    public SeasonController(SeasonDto seasonDto, EpisodeDto episodeDto, UserIndicatorService userIndicatorService) {
+        this.seasonDto = seasonDto;
         this.userIndicatorService = userIndicatorService;
-        this.episodeRepository = episodeRepository;
+        this.episodeDto = episodeDto;
     }
 
     @GetMapping(value = "/{seasonId}")
     public String getOneSeason(@PathVariable("seasonId") String seasonId, Model model, HttpServletRequest request) {
         if (userIndicatorService.isUser(model, request)) {
-            Season season = seasonRepository.findSeasonById(Long.valueOf(seasonId));
+            Season season = seasonDto.getById(Long.valueOf(seasonId));
 
             model.addAttribute("season", season);
-            model.addAttribute("episodes", episodeRepository.findEpisodesBySeasonOrderByEpisode(season));
+            model.addAttribute("episodes", episodeDto.getBySeason(season));
             model.addAttribute("page", "season");
             return "template";
         } else {

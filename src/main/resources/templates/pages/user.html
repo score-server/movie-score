@@ -110,8 +110,6 @@
                 <br>
             </div>
             <p th:text="'Name: ' + ${user.name}"></p>
-            <p th:if="${user.lastLogin} != null"
-               th:text="'Last Login: ' + ${#dates.format(user.lastLogin, 'dd.MM.yyyy HH:mm')}"></p>
         </div>
     </div>
     <br>

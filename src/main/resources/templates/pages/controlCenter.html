@@ -40,13 +40,9 @@
     <div class="card-header">Import</div>
     <div class="card-body">
         <div class="card card-body">
-            <form action="/import/path/movie" method="post" class="form-inline form-group mb-2">
-                <label for="moviepath">Movie Path:</label>
-                <input class="form-control col-sm-3 mx-sm-3" id="moviepath" type="text" th:value="${moviePath}"
-                       name="path">
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
-            <br>
+            <ol class="breadcrumb btn" data-toggle="modal" data-target="#changeMoviePath">
+                <li class="breadcrumb-item" th:text="${moviePath}"></li>
+            </ol>
             <form action="/import/movie" method="post">
                 <button class="btn btn-primary" th:disabled="${running}">Import Movies</button>
             </form>
@@ -57,13 +53,9 @@
         </div>
         <br>
         <div class="card card-body">
-            <form action="/import/path/serie" method="post" class="form-inline">
-                <label for="seriepath">Serie Path:</label>
-                <input class="form-control col-sm-3 mx-sm-3" id="seriepath" type="text" th:value="${seriePath}"
-                       name="path">
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
-            <br>
+            <ol class="breadcrumb btn" data-toggle="modal" data-target="#changeSeriePath">
+                <li class="breadcrumb-item" th:text="${seriePath}"></li>
+            </ol>
             <form action="/import/serie" method="post">
                 <button class="btn btn-primary" th:disabled="${running}">Import Series</button>
             </form>
@@ -159,5 +151,50 @@
                 <a th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}" class="float-right"></a>
             </li>
         </ul>
+    </div>
+</div>
+
+
+<div class="modal fade" id="changeMoviePath" tabindex="-1" role="dialog" aria-labelledby="moviepath"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="password">Change Moviepath</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/import/path/movie" method="post">
+                <div class="modal-body">
+                    <label for="moviepath">Movie Path:</label>
+                    <input class="form-control" id="moviepath" type="text" th:value="${moviePath}" name="path">
+                    <br>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="changeSeriePath" tabindex="-1" role="dialog" aria-labelledby="seriepath"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Seriepath</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/import/path/serie" method="post">
+                <div class="modal-body">
+                    <label for="moviepath">Movie Path:</label>
+                    <input class="form-control" type="text" th:value="${seriePath}" name="path">
+                    <br>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
