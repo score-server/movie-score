@@ -22,7 +22,7 @@ public class RequestDto implements DtoInterface<Request> {
 
     @Override
     public List<Request> getAll() {
-        return getAll();
+        return requestRepository.findAll();
     }
 
     @Override
