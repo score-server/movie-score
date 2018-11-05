@@ -7,7 +7,7 @@ import ch.felix.moviedbapi.data.entity.ListMovie;
 import ch.felix.moviedbapi.data.entity.Timeline;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,16 +26,16 @@ public class TimelineController {
     private TimeLineDto timeLineDto;
     private ListMovieDto listMovieDto;
 
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
     private ActivityService activityService;
 
     public TimelineController(MovieDto movieDto, TimeLineDto timeLineDto,
-                              ListMovieDto listMovieDto, UserIndicatorService userIndicatorService,
+                              ListMovieDto listMovieDto, UserAuthService userAuthService,
                               ActivityService activityService) {
         this.movieDto = movieDto;
         this.timeLineDto = timeLineDto;
         this.listMovieDto = listMovieDto;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.activityService = activityService;
     }
 
@@ -43,7 +43,7 @@ public class TimelineController {
     public String editTimeline(@PathVariable("timelineId") String timeLineId,
                                Model model, HttpServletRequest request) {
 
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             Timeline timeLine = timeLineDto.getById(Long.valueOf(timeLineId));
             if (isCurrentUser(request, timeLine) || isAdministrator(request)) {
                 model.addAttribute("timeline", timeLine);
@@ -62,7 +62,7 @@ public class TimelineController {
                                @RequestParam("place") String place,
                                @RequestParam("movie") String movieId,
                                HttpServletRequest request) {
-        if (userIndicatorService.isUser(request)) {
+        if (userAuthService.isUser(request)) {
             Timeline timeline = timeLineDto.getById(Long.valueOf(timeLineId));
             if (isCurrentUser(request, timeline) || isAdministrator(request)) {
                 ListMovie listMovie = new ListMovie();
@@ -81,7 +81,7 @@ public class TimelineController {
                                      @RequestParam("title") String title,
                                      @RequestParam("description") String description,
                                      HttpServletRequest request) {
-        if (userIndicatorService.isUser(request)) {
+        if (userAuthService.isUser(request)) {
             Timeline timeline = timeLineDto.getById(Long.valueOf(timeLineId));
             if (isCurrentUser(request, timeline) || isAdministrator(request)) {
                 timeline.setTitle(title);
@@ -97,7 +97,7 @@ public class TimelineController {
     public String deleteFromList(@PathVariable("movieParId") String movieParId,
                                  HttpServletRequest request) {
 
-        if (userIndicatorService.isUser(request)) {
+        if (userAuthService.isUser(request)) {
             ListMovie listMovie = listMovieDto.getById(Long.valueOf(movieParId));
             if (isCurrentUser(request, listMovie.getTimeline()) || isAdministrator(request)) {
                 listMovieDto.delete(listMovie);
@@ -109,7 +109,7 @@ public class TimelineController {
 
     @GetMapping("new")
     public String getCreateForm(HttpServletRequest request, Model model) {
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             model.addAttribute("page", "createTimeline");
             return "template";
         } else {
@@ -122,8 +122,8 @@ public class TimelineController {
     public String createList(@RequestParam("title") String title,
                              @RequestParam("description") String description,
                              HttpServletRequest request) {
-        if (userIndicatorService.isUser(request)) {
-            User user = userIndicatorService.getUser(request).getUser();
+        if (userAuthService.isUser(request)) {
+            User user = userAuthService.getUser(request).getUser();
 
             Timeline timeline = new Timeline();
             timeline.setTitle(title);
@@ -141,7 +141,7 @@ public class TimelineController {
     @PostMapping("delete/{timelineId}")
     public String deleteTimeline(@PathVariable("timelineId") String timeLineId,
                                  Model model, HttpServletRequest request) {
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             Timeline timeline = timeLineDto.getById(Long.valueOf(timeLineId));
             if (isCurrentUser(request, timeline) || isAdministrator(request)) {
                 timeLineDto.delete(timeline);
@@ -152,12 +152,12 @@ public class TimelineController {
     }
 
     private boolean isAdministrator(HttpServletRequest request) {
-        return userIndicatorService.isAdministrator(request);
+        return userAuthService.isAdministrator(request);
     }
 
 
     private boolean isCurrentUser(HttpServletRequest request, Timeline timeline) {
-        return userIndicatorService.getUser(request).getUser() == timeline.getUser();
+        return userAuthService.getUser(request).getUser() == timeline.getUser();
     }
 
     private void getNextPlace(Model model, Timeline timeLine) {

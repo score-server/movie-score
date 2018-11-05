@@ -4,9 +4,8 @@ import ch.felix.moviedbapi.data.dto.CommentDto;
 import ch.felix.moviedbapi.data.dto.EpisodeDto;
 import ch.felix.moviedbapi.data.dto.MovieDto;
 import ch.felix.moviedbapi.data.entity.Comment;
-import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.model.UserIndicator;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,22 +25,22 @@ public class CommentController {
     private EpisodeDto episodeDto;
     private CommentDto commentDto;
 
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
 
     public CommentController(MovieDto movieDto, EpisodeDto episodeDto,
-                             CommentDto commentDto, UserIndicatorService userIndicatorService) {
+                             CommentDto commentDto, UserAuthService userAuthService) {
         this.movieDto = movieDto;
         this.episodeDto = episodeDto;
         this.commentDto = commentDto;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
     }
 
     @PostMapping("add/movie")
     public String addCommentForMovie(@RequestParam("movieId") String movieId,
                                      @RequestParam("comment") String commentParam, HttpServletRequest request) {
 
-        if (userIndicatorService.isUser(request)) {
-            UserIndicator userIndicator = userIndicatorService.getUser(request);
+        if (userAuthService.isUser(request)) {
+            UserIndicator userIndicator = userAuthService.getUser(request);
             Comment comment = new Comment();
             comment.setUser(userIndicator.getUser());
             comment.setMovie(movieDto.getById(Long.valueOf(movieId)));
@@ -56,8 +55,8 @@ public class CommentController {
     @PostMapping("add/episode")
     public String addCommentForEpisode(@RequestParam("episodeId") String episodeId,
                                        @RequestParam("comment") String commentParam, HttpServletRequest request) {
-        if (userIndicatorService.isUser(request)) {
-            UserIndicator userIndicator = userIndicatorService.getUser(request);
+        if (userAuthService.isUser(request)) {
+            UserIndicator userIndicator = userAuthService.getUser(request);
             Comment comment = new Comment();
             comment.setUser(userIndicator.getUser());
             comment.setEpisode(episodeDto.getById(Long.valueOf(episodeId)));

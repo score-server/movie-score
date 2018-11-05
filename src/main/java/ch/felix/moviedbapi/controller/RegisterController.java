@@ -7,7 +7,7 @@ import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,22 +37,22 @@ public class RegisterController {
     private GroupDto groupDto;
 
     private ShaService shaService;
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
     private ActivityService activityService;
     private CookieService cookieService;
 
-    public RegisterController(UserDto userDto, GroupDto groupDto, ShaService shaService, UserIndicatorService userIndicatorService, ActivityService activityService, CookieService cookieService) {
+    public RegisterController(UserDto userDto, GroupDto groupDto, ShaService shaService, UserAuthService userAuthService, ActivityService activityService, CookieService cookieService) {
         this.userDto = userDto;
         this.groupDto = groupDto;
         this.shaService = shaService;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.activityService = activityService;
         this.cookieService = cookieService;
     }
 
     @GetMapping
     public String getRegister(Model model, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(model, request)) {
+        if (userAuthService.isAdministrator(model, request)) {
             model.addAttribute("page", "register");
             return "template";
         } else {
@@ -62,7 +62,7 @@ public class RegisterController {
 
     @GetMapping("{groupKey}")
     public String getGroupRegister(@PathVariable("groupKey") String groupKey, Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuest(model, request);
+        userAuthService.allowGuest(model, request);
 
         for (GroupInvite groupInvite : groupDto.getAll()) {
             if (groupInvite.getName().equals(groupKey)) {
@@ -76,8 +76,8 @@ public class RegisterController {
 
     @PostMapping
     public String register(@RequestParam("name") String nameParam, HttpServletRequest request) {
-        User adminUser = userIndicatorService.getUser(request).getUser();
-        if (userIndicatorService.isAdministrator(request)) {
+        User adminUser = userAuthService.getUser(request).getUser();
+        if (userAuthService.isAdministrator(request)) {
             if (userDto.search(nameParam).size() == 0) {
                 User user = new User();
                 user.setName(nameParam);

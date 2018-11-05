@@ -6,9 +6,8 @@ import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.entity.Season;
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.service.ActivityService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,22 +32,22 @@ public class EpisodeController {
     private EpisodeDto episodeDto;
     private TimeDto timeDto;
 
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
     private ActivityService activityService;
 
     public EpisodeController(EpisodeDto episodeDto, TimeDto timeDto,
-                             UserIndicatorService userIndicatorService, ActivityService activityService) {
+                             UserAuthService userAuthService, ActivityService activityService) {
         this.episodeDto = episodeDto;
         this.timeDto = timeDto;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.activityService = activityService;
     }
 
     @GetMapping(value = "/{episodeId}")
     public String getOneEpisode(@PathVariable("episodeId") String episodeId, Model model, HttpServletRequest request) {
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
 
-            User user = userIndicatorService.getUser(request).getUser();
+            User user = userAuthService.getUser(request).getUser();
             Episode episode = episodeDto.getById(Long.valueOf(episodeId));
 
             model.addAttribute("episode", episode);
@@ -62,7 +61,7 @@ public class EpisodeController {
             activityService.log(user.getName()
                     + " gets Episode " + episode.getSeason().getSerie().getTitle()
                     + " S" + episode.getSeason().getSeason()
-                    + "E" + episode.getEpisode(), userIndicatorService.getUser(request).getUser());
+                    + "E" + episode.getEpisode(), userAuthService.getUser(request).getUser());
             ;
             model.addAttribute("nextEpisode", getNextEpisode(episode));
             model.addAttribute("page", "episode");
@@ -94,8 +93,8 @@ public class EpisodeController {
 
     @PostMapping("{episodeId}/path")
     public String getOneEpisode(@PathVariable("episodeId") Long episodeId, @RequestParam("path") String path, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
-            User user = userIndicatorService.getUser(request).getUser();
+        if (userAuthService.isAdministrator(request)) {
+            User user = userAuthService.getUser(request).getUser();
             Episode episode = episodeDto.getById(episodeId);
             episode.setPath(path);
             episodeDto.save(episode);

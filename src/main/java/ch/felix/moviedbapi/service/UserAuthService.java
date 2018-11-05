@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletRequest;
  * @project movie-db
  */
 @Service
-public class UserIndicatorService {
+public class UserAuthService {
 
     private UserDto userDto;
 
     private CookieService cookieService;
 
-    public UserIndicatorService(UserDto userDto, CookieService cookieService) {
+    public UserAuthService(UserDto userDto, CookieService cookieService) {
         this.userDto = userDto;
         this.cookieService = cookieService;
     }

@@ -5,7 +5,7 @@ import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.Blog;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,20 +32,20 @@ public class BlogController {
     private BlogDto blogDto;
     private UserDto userDto;
 
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
     private ActivityService activityService;
 
-    public BlogController(BlogDto blogDto, UserDto userDto, UserIndicatorService userIndicatorService,
+    public BlogController(BlogDto blogDto, UserDto userDto, UserAuthService userAuthService,
                           ActivityService activityService) {
         this.blogDto = blogDto;
         this.userDto = userDto;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.activityService = activityService;
     }
 
     @GetMapping
     public String getBlogList(Model model, HttpServletRequest request) {
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             model.addAttribute("blogs", blogDto.getAll());
             model.addAttribute("page", "blog");
             return "template";
@@ -56,7 +56,7 @@ public class BlogController {
 
     @GetMapping("new")
     public String getBlogForm(Model model, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(model, request)) {
+        if (userAuthService.isAdministrator(model, request)) {
             model.addAttribute("page", "createBlog");
             return "template";
         } else {
@@ -69,7 +69,7 @@ public class BlogController {
     public String saveNewPost(@PathVariable("userId") String userId,
                               @RequestParam("title") String title,
                               @RequestParam("text") String text, Model model, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(model, request)) {
+        if (userAuthService.isAdministrator(model, request)) {
             User user = userDto.getById(Long.valueOf(userId));
 
             Blog blog = new Blog();
@@ -88,7 +88,7 @@ public class BlogController {
     @PostMapping("{blogId}/delete")
     public String deleteBlog(@PathVariable("blogId") String blogId,
                              Model model, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(model, request)) {
+        if (userAuthService.isAdministrator(model, request)) {
             blogDto.delete(blogDto.getById(Long.valueOf(blogId)));
             return "redirect:/blog?deleted";
         } else {

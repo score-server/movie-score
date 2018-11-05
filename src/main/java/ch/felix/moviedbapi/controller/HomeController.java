@@ -5,7 +5,7 @@ import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.DuplicateService;
 import ch.felix.moviedbapi.service.SearchService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,14 +28,14 @@ public class HomeController {
 
     private SearchService searchService;
     private DuplicateService duplicateService;
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
 
     public HomeController(GenreDto genreDto, SearchService searchService, DuplicateService duplicateService,
-                          UserIndicatorService userIndicatorService) {
+                          UserAuthService userAuthService) {
         this.genreDto = genreDto;
         this.searchService = searchService;
         this.duplicateService = duplicateService;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
     }
 
     @GetMapping
@@ -43,8 +43,8 @@ public class HomeController {
                                @RequestParam(name = "orderBy", required = false, defaultValue = "") String orderBy,
                                @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                                Model model, HttpServletRequest request) {
-        if (userIndicatorService.isUser(model, request)) {
-            User user = userIndicatorService.getUser(request).getUser();
+        if (userAuthService.isUser(model, request)) {
+            User user = userAuthService.getUser(request).getUser();
             if (!genreParam.equals("")) {
                 return "redirect:/movies/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
             }
@@ -56,7 +56,7 @@ public class HomeController {
             }
             genres = duplicateService.removeStringDuplicates(genres);
             if (search.equals("") && genreParam.equals("") && orderBy.equals("")) {
-                model.addAttribute("startedMovies", searchService.findStartedMovies(user));
+                model.addAttribute("startedVideos", searchService.findStartedVideos(user));
             } else {
                 model.addAttribute("startedMovies", new ArrayList<>());
             }

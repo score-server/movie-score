@@ -7,7 +7,7 @@ import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.service.DuplicateService;
 import ch.felix.moviedbapi.service.SearchService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,23 +33,23 @@ public class SeriesController {
 
     private SearchService searchService;
     private DuplicateService duplicateService;
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
 
     public SeriesController(SerieDto serieDto, GenreDto genreDto, SeasonDto seasonDto, SearchService searchService,
-                            DuplicateService duplicateService, UserIndicatorService userIndicatorService) {
+                            DuplicateService duplicateService, UserAuthService userAuthService) {
         this.serieDto = serieDto;
         this.genreDto = genreDto;
         this.seasonDto = seasonDto;
         this.searchService = searchService;
         this.duplicateService = duplicateService;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
     }
 
     @GetMapping
     public String getSeries(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                             @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                             Model model, HttpServletRequest request) {
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             List<String> genres = new ArrayList<>();
             for (Genre genre : genreDto.getAll()) {
                 genres.add(genre.getName());
@@ -71,7 +71,7 @@ public class SeriesController {
 
     @GetMapping(value = "/{serieId}")
     public String getOneSerie(@PathVariable("serieId") String serieId, Model model, HttpServletRequest request) {
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             Serie serie = serieDto.getById(Long.valueOf(serieId));
 
             model.addAttribute("serie", serie);

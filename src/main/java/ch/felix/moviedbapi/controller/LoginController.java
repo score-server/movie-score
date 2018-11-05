@@ -5,7 +5,7 @@ import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,20 +34,20 @@ public class LoginController {
 
     private CookieService cookieService;
     private ShaService shaService;
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
     private ActivityService activityService;
 
-    public LoginController(UserDto userDto, CookieService cookieService, ShaService shaService, UserIndicatorService userIndicatorService, ActivityService activityService) {
+    public LoginController(UserDto userDto, CookieService cookieService, ShaService shaService, UserAuthService userAuthService, ActivityService activityService) {
         this.userDto = userDto;
         this.cookieService = cookieService;
         this.shaService = shaService;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.activityService = activityService;
     }
 
     @GetMapping
     public String getLogin(Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuest(model, request);
+        userAuthService.allowGuest(model, request);
         model.addAttribute("page", "login");
         return "template";
     }
@@ -81,7 +81,7 @@ public class LoginController {
 
     @PostMapping("logout")
     public String logout(HttpServletRequest request) {
-        if (userIndicatorService.isUser(request)) {
+        if (userAuthService.isUser(request)) {
             try {
                 User user = cookieService.getCurrentUser(request);
                 String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));

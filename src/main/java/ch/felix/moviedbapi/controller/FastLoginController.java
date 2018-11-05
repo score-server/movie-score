@@ -5,7 +5,7 @@ import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,15 +26,15 @@ public class FastLoginController {
 
     private UserDto userDto;
 
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
     private CookieService cookieService;
     private ActivityService activityService;
     private ShaService shaService;
 
-    public FastLoginController(UserDto userDto, UserIndicatorService userIndicatorService, CookieService cookieService,
+    public FastLoginController(UserDto userDto, UserAuthService userAuthService, CookieService cookieService,
                                ShaService shaService, ActivityService activityService) {
         this.userDto = userDto;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.cookieService = cookieService;
         this.shaService = shaService;
         this.activityService = activityService;
@@ -42,7 +42,7 @@ public class FastLoginController {
 
     @GetMapping
     public String getFastLogin(Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuest(model, request);
+        userAuthService.allowGuest(model, request);
         model.addAttribute("page", "fastlogin");
         return "template";
     }
@@ -50,7 +50,7 @@ public class FastLoginController {
     @GetMapping("{authkey}")
     public String checkFastLogin(@PathVariable("authkey") String authkey, Model model,
                                  HttpServletRequest request, HttpServletResponse response) {
-        userIndicatorService.allowGuest(model, request);
+        userAuthService.allowGuest(model, request);
         for (User user : userDto.getAll()) {
             if (user.getAuthKey() == null) {
             } else if (authkey.equals(user.getAuthKey())) {

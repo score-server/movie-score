@@ -8,7 +8,7 @@ import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Time;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,22 +27,22 @@ public class TimeController {
     private TimeDto timeDto;
     private EpisodeRepository episodeRepository;
 
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
 
     public TimeController(UserDto userDto, MovieDto movieDto,
                           TimeDto timeDto, EpisodeRepository episodeRepository,
-                          UserIndicatorService userIndicatorService) {
+                          UserAuthService userAuthService) {
         this.userDto = userDto;
         this.movieDto = movieDto;
         this.timeDto = timeDto;
         this.episodeRepository = episodeRepository;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
     }
 
     @PostMapping("movie")
     public String setTime(@RequestParam("userId") Long userId, @RequestParam("movieId") Long movieId,
                           @RequestParam("time") Float timeParam, HttpServletRequest request) {
-        if (userIndicatorService.isUser(request)) {
+        if (userAuthService.isUser(request)) {
             Movie movie = movieDto.getById(movieId);
             User user = userDto.getById(userId);
 
@@ -67,7 +67,7 @@ public class TimeController {
     @PostMapping("episode")
     public String setTimeforEpisode(@RequestParam("userId") Long userId, @RequestParam("episodeId") Long episodeId,
                                     @RequestParam("time") Float timeParam, HttpServletRequest request) {
-        if (userIndicatorService.isUser(request)) {
+        if (userAuthService.isUser(request)) {
             Episode episode = episodeRepository.findEpisodeById(episodeId);
             User user = userDto.getById(userId);
 

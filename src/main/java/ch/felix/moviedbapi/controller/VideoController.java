@@ -3,7 +3,7 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.dto.EpisodeDto;
 import ch.felix.moviedbapi.data.dto.MovieDto;
 import ch.felix.moviedbapi.service.MultipartFileSender;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,19 +24,19 @@ public class VideoController {
     private MovieDto movieDto;
     private EpisodeDto episodeDto;
 
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
 
     public VideoController(MovieDto movieDto, EpisodeDto episodeDto,
-                           UserIndicatorService userIndicatorService) {
+                           UserAuthService userAuthService) {
         this.movieDto = movieDto;
         this.episodeDto = episodeDto;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
     }
 
     @GetMapping(value = "/movie/{movieId}")
     public void getMovie(@PathVariable("movieId") String movieId, HttpServletRequest request,
                          HttpServletResponse response) throws Exception {
-        if (userIndicatorService.isUser(request)) {
+        if (userAuthService.isUser(request)) {
             MultipartFileSender.fromPath(Paths.get(movieDto.getById(Long.valueOf(movieId)).getVideoPath()))
                     .with(request)
                     .with(response)
@@ -47,7 +47,7 @@ public class VideoController {
     @GetMapping(value = "/episode/{episodeId}")
     public void getEpisode(@PathVariable("episodeId") String episodeId,
                            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (userIndicatorService.isUser(request)) {
+        if (userAuthService.isUser(request)) {
             MultipartFileSender.fromPath(Paths.get(episodeDto.getById(Long.valueOf(episodeId)).getPath()))
                     .with(request)
                     .with(response)

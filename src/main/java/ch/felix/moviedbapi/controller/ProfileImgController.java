@@ -2,7 +2,7 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +24,11 @@ public class ProfileImgController {
 
     private UserDto userDto;
 
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
 
-    public ProfileImgController(UserDto userDto, UserIndicatorService userIndicatorService) {
+    public ProfileImgController(UserDto userDto, UserAuthService userAuthService) {
         this.userDto = userDto;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
     }
 
     @ResponseBody
@@ -44,7 +44,7 @@ public class ProfileImgController {
     @PostMapping("{userId}")
     public String uploadProfileImg(@RequestParam("file") MultipartFile file, @PathVariable("userId") String userId,
                                    HttpServletRequest request) throws IOException {
-        if (userIndicatorService.isUser(request)) {
+        if (userAuthService.isUser(request)) {
             User user = userDto.getById(Long.valueOf(userId));
             user.setProfileImg(file.getBytes());
             userDto.save(user);

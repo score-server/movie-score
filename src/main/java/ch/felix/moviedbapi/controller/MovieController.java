@@ -8,7 +8,7 @@ import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SimilarMovieService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import ch.felix.moviedbapi.service.importer.MovieImportService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,19 +35,19 @@ public class MovieController {
     private TimeDto timeDto;
 
     private SimilarMovieService similarMovieService;
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
     private ActivityService activityService;
     private MovieImportService movieImportService;
 
     public MovieController(MovieDto movieDto, LikesDto likesDto,
-                           SimilarMovieService similarMovieService, UserIndicatorService userIndicatorService,
+                           SimilarMovieService similarMovieService, UserAuthService userAuthService,
                            ActivityService activityService, TimeDto timeDto,
                            MovieImportService movieImportService) {
         this.movieDto = movieDto;
         this.likesDto = likesDto;
         this.timeDto = timeDto;
         this.similarMovieService = similarMovieService;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.activityService = activityService;
         this.movieImportService = movieImportService;
     }
@@ -55,20 +55,20 @@ public class MovieController {
 
     @GetMapping("{movieId}")
     public String getOneMovie(@PathVariable("movieId") String movieId, Model model, HttpServletRequest request) {
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             Movie movie = movieDto.getById(Long.valueOf(movieId));
             model.addAttribute("movie", movie);
             model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
 
             try {
                 Likes likes = likesDto.getByUserAndMovie(
-                        userIndicatorService.getUser(request).getUser(), movie);
+                        userAuthService.getUser(request).getUser(), movie);
                 likes.getId();
                 model.addAttribute("hasliked", true);
             } catch (NullPointerException e) {
                 model.addAttribute("hasliked", false);
             }
-            User user = userIndicatorService.getUser(request).getUser();
+            User user = userAuthService.getUser(request).getUser();
             try {
                 activityService.log(user.getName() + " gets Movie " + movie.getTitle(), user);
             } catch (NullPointerException e) {
@@ -90,8 +90,8 @@ public class MovieController {
 
     @PostMapping("{movieId}/like")
     public String likeMovie(@PathVariable("movieId") String movieId, HttpServletRequest request) {
-        if (userIndicatorService.isUser(request)) {
-            User user = userIndicatorService.getUser(request).getUser();
+        if (userAuthService.isUser(request)) {
+            User user = userAuthService.getUser(request).getUser();
             Movie movie = movieDto.getById(Long.valueOf(movieId));
             try {
                 Likes likes = likesDto.getByUserAndMovie(user, movie);
@@ -115,8 +115,8 @@ public class MovieController {
     @PostMapping("{movieId}/path")
     public String setMoviePath(@PathVariable("movieId") Long movieId, @RequestParam("path") String path,
                                HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
-            User user = userIndicatorService.getUser(request).getUser();
+        if (userAuthService.isAdministrator(request)) {
+            User user = userAuthService.getUser(request).getUser();
             Movie movie = movieDto.getById(movieId);
             movie.setVideoPath(path);
             movieDto.save(movie);
@@ -133,7 +133,7 @@ public class MovieController {
                                @RequestParam("year") String year,
                                @RequestParam("tmdbId") Integer tmdbId,
                                HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
+        if (userAuthService.isAdministrator(request)) {
             Movie movie = movieDto.getById(movieId);
             movie.setQuality(quality);
             movie.setYear(year);

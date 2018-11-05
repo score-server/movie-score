@@ -4,11 +4,10 @@ import ch.felix.moviedbapi.data.dto.ActivityLogDto;
 import ch.felix.moviedbapi.data.dto.TimeLineDto;
 import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.TimelineRepository;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.ShaService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,18 +36,18 @@ public class UserController {
 
     private ShaService shaService;
     private SearchService searchService;
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
     private ActivityService activityService;
 
 
     public UserController(TimeLineDto timeLineDto, UserDto userDto, ShaService shaService,
-                          SearchService searchService, UserIndicatorService userIndicatorService,
+                          SearchService searchService, UserAuthService userAuthService,
                           ActivityService activityService, ActivityLogDto activityLogDto) {
         this.timeLineDto = timeLineDto;
         this.userDto = userDto;
         this.shaService = shaService;
         this.searchService = searchService;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.activityService = activityService;
         this.activityLogDto = activityLogDto;
     }
@@ -56,7 +55,7 @@ public class UserController {
     @GetMapping
     public String getUserList(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                               Model model, HttpServletRequest request) {
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             model.addAttribute("users", searchService.searchUser(search));
             model.addAttribute("search", search);
             model.addAttribute("page", "userList");
@@ -68,7 +67,7 @@ public class UserController {
 
     @GetMapping(value = "{userId}")
     public String getOneUser(@PathVariable("userId") String userId, Model model, HttpServletRequest request) {
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             User user = userDto.getById(Long.valueOf(userId));
 
             model.addAttribute("user", user);
@@ -93,9 +92,9 @@ public class UserController {
     @PostMapping(value = "{userId}/role/{role}")
     public String setRole(@PathVariable("userId") String userId, @PathVariable("role") String role,
                           HttpServletRequest request) {
-        User currentUser = userIndicatorService.getUser(request).getUser();
+        User currentUser = userAuthService.getUser(request).getUser();
 
-        if (userIndicatorService.isAdministrator(request)) {
+        if (userAuthService.isAdministrator(request)) {
             User user = userDto.getById(Long.valueOf(userId));
             user.setRole(Integer.valueOf(role));
             userDto.save(user);
@@ -111,7 +110,7 @@ public class UserController {
                               Model model, HttpServletRequest request) {
         User user = userDto.getById(Long.valueOf(userId));
         String oldName = user.getName();
-        if (userIndicatorService.isCurrentUser(model, request, user)) {
+        if (userAuthService.isCurrentUser(model, request, user)) {
             user.setName(newName);
             userDto.save(user);
             activityService.log(oldName + " changed Username to " + newName, user);
@@ -128,7 +127,7 @@ public class UserController {
 
         User user = userDto.getByIdAndPasswordSha(Long.valueOf(userId), shaService.encode(oldPassword));
 
-        if (userIndicatorService.isCurrentUser(model, request, user)) {
+        if (userAuthService.isCurrentUser(model, request, user)) {
             user.setPasswordSha(shaService.encode(newPassword));
             userDto.save(user);
             activityService.log(user.getName() + " changed Password", user);
@@ -144,7 +143,7 @@ public class UserController {
 
         User user = userDto.getById(Long.valueOf(userId));
 
-        if (userIndicatorService.isCurrentUser(model, request, user)) {
+        if (userAuthService.isCurrentUser(model, request, user)) {
             user.setVideoPlayer(videoPlayer);
             userDto.save(user);
             activityService.log(user.getName() + " set Video Player to " + videoPlayer, user);
@@ -163,7 +162,7 @@ public class UserController {
 
     @PostMapping("generate/{userId}")
     public String generateKey(@PathVariable("userId") Long userId, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
+        if (userAuthService.isAdministrator(request)) {
             User user = userDto.getById(userId);
             user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7));
             userDto.save(user);

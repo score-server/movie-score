@@ -9,7 +9,7 @@ import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
-import ch.felix.moviedbapi.model.StartedMovie;
+import ch.felix.moviedbapi.model.StartedVideo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class SearchService {
             case "title":
                 movies = movieRepository.findMoviesByTitleContainingOrderByTitle(searchParam);
                 break;
-            case "rating":
+            case "voteAverage":
                 movies = movieRepository.findMoviesByTitleContainingOrderByVoteAverageDesc(searchParam);
                 break;
             case "year":
@@ -86,7 +86,7 @@ public class SearchService {
             case "title":
                 movies = movieRepository.findTop24ByTitleContainingOrderByTitle(search);
                 break;
-            case "rating":
+            case "voteAverage":
                 movies = movieRepository.findTop24ByTitleContainingOrderByVoteAverageDesc(search);
                 break;
             case "year":
@@ -117,7 +117,7 @@ public class SearchService {
         }
     }
 
-    public List<StartedMovie> findStartedMovies(User user) {
+    public List<StartedVideo> findStartedVideos(User user) {
         return timeDto.getStartedMovies(user);
     }
 

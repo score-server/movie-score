@@ -6,7 +6,7 @@ import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.service.DuplicateService;
 import ch.felix.moviedbapi.service.PageService;
 import ch.felix.moviedbapi.service.SearchService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -27,16 +26,16 @@ public class MoviesController {
 
     private SearchService searchService;
     private DuplicateService duplicateService;
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
     private PageService pageService;
 
     public MoviesController(GenreDto genreDto, SearchService searchService,
-                            DuplicateService duplicateService, UserIndicatorService userIndicatorService,
+                            DuplicateService duplicateService, UserAuthService userAuthService,
                             PageService pageService) {
         this.genreDto = genreDto;
         this.searchService = searchService;
         this.duplicateService = duplicateService;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.pageService = pageService;
     }
 
@@ -46,7 +45,7 @@ public class MoviesController {
                             @RequestParam(name = "orderBy", required = false, defaultValue = "") String orderBy,
                             @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                             Model model, HttpServletRequest request) {
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             try {
                 List<String> genres = new ArrayList<>();
                 for (Genre genre : genreDto.getAll()) {

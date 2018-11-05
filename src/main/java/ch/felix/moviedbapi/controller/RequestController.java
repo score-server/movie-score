@@ -4,9 +4,8 @@ import ch.felix.moviedbapi.data.dto.RequestDto;
 import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.Request;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.RequestRepository;
 import ch.felix.moviedbapi.service.ActivityService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,20 +30,20 @@ public class RequestController {
     private RequestDto requestDto;
     private UserDto userDto;
 
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
     private ActivityService activityService;
 
-    public RequestController(RequestDto requestDto, UserDto userDto, UserIndicatorService userIndicatorService,
+    public RequestController(RequestDto requestDto, UserDto userDto, UserAuthService userAuthService,
                              ActivityService activityService) {
         this.requestDto = requestDto;
         this.userDto = userDto;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.activityService = activityService;
     }
 
     @GetMapping(value = "create")
     public String getCreateForm(Model model, HttpServletRequest request) {
-        if (userIndicatorService.isUser(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             model.addAttribute("page", "createRequest");
             return "template";
         } else {
@@ -56,7 +55,7 @@ public class RequestController {
     @PostMapping("create/{userId}")
     public String createRequest(@PathVariable("userId") String userId, @RequestParam("request") String requestParam,
                                 HttpServletRequest request) {
-        if (userIndicatorService.isUser(request)) {
+        if (userAuthService.isUser(request)) {
             User user = userDto.getById(Long.valueOf(userId));
 
             Request movieRequest = new Request();
@@ -73,7 +72,7 @@ public class RequestController {
 
     @PostMapping("{requestId}/close")
     public String closeRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
+        if (userAuthService.isAdministrator(request)) {
             Request movieRequest = requestDto.getById(Long.valueOf(requestParam));
             movieRequest.setActive("0");
             requestDto.save(movieRequest);
@@ -85,7 +84,7 @@ public class RequestController {
 
     @PostMapping("{requestId}/open")
     public String openRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
+        if (userAuthService.isAdministrator(request)) {
             Request movieRequest = requestDto.getById(Long.valueOf(requestParam));
             movieRequest.setActive("1");
             requestDto.save(movieRequest);
@@ -97,7 +96,7 @@ public class RequestController {
 
     @PostMapping("{requestId}/delete")
     public String deleteRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
+        if (userAuthService.isAdministrator(request)) {
             Request movieRequest = requestDto.getById(Long.valueOf(requestParam));
             requestDto.delete(movieRequest);
             return "redirect:/settings#request";

@@ -3,7 +3,7 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SettingsService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import ch.felix.moviedbapi.service.importer.MovieImportService;
 import ch.felix.moviedbapi.service.importer.SeriesImportService;
 import org.springframework.stereotype.Controller;
@@ -22,16 +22,16 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("import")
 public class ImportController {
 
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
     private MovieImportService newMovieMovieImportService;
     private SeriesImportService newSeriesImportService;
     private ActivityService activityService;
     private SettingsService settingsService;
 
-    public ImportController(UserIndicatorService userIndicatorService, MovieImportService newMovieMovieImportService,
+    public ImportController(UserAuthService userAuthService, MovieImportService newMovieMovieImportService,
                             SeriesImportService newSeriesImportService, ActivityService activityService,
                             SettingsService settingsService) {
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.newMovieMovieImportService = newMovieMovieImportService;
         this.newSeriesImportService = newSeriesImportService;
         this.activityService = activityService;
@@ -40,8 +40,8 @@ public class ImportController {
 
     @PostMapping(value = "movie")
     public String importMovies(Model model, HttpServletRequest request) {
-        User user = userIndicatorService.getUser(request).getUser();
-        if (userIndicatorService.isAdministrator(model, request)) {
+        User user = userAuthService.getUser(request).getUser();
+        if (userAuthService.isAdministrator(model, request)) {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
@@ -55,8 +55,8 @@ public class ImportController {
 
     @PostMapping(value = "movie/update")
     public String updateMovies(Model model, HttpServletRequest request) {
-        User user = userIndicatorService.getUser(request).getUser();
-        if (userIndicatorService.isAdministrator(model, request)) {
+        User user = userAuthService.getUser(request).getUser();
+        if (userAuthService.isAdministrator(model, request)) {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
@@ -70,8 +70,8 @@ public class ImportController {
 
     @PostMapping(value = "serie")
     public String importSeries(Model model, HttpServletRequest request) {
-        User user = userIndicatorService.getUser(request).getUser();
-        if (userIndicatorService.isAdministrator(model, request)) {
+        User user = userAuthService.getUser(request).getUser();
+        if (userAuthService.isAdministrator(model, request)) {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
@@ -85,8 +85,8 @@ public class ImportController {
 
     @PostMapping(value = "serie/update")
     public String updateSeries(Model model, HttpServletRequest request) {
-        User user = userIndicatorService.getUser(request).getUser();
-        if (userIndicatorService.isAdministrator(model, request)) {
+        User user = userAuthService.getUser(request).getUser();
+        if (userAuthService.isAdministrator(model, request)) {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
@@ -101,7 +101,7 @@ public class ImportController {
 
     @PostMapping("path/movie")
     public String setMovieImportPath(@RequestParam("path") String pathParam, Model model, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(model, request)) {
+        if (userAuthService.isAdministrator(model, request)) {
             settingsService.setValue("moviePath", pathParam);
             return "redirect:/settings";
         } else {
@@ -111,7 +111,7 @@ public class ImportController {
 
     @PostMapping("path/serie")
     public String setSerieImportPath(@RequestParam("path") String pathParam, Model model, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(model, request)) {
+        if (userAuthService.isAdministrator(model, request)) {
             settingsService.setValue("seriePath", pathParam);
             return "redirect:/settings";
         } else {
@@ -121,7 +121,7 @@ public class ImportController {
 
     @PostMapping("reset")
     public String importReset(Model model, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(model, request)) {
+        if (userAuthService.isAdministrator(model, request)) {
             newMovieMovieImportService.setImportStatus("0");
             return "redirect:/settings";
         } else {

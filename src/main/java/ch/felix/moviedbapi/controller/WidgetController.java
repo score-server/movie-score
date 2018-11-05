@@ -1,6 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +14,10 @@ import java.net.Socket;
 @RequestMapping("status")
 public class WidgetController {
 
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
 
-    public WidgetController(UserIndicatorService userIndicatorService) {
-        this.userIndicatorService = userIndicatorService;
+    public WidgetController(UserAuthService userAuthService) {
+        this.userAuthService = userAuthService;
     }
 
     private String checkOnline(String ip, Integer port) {
@@ -45,7 +45,7 @@ public class WidgetController {
 
     @GetMapping("user")
     public String getCurrentUser(Model model, HttpServletRequest request) {
-        userIndicatorService.allowGuest(model, request);
+        userAuthService.allowGuest(model, request);
         return "widget/user.html";
     }
 }

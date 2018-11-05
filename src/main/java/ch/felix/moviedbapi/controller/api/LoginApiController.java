@@ -5,7 +5,7 @@ import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
 import ch.felix.moviedbapi.service.ShaService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,15 +25,15 @@ public class LoginApiController {
     private ShaService shaService;
     private CookieService cookieService;
     private ActivityService activityService;
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
 
     public LoginApiController(UserDto userDto, ShaService shaService, CookieService cookieService,
-                              ActivityService activityService, UserIndicatorService userIndicatorService) {
+                              ActivityService activityService, UserAuthService userAuthService) {
         this.userDto = userDto;
         this.shaService = shaService;
         this.cookieService = cookieService;
         this.activityService = activityService;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
     }
 
     @PostMapping
@@ -55,7 +55,7 @@ public class LoginApiController {
 
     @PostMapping("logout")
     public String logout(@RequestParam("sessionId") String sessionId) {
-        if (userIndicatorService.isUser(sessionId)) {
+        if (userAuthService.isUser(sessionId)) {
             try {
                 User user = userDto.getBySessionId(sessionId);
                 user.setSessionId(shaService.encode(String.valueOf(new Random().nextInt())));

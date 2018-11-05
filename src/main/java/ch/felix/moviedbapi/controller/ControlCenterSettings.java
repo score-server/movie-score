@@ -5,7 +5,7 @@ import ch.felix.moviedbapi.data.dto.ActivityLogDto;
 import ch.felix.moviedbapi.data.dto.ImportLogDto;
 import ch.felix.moviedbapi.data.dto.RequestDto;
 import ch.felix.moviedbapi.service.SettingsService;
-import ch.felix.moviedbapi.service.UserIndicatorService;
+import ch.felix.moviedbapi.service.UserAuthService;
 import ch.felix.moviedbapi.service.filehandler.FileHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,12 +28,12 @@ public class ControlCenterSettings {
     private RequestDto requestDto;
 
     private SettingsService settingsService;
-    private UserIndicatorService userIndicatorService;
+    private UserAuthService userAuthService;
 
-    public ControlCenterSettings(SettingsService settingsService, UserIndicatorService userIndicatorService,
+    public ControlCenterSettings(SettingsService settingsService, UserAuthService userAuthService,
                                  ImportLogDto importLogDto, ActivityLogDto activityLogDto, RequestDto requestDto) {
         this.settingsService = settingsService;
-        this.userIndicatorService = userIndicatorService;
+        this.userAuthService = userAuthService;
         this.importLogDto = importLogDto;
         this.activityLogDto = activityLogDto;
         this.requestDto = requestDto;
@@ -41,7 +41,7 @@ public class ControlCenterSettings {
 
     @GetMapping
     private String getControlCenter(Model model, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(model, request)) {
+        if (userAuthService.isAdministrator(model, request)) {
 
             model.addAttribute("moviePath", settingsService.getKey("moviePath"));
             model.addAttribute("seriePath", settingsService.getKey("seriePath"));
@@ -65,7 +65,7 @@ public class ControlCenterSettings {
 
     @GetMapping("error")
     public String getErrorLogs(Model model, HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(model, request)) {
+        if (userAuthService.isAdministrator(model, request)) {
             model.addAttribute("error", new FileHandler("log.log").read());
             model.addAttribute("page", "errorLog");
             return "template";
@@ -76,7 +76,7 @@ public class ControlCenterSettings {
 
     @PostMapping("clear")
     private String clearImportLogs(HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
+        if (userAuthService.isAdministrator(request)) {
             importLogDto.delete();
             return "redirect:/settings";
         } else {
@@ -87,7 +87,7 @@ public class ControlCenterSettings {
 
     @PostMapping("clearactivity")
     private String clearActivityLogs(HttpServletRequest request) {
-        if (userIndicatorService.isAdministrator(request)) {
+        if (userAuthService.isAdministrator(request)) {
             activityLogDto.delete();
             return "redirect:/settings";
         } else {
