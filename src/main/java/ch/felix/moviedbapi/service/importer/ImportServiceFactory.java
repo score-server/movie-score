@@ -62,9 +62,11 @@ public abstract class ImportServiceFactory {
         Double popularityChange = Math.round((oldPopularity - newPopularity) * 100.0) / 100.0;
         String popularityIndex;
         if (popularityChange > 0.0) {
-            popularityIndex = newPopularity + " <a style=\"color:green\">+" + popularityChange + "</a>";
+            popularityIndex = "<span class=\"badge badge-primary\">" + newPopularity + "</span> " +
+                    "<a style=\"color:green\">+" + popularityChange + "</a>";
         } else if (popularityChange < 0.0) {
-            popularityIndex = newPopularity + " <a style=\"color:red\">" + popularityChange + "</a>";
+            popularityIndex = "<span class=\"badge badge-primary\">" + newPopularity + "</span>" +
+                    " <a style=\"color:red\">" + popularityChange + "</a>";
         } else {
             popularityIndex = "";
         }

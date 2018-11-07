@@ -96,7 +96,6 @@ public class TimelineController {
     @PostMapping("delete/movie/{movieParId}")
     public String deleteFromList(@PathVariable("movieParId") String movieParId,
                                  HttpServletRequest request) {
-
         if (userAuthService.isUser(request)) {
             ListMovie listMovie = listMovieDto.getById(Long.valueOf(movieParId));
             if (isCurrentUser(request, listMovie.getTimeline()) || isAdministrator(request)) {
