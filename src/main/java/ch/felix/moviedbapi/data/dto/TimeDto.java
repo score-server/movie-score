@@ -32,6 +32,7 @@ public class TimeDto implements DtoInterface<Time> {
                 Movie movie = time.getMovie();
                 startedVideo.setVideoModel(getMovieVideoModel(movie));
                 startedVideo.setProgress(getProgress(time.getTime(), time.getMovie().getRuntime()));
+                startedVideo.setTime(time);
                 startedVideoList.add(startedVideo);
                 added++;
                 if (added == 4) {
@@ -52,6 +53,7 @@ public class TimeDto implements DtoInterface<Time> {
                 if (!serieExists) {
                     startedVideo.setVideoModel(getEpisodeVideoModel(episode));
                     startedVideo.setProgress(getProgress(time.getTime(), 45));
+                    startedVideo.setTime(time);
                     startedVideoList.add(startedVideo);
                     added++;
                     if (added == 4) {
@@ -115,5 +117,9 @@ public class TimeDto implements DtoInterface<Time> {
 
     public Time getByUserAndEpisode(User user, Episode episode) {
         return timeRepository.findTimeByUserAndEpisode(user, episode);
+    }
+
+    public void delete(Time time) {
+        timeRepository.delete(time);
     }
 }

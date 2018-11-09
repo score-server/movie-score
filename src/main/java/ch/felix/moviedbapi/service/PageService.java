@@ -16,7 +16,7 @@ public class PageService {
 
     public List<Movie> getPage(List<Movie> movies, Integer page) {
         List<Movie> pagedMovies = new ArrayList<>();
-        Integer allowed = (page - 1) * 24;
+        int allowed = (page - 1) * 24;
 
         try {
             for (int currentMovie = 0; currentMovie != allowed + 24; currentMovie++) {

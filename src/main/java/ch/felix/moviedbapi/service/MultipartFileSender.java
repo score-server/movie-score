@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -320,6 +323,7 @@ public class MultipartFileSender {
          *
          * @param acceptHeader The accept header.
          * @param toAccept     The value to be accepted.
+         *
          * @return True if the given accept header accepts the given value.
          */
         public static boolean accepts(String acceptHeader, String toAccept) {
@@ -336,6 +340,7 @@ public class MultipartFileSender {
          *
          * @param matchHeader The match header.
          * @param toMatch     The value to be matched.
+         *
          * @return True if the given match header matches the given value.
          */
         public static boolean matches(String matchHeader, String toMatch) {

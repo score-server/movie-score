@@ -151,7 +151,7 @@ public class SeriesImportService extends ImportServiceFactory {
 
     }
 
-    public void updateFile(Serie serie) {
+    private void updateFile(Serie serie) {
         if (serie.getTmdbId() == null) {
             serie.setTmdbId(searchMovieService.findSeriesId(serie.getTitle()));
         }

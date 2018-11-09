@@ -10,6 +10,7 @@ import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -87,6 +88,16 @@ public class TimeController {
             }
         }
         return "null";
+    }
+
+    @PostMapping("delete/{timeId}")
+    public String deleteTime(@PathVariable("timeId") Long timeId, HttpServletRequest request) {
+        Time time = timeDto.getById(timeId);
+        if (time.getUser() == userAuthService.getUser(request).getUser()) {
+            timeDto.delete(time);
+            return "redirect:/";
+        }
+        return "redirect:/?error";
     }
 
     private Timestamp getTimestamp() {

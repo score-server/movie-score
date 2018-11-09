@@ -2,7 +2,7 @@ package ch.felix.moviedbapi.service;
 
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -22,7 +22,7 @@ public class ShaService {
         }
     }
 
-    private StringBuffer getEncoded(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    private StringBuffer getEncoded(String s) throws NoSuchAlgorithmException {
         StringBuffer hexString = new StringBuffer();
         for (byte hashA : getDigest(s)) {
             String hex = Integer.toHexString(0xff & hashA);
@@ -34,7 +34,7 @@ public class ShaService {
         return hexString;
     }
 
-    private byte[] getDigest(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        return MessageDigest.getInstance("SHA-256").digest(s.getBytes("UTF-8"));
+    private byte[] getDigest(String s) throws NoSuchAlgorithmException {
+        return MessageDigest.getInstance("SHA-256").digest(s.getBytes(StandardCharsets.UTF_8));
     }
 }

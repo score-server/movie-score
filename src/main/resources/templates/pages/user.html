@@ -1,6 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
-<h1 th:text="'User ' + ${user.name}"></h1>
+<h1>
+    <span th:text="'User ' + ${user.name}"></span>
+    <span th:if="${user.sexabig} == true" class="badge badge-primary">Alpha</span>
+</h1>
 
 <div th:if="${param.request}" class="alert alert-success">
     Request saved
@@ -138,6 +141,19 @@
                 <form th:case="'2'" th:action="'/user/' + ${user.id} + '/role/1'" method="post">
                     <button class="btn btn-dark">
                         <i class="fas fa-chess-king"></i>
+                    </button>
+                </form>
+            </div>
+            <br>
+            <div th:switch="${user.sexabig}">
+                <form th:case="true" th:action="'/user/' + ${user.id} + '/group/0'" method="post">
+                    <button type="submit" class="btn btn-success">
+                        Alpha
+                    </button>
+                </form>
+                <form th:case="false" th:action="'/user/' + ${user.id} + '/group/1'" method="post">
+                    <button type="submit" class="btn btn-light">
+                        Alpha
                     </button>
                 </form>
             </div>

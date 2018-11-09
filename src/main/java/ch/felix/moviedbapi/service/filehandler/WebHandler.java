@@ -54,23 +54,4 @@ public class WebHandler {
         return null;
     }
 
-    public String getContent(String auth) {
-        try {
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            AtomicReference<String> basicAuth = new AtomicReference<>("Basic " + new String(Base64.getEncoder().encode(auth.getBytes())));
-            conn.setRequestProperty("Authorization", basicAuth.get());
-
-            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-            String output;
-            StringBuilder end = new StringBuilder();
-            while ((output = br.readLine()) != null) {
-                end.append(output);
-            }
-            conn.disconnect();
-            return end.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

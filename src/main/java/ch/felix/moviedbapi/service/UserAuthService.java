@@ -57,20 +57,13 @@ public class UserAuthService {
     public boolean isUser(HttpServletRequest request) {
         UserIndicator userIndicator = getUser(request);
 
-        if (userIndicator.isLoggedIn()) {
-            return true;
-        }
-        return false;
+        return userIndicator.isLoggedIn();
     }
 
     public boolean isUser(String sessionId) {
         User user = userDto.getBySessionId(sessionId);
 
-        if (user == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return user != null;
     }
 
 
@@ -79,9 +72,7 @@ public class UserAuthService {
 
         if (userIndicator.isLoggedIn()) {
             model.addAttribute("currentUser", userIndicator.getUser());
-            if (userIndicator.getUser().getRole() == 2) {
-                return true;
-            }
+            return userIndicator.getUser().getRole() == 2;
         }
         return false;
     }
@@ -90,9 +81,7 @@ public class UserAuthService {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
-            if (userIndicator.getUser().getRole() == 2) {
-                return true;
-            }
+            return userIndicator.getUser().getRole() == 2;
         }
         return false;
     }
@@ -102,9 +91,7 @@ public class UserAuthService {
 
         if (userIndicator.isLoggedIn()) {
             model.addAttribute("currentUser", userIndicator.getUser());
-            if (userIndicator.getUser() == user) {
-                return true;
-            }
+            return userIndicator.getUser() == user;
         }
         return false;
     }
@@ -113,9 +100,7 @@ public class UserAuthService {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
-            if (userIndicator.getUser() == user) {
-                return true;
-            }
+            return userIndicator.getUser() == user;
         }
         return false;
     }

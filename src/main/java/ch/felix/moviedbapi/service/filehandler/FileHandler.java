@@ -1,9 +1,6 @@
 package ch.felix.moviedbapi.service.filehandler;
 
 import com.google.common.io.Files;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -186,25 +183,9 @@ public class FileHandler {
         return spaced;
     }
 
-    /**
-     * @param path file to be pasted into this file
-     */
-    public void paste(String path) {
-        try {
-            if (isFile()) {
-                Files.copy(getFile(), new File(path));
-            } else {
-                FileUtils.copyDirectory(file, new File(path));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public boolean isFile() {
         return file.isFile();
     }
-
 
     /**
      * Deletes all the text in file
@@ -217,15 +198,6 @@ public class FileHandler {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * @param row to be deleted in file
-     */
-    public void clear(int row) {
-        String rows[] = readRows();
-        Object[] remove = ArrayUtils.remove(rows, row - 1);
-        write((String[]) remove);
     }
 
     /**

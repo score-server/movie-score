@@ -105,6 +105,27 @@ public class UserController {
         }
     }
 
+    @PostMapping(value = "{userId}/group/{alpha}")
+    public String setAlpha(@PathVariable("userId") String userId, @PathVariable("alpha") String alpha,
+                           HttpServletRequest request) {
+        User currentUser = userAuthService.getUser(request).getUser();
+
+        if (userAuthService.isAdministrator(request)) {
+            User user = userDto.getById(Long.valueOf(userId));
+            if (alpha.equals("1")) {
+                activityService.log(currentUser.getName() + " is Sexy", user);
+                user.setSexabig(true);
+            } else if (alpha.equals("0")) {
+                user.setSexabig(false);
+                activityService.log(currentUser.getName() + " is no longer Sexy", user);
+            }
+            userDto.save(user);
+            return "redirect:/user/" + userId;
+        } else {
+            return "redirect:/user/" + userId + "?error";
+        }
+    }
+
     @PostMapping("{userId}/name")
     public String setUsername(@PathVariable("userId") String userId, @RequestParam("name") String newName,
                               Model model, HttpServletRequest request) {

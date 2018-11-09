@@ -85,6 +85,7 @@ public class RegisterController {
                 user.setRole(1);
                 String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
                 user.setAuthKey(authkey);
+                user.setSexabig(false);
                 userDto.save(user);
                 activityService.log(nameParam + " registered by " + adminUser.getName(), adminUser);
                 return "redirect:/register?added=" + authkey;

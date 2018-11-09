@@ -43,6 +43,13 @@ body {
     padding: 5px 10px;
 }
 
+.remove-time {
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    text-align: center;
+}
+
 .place-badge {
     position: absolute;
     left: 7px;

@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @project movie-db
  */
 @EnableAsync
-@EnableScheduling
 @SpringBootApplication
 public class MovieDb {
 

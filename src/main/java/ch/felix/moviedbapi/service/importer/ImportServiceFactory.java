@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.concurrent.CompletableFuture;
 
 @Async
 @Service
@@ -80,10 +81,6 @@ public abstract class ImportServiceFactory {
 
     public void setImportProgress(Float progress) {
         settingsService.setValue("importProgress", String.valueOf(progress));
-    }
-
-    public Boolean isImporting() {
-        return settingsService.getKey("import").equals("1");
     }
 
     public void startImport() {

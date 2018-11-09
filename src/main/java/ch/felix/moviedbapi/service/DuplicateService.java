@@ -15,16 +15,14 @@ import java.util.Set;
 public class DuplicateService {
 
     public List<String> removeStringDuplicates(List<String> list) {
-        Set<String> movieSet = new HashSet<>();
-        movieSet.addAll(list);
+        Set<String> movieSet = new HashSet<>(list);
         list.clear();
         list.addAll(movieSet);
         return list;
     }
 
     public List<Movie> removeMovieDuplicates(List<Movie> movies) {
-        Set<Movie> movieSet = new HashSet<>();
-        movieSet.addAll(movies);
+        Set<Movie> movieSet = new HashSet<>(movies);
         movies.clear();
         movies.addAll(movieSet);
         return movies;

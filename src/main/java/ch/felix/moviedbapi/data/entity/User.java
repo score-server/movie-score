@@ -46,6 +46,8 @@ public class User {
 
     private Timestamp lastLogin;
 
+    private boolean sexabig;
+
     @JsonIgnore
     private String authKey;
 
