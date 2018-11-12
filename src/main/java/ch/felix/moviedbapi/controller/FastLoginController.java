@@ -53,6 +53,7 @@ public class FastLoginController {
         userAuthService.allowGuest(model, request);
         for (User user : userDto.getAll()) {
             if (user.getAuthKey() == null) {
+                return "redirect:/fastlogin?error";
             } else if (authkey.equals(user.getAuthKey())) {
                 cookieService.setFastLoginCookie(response, user);
                 userDto.save(user);
@@ -67,6 +68,7 @@ public class FastLoginController {
     public String checkAuth(@RequestParam("authkey") String authkey, HttpServletResponse response) {
         for (User user : userDto.getAll()) {
             if (user.getAuthKey() == null) {
+                return "redirect:/fastlogin?error";
             } else if (authkey.equals(user.getAuthKey())) {
                 cookieService.setFastLoginCookie(response, user);
                 userDto.save(user);
