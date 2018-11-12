@@ -71,9 +71,9 @@ cac94142672fc9fae2c91daa8043f9bdacd8148efda9c2085862654662ee866e
 </pre>
 <hr>
 <h3>Get Current User <i>GET</i></h3>
+<pre>movie.scorewinner.ch/api/user/current</pre>
 <h4>Params</h4>
 <p><b>sessionId</b> String required</p>
-<pre>movie.scorewinner.ch/api/user/current</pre>
 <h4>Response</h4>
 <p>User</p>
 <pre>
