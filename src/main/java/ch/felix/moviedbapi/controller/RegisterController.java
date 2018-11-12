@@ -112,7 +112,7 @@ public class RegisterController {
                 String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
                 user.setAuthKey(authkey);
                 userDto.save(user);
-                activityService.log(nameParam + " registered", user);
+                activityService.log(nameParam + " registered with groupkey " + groupKey, user);
 
                 String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
                 cookieService.setUserCookie(response, sessionId);

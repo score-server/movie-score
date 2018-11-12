@@ -56,7 +56,7 @@ public class FastLoginController {
             } else if (authkey.equals(user.getAuthKey())) {
                 cookieService.setFastLoginCookie(response, user);
                 userDto.save(user);
-                activityService.log(user.getName() + " logged in with Authkey", user);
+                activityService.log(user.getName() + " used Authkeylink", user);
                 return "redirect:/fastlogin/settings";
             }
         }
@@ -97,7 +97,7 @@ public class FastLoginController {
             user.setName(nameParam);
             user.setPasswordSha(shaService.encode(passwordParam));
             user.setVideoPlayer(player);
-            user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
+            user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7));
 
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
             cookieService.setUserCookie(response, sessionId);
@@ -108,7 +108,7 @@ public class FastLoginController {
             } catch (Exception e) {
                 return "redirect:/fastlogin/settings?exists";
             }
-            activityService.log(user.getName() + " set Settings", user);
+            activityService.log(user.getName() + " registered with fastlogin", user);
 
             userDto.save(user);
             return "redirect:/";
