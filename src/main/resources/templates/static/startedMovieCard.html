@@ -5,7 +5,8 @@
         <div>
             <span th:text="${startedVideo.videoModel.quality}" class="quality-badge"></span>
             <form th:action="'/time/delete/' + ${startedVideo.time.id}" method="post" class="remove-time">
-                <button type="submit" class="btn btn-danger"><i class="fas fa-fast-backward"></i></button>
+                <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top"
+                        title="Reset Time"><i class="fas fa-fast-backward"></i></button>
             </form>
             <img th:src="${startedVideo.videoModel.caseImg}" class="card-img-top">
         </div>

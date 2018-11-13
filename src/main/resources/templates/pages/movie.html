@@ -4,23 +4,24 @@
 <meta property="og:type" content="${movie.filetype}"/>
 <meta property="og:image" th:content="${movie.backgroundImg}"/>
 
-<link rel='stylesheet' href='https://cdn.plyr.io/3.2.4/plyr.css'>
-<script src='https://cdn.plyr.io/3.2.4/plyr.js'></script>
-
-<link rel="stylesheet" th:href="'../plyr/style.css'">
-<script th:src="'../plyr/index.js'"></script>
-
 <th:block th:switch="${currentUser.videoPlayer}">
     <script th:case="'html5'" type="application/javascript">
         $(window).bind("load", function () {
             document.getElementById('html-player').currentTime = [[${time}]]
         });
     </script>
-    <script th:case="*" type="application/javascript">
-        $(window).bind("load", function () {
-            player.currentTime = [[${time}]]
-        });
-    </script>
+
+    <th:block th:case="*">
+        <link rel='stylesheet' href='https://cdn.plyr.io/3.4.7/plyr.css'>
+        <script src='https://cdn.plyr.io/3.4.7/plyr.js'></script>
+        <link rel="stylesheet" th:href="'../plyr/style.css'">
+        <script th:src="'../plyr/index.js'"></script>
+        <script type="application/javascript">
+            $(window).bind("load", function () {
+                player.currentTime = [[${time}]]
+            });
+        </script>
+    </th:block>
 </th:block>
 
 <div th:if="${currentUser} != null" th:switch="${currentUser.videoPlayer}" id="movie-div">

@@ -50,11 +50,11 @@ public abstract class ImportServiceFactory {
         String ending = parts[parts.length - 1];
         switch (ending.toLowerCase()) {
             case "mp4":
-                return "videoModel/mp4";
+                return "video/mp4";
             case "avi":
-                return "videoModel/avi";
+                return "video/avi";
             case "mkv":
-                return "videoModel/webm";
+                return "video/webm";
         }
         throw new Exception("Filetype not know!!");
     }

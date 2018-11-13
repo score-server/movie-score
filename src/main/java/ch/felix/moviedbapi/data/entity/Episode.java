@@ -40,9 +40,9 @@ public class Episode {
 
     public String getMime() {
         if (path.endsWith(".mkv")) {
-            return "videoModel/x-matroska; codecs=\"a_ac3, avc\"";
+            return "video/x-matroska; codecs=\"a_ac3, avc\"";
         } else if (path.endsWith(".mp4")) {
-            return "videoModel/mp4";
+            return "video/mp4";
         } else {
             return "";
         }
