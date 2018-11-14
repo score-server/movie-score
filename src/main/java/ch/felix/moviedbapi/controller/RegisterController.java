@@ -101,6 +101,7 @@ public class RegisterController {
     public String registerFull(@RequestParam("name") String nameParam,
                                @RequestParam("password") String password,
                                @RequestParam("confirm") String confirm,
+                               @RequestParam(name = "player", required = false, defaultValue = "") String player,
                                @PathVariable("groupKey") String groupKey,
                                HttpServletResponse response) {
         if (password.equals(confirm)) {
@@ -109,6 +110,7 @@ public class RegisterController {
                 user.setName(nameParam);
                 user.setPasswordSha(shaService.encode(password));
                 user.setRole(1);
+                user.setVideoPlayer(player);
                 String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
                 user.setAuthKey(authkey);
                 userDto.save(user);

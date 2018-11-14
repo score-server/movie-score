@@ -29,4 +29,7 @@ public class GroupDto implements DtoInterface<GroupInvite> {
         groupRepository.save(groupInvite);
     }
 
+    public void delete(Integer groupId) {
+        groupRepository.delete(groupRepository.getOne(groupId));
+    }
 }

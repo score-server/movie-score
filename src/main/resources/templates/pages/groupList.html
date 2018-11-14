@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<div th:if="${param.deleted}" class="alert alert-success">
+    Deleted Group
+</div>
+
+<div th:if="${param.created}" class="alert alert-success">
+    Created Group
+</div>
+
+<h1>Groups</h1>
+<div class="card">
+    <div class="card-header">New Group</div>
+    <div class="card-body">
+        <form action="/group/new" method="post" class="form-inline">
+            <input name="name" class="form-control" placeholder="Group Name">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+<br>
+<ul class="list-group">
+    <li th:each="group : ${groups}" class="list-group-item">
+        <div class="row">
+            <div class="col-2">
+                <b th:text="${group.name}"></b>
+            </div>
+            <div class="col-9">
+                <input th:value="'http://scorewinner.ch:8081/register/' + ${group.name}" type="text" class="form-control"
+                       width="100%" disabled>
+            </div>
+            <div class="col-1">
+                <form th:action="'/group/delete/' + ${group.id}" method="post">
+                    <button type="submit" class="btn btn-danger float-right">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </li>
+</ul>

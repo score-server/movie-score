@@ -77,11 +77,19 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" href="/about">About</a>
                 </li>
-                <li th:if="${page} != 'login'" class="nav-item">
-                    <a th:if="${currentUser?.isAdmin()}" class="nav-link text-dark" href="/settings">
-                        <i>Control Center</i>
-                    </a>
-                </li>
+
+                <th:block th:if="${page} != 'login'">
+                    <li th:if="${currentUser?.isAdmin()}" class="nav-item">
+                        <a class="nav-link text-dark" href="/group">
+                            <i>Groups</i>
+                        </a>
+                    </li>
+                    <li th:if="${currentUser?.isAdmin()}" class="nav-item">
+                        <a class="nav-link text-dark" href="/settings">
+                            <i>Control Center</i>
+                        </a>
+                    </li>
+                </th:block>
             </ul>
         </div>
         <ul class="navbar-nav">

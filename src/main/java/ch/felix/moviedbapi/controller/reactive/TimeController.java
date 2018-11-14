@@ -1,5 +1,6 @@
 package ch.felix.moviedbapi.controller.reactive;
 
+import ch.felix.moviedbapi.data.dto.EpisodeDto;
 import ch.felix.moviedbapi.data.dto.MovieDto;
 import ch.felix.moviedbapi.data.dto.TimeDto;
 import ch.felix.moviedbapi.data.dto.UserDto;
@@ -26,17 +27,17 @@ public class TimeController {
     private UserDto userDto;
     private MovieDto movieDto;
     private TimeDto timeDto;
-    private EpisodeRepository episodeRepository;
+    private EpisodeDto episodeDto;
 
     private UserAuthService userAuthService;
 
     public TimeController(UserDto userDto, MovieDto movieDto,
-                          TimeDto timeDto, EpisodeRepository episodeRepository,
+                          TimeDto timeDto, EpisodeDto episodeDto,
                           UserAuthService userAuthService) {
         this.userDto = userDto;
         this.movieDto = movieDto;
         this.timeDto = timeDto;
-        this.episodeRepository = episodeRepository;
+        this.episodeDto = episodeDto;
         this.userAuthService = userAuthService;
     }
 
@@ -69,7 +70,7 @@ public class TimeController {
     public String setTimeforEpisode(@RequestParam("userId") Long userId, @RequestParam("episodeId") Long episodeId,
                                     @RequestParam("time") Float timeParam, HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            Episode episode = episodeRepository.findEpisodeById(episodeId);
+            Episode episode = episodeDto.getById(episodeId);
             User user = userDto.getById(userId);
 
             Time time = timeDto.getByUserAndEpisode(user, episode);

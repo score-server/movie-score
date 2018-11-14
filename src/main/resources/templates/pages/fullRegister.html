@@ -1,13 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
-<h1>Register new User</h1>
+<h1>Register</h1>
 
 <div th:if="${param.exists}" class="alert alert-danger">
     User allready exists
 </div>
 
 <div th:if="${param.password}" class="alert alert-danger">
-    Passwords dont match
+    Passwords don't match
 </div>
 
 <form th:action="'/register/' + ${groupKey}" method="post">
@@ -15,5 +15,43 @@
     Password: <input class="form-control" type="password" name="password" required>
     Confirm Password: <input class="form-control" type="password" name="confirm" required>
     <br>
-    <input class="btn btn-primary" type="submit">
+    <h3>Video Player</h3>
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card">
+                <div class="card-header">Plyr.io (default)</div>
+
+                <div class="card-body">
+                    <label for="plyr.io">
+                        <img src="https://i.imgur.com/Y3RAwxP.png" width="100%">
+                    </label>
+                    <br>
+                    <br>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="plyr.io" name="player" value="plyr" class="custom-control-input">
+                        <label class="custom-control-label" for="plyr.io">Plyr.io (default)</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card">
+                <div class="card-header">HTML 5 Player</div>
+                <div class="card-body">
+                    <label for="html5">
+                        <img src="https://i.imgur.com/OXf4cP6.png" width="100%">
+                    </label>
+                    <br>
+                    <br>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="html5" name="player" value="html5" class="custom-control-input">
+                        <label class="custom-control-label" for="html5">HTML 5</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>

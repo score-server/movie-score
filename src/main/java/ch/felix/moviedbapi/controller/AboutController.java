@@ -2,7 +2,7 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.dto.EpisodeDto;
 import ch.felix.moviedbapi.data.dto.MovieDto;
-import ch.felix.moviedbapi.data.repository.SerieRepository;
+import ch.felix.moviedbapi.data.dto.SerieDto;
 import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,23 +21,23 @@ public class AboutController {
 
     private EpisodeDto episodeDto;
     private MovieDto movieDto;
-    private SerieRepository serieRepository;
+    private SerieDto serieDto;
 
     private UserAuthService userAuthService;
 
-    public AboutController(EpisodeDto episodeDto, MovieDto movieDto, UserAuthService userAuthService,
-                           SerieRepository serieRepository) {
+    public AboutController(EpisodeDto episodeDto, MovieDto movieDto, SerieDto serieDto,
+                           UserAuthService userAuthService) {
         this.episodeDto = episodeDto;
         this.movieDto = movieDto;
+        this.serieDto = serieDto;
         this.userAuthService = userAuthService;
-        this.serieRepository = serieRepository;
     }
 
     @GetMapping
     public String getAboutPage(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
             model.addAttribute("movies", movieDto.getAll().size());
-            model.addAttribute("series", serieRepository.findAll().size());
+            model.addAttribute("series", serieDto.getAll().size());
             model.addAttribute("episodes", episodeDto.getAll().size());
             model.addAttribute("page", "about");
             return "template";
