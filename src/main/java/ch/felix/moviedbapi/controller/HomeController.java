@@ -1,9 +1,9 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.dto.GenreDto;
-import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.DuplicateService;
+import ch.felix.moviedbapi.service.GenreSearchType;
 import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Wetwer
@@ -49,21 +48,14 @@ public class HomeController {
                 return "redirect:/movies/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
             }
 
-
-            List<String> genres = new ArrayList<>();
-            for (Genre genre : genreDto.getAll()) {
-                genres.add(genre.getName());
-            }
-            genres = duplicateService.removeStringDuplicates(genres);
             if (search.equals("") && genreParam.equals("") && orderBy.equals("")) {
                 model.addAttribute("startedVideos", searchService.findStartedVideos(user));
             } else {
-                model.addAttribute("startedMovies", new ArrayList<>());
+                model.addAttribute("startedVideos", new ArrayList<>());
             }
-            model.addAttribute("genres", genres);
+            model.addAttribute("genres", searchService.getGenres(GenreSearchType.MOVIE));
 
             model.addAttribute("movies", searchService.searchMoviesTop(search, orderBy));
-            model.addAttribute("all", searchService.searchMoviesTop("", orderBy));
             model.addAttribute("series", searchService.searchSerieTop(search));
 
             model.addAttribute("search", search);

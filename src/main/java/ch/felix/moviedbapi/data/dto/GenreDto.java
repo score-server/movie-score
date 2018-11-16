@@ -29,4 +29,12 @@ public class GenreDto implements DtoInterface<Genre> {
     public void save(Genre genre) {
         genreRepository.save(genre);
     }
+
+    public List<Genre> getForMovies() {
+        return genreRepository.findGenresByMovieNotNullOrderByName();
+    }
+
+    public List<Genre> getForSeries() {
+        return genreRepository.findGenresBySerieNotNullOrderByName();
+    }
 }

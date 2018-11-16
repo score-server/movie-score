@@ -1,9 +1,9 @@
 package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.dto.GenreDto;
-import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.service.DuplicateService;
+import ch.felix.moviedbapi.service.GenreSearchType;
 import ch.felix.moviedbapi.service.PageService;
 import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.UserAuthService;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -47,17 +46,9 @@ public class MoviesController {
                             Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
             try {
-                List<String> genres = new ArrayList<>();
-                for (Genre genre : genreDto.getAll()) {
-                    genres.add(genre.getName());
-                }
-
-                genres.sort(String::compareToIgnoreCase);
-
                 List<Movie> movies = pageService.getPage(searchService.searchMovies(search, orderBy, genreParam), page);
 
-                genres = duplicateService.removeStringDuplicates(genres);
-                model.addAttribute("genres", genres);
+                model.addAttribute("genres", searchService.getGenres(GenreSearchType.MOVIE));
                 model.addAttribute("movies", movies);
                 model.addAttribute("all", searchService.searchMoviesTop("", orderBy));
 
