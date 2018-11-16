@@ -17,7 +17,7 @@ public class GroupDto implements DtoInterface<GroupInvite> {
 
     @Override
     public GroupInvite getById(Long id) {
-        return groupRepository.getOne(Math.toIntExact(id));
+        return groupRepository.getOne(id);
     }
 
     public List<GroupInvite> getAll() {
@@ -29,7 +29,11 @@ public class GroupDto implements DtoInterface<GroupInvite> {
         groupRepository.save(groupInvite);
     }
 
-    public void delete(Integer groupId) {
+    public void delete(Long groupId) {
         groupRepository.delete(groupRepository.getOne(groupId));
+    }
+
+    public GroupInvite getByName(String groupKey) {
+        return groupRepository.findByNameEquals(groupKey);
     }
 }

@@ -45,6 +45,7 @@
                     <i class="fas fa-pen"></i>
                 </a>
             </p>
+            <p>Group: <span th:text="${user.group?.name}"></span></p>
             <p>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changePsw">
                     Change Password
@@ -113,6 +114,7 @@
                 <br>
             </div>
             <p th:text="'Name: ' + ${user.name}"></p>
+            <p>Group: <span th:text="${user.group?.name}"></span></p>
         </div>
     </div>
     <br>

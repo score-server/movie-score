@@ -37,10 +37,16 @@ public class GroupController {
     }
 
     @PostMapping("/delete/{groupId}")
-    public String deleteGroup(@PathVariable Integer groupId, HttpServletRequest request) {
+    public String deleteGroup(@PathVariable Long groupId, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            groupDto.delete(groupId);
-            return "redirect:/group?deleted";
+            GroupInvite group = groupDto.getById(groupId);
+            if (group.isActive()) {
+                group.setActive(false);
+            } else {
+                group.setActive(true);
+            }
+            groupDto.save(group);
+            return "redirect:/group?deactivated";
         }
         return "redirect:/";
     }

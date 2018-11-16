@@ -71,9 +71,11 @@ public class RegisterController {
 
         for (GroupInvite groupInvite : groupDto.getAll()) {
             if (groupInvite.getName().equals(groupKey)) {
-                model.addAttribute("groupKey", groupKey);
-                model.addAttribute("page", "fullRegister");
-                return "template";
+                if (groupInvite.isActive()) {
+                    model.addAttribute("groupKey", groupKey);
+                    model.addAttribute("page", "fullRegister");
+                    return "template";
+                }
             }
         }
         return "redirect:/";
@@ -111,24 +113,29 @@ public class RegisterController {
                                HttpServletResponse response) {
         if (password.equals(confirm)) {
             if (userDto.search(nameParam).size() == 0) {
-                User user = new User();
-                user.setName(nameParam);
-                user.setPasswordSha(shaService.encode(password));
-                user.setRole(1);
-                user.setVideoPlayer(player);
-                String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
-                user.setAuthKey(authkey);
-                userDto.save(user);
-                activityService.log(nameParam + " registered with groupkey " + groupKey, user);
+                GroupInvite group = groupDto.getByName(groupKey);
+                if (group.isActive()) {
+                    User user = new User();
+                    user.setName(nameParam);
+                    user.setPasswordSha(shaService.encode(password));
+                    user.setRole(1);
+                    user.setVideoPlayer(player);
+                    String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
+                    user.setAuthKey(authkey);
+                    user.setGroup(group);
 
-                String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
-                cookieService.setUserCookie(response, sessionId);
-                sessionService.addSession(user, sessionId);
-                user.setLastLogin(new Timestamp(new Date().getTime()));
-                userDto.save(user);
-                activityService.log(user.getName() + " logged in", user);
+                    userDto.save(user);
+                    activityService.log(nameParam + " registered with groupkey " + groupKey, user);
 
-                return "redirect:/";
+                    String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
+                    cookieService.setUserCookie(response, sessionId);
+                    sessionService.addSession(user, sessionId);
+                    user.setLastLogin(new Timestamp(new Date().getTime()));
+                    userDto.save(user);
+                    activityService.log(user.getName() + " logged in", user);
+
+                    return "redirect:/";
+                }
             } else {
                 return "redirect:/register/" + groupKey + "?exists";
             }

@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
-<div th:if="${param.deleted}" class="alert alert-success">
-    Deleted Group
+<div th:if="${param.deactivated}" class="alert alert-success">
+    Changed Group Status
 </div>
 
 <div th:if="${param.created}" class="alert alert-success">
@@ -23,19 +23,38 @@
     <li th:each="group : ${groups}" class="list-group-item">
         <div class="row">
             <div class="col-2">
-                <b th:text="${group.name}"></b>
+                <b th:if="${group.active}" th:text="${group.name}"></b>
+                <span th:if="!${group.active}" th:text="${group.name}"></span>
             </div>
             <div class="col-9">
-                <input th:value="'http://scorewinner.ch:8081/register/' + ${group.name}" type="text" class="form-control"
+                <input th:value="'http://scorewinner.ch:8081/register/' + ${group.name}" type="text"
+                       class="form-control"
                        width="100%" disabled>
             </div>
             <div class="col-1">
-                <form th:action="'/group/delete/' + ${group.id}" method="post">
-                    <button type="submit" class="btn btn-danger float-right">
-                        <i class="fas fa-times"></i>
+                <form th:action="'/group/delete/' + ${group.id}" method="post" class="btn-group float-right">
+                    <button th:if="!${group.active}" type="submit" class="btn btn-danger">
+                        <i class="fas fa-link"></i>
                     </button>
+                    <button th:if="${group.active}" type="submit" class="btn btn-success">
+                        <i class="fas fa-link"></i>
+                    </button>
+                    <a class="btn btn-primary" data-toggle="collapse" th:href="'#colapse'+ ${group.id}" role="button"
+                       aria-expanded="false" th:aria-controls="'colapse'+ ${group.id}">
+                        <i class="fas fa-plus"></i>
+                    </a>
                 </form>
             </div>
+        </div>
+        <div class="collapse" th:id="'colapse'+ ${group.id}">
+            <br>
+            <ul class="list-group">
+                <li class="list-group-item active">Members</li>
+                <li th:each="user : ${group.users}" class="list-group-item">
+                    <a th:text="${user.name}" th:href="'/user/' + ${user.id}"></a>
+                </li>
+                <li th:if="${group.users.isEmpty()}" class="list-group-item list-group-item-secondary">No Members</li>
+            </ul>
         </div>
     </li>
 </ul>
