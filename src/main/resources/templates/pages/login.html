@@ -10,6 +10,10 @@
     If you cant Login please contact Felix...
 </div>
 
+<div th:if="${param.error}" class="alert alert-secondary">
+    Loged out
+</div>
+
 <div th:if="${param.redirect}" class="alert alert-warning">
     Requires Login
 </div>
@@ -22,29 +26,4 @@
         <br>
         <button class="btn btn-primary" type="submit">Login</button>
     </form>
-</div>
-<br>
-<a href="/fastlogin" class="btn btn-primary">Login with Authkey</a>
-<br>
-<br>
-<div class="accordion" id="getAccount">
-    <div data-toggle="collapse" data-target="#getAccountCollapse" aria-expanded="true"
-         aria-controls="getAccountCollapse">
-        <button class="btn btn-link">Get an Account</button>
-    </div>
-    <div id="getAccountCollapse" class="collapse" aria-labelledby="headingOne" data-parent="#getAccount">
-        <br>
-        <div class="card card-body">
-            <h3>Contact Wetwer/Felix (Administrator) or Scorewinner/Tim</h3>
-            <br>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <a href="https://discord.gg/6z9Eybe">Discord</a>
-                </li>
-                <li class="list-group-item">Whatsapp</li>
-            </ul>
-
-
-        </div>
-    </div>
 </div>

@@ -137,9 +137,7 @@ public class SearchService {
     }
 
     public List<String> getGenres(GenreSearchType type) {
-
         List<Genre> genreList = new ArrayList<>();
-
         switch (type) {
             case ALL:
                 genreList = genreDto.getAll();
@@ -151,7 +149,6 @@ public class SearchService {
                 genreList = genreDto.getForSeries();
                 break;
         }
-
 
         List<String> genres = new ArrayList<>();
         for (Genre genre : genreList) {

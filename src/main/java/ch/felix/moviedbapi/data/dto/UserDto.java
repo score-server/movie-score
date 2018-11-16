@@ -10,13 +10,15 @@ import java.util.List;
 public class UserDto implements DtoInterface<User> {
 
     private UserRepository userRepository;
+    private SessionDto sessionDto;
 
-    public UserDto(UserRepository userRepository) {
+    public UserDto(UserRepository userRepository, SessionDto sessionDto) {
         this.userRepository = userRepository;
+        this.sessionDto = sessionDto;
     }
 
     public User getBySessionId(String sessionId) {
-        return userRepository.findUserBySessionId(sessionId);
+        return sessionDto.getBySessionId(sessionId).getUser();
     }
 
     public User getByAuthKey(String authkey) {

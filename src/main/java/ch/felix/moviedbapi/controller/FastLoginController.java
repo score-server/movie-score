@@ -4,6 +4,7 @@ import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.SessionService;
 import ch.felix.moviedbapi.service.ShaService;
 import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.stereotype.Controller;
@@ -30,14 +31,16 @@ public class FastLoginController {
     private CookieService cookieService;
     private ActivityService activityService;
     private ShaService shaService;
+    private SessionService sessionService;
 
     public FastLoginController(UserDto userDto, UserAuthService userAuthService, CookieService cookieService,
-                               ShaService shaService, ActivityService activityService) {
+                               ShaService shaService, ActivityService activityService, SessionService sessionService) {
         this.userDto = userDto;
         this.userAuthService = userAuthService;
         this.cookieService = cookieService;
         this.shaService = shaService;
         this.activityService = activityService;
+        this.sessionService = sessionService;
     }
 
     @GetMapping
@@ -103,7 +106,7 @@ public class FastLoginController {
 
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
             cookieService.setUserCookie(response, sessionId);
-            user.setSessionId(sessionId);
+            sessionService.addSession(user, sessionId);
             user.setLastLogin(new Timestamp(new Date().getTime()));
             try {
                 userDto.save(user);
@@ -117,4 +120,6 @@ public class FastLoginController {
         }
         return "redirect:/fastlogin/settings?error";
     }
+
+
 }

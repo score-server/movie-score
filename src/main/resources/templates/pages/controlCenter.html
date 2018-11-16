@@ -99,7 +99,7 @@
 
 <div class="card">
     <div class="card-header" id="request">
-        Movie Requests
+        Requests
     </div>
     <div class="card-body">
         <ul class="list-group">
@@ -110,7 +110,7 @@
                         <div class="float-right">
                             <form th:action="'/request/' + ${request.id} + '/close'" method="post"
                                   style="display: inline">
-                                <button class="btn"><i class="far fa-square"></i></button>
+                                <button class="btn btn-secondary"><i class="far fa-square"></i></button>
                             </form>
                             <form th:action="'/request/' + ${request.id} + '/delete'" method="post"
                                   style="display: inline">
@@ -123,7 +123,7 @@
                         <div class="float-right">
                             <form th:action="'/request/' + ${request.id} + '/open'" method="post"
                                   style="display: inline">
-                                <button class="btn"><i class="far fa-check-square"></i></button>
+                                <button class="btn btn-success"><i class="far fa-check-square"></i></button>
                             </form>
                             <form th:action="'/request/' + ${request.id} + '/delete'" method="post"
                                   style="display: inline">

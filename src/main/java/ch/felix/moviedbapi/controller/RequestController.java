@@ -54,12 +54,20 @@ public class RequestController {
 
     @PostMapping("create/{userId}")
     public String createRequest(@PathVariable("userId") String userId, @RequestParam("request") String requestParam,
-                                HttpServletRequest request) {
+                                @RequestParam("type") String type, HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
             User user = userDto.getById(Long.valueOf(userId));
 
             Request movieRequest = new Request();
-            movieRequest.setRequest(requestParam);
+            switch (type) {
+                case "user":
+                    movieRequest.setRequest("User Request: " + requestParam);
+                    break;
+                default:
+                    movieRequest.setRequest(requestParam);
+                    break;
+            }
+
             movieRequest.setUser(user);
             movieRequest.setActive("1");
             requestDto.save(movieRequest);

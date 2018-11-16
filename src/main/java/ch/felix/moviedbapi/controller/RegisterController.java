@@ -6,6 +6,7 @@ import ch.felix.moviedbapi.data.entity.GroupInvite;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.SessionService;
 import ch.felix.moviedbapi.service.ShaService;
 import ch.felix.moviedbapi.service.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,14 +41,18 @@ public class RegisterController {
     private UserAuthService userAuthService;
     private ActivityService activityService;
     private CookieService cookieService;
+    private SessionService sessionService;
 
-    public RegisterController(UserDto userDto, GroupDto groupDto, ShaService shaService, UserAuthService userAuthService, ActivityService activityService, CookieService cookieService) {
+    public RegisterController(UserDto userDto, GroupDto groupDto, ShaService shaService,
+                              UserAuthService userAuthService, ActivityService activityService,
+                              CookieService cookieService, SessionService sessionService) {
         this.userDto = userDto;
         this.groupDto = groupDto;
         this.shaService = shaService;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
         this.cookieService = cookieService;
+        this.sessionService = sessionService;
     }
 
     @GetMapping
@@ -118,7 +123,7 @@ public class RegisterController {
 
                 String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
                 cookieService.setUserCookie(response, sessionId);
-                user.setSessionId(sessionId);
+                sessionService.addSession(user, sessionId);
                 user.setLastLogin(new Timestamp(new Date().getTime()));
                 userDto.save(user);
                 activityService.log(user.getName() + " logged in", user);

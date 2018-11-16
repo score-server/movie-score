@@ -4,6 +4,7 @@ import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.SessionService;
 import ch.felix.moviedbapi.service.ShaService;
 import ch.felix.moviedbapi.service.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,13 +37,17 @@ public class LoginController {
     private ShaService shaService;
     private UserAuthService userAuthService;
     private ActivityService activityService;
+    private SessionService sessionService;
 
-    public LoginController(UserDto userDto, CookieService cookieService, ShaService shaService, UserAuthService userAuthService, ActivityService activityService) {
+    public LoginController(UserDto userDto, CookieService cookieService, ShaService shaService,
+                           UserAuthService userAuthService, ActivityService activityService,
+                           SessionService sessionService) {
         this.userDto = userDto;
         this.cookieService = cookieService;
         this.shaService = shaService;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
+        this.sessionService = sessionService;
     }
 
     @GetMapping
@@ -61,7 +66,7 @@ public class LoginController {
         try {
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
             cookieService.setUserCookie(response, sessionId);
-            user.setSessionId(sessionId);
+            sessionService.addSession(user, sessionId);
             user.setLastLogin(new Timestamp(new Date().getTime()));
             userDto.save(user);
             activityService.log(user.getName() + " logged in", user);
@@ -84,11 +89,10 @@ public class LoginController {
         if (userAuthService.isUser(request)) {
             try {
                 User user = cookieService.getCurrentUser(request);
-                String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
-                user.setSessionId(sessionId);
+                sessionService.logout(cookieService.getSessionId(request));
                 userDto.save(user);
                 activityService.log(user.getName() + " logged out", user);
-                return "redirect:/?logout";
+                return "redirect:/login?logout";
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 return "redirect:/";

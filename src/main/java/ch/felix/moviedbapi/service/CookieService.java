@@ -23,7 +23,7 @@ public class CookieService {
 
     public void setUserCookie(HttpServletResponse response, String sessionId) {
         Cookie userCookie = new Cookie("sessionId", sessionId);
-        userCookie.setMaxAge(31536000);
+        userCookie.setMaxAge(2629743);
         userCookie.setPath("/");
         response.addCookie(userCookie);
     }
@@ -61,4 +61,12 @@ public class CookieService {
         return null;
     }
 
+    public String getSessionId(HttpServletRequest request) {
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("sessionId")) {
+                return cookie.getValue();
+            }
+        }
+        return null;
+    }
 }

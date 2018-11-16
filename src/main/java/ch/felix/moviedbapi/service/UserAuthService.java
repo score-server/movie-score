@@ -104,4 +104,8 @@ public class UserAuthService {
         }
         return false;
     }
+
+    public String getCurrentSessionId(HttpServletRequest request) {
+        return cookieService.getSessionId(request);
+    }
 }

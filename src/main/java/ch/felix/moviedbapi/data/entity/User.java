@@ -37,8 +37,8 @@ public class User {
     @NotNull
     private String passwordSha;
 
-    @JsonIgnore
-    private String sessionId;
+//    @JsonIgnore
+//    private String sessionId;
 
     private Integer role;
 
@@ -78,6 +78,10 @@ public class User {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Time> times;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Session> sessions;
 
     public boolean isAdmin() {
         if (role == 2) {

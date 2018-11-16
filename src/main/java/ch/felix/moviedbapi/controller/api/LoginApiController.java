@@ -4,6 +4,7 @@ import ch.felix.moviedbapi.data.dto.UserDto;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.CookieService;
+import ch.felix.moviedbapi.service.SessionService;
 import ch.felix.moviedbapi.service.ShaService;
 import ch.felix.moviedbapi.service.UserAuthService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,14 +27,17 @@ public class LoginApiController {
     private CookieService cookieService;
     private ActivityService activityService;
     private UserAuthService userAuthService;
+    private SessionService sessionService;
 
     public LoginApiController(UserDto userDto, ShaService shaService, CookieService cookieService,
-                              ActivityService activityService, UserAuthService userAuthService) {
+                              ActivityService activityService, UserAuthService userAuthService,
+                              SessionService sessionService) {
         this.userDto = userDto;
         this.shaService = shaService;
         this.cookieService = cookieService;
         this.activityService = activityService;
         this.userAuthService = userAuthService;
+        this.sessionService = sessionService;
     }
 
     @PostMapping
@@ -42,11 +46,11 @@ public class LoginApiController {
         User user = userDto.login(name, shaService.encode(password));
         try {
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
-            user.setSessionId(sessionId);
+            sessionService.addSession(user, sessionId);
             cookieService.setUserCookie(response, sessionId);
             userDto.save(user);
             activityService.log(user.getName() + " logged in", user);
-            return user.getSessionId();
+            return sessionId;
         } catch (NullPointerException e) {
             e.printStackTrace();
             return "nok";
@@ -58,8 +62,7 @@ public class LoginApiController {
         if (userAuthService.isUser(sessionId)) {
             try {
                 User user = userDto.getBySessionId(sessionId);
-                user.setSessionId(shaService.encode(String.valueOf(new Random().nextInt())));
-                userDto.save(user);
+                sessionService.logout(sessionId);
                 activityService.log(user.getName() + " logged out", user);
                 return "ok";
             } catch (NullPointerException e) {

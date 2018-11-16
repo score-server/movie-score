@@ -1,8 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.GenreDto;
 import ch.felix.moviedbapi.data.entity.Movie;
-import ch.felix.moviedbapi.service.DuplicateService;
 import ch.felix.moviedbapi.service.GenreSearchType;
 import ch.felix.moviedbapi.service.PageService;
 import ch.felix.moviedbapi.service.SearchService;
@@ -21,19 +19,12 @@ import java.util.List;
 @RequestMapping("movies")
 public class MoviesController {
 
-    private GenreDto genreDto;
-
     private SearchService searchService;
-    private DuplicateService duplicateService;
     private UserAuthService userAuthService;
     private PageService pageService;
 
-    public MoviesController(GenreDto genreDto, SearchService searchService,
-                            DuplicateService duplicateService, UserAuthService userAuthService,
-                            PageService pageService) {
-        this.genreDto = genreDto;
+    public MoviesController(SearchService searchService, UserAuthService userAuthService, PageService pageService) {
         this.searchService = searchService;
-        this.duplicateService = duplicateService;
         this.userAuthService = userAuthService;
         this.pageService = pageService;
     }

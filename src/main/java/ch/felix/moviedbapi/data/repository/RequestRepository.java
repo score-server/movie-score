@@ -20,4 +20,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     void deleteRequestByUser(User user);
 
+    List<Request> findAllByOrderByActiveDesc();
+
 }

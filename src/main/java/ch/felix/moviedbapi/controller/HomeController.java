@@ -1,8 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.GenreDto;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.service.DuplicateService;
 import ch.felix.moviedbapi.service.GenreSearchType;
 import ch.felix.moviedbapi.service.SearchService;
 import ch.felix.moviedbapi.service.UserAuthService;
@@ -23,17 +21,11 @@ import java.util.ArrayList;
 @RequestMapping("")
 public class HomeController {
 
-    private GenreDto genreDto;
-
     private SearchService searchService;
-    private DuplicateService duplicateService;
     private UserAuthService userAuthService;
 
-    public HomeController(GenreDto genreDto, SearchService searchService, DuplicateService duplicateService,
-                          UserAuthService userAuthService) {
-        this.genreDto = genreDto;
+    public HomeController(SearchService searchService, UserAuthService userAuthService) {
         this.searchService = searchService;
-        this.duplicateService = duplicateService;
         this.userAuthService = userAuthService;
     }
 
@@ -44,6 +36,7 @@ public class HomeController {
                                Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
             User user = userAuthService.getUser(request).getUser();
+
             if (!genreParam.equals("")) {
                 return "redirect:/movies/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;
             }
@@ -53,6 +46,7 @@ public class HomeController {
             } else {
                 model.addAttribute("startedVideos", new ArrayList<>());
             }
+
             model.addAttribute("genres", searchService.getGenres(GenreSearchType.MOVIE));
 
             model.addAttribute("movies", searchService.searchMoviesTop(search, orderBy));
