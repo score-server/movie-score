@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
-<a th:href="'/movie/' + ${startedVideo.videoModel.id}">
+<a th:href="'/' + ${startedVideo.videoModel.type} + '/' + ${startedVideo.videoModel.id}">
     <div class="card moviecard">
         <div>
             <span th:text="${startedVideo.videoModel.quality}" class="quality-badge"></span>

@@ -35,6 +35,7 @@ public class FastLoginController {
 
     public FastLoginController(UserDto userDto, UserAuthService userAuthService, CookieService cookieService,
                                ShaService shaService, ActivityService activityService, SessionService sessionService) {
+
         this.userDto = userDto;
         this.userAuthService = userAuthService;
         this.cookieService = cookieService;
@@ -51,24 +52,29 @@ public class FastLoginController {
     }
 
     @GetMapping("{authkey}")
-    public String checkFastLogin(@PathVariable("authkey") String authkey, Model model,
-                                 HttpServletRequest request, HttpServletResponse response) {
-        userAuthService.allowGuest(model, request);
-        for (User user : userDto.getAll()) {
-            if (user.getAuthKey() == null) {
-                return "redirect:/fastlogin?error";
-            } else if (authkey.equals(user.getAuthKey())) {
-                cookieService.setFastLoginCookie(response, user);
-                userDto.save(user);
-                activityService.log(user.getName() + " used Authkeylink", user);
-                return "redirect:/fastlogin/settings";
+    public String checkFastLogin(@PathVariable("authkey") String authkey, Model model, HttpServletRequest request,
+                                 HttpServletResponse response) {
+        if (userAuthService.isUser(request)) {
+            return "redirect:/?login";
+        } else {
+            userAuthService.allowGuest(model, request);
+            for (User user : userDto.getAll()) {
+                if (user.getAuthKey() == null) {
+                    return "redirect:/fastlogin?error";
+                } else if (authkey.equals(user.getAuthKey())) {
+                    cookieService.setFastLoginCookie(response, user);
+                    userDto.save(user);
+                    activityService.log(user.getName() + " used Authkeylink", user);
+                    return "redirect:/fastlogin/settings";
+                }
             }
+            return "redirect:/login?error";
         }
-        return "redirect:/login?error";
     }
 
     @PostMapping
     public String checkAuth(@RequestParam("authkey") String authkey, HttpServletResponse response) {
+
         for (User user : userDto.getAll()) {
             if (user.getAuthKey() == null) {
                 return "redirect:/fastlogin?error";

@@ -7,22 +7,24 @@
 </div>
 
 <div th:if="${param.error}" class="alert alert-info">
-    If you cant Login please contact Felix...
-</div>
-
-<div th:if="${param.error}" class="alert alert-secondary">
-    Loged out
+    For Password reset contact Felix
 </div>
 
 <div th:if="${param.redirect}" class="alert alert-warning">
     Requires Login
 </div>
 
+<div th:if="${param.logout}" class="alert alert-success">
+    Logged Out
+</div>
+
 
 <div class="card card-body">
     <form th:action="'/login?redirect=' + ${param.redirect}" method="post">
-        Username:<input class="form-control" type="text" name="name" th:value="${param.user}">
-        Password:<input class="form-control" type="password" name="password">
+        <label for="name">Username:</label>
+        <input class="form-control" type="text" name="name" id="name" th:value="${param.user}">
+        <label for="password">Password:</label>
+        <input class="form-control" type="password" name="password" id="password">
         <br>
         <button class="btn btn-primary" type="submit">Login</button>
     </form>

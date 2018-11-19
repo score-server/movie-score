@@ -67,18 +67,23 @@ public class RegisterController {
 
     @GetMapping("{groupKey}")
     public String getGroupRegister(@PathVariable("groupKey") String groupKey, Model model, HttpServletRequest request) {
-        userAuthService.allowGuest(model, request);
+        if (userAuthService.isUser(request)) {
+            return "redirect:/?login";
+        } else {
+            userAuthService.allowGuest(model, request);
 
-        for (GroupInvite groupInvite : groupDto.getAll()) {
-            if (groupInvite.getName().equals(groupKey)) {
-                if (groupInvite.isActive()) {
-                    model.addAttribute("groupKey", groupKey);
-                    model.addAttribute("page", "fullRegister");
-                    return "template";
+            for (GroupInvite groupInvite : groupDto.getAll()) {
+                if (groupInvite.getName().equals(groupKey)) {
+                    if (groupInvite.isActive()) {
+                        model.addAttribute("groupKey", groupKey);
+                        model.addAttribute("page", "fullRegister");
+                        return "template";
+                    }
                 }
             }
+            return "redirect:/";
         }
-        return "redirect:/";
+
     }
 
     @PostMapping

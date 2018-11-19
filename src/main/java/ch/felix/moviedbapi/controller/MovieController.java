@@ -39,10 +39,7 @@ public class MovieController {
     private ActivityService activityService;
     private MovieImportService movieImportService;
 
-    public MovieController(MovieDto movieDto, LikesDto likesDto,
-                           SimilarMovieService similarMovieService, UserAuthService userAuthService,
-                           ActivityService activityService, TimeDto timeDto,
-                           MovieImportService movieImportService) {
+    public MovieController(MovieDto movieDto, LikesDto likesDto, SimilarMovieService similarMovieService, UserAuthService userAuthService, ActivityService activityService, TimeDto timeDto, MovieImportService movieImportService) {
         this.movieDto = movieDto;
         this.likesDto = likesDto;
         this.timeDto = timeDto;

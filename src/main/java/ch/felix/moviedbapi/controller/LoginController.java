@@ -63,7 +63,9 @@ public class LoginController {
                         @RequestParam("password") String passwordParam,
                         HttpServletResponse response) {
         User user = userDto.login(nameParam, shaService.encode(passwordParam));
+
         try {
+            userDto.exists(user);
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
             cookieService.setUserCookie(response, sessionId);
             sessionService.addSession(user, sessionId);
@@ -79,7 +81,6 @@ public class LoginController {
                     return "redirect:" + redirectParam;
             }
         } catch (NullPointerException e) {
-            e.printStackTrace();
             return "redirect:/login?error&user=" + nameParam;
         }
     }

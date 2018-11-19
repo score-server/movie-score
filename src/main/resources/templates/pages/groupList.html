@@ -8,6 +8,14 @@
     Created Group
 </div>
 
+<div th:if="${param.added}" class="alert alert-success">
+    User added to group
+</div>
+
+<div th:if="${param.notexist}" class="alert alert-danger">
+    User <span th:text="${param.notexist}"></span> doesnt exist...
+</div>
+
 <h1>Groups</h1>
 <div class="card">
     <div class="card-header">New Group</div>
@@ -52,9 +60,21 @@
                 <li class="list-group-item active">Members</li>
                 <li th:each="user : ${group.users}" class="list-group-item">
                     <a th:text="${user.name}" th:href="'/user/' + ${user.id}"></a>
+                    <form th:action="'/group/remove/' + ${user.id}" method="post"
+                          class="float-right">
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                    </form>
+                </li>
+                <li class="list-group-item">
+                    <form th:action="'/group/' + ${group.id} + '/add'" method="post">
+                        <input type="text" name="name" list="users" placeholder="New Meber" class="form-control">
+                    </form>
                 </li>
                 <li th:if="${group.users.isEmpty()}" class="list-group-item list-group-item-secondary">No Members</li>
             </ul>
         </div>
     </li>
 </ul>
+<datalist id="users">
+    <option th:each="user : ${users}" th:value="${user.name}">
+</datalist>

@@ -10,11 +10,15 @@
     Created Request
 </div>
 
+<div th:if="${param.login}" class="alert alert-success">
+    Logged in
+</div>
+
 <form action="/" id="search">
     <div class="row">
         <div class="col-12 col-md-6 col-lg-6" style="margin-bottom: 5px">
-            <input th:value="${search}" class="form-control" type="text" name="search"
-                   placeholder="Search" autocomplete="off">
+            <input th:value="${search}" class="form-control" type="text" name="search" placeholder="Search"
+                   autocomplete="off">
         </div>
         <div class="col-6 col-md-3 col-lg-3">
             <select class="form-control" name="genre"

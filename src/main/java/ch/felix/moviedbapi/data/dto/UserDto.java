@@ -25,6 +25,10 @@ public class UserDto implements DtoInterface<User> {
         return userRepository.findUserByAuthKey(authkey);
     }
 
+    public User getByName(String name) {
+        return userRepository.findUserByName(name);
+    }
+
     @Override
     public User getById(Long id) {
         return userRepository.findUserById(id);
@@ -52,4 +56,7 @@ public class UserDto implements DtoInterface<User> {
         return userRepository.findAll();
     }
 
+    public boolean exists(User user) {
+        return userRepository.existsById(user.getId());
+    }
 }
