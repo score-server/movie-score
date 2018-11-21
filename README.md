@@ -8,10 +8,7 @@
   <p>This application is free for my friends.</p>
 <p>If you want an Account and the Application Url contact me via Mail, Discord, Whatsapp or Personal. If i dont know you, you wont get a 
   login...</p>
- <h3>Todo</h3>
- - Fix Sound on .mkv Videos
- <br>
- 
+ <h3><a href="https://github.com/orgs/score-server/projects/1">Tasks</a></h3> 
 <pre>
 MIT License
 
