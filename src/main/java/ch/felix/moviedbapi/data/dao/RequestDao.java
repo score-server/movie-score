@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.Request;
 import ch.felix.moviedbapi.data.repository.RequestRepository;
@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RequestDto implements DtoInterface<Request> {
+public class RequestDao implements DaoInterface<Request> {
 
     private RequestRepository requestRepository;
 
-    public RequestDto(RequestRepository requestRepository) {
+    public RequestDao(RequestRepository requestRepository) {
         this.requestRepository = requestRepository;
     }
 

@@ -1,11 +1,10 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.BlogDto;
-import ch.felix.moviedbapi.data.dto.UserDto;
-import ch.felix.moviedbapi.data.entity.Blog;
+import ch.felix.moviedbapi.data.dao.BlogDao;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * @author Wetwer
@@ -29,15 +26,15 @@ import java.util.Date;
 @RequestMapping("blog")
 public class BlogController {
 
-    private BlogDto blogDto;
-    private UserDto userDto;
+    private BlogDao blogDao;
+    private UserDao userDto;
 
     private UserAuthService userAuthService;
     private ActivityService activityService;
 
-    public BlogController(BlogDto blogDto, UserDto userDto, UserAuthService userAuthService,
+    public BlogController(BlogDao blogDao, UserDao userDto, UserAuthService userAuthService,
                           ActivityService activityService) {
-        this.blogDto = blogDto;
+        this.blogDao = blogDao;
         this.userDto = userDto;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
@@ -46,7 +43,7 @@ public class BlogController {
     @GetMapping
     public String getBlogList(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            model.addAttribute("blogs", blogDto.getAll());
+            model.addAttribute("blogs", blogDao.getAll());
             model.addAttribute("page", "blog");
             return "template";
         } else {
@@ -72,12 +69,7 @@ public class BlogController {
         if (userAuthService.isAdministrator(model, request)) {
             User user = userDto.getById(Long.valueOf(userId));
 
-            Blog blog = new Blog();
-            blog.setTitle(title);
-            blog.setText(text.replace("\r\n", "<br>"));
-            blog.setUser(user);
-            blog.setTimestamp(new Timestamp(new Date().getTime()));
-            blogDto.save(blog);
+            blogDao.createBlog(title, text, user);
             activityService.log(user.getName() + " created new Blog Post", user);
             return "redirect:/blog?new";
         } else {
@@ -89,7 +81,7 @@ public class BlogController {
     public String deleteBlog(@PathVariable("blogId") String blogId,
                              Model model, HttpServletRequest request) {
         if (userAuthService.isAdministrator(model, request)) {
-            blogDto.delete(blogDto.getById(Long.valueOf(blogId)));
+            blogDao.delete(blogDao.getById(Long.valueOf(blogId)));
             return "redirect:/blog?deleted";
         } else {
             return "redirect:/blog?notdeleted";

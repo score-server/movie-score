@@ -1,8 +1,8 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import java.util.List;
 
-public interface DtoInterface<T> {
+public interface DaoInterface<T> {
 
     T getById(Long id);
 

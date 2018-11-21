@@ -3,7 +3,7 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.GenreSearchType;
 import ch.felix.moviedbapi.service.SearchService;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

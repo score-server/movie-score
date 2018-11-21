@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.Likes;
 import ch.felix.moviedbapi.data.entity.Movie;
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class LikesDto implements DtoInterface<Likes> {
+public class LikesDao implements DaoInterface<Likes> {
 
     private LikesRepository likesRepository;
 
-    public LikesDto(LikesRepository likesRepository) {
+    public LikesDao(LikesRepository likesRepository) {
         this.likesRepository = likesRepository;
     }
 

@@ -1,11 +1,11 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.RequestDto;
-import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.dao.RequestDao;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.Request;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,16 +27,16 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("request")
 public class RequestController {
 
-    private RequestDto requestDto;
-    private UserDto userDto;
+    private RequestDao requestDao;
+    private UserDao userDao;
 
     private UserAuthService userAuthService;
     private ActivityService activityService;
 
-    public RequestController(RequestDto requestDto, UserDto userDto, UserAuthService userAuthService,
+    public RequestController(RequestDao requestDao, UserDao userDao, UserAuthService userAuthService,
                              ActivityService activityService) {
-        this.requestDto = requestDto;
-        this.userDto = userDto;
+        this.requestDao = requestDao;
+        this.userDao = userDao;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
     }
@@ -56,7 +56,7 @@ public class RequestController {
     public String createRequest(@PathVariable("userId") String userId, @RequestParam("request") String requestParam,
                                 @RequestParam("type") String type, HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            User user = userDto.getById(Long.valueOf(userId));
+            User user = userDao.getById(Long.valueOf(userId));
 
             Request movieRequest = new Request();
             switch (type) {
@@ -70,7 +70,7 @@ public class RequestController {
 
             movieRequest.setUser(user);
             movieRequest.setActive("1");
-            requestDto.save(movieRequest);
+            requestDao.save(movieRequest);
             activityService.log(user.getName() + " created Request for " + requestParam, user);
             return "redirect:/user/" + userId + "?request";
         } else {
@@ -81,9 +81,9 @@ public class RequestController {
     @PostMapping("{requestId}/close")
     public String closeRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            Request movieRequest = requestDto.getById(Long.valueOf(requestParam));
+            Request movieRequest = requestDao.getById(Long.valueOf(requestParam));
             movieRequest.setActive("0");
-            requestDto.save(movieRequest);
+            requestDao.save(movieRequest);
             return "redirect:/settings#request";
         } else {
             return "redirect:/settings?error";
@@ -93,9 +93,9 @@ public class RequestController {
     @PostMapping("{requestId}/open")
     public String openRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            Request movieRequest = requestDto.getById(Long.valueOf(requestParam));
+            Request movieRequest = requestDao.getById(Long.valueOf(requestParam));
             movieRequest.setActive("1");
-            requestDto.save(movieRequest);
+            requestDao.save(movieRequest);
             return "redirect:/settings#request";
         } else {
             return "redirect:/settings?error";
@@ -103,13 +103,34 @@ public class RequestController {
     }
 
     @PostMapping("{requestId}/delete")
-    public String deleteRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
+    public String deleteRequest(@PathVariable("requestId") String requestId, HttpServletRequest request) {
+        Request movieRequest = requestDao.getById(Long.valueOf(requestId));
         if (userAuthService.isAdministrator(request)) {
-            Request movieRequest = requestDto.getById(Long.valueOf(requestParam));
-            requestDto.delete(movieRequest);
+            requestDao.delete(movieRequest);
             return "redirect:/settings#request";
+        } else if (userAuthService.isCurrentUser(request, movieRequest.getUser())) {
+            requestDao.delete(movieRequest);
+            return "redirect:/user/" + movieRequest.getUser().getId() + "?removedRequest";
         } else {
-            return "redirect:/settings?error";
+            return "redirect:/";
+        }
+    }
+
+    @PostMapping("{requestId}/edit")
+    public String editRequest(@PathVariable("requestId") String requestId,
+                              @RequestParam("request") String newRequest,
+                              HttpServletRequest request) {
+        Request movieRequest = requestDao.getById(Long.valueOf(requestId));
+        if (userAuthService.isAdministrator(request)) {
+            movieRequest.setRequest(newRequest);
+            requestDao.save(movieRequest);
+            return "redirect:/settings#request";
+        } else if (userAuthService.isCurrentUser(request, movieRequest.getUser())) {
+            movieRequest.setRequest(newRequest);
+            requestDao.save(movieRequest);
+            return "redirect:/user/" + movieRequest.getUser().getId() + "?requestChanged";
+        } else {
+            return "redirect:/";
         }
     }
 

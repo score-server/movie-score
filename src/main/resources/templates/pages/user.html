@@ -21,6 +21,10 @@
     Password changed
 </div>
 
+<div th:if="${param.removedRequest}" class="alert alert-success">
+    Removed Request
+</div>
+
 <div th:if="${param.player}" class="alert alert-success">
     Player changed to <span th:text="${param.player}"></span>
 </div>
@@ -187,6 +191,16 @@
                         <span th:case="1" th:text="${request.request}"></span>
                         <span th:case="0" th:text="${request.request} + ' - closed'"></span>
                     </span>
+                <div th:if="${currentUser} == ${user}" class="float-right">
+                    <a data-toggle="modal" th:data-target="'#editRequest' + ${request.id}" href="#"
+                       class="btn btn-primary">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                    <form th:action="'/request/' + ${request.id} + '/delete'" method="post" style="display: inline">
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                    </form>
+                </div>
+
             </li>
         </ul>
         <div th:if="${requests.isEmpty()}" class="row">
@@ -294,6 +308,30 @@
                     <input class="form-control" type="password" name="old" placeholder="Old Password" required><br>
                     <input class="form-control" type="password" name="new" placeholder="New Password" required><br>
                     <input class="form-control" type="password" name="name" placeholder="Confirm Password" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:if="${currentUser} == ${user}" th:each="request : ${requests}" class="modal fade"
+     th:id="'editRequest' + ${request.id}" tabindex="-1" role="dialog" aria-labelledby="request" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="request">Edit Request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="'/request/' + ${request.id} + '/edit'" method="post">
+                <div class="modal-body">
+                    <input th:value="${request.request}" class="form-control" type="text" name="request"
+                           placeholder="Request" required><br>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

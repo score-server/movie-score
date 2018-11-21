@@ -1,6 +1,6 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

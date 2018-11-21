@@ -1,14 +1,14 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.LikesDto;
-import ch.felix.moviedbapi.data.dto.MovieDto;
-import ch.felix.moviedbapi.data.dto.TimeDto;
+import ch.felix.moviedbapi.data.dao.LikesDao;
+import ch.felix.moviedbapi.data.dao.MovieDao;
+import ch.felix.moviedbapi.data.dao.TimeDao;
 import ch.felix.moviedbapi.data.entity.Likes;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SimilarMovieService;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import ch.felix.moviedbapi.service.importer.MovieImportService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,16 +30,16 @@ import java.io.File;
 @RequestMapping("movie")
 public class MovieController {
 
-    private MovieDto movieDto;
-    private LikesDto likesDto;
-    private TimeDto timeDto;
+    private MovieDao movieDto;
+    private LikesDao likesDto;
+    private TimeDao timeDto;
 
     private SimilarMovieService similarMovieService;
     private UserAuthService userAuthService;
     private ActivityService activityService;
     private MovieImportService movieImportService;
 
-    public MovieController(MovieDto movieDto, LikesDto likesDto, SimilarMovieService similarMovieService, UserAuthService userAuthService, ActivityService activityService, TimeDto timeDto, MovieImportService movieImportService) {
+    public MovieController(MovieDao movieDto, LikesDao likesDto, SimilarMovieService similarMovieService, UserAuthService userAuthService, ActivityService activityService, TimeDao timeDto, MovieImportService movieImportService) {
         this.movieDto = movieDto;
         this.likesDto = likesDto;
         this.timeDto = timeDto;

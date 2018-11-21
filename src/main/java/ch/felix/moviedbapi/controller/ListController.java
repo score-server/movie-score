@@ -1,7 +1,7 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.TimeLineDto;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.data.dao.TimeLineDao;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("list")
 public class ListController {
 
-    private TimeLineDto timeLineDto;
+    private TimeLineDao timeLineDto;
 
     private UserAuthService userAuthService;
 
-    public ListController(TimeLineDto timeLineDto, UserAuthService userAuthService) {
+    public ListController(TimeLineDao timeLineDto, UserAuthService userAuthService) {
         this.timeLineDto = timeLineDto;
         this.userAuthService = userAuthService;
     }

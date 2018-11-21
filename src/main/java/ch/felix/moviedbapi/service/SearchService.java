@@ -1,9 +1,9 @@
 package ch.felix.moviedbapi.service;
 
-import ch.felix.moviedbapi.data.dto.GenreDto;
-import ch.felix.moviedbapi.data.dto.MovieDto;
-import ch.felix.moviedbapi.data.dto.TimeDto;
-import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.dao.GenreDao;
+import ch.felix.moviedbapi.data.dao.MovieDao;
+import ch.felix.moviedbapi.data.dao.TimeDao;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Serie;
@@ -23,23 +23,23 @@ import java.util.List;
 @Service
 public class SearchService {
 
-    private MovieDto movieDto;
-    private TimeDto timeDto;
-    private GenreDto genreDto;
-    private UserDto userDto;
+    private MovieDao movieDao;
+    private TimeDao timeDao;
+    private GenreDao genreDao;
+    private UserDao userDao;
     private MovieRepository movieRepository;
     private SerieRepository serieRepository;
 
     private DuplicateService duplicateService;
 
-    public SearchService(MovieRepository movieRepository, MovieDto movieDto, TimeDto timeDto, GenreDto genreDto,
-                         UserDto userDto, SerieRepository serieRepository, DuplicateService duplicateService) {
+    public SearchService(MovieRepository movieRepository, MovieDao movieDao, TimeDao timeDao, GenreDao genreDao,
+                         UserDao userDao, SerieRepository serieRepository, DuplicateService duplicateService) {
         this.movieRepository = movieRepository;
-        this.movieDto = movieDto;
-        this.timeDto = timeDto;
-        this.genreDto = genreDto;
+        this.movieDao = movieDao;
+        this.timeDao = timeDao;
+        this.genreDao = genreDao;
         this.serieRepository = serieRepository;
-        this.userDto = userDto;
+        this.userDao = userDao;
         this.duplicateService = duplicateService;
     }
 
@@ -61,7 +61,7 @@ public class SearchService {
                 movies = movieRepository.findMoviesByTitleContainingOrderByYearDesc(searchParam);
                 break;
             case "recomended":
-                movies = movieDto.searchRecomended(searchParam);
+                movies = movieDao.searchRecomended(searchParam);
                 break;
             default:
                 movies = movieRepository.findMoviesByTitleContainingOrderByTitle(searchParam);
@@ -124,7 +124,7 @@ public class SearchService {
     }
 
     public List<StartedVideo> findStartedVideos(User user) {
-        return timeDto.getStartedMovies(user);
+        return timeDao.getStartedMovies(user);
     }
 
     public List<Serie> searchSerieTop(String search) {
@@ -133,20 +133,20 @@ public class SearchService {
 
 
     public List<User> searchUser(String search) {
-        return userDto.search(search);
+        return userDao.search(search);
     }
 
     public List<String> getGenres(GenreSearchType type) {
         List<Genre> genreList = new ArrayList<>();
         switch (type) {
             case ALL:
-                genreList = genreDto.getAll();
+                genreList = genreDao.getAll();
                 break;
             case MOVIE:
-                genreList = genreDto.getForMovies();
+                genreList = genreDao.getForMovies();
                 break;
             case SERIE:
-                genreList = genreDto.getForSeries();
+                genreList = genreDao.getForSeries();
                 break;
         }
 

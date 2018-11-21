@@ -1,9 +1,9 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.EpisodeDto;
-import ch.felix.moviedbapi.data.dto.SeasonDto;
+import ch.felix.moviedbapi.data.dao.EpisodeDao;
+import ch.felix.moviedbapi.data.dao.SeasonDao;
 import ch.felix.moviedbapi.data.entity.Season;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,24 +20,24 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("season")
 public class SeasonController {
 
-    private SeasonDto seasonDto;
-    private EpisodeDto episodeDto;
+    private SeasonDao seasonDao;
+    private EpisodeDao episodeDao;
 
     private UserAuthService userAuthService;
 
-    public SeasonController(SeasonDto seasonDto, EpisodeDto episodeDto, UserAuthService userAuthService) {
-        this.seasonDto = seasonDto;
+    public SeasonController(SeasonDao seasonDao, EpisodeDao episodeDao, UserAuthService userAuthService) {
+        this.seasonDao = seasonDao;
         this.userAuthService = userAuthService;
-        this.episodeDto = episodeDto;
+        this.episodeDao = episodeDao;
     }
 
     @GetMapping(value = "/{seasonId}")
     public String getOneSeason(@PathVariable("seasonId") String seasonId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            Season season = seasonDto.getById(Long.valueOf(seasonId));
+            Season season = seasonDao.getById(Long.valueOf(seasonId));
 
             model.addAttribute("season", season);
-            model.addAttribute("episodes", episodeDto.getBySeason(season));
+            model.addAttribute("episodes", episodeDao.getBySeason(season));
             model.addAttribute("page", "season");
             return "template";
         } else {

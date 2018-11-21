@@ -3,7 +3,7 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SettingsService;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import ch.felix.moviedbapi.service.importer.MovieImportService;
 import ch.felix.moviedbapi.service.importer.SeriesImportService;
 import org.springframework.stereotype.Controller;

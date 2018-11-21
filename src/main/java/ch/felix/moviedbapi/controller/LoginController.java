@@ -1,12 +1,12 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
-import ch.felix.moviedbapi.service.CookieService;
-import ch.felix.moviedbapi.service.SessionService;
-import ch.felix.moviedbapi.service.ShaService;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.CookieService;
+import ch.felix.moviedbapi.service.auth.SessionService;
+import ch.felix.moviedbapi.service.auth.ShaService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +31,7 @@ import java.util.Random;
 @RequestMapping("login")
 public class LoginController {
 
-    private UserDto userDto;
+    private UserDao userDto;
 
     private CookieService cookieService;
     private ShaService shaService;
@@ -39,7 +39,7 @@ public class LoginController {
     private ActivityService activityService;
     private SessionService sessionService;
 
-    public LoginController(UserDto userDto, CookieService cookieService, ShaService shaService,
+    public LoginController(UserDao userDto, CookieService cookieService, ShaService shaService,
                            UserAuthService userAuthService, ActivityService activityService,
                            SessionService sessionService) {
         this.userDto = userDto;

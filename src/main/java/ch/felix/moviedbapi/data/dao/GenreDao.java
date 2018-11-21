@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.repository.GenreRepository;
@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GenreDto implements DtoInterface<Genre> {
+public class GenreDao implements DaoInterface<Genre> {
 
     private GenreRepository genreRepository;
 
-    public GenreDto(GenreRepository genreRepository) {
+    public GenreDao(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
     }
 

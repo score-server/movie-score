@@ -1,8 +1,8 @@
 package ch.felix.moviedbapi.controller.api;
 
-import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.service.ShaService;
+import ch.felix.moviedbapi.service.auth.ShaService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +19,11 @@ import java.util.Random;
 @RequestMapping("api/user")
 public class UserApiController {
 
-    private UserDto userDto;
+    private UserDao userDto;
 
     private ShaService shaService;
 
-    public UserApiController(UserDto userDto, ShaService shaService) {
+    public UserApiController(UserDao userDto, ShaService shaService) {
         this.userDto = userDto;
         this.shaService = shaService;
     }

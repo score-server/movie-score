@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.ActivityLog;
 import ch.felix.moviedbapi.data.entity.User;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ActivityLogDto implements DtoInterface<ActivityLog> {
+public class ActivityLogDao implements DaoInterface<ActivityLog> {
 
     private ActivityLogRepository activityLogRepository;
 
-    public ActivityLogDto(ActivityLogRepository activityLogRepository) {
+    public ActivityLogDao(ActivityLogRepository activityLogRepository) {
         this.activityLogRepository = activityLogRepository;
     }
 

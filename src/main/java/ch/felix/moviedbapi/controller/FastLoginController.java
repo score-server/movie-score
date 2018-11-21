@@ -1,12 +1,12 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
-import ch.felix.moviedbapi.service.CookieService;
-import ch.felix.moviedbapi.service.SessionService;
-import ch.felix.moviedbapi.service.ShaService;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.CookieService;
+import ch.felix.moviedbapi.service.auth.SessionService;
+import ch.felix.moviedbapi.service.auth.ShaService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +25,7 @@ import java.util.Random;
 @RequestMapping("fastlogin")
 public class FastLoginController {
 
-    private UserDto userDto;
+    private UserDao userDao;
 
     private UserAuthService userAuthService;
     private CookieService cookieService;
@@ -33,10 +33,10 @@ public class FastLoginController {
     private ShaService shaService;
     private SessionService sessionService;
 
-    public FastLoginController(UserDto userDto, UserAuthService userAuthService, CookieService cookieService,
+    public FastLoginController(UserDao userDao, UserAuthService userAuthService, CookieService cookieService,
                                ShaService shaService, ActivityService activityService, SessionService sessionService) {
 
-        this.userDto = userDto;
+        this.userDao = userDao;
         this.userAuthService = userAuthService;
         this.cookieService = cookieService;
         this.shaService = shaService;
@@ -58,12 +58,12 @@ public class FastLoginController {
             return "redirect:/?login";
         } else {
             userAuthService.allowGuest(model, request);
-            for (User user : userDto.getAll()) {
+            for (User user : userDao.getAll()) {
                 if (user.getAuthKey() == null) {
                     return "redirect:/fastlogin?error";
                 } else if (authkey.equals(user.getAuthKey())) {
                     cookieService.setFastLoginCookie(response, user);
-                    userDto.save(user);
+                    userDao.save(user);
                     activityService.log(user.getName() + " used Authkeylink", user);
                     return "redirect:/fastlogin/settings";
                 }
@@ -75,12 +75,12 @@ public class FastLoginController {
     @PostMapping
     public String checkAuth(@RequestParam("authkey") String authkey, HttpServletResponse response) {
 
-        for (User user : userDto.getAll()) {
+        for (User user : userDao.getAll()) {
             if (user.getAuthKey() == null) {
                 return "redirect:/fastlogin?error";
             } else if (authkey.equals(user.getAuthKey())) {
                 cookieService.setFastLoginCookie(response, user);
-                userDto.save(user);
+                userDao.save(user);
                 activityService.log(user.getName() + " logged in with Authkey", user);
                 return "redirect:/fastlogin/settings";
             }
@@ -104,7 +104,7 @@ public class FastLoginController {
                                @RequestParam(name = "player", required = false, defaultValue = "plyr") String player,
                                HttpServletRequest request, HttpServletResponse response) {
         if (cookieService.getFastLogin(request) != null && passwordParam.equals(confirm)) {
-            User user = userDto.getById(userId);
+            User user = userDao.getById(userId);
             user.setName(nameParam);
             user.setPasswordSha(shaService.encode(passwordParam));
             user.setVideoPlayer(player);
@@ -115,13 +115,13 @@ public class FastLoginController {
             sessionService.addSession(user, sessionId);
             user.setLastLogin(new Timestamp(new Date().getTime()));
             try {
-                userDto.save(user);
+                userDao.save(user);
             } catch (Exception e) {
                 return "redirect:/fastlogin/settings?exists";
             }
             activityService.log(user.getName() + " registered with fastlogin", user);
 
-            userDto.save(user);
+            userDao.save(user);
             return "redirect:/";
         }
         return "redirect:/fastlogin/settings?error";

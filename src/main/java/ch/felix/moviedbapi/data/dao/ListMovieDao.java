@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.ListMovie;
 import ch.felix.moviedbapi.data.repository.ListMovieRepository;
@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ListMovieDto implements DtoInterface<ListMovie> {
+public class ListMovieDao implements DaoInterface<ListMovie> {
 
     private ListMovieRepository listMovieRepository;
 
-    public ListMovieDto(ListMovieRepository listMovieRepository) {
+    public ListMovieDao(ListMovieRepository listMovieRepository) {
         this.listMovieRepository = listMovieRepository;
     }
 

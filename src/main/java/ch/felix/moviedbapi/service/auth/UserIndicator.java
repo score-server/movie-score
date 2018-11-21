@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.model;
+package ch.felix.moviedbapi.service.auth;
 
 import ch.felix.moviedbapi.data.entity.User;
 import lombok.Data;

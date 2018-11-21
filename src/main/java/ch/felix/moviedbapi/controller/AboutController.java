@@ -1,9 +1,9 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.EpisodeDto;
-import ch.felix.moviedbapi.data.dto.MovieDto;
-import ch.felix.moviedbapi.data.dto.SerieDto;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.data.dao.EpisodeDao;
+import ch.felix.moviedbapi.data.dao.MovieDao;
+import ch.felix.moviedbapi.data.dao.SerieDao;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,26 +19,26 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("about")
 public class AboutController {
 
-    private EpisodeDto episodeDto;
-    private MovieDto movieDto;
-    private SerieDto serieDto;
+    private EpisodeDao episodeDao;
+    private MovieDao movieDao;
+    private SerieDao serieDao;
 
     private UserAuthService userAuthService;
 
-    public AboutController(EpisodeDto episodeDto, MovieDto movieDto, SerieDto serieDto,
+    public AboutController(EpisodeDao episodeDao, MovieDao movieDao, SerieDao serieDao,
                            UserAuthService userAuthService) {
-        this.episodeDto = episodeDto;
-        this.movieDto = movieDto;
-        this.serieDto = serieDto;
+        this.episodeDao = episodeDao;
+        this.movieDao = movieDao;
+        this.serieDao = serieDao;
         this.userAuthService = userAuthService;
     }
 
     @GetMapping
     public String getAboutPage(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            model.addAttribute("movies", movieDto.getAll().size());
-            model.addAttribute("series", serieDto.getAll().size());
-            model.addAttribute("episodes", episodeDto.getAll().size());
+            model.addAttribute("movies", movieDao.getAll().size());
+            model.addAttribute("series", serieDao.getAll().size());
+            model.addAttribute("episodes", episodeDao.getAll().size());
             model.addAttribute("page", "about");
             return "template";
         } else {

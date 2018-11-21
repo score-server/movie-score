@@ -1,11 +1,11 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.SeasonDto;
-import ch.felix.moviedbapi.data.dto.SerieDto;
+import ch.felix.moviedbapi.data.dao.SeasonDao;
+import ch.felix.moviedbapi.data.dao.SerieDao;
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.service.GenreSearchType;
 import ch.felix.moviedbapi.service.SearchService;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,16 +23,16 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("serie")
 public class SeriesController {
 
-    private SerieDto serieDto;
-    private SeasonDto seasonDto;
+    private SerieDao serieDao;
+    private SeasonDao seasonDao;
 
     private SearchService searchService;
     private UserAuthService userAuthService;
 
-    public SeriesController(SerieDto serieDto, SeasonDto seasonDto, SearchService searchService,
+    public SeriesController(SerieDao serieDao, SeasonDao seasonDao, SearchService searchService,
                             UserAuthService userAuthService) {
-        this.serieDto = serieDto;
-        this.seasonDto = seasonDto;
+        this.serieDao = serieDao;
+        this.seasonDao = seasonDao;
         this.searchService = searchService;
         this.userAuthService = userAuthService;
     }
@@ -58,10 +58,10 @@ public class SeriesController {
     @GetMapping(value = "/{serieId}")
     public String getOneSerie(@PathVariable("serieId") String serieId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            Serie serie = serieDto.getById(Long.valueOf(serieId));
+            Serie serie = serieDao.getById(Long.valueOf(serieId));
 
             model.addAttribute("serie", serie);
-            model.addAttribute("seasons", seasonDto.getBySerie(serie));
+            model.addAttribute("seasons", seasonDao.getBySerie(serie));
             model.addAttribute("page", "serie");
             return "template";
         } else {

@@ -1,17 +1,20 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.Blog;
+import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.BlogRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
-public class BlogDto implements DtoInterface<Blog> {
+public class BlogDao implements DaoInterface<Blog> {
 
     private BlogRepository blogRepository;
 
-    public BlogDto(BlogRepository blogRepository) {
+    public BlogDao(BlogRepository blogRepository) {
         this.blogRepository = blogRepository;
     }
 
@@ -32,5 +35,14 @@ public class BlogDto implements DtoInterface<Blog> {
 
     public void delete(Blog blog) {
         blogRepository.delete(blog);
+    }
+
+    public void createBlog(String title, String text, User user) {
+        Blog blog = new Blog();
+        blog.setTitle(title);
+        blog.setText(text.replace("\r\n", "<br>"));
+        blog.setUser(user);
+        blog.setTimestamp(new Timestamp(new Date().getTime()));
+        save(blog);
     }
 }

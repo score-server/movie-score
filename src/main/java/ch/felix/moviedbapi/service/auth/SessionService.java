@@ -1,6 +1,6 @@
-package ch.felix.moviedbapi.service;
+package ch.felix.moviedbapi.service.auth;
 
-import ch.felix.moviedbapi.data.dto.SessionDto;
+import ch.felix.moviedbapi.data.dao.SessionDao;
 import ch.felix.moviedbapi.data.entity.Session;
 import ch.felix.moviedbapi.data.entity.User;
 import org.springframework.stereotype.Service;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SessionService {
 
-    private SessionDto sessionDto;
+    private SessionDao sessionDto;
 
-    public SessionService(SessionDto sessionDto) {
+    public SessionService(SessionDao sessionDto) {
         this.sessionDto = sessionDto;
     }
 

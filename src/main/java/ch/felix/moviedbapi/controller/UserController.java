@@ -1,13 +1,13 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.ActivityLogDto;
-import ch.felix.moviedbapi.data.dto.TimeLineDto;
-import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.dao.ActivityLogDao;
+import ch.felix.moviedbapi.data.dao.TimeLineDao;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
 import ch.felix.moviedbapi.service.SearchService;
-import ch.felix.moviedbapi.service.ShaService;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.ShaService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +30,9 @@ import java.util.Random;
 @RequestMapping("user")
 public class UserController {
 
-    private TimeLineDto timeLineDto;
-    private ActivityLogDto activityLogDto;
-    private UserDto userDto;
+    private TimeLineDao timeLineDao;
+    private ActivityLogDao logDao;
+    private UserDao userDao;
 
     private ShaService shaService;
     private SearchService searchService;
@@ -40,16 +40,16 @@ public class UserController {
     private ActivityService activityService;
 
 
-    public UserController(TimeLineDto timeLineDto, UserDto userDto, ShaService shaService,
+    public UserController(TimeLineDao timeLineDao, UserDao userDao, ShaService shaService,
                           SearchService searchService, UserAuthService userAuthService,
-                          ActivityService activityService, ActivityLogDto activityLogDto) {
-        this.timeLineDto = timeLineDto;
-        this.userDto = userDto;
+                          ActivityService activityService, ActivityLogDao logDao) {
+        this.timeLineDao = timeLineDao;
+        this.userDao = userDao;
         this.shaService = shaService;
         this.searchService = searchService;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
-        this.activityLogDto = activityLogDto;
+        this.logDao = logDao;
     }
 
     @GetMapping
@@ -68,13 +68,13 @@ public class UserController {
     @GetMapping(value = "{userId}")
     public String getOneUser(@PathVariable("userId") String userId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            User user = userDto.getById(Long.valueOf(userId));
+            User user = userDao.getById(Long.valueOf(userId));
 
             model.addAttribute("user", user);
             model.addAttribute("requests", user.getRequests());
-            model.addAttribute("timelines", timeLineDto.getByUser(user));
+            model.addAttribute("timelines", timeLineDao.getByUser(user));
             model.addAttribute("activities",
-                    activityLogDto.getAllByUser(user));
+                    logDao.getAllByUser(user));
             if (user.getPasswordSha().endsWith("-NOK")) {
                 model.addAttribute("registered", false);
             } else {
@@ -95,9 +95,9 @@ public class UserController {
         User currentUser = userAuthService.getUser(request).getUser();
 
         if (userAuthService.isAdministrator(request)) {
-            User user = userDto.getById(Long.valueOf(userId));
+            User user = userDao.getById(Long.valueOf(userId));
             user.setRole(Integer.valueOf(role));
-            userDto.save(user);
+            userDao.save(user);
             activityService.log(currentUser.getName() + " changed role of " + user.getName() + " to " + role, user);
             return "redirect:/user/" + userId + "?role";
         } else {
@@ -111,7 +111,7 @@ public class UserController {
         User currentUser = userAuthService.getUser(request).getUser();
 
         if (userAuthService.isAdministrator(request)) {
-            User user = userDto.getById(Long.valueOf(userId));
+            User user = userDao.getById(Long.valueOf(userId));
             if (alpha.equals("1")) {
                 activityService.log(currentUser.getName() + " is Sexy", user);
                 user.setSexabig(true);
@@ -119,7 +119,7 @@ public class UserController {
                 user.setSexabig(false);
                 activityService.log(currentUser.getName() + " is no longer Sexy", user);
             }
-            userDto.save(user);
+            userDao.save(user);
             return "redirect:/user/" + userId;
         } else {
             return "redirect:/user/" + userId + "?error";
@@ -129,11 +129,11 @@ public class UserController {
     @PostMapping("{userId}/name")
     public String setUsername(@PathVariable("userId") String userId, @RequestParam("name") String newName,
                               Model model, HttpServletRequest request) {
-        User user = userDto.getById(Long.valueOf(userId));
+        User user = userDao.getById(Long.valueOf(userId));
         String oldName = user.getName();
         if (userAuthService.isCurrentUser(model, request, user)) {
             user.setName(newName);
-            userDto.save(user);
+            userDao.save(user);
             activityService.log(oldName + " changed Username to " + newName, user);
             return "redirect:/user/" + userId + "?username";
         } else {
@@ -146,11 +146,11 @@ public class UserController {
                               @RequestParam("old") String oldPassword,
                               @RequestParam("new") String newPassword, Model model, HttpServletRequest request) {
 
-        User user = userDto.getByIdAndPasswordSha(Long.valueOf(userId), shaService.encode(oldPassword));
+        User user = userDao.getByIdAndPasswordSha(Long.valueOf(userId), shaService.encode(oldPassword));
 
         if (userAuthService.isCurrentUser(model, request, user)) {
             user.setPasswordSha(shaService.encode(newPassword));
-            userDto.save(user);
+            userDao.save(user);
             activityService.log(user.getName() + " changed Password", user);
             return "redirect:/user/" + userId + "?password";
         } else {
@@ -162,11 +162,11 @@ public class UserController {
     public String setPlayer(@PathVariable("userId") String userId,
                             @RequestParam("player") String videoPlayer, Model model, HttpServletRequest request) {
 
-        User user = userDto.getById(Long.valueOf(userId));
+        User user = userDao.getById(Long.valueOf(userId));
 
         if (userAuthService.isCurrentUser(model, request, user)) {
             user.setVideoPlayer(videoPlayer);
-            userDto.save(user);
+            userDao.save(user);
             activityService.log(user.getName() + " set Video Player to " + videoPlayer, user);
             switch (videoPlayer) {
                 case "plyr":
@@ -184,9 +184,9 @@ public class UserController {
     @PostMapping("generate/{userId}")
     public String generateKey(@PathVariable("userId") Long userId, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            User user = userDto.getById(userId);
+            User user = userDao.getById(userId);
             user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7));
-            userDto.save(user);
+            userDao.save(user);
         }
         return "redirect:/user/" + userId;
     }

@@ -1,10 +1,10 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.GroupDto;
-import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.dao.GroupDao;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.GroupInvite;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,22 +19,22 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("group")
 public class GroupController {
 
-    private GroupDto groupDto;
-    private UserDto userDto;
+    private GroupDao groupDao;
+    private UserDao userDao;
 
     private UserAuthService userAuthService;
 
-    public GroupController(GroupDto groupDto, UserDto userDto, UserAuthService userAuthService) {
-        this.groupDto = groupDto;
-        this.userDto = userDto;
+    public GroupController(GroupDao groupDao, UserDao userDao, UserAuthService userAuthService) {
+        this.groupDao = groupDao;
+        this.userDao = userDao;
         this.userAuthService = userAuthService;
     }
 
     @GetMapping
     public String getGroupList(HttpServletRequest request, Model model) {
         if (userAuthService.isAdministrator(model, request)) {
-            model.addAttribute("groups", groupDto.getAll());
-            model.addAttribute("users", userDto.getAll());
+            model.addAttribute("groups", groupDao.getAll());
+            model.addAttribute("users", userDao.getAll());
             model.addAttribute("page", "groupList");
             return "template";
         }
@@ -44,13 +44,13 @@ public class GroupController {
     @PostMapping("/delete/{groupId}")
     public String deleteGroup(@PathVariable Long groupId, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            GroupInvite group = groupDto.getById(groupId);
+            GroupInvite group = groupDao.getById(groupId);
             if (group.isActive()) {
                 group.setActive(false);
             } else {
                 group.setActive(true);
             }
-            groupDto.save(group);
+            groupDao.save(group);
             return "redirect:/group?deactivated";
         }
         return "redirect:/";
@@ -61,7 +61,7 @@ public class GroupController {
         if (userAuthService.isAdministrator(request)) {
             GroupInvite groupInvite = new GroupInvite();
             groupInvite.setName(name);
-            groupDto.save(groupInvite);
+            groupDao.save(groupInvite);
             return "redirect:/group?created";
         }
         return "redirect:/";
@@ -71,9 +71,9 @@ public class GroupController {
     @PostMapping("remove/{userId}")
     public String removeUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            User user = userDto.getById(userId);
+            User user = userDao.getById(userId);
             user.setGroup(null);
-            userDto.save(user);
+            userDao.save(user);
             return "redirect:/group?removed";
         }
         return "redirect:/";
@@ -85,9 +85,9 @@ public class GroupController {
                           HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
             try {
-                User user = userDto.getByName(name);
-                user.setGroup(groupDto.getById(groupId));
-                userDto.save(user);
+                User user = userDao.getByName(name);
+                user.setGroup(groupDao.getById(groupId));
+                userDao.save(user);
                 return "redirect:/group?added";
             } catch (NullPointerException e) {
                 return "redirect:/group?notexist=" + name;

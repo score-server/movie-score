@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.UserRepository;
@@ -7,18 +7,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserDto implements DtoInterface<User> {
+public class UserDao implements DaoInterface<User> {
 
     private UserRepository userRepository;
-    private SessionDto sessionDto;
+    private SessionDao sessionDao;
 
-    public UserDto(UserRepository userRepository, SessionDto sessionDto) {
+    public UserDao(UserRepository userRepository, SessionDao sessionDao) {
         this.userRepository = userRepository;
-        this.sessionDto = sessionDto;
+        this.sessionDao = sessionDao;
     }
 
     public User getBySessionId(String sessionId) {
-        return sessionDto.getBySessionId(sessionId).getUser();
+        return sessionDao.getBySessionId(sessionId).getUser();
     }
 
     public User getByAuthKey(String authkey) {

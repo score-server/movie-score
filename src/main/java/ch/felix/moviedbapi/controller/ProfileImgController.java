@@ -1,8 +1,8 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +22,11 @@ import java.io.IOException;
 @RequestMapping("img")
 public class ProfileImgController {
 
-    private UserDto userDto;
+    private UserDao userDto;
 
     private UserAuthService userAuthService;
 
-    public ProfileImgController(UserDto userDto, UserAuthService userAuthService) {
+    public ProfileImgController(UserDao userDto, UserAuthService userAuthService) {
         this.userDto = userDto;
         this.userAuthService = userAuthService;
     }

@@ -1,6 +1,6 @@
 package ch.felix.moviedbapi.service.importer;
 
-import ch.felix.moviedbapi.data.dto.MovieDto;
+import ch.felix.moviedbapi.data.dao.MovieDao;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.jsonmodel.tmdb.MovieJson;
 import ch.felix.moviedbapi.service.ImportLogService;
@@ -13,14 +13,14 @@ import java.util.List;
 @Service
 public class MovieImportService extends ImportServiceFactory {
 
-    private MovieDto movieDto;
+    private MovieDao movieDto;
 
     private SettingsService settingsService;
     private SearchMovieService searchMovieService;
     private ImportLogService importLogService;
     private GenreImportService genreImportService;
 
-    public MovieImportService(MovieDto movieDto, SettingsService settingsService,
+    public MovieImportService(MovieDao movieDto, SettingsService settingsService,
                               SearchMovieService searchMovieService, ImportLogService importLogService, GenreImportService genreImportService) {
         super(settingsService);
         this.movieDto = movieDto;

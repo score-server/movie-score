@@ -1,13 +1,13 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.ListMovieDto;
-import ch.felix.moviedbapi.data.dto.MovieDto;
-import ch.felix.moviedbapi.data.dto.TimeLineDto;
+import ch.felix.moviedbapi.data.dao.ListMovieDao;
+import ch.felix.moviedbapi.data.dao.MovieDao;
+import ch.felix.moviedbapi.data.dao.TimeLineDao;
 import ch.felix.moviedbapi.data.entity.ListMovie;
 import ch.felix.moviedbapi.data.entity.Timeline;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,19 +22,19 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("timeline")
 public class TimelineController {
 
-    private MovieDto movieDto;
-    private TimeLineDto timeLineDto;
-    private ListMovieDto listMovieDto;
+    private MovieDao movieDao;
+    private TimeLineDao timeLineDao;
+    private ListMovieDao listMovieDao;
 
     private UserAuthService userAuthService;
     private ActivityService activityService;
 
-    public TimelineController(MovieDto movieDto, TimeLineDto timeLineDto,
-                              ListMovieDto listMovieDto, UserAuthService userAuthService,
+    public TimelineController(MovieDao movieDao, TimeLineDao timeLineDao,
+                              ListMovieDao listMovieDao, UserAuthService userAuthService,
                               ActivityService activityService) {
-        this.movieDto = movieDto;
-        this.timeLineDto = timeLineDto;
-        this.listMovieDto = listMovieDto;
+        this.movieDao = movieDao;
+        this.timeLineDao = timeLineDao;
+        this.listMovieDao = listMovieDao;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
     }
@@ -44,10 +44,10 @@ public class TimelineController {
                                Model model, HttpServletRequest request) {
 
         if (userAuthService.isUser(model, request)) {
-            Timeline timeLine = timeLineDto.getById(Long.valueOf(timeLineId));
+            Timeline timeLine = timeLineDao.getById(Long.valueOf(timeLineId));
             if (isCurrentUser(request, timeLine) || isAdministrator(request)) {
                 model.addAttribute("timeline", timeLine);
-                model.addAttribute("movies", movieDto.getOrderByTitle());
+                model.addAttribute("movies", movieDao.getOrderByTitle());
                 getNextPlace(model, timeLine);
 
                 model.addAttribute("page", "editTimeline");
@@ -63,13 +63,13 @@ public class TimelineController {
                                @RequestParam("movie") String movieId,
                                HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            Timeline timeline = timeLineDto.getById(Long.valueOf(timeLineId));
+            Timeline timeline = timeLineDao.getById(Long.valueOf(timeLineId));
             if (isCurrentUser(request, timeline) || isAdministrator(request)) {
                 ListMovie listMovie = new ListMovie();
                 listMovie.setPlace(Integer.valueOf(place));
-                listMovie.setMovie(movieDto.getById(Long.valueOf(movieId)));
+                listMovie.setMovie(movieDao.getById(Long.valueOf(movieId)));
                 listMovie.setTimeline(timeline);
-                listMovieDto.save(listMovie);
+                listMovieDao.save(listMovie);
                 return "redirect:/timeline/edit/" + timeLineId;
             }
         }
@@ -82,11 +82,11 @@ public class TimelineController {
                                      @RequestParam("description") String description,
                                      HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            Timeline timeline = timeLineDto.getById(Long.valueOf(timeLineId));
+            Timeline timeline = timeLineDao.getById(Long.valueOf(timeLineId));
             if (isCurrentUser(request, timeline) || isAdministrator(request)) {
                 timeline.setTitle(title);
                 timeline.setDescription(description);
-                timeLineDto.save(timeline);
+                timeLineDao.save(timeline);
                 return "redirect:/timeline/edit/" + timeLineId;
             }
         }
@@ -97,9 +97,9 @@ public class TimelineController {
     public String deleteFromList(@PathVariable("movieParId") String movieParId,
                                  HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            ListMovie listMovie = listMovieDto.getById(Long.valueOf(movieParId));
+            ListMovie listMovie = listMovieDao.getById(Long.valueOf(movieParId));
             if (isCurrentUser(request, listMovie.getTimeline()) || isAdministrator(request)) {
-                listMovieDto.delete(listMovie);
+                listMovieDao.delete(listMovie);
                 return "redirect:/timeline/edit/" + listMovie.getTimeline().getId();
             }
         }
@@ -128,7 +128,7 @@ public class TimelineController {
             timeline.setTitle(title);
             timeline.setUser(user);
             timeline.setDescription(description);
-            timeLineDto.save(timeline);
+            timeLineDao.save(timeline);
 
             activityService.log(user.getName() + " created list " + title, user);
             return "redirect:/list?list";
@@ -141,9 +141,9 @@ public class TimelineController {
     public String deleteTimeline(@PathVariable("timelineId") String timeLineId,
                                  Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            Timeline timeline = timeLineDto.getById(Long.valueOf(timeLineId));
+            Timeline timeline = timeLineDao.getById(Long.valueOf(timeLineId));
             if (isCurrentUser(request, timeline) || isAdministrator(request)) {
-                timeLineDto.delete(timeline);
+                timeLineDao.delete(timeline);
                 return "redirect:/list?deleted";
             }
         }

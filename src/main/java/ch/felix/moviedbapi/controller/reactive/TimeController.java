@@ -1,15 +1,14 @@
 package ch.felix.moviedbapi.controller.reactive;
 
-import ch.felix.moviedbapi.data.dto.EpisodeDto;
-import ch.felix.moviedbapi.data.dto.MovieDto;
-import ch.felix.moviedbapi.data.dto.TimeDto;
-import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.dao.EpisodeDao;
+import ch.felix.moviedbapi.data.dao.MovieDao;
+import ch.felix.moviedbapi.data.dao.TimeDao;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Time;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.data.repository.EpisodeRepository;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,20 +23,20 @@ import java.util.Date;
 @RequestMapping("time")
 public class TimeController {
 
-    private UserDto userDto;
-    private MovieDto movieDto;
-    private TimeDto timeDto;
-    private EpisodeDto episodeDto;
+    private UserDao userDao;
+    private MovieDao movieDao;
+    private TimeDao timeDao;
+    private EpisodeDao episodeDao;
 
     private UserAuthService userAuthService;
 
-    public TimeController(UserDto userDto, MovieDto movieDto,
-                          TimeDto timeDto, EpisodeDto episodeDto,
+    public TimeController(UserDao userDao, MovieDao movieDao,
+                          TimeDao timeDao, EpisodeDao episodeDao,
                           UserAuthService userAuthService) {
-        this.userDto = userDto;
-        this.movieDto = movieDto;
-        this.timeDto = timeDto;
-        this.episodeDto = episodeDto;
+        this.userDao = userDao;
+        this.movieDao = movieDao;
+        this.timeDao = timeDao;
+        this.episodeDao = episodeDao;
         this.userAuthService = userAuthService;
     }
 
@@ -45,22 +44,22 @@ public class TimeController {
     public String setTime(@RequestParam("userId") Long userId, @RequestParam("movieId") Long movieId,
                           @RequestParam("time") Float timeParam, HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            Movie movie = movieDto.getById(movieId);
-            User user = userDto.getById(userId);
+            Movie movie = movieDao.getById(movieId);
+            User user = userDao.getById(userId);
 
-            Time time = timeDto.getByUserAndMovie(user, movie);
+            Time time = timeDao.getByUserAndMovie(user, movie);
             try {
                 time.getId();
                 time.setTime(timeParam);
                 time.setTimestamp(getTimestamp());
-                timeDto.save(time);
+                timeDao.save(time);
             } catch (NullPointerException e) {
                 time = new Time();
                 time.setTime(timeParam);
                 time.setMovie(movie);
                 time.setUser(user);
                 time.setTimestamp(getTimestamp());
-                timeDto.save(time);
+                timeDao.save(time);
             }
         }
         return "null";
@@ -70,22 +69,22 @@ public class TimeController {
     public String setTimeforEpisode(@RequestParam("userId") Long userId, @RequestParam("episodeId") Long episodeId,
                                     @RequestParam("time") Float timeParam, HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            Episode episode = episodeDto.getById(episodeId);
-            User user = userDto.getById(userId);
+            Episode episode = episodeDao.getById(episodeId);
+            User user = userDao.getById(userId);
 
-            Time time = timeDto.getByUserAndEpisode(user, episode);
+            Time time = timeDao.getByUserAndEpisode(user, episode);
             try {
                 time.getId();
                 time.setTime(timeParam);
                 time.setTimestamp(getTimestamp());
-                timeDto.save(time);
+                timeDao.save(time);
             } catch (NullPointerException e) {
                 time = new Time();
                 time.setTime(timeParam);
                 time.setEpisode(episode);
                 time.setUser(user);
                 time.setTimestamp(getTimestamp());
-                timeDto.save(time);
+                timeDao.save(time);
             }
         }
         return "null";
@@ -93,9 +92,9 @@ public class TimeController {
 
     @PostMapping("delete/{timeId}")
     public String deleteTime(@PathVariable("timeId") Long timeId, HttpServletRequest request) {
-        Time time = timeDto.getById(timeId);
+        Time time = timeDao.getById(timeId);
         if (time.getUser() == userAuthService.getUser(request).getUser()) {
-            timeDto.delete(time);
+            timeDao.delete(time);
             return "redirect:/";
         }
         return "redirect:/?error";

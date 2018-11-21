@@ -48,4 +48,7 @@ public class Episode {
         }
     }
 
+    public String getFullTitle() {
+        return season.getSerie().getTitle() + " S" + season.getSeason() + "E" + getEpisode();
+    }
 }

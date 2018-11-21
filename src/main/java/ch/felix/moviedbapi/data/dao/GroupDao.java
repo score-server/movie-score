@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.GroupInvite;
 import ch.felix.moviedbapi.data.repository.GroupRepository;
@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GroupDto implements DtoInterface<GroupInvite> {
+public class GroupDao implements DaoInterface<GroupInvite> {
 
     private GroupRepository groupRepository;
 
-    public GroupDto(GroupRepository groupRepository) {
+    public GroupDao(GroupRepository groupRepository) {
         this.groupRepository = groupRepository;
     }
 

@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.repository.MovieRepository;
@@ -10,11 +10,11 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
-public class MovieDto implements DtoInterface<Movie> {
+public class MovieDao implements DaoInterface<Movie> {
 
     private MovieRepository movieRepository;
 
-    public MovieDto(MovieRepository movieRepository) {
+    public MovieDao(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
     }
 

@@ -1,14 +1,14 @@
 package ch.felix.moviedbapi.controller;
 
-import ch.felix.moviedbapi.data.dto.GroupDto;
-import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.dao.GroupDao;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.GroupInvite;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
-import ch.felix.moviedbapi.service.CookieService;
-import ch.felix.moviedbapi.service.SessionService;
-import ch.felix.moviedbapi.service.ShaService;
-import ch.felix.moviedbapi.service.UserAuthService;
+import ch.felix.moviedbapi.service.auth.CookieService;
+import ch.felix.moviedbapi.service.auth.SessionService;
+import ch.felix.moviedbapi.service.auth.ShaService;
+import ch.felix.moviedbapi.service.auth.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,8 +34,8 @@ import java.util.Random;
 @RequestMapping("register")
 public class RegisterController {
 
-    private UserDto userDto;
-    private GroupDto groupDto;
+    private UserDao userDao;
+    private GroupDao groupDao;
 
     private ShaService shaService;
     private UserAuthService userAuthService;
@@ -43,11 +43,11 @@ public class RegisterController {
     private CookieService cookieService;
     private SessionService sessionService;
 
-    public RegisterController(UserDto userDto, GroupDto groupDto, ShaService shaService,
+    public RegisterController(UserDao userDao, GroupDao groupDao, ShaService shaService,
                               UserAuthService userAuthService, ActivityService activityService,
                               CookieService cookieService, SessionService sessionService) {
-        this.userDto = userDto;
-        this.groupDto = groupDto;
+        this.userDao = userDao;
+        this.groupDao = groupDao;
         this.shaService = shaService;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
@@ -72,7 +72,7 @@ public class RegisterController {
         } else {
             userAuthService.allowGuest(model, request);
 
-            for (GroupInvite groupInvite : groupDto.getAll()) {
+            for (GroupInvite groupInvite : groupDao.getAll()) {
                 if (groupInvite.getName().equals(groupKey)) {
                     if (groupInvite.isActive()) {
                         model.addAttribute("groupKey", groupKey);
@@ -90,7 +90,7 @@ public class RegisterController {
     public String register(@RequestParam("name") String nameParam, HttpServletRequest request) {
         User adminUser = userAuthService.getUser(request).getUser();
         if (userAuthService.isAdministrator(request)) {
-            if (userDto.search(nameParam).size() == 0) {
+            if (userDao.search(nameParam).size() == 0) {
                 User user = new User();
                 user.setName(nameParam);
                 user.setPasswordSha(shaService.encode(String.valueOf(new Random().nextInt())) + "-NOK");
@@ -98,7 +98,7 @@ public class RegisterController {
                 String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
                 user.setAuthKey(authkey);
                 user.setSexabig(false);
-                userDto.save(user);
+                userDao.save(user);
                 activityService.log(nameParam + " registered by " + adminUser.getName(), adminUser);
                 return "redirect:/register?added=" + authkey;
             } else {
@@ -117,8 +117,8 @@ public class RegisterController {
                                @PathVariable("groupKey") String groupKey,
                                HttpServletResponse response) {
         if (password.equals(confirm)) {
-            if (userDto.search(nameParam).size() == 0) {
-                GroupInvite group = groupDto.getByName(groupKey);
+            if (userDao.search(nameParam).size() == 0) {
+                GroupInvite group = groupDao.getByName(groupKey);
                 if (group.isActive()) {
                     User user = new User();
                     user.setName(nameParam);
@@ -129,14 +129,14 @@ public class RegisterController {
                     user.setAuthKey(authkey);
                     user.setGroup(group);
 
-                    userDto.save(user);
+                    userDao.save(user);
                     activityService.log(nameParam + " registered with groupkey " + groupKey, user);
 
                     String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
                     cookieService.setUserCookie(response, sessionId);
                     sessionService.addSession(user, sessionId);
                     user.setLastLogin(new Timestamp(new Date().getTime()));
-                    userDto.save(user);
+                    userDao.save(user);
                     activityService.log(user.getName() + " logged in", user);
 
                     return "redirect:/";

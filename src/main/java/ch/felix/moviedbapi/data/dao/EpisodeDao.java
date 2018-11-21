@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.entity.Season;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EpisodeDto implements DtoInterface<Episode> {
+public class EpisodeDao implements DaoInterface<Episode> {
 
     private EpisodeRepository episodeRepository;
 
-    public EpisodeDto(EpisodeRepository episodeRepository) {
+    public EpisodeDao(EpisodeRepository episodeRepository) {
         this.episodeRepository = episodeRepository;
     }
 

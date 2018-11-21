@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.entity.Movie;
@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TimeDto implements DtoInterface<Time> {
+public class TimeDao implements DaoInterface<Time> {
 
     private TimeRepository timeRepository;
-    private EpisodeDto episodeDto;
+    private EpisodeDao episodeDao;
 
-    public TimeDto(TimeRepository timeRepository, EpisodeDto episodeDto) {
+    public TimeDao(TimeRepository timeRepository, EpisodeDao episodeDao) {
         this.timeRepository = timeRepository;
-        this.episodeDto = episodeDto;
+        this.episodeDao = episodeDao;
     }
 
     public List<StartedVideo> getStartedMovies(User user) {
@@ -44,7 +44,7 @@ public class TimeDto implements DtoInterface<Time> {
                 boolean serieExists = false;
                 for (StartedVideo startedVideoInList : startedVideoList) {
                     if (startedVideoInList.getVideoModel().getType().equals("episode")) {
-                        if (episodeDto.getById(startedVideoInList.getVideoModel().getId()).getSeason().getSerie().getId()
+                        if (episodeDao.getById(startedVideoInList.getVideoModel().getId()).getSeason().getSerie().getId()
                                 == episode.getSeason().getSerie().getId()) {
                             serieExists = true;
                         }

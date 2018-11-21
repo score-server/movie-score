@@ -1,8 +1,7 @@
-package ch.felix.moviedbapi.service;
+package ch.felix.moviedbapi.service.auth;
 
-import ch.felix.moviedbapi.data.dto.UserDto;
+import ch.felix.moviedbapi.data.dao.UserDao;
 import ch.felix.moviedbapi.data.entity.User;
-import ch.felix.moviedbapi.model.UserIndicator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -15,12 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class UserAuthService {
 
-    private UserDto userDto;
+    private UserDao userDao;
 
     private CookieService cookieService;
 
-    public UserAuthService(UserDto userDto, CookieService cookieService) {
-        this.userDto = userDto;
+    public UserAuthService(UserDao userDao, CookieService cookieService) {
+        this.userDao = userDao;
         this.cookieService = cookieService;
     }
 
@@ -61,7 +60,7 @@ public class UserAuthService {
     }
 
     public boolean isUser(String sessionId) {
-        User user = userDto.getBySessionId(sessionId);
+        User user = userDao.getBySessionId(sessionId);
 
         return user != null;
     }

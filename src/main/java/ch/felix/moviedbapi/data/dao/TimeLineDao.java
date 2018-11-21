@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.data.dto;
+package ch.felix.moviedbapi.data.dao;
 
 import ch.felix.moviedbapi.data.entity.Timeline;
 import ch.felix.moviedbapi.data.entity.User;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TimeLineDto implements DtoInterface<Timeline> {
+public class TimeLineDao implements DaoInterface<Timeline> {
 
     private TimelineRepository timelineRepository;
 
-    public TimeLineDto(TimelineRepository timelineRepository) {
+    public TimeLineDao(TimelineRepository timelineRepository) {
         this.timelineRepository = timelineRepository;
     }
 
