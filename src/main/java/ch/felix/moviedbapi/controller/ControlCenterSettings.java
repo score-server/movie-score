@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Wetwer
  * @project movie-db
  */
+
 @Controller
 @RequestMapping("settings")
 public class ControlCenterSettings {

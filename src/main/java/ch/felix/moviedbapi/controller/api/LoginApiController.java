@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Random;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
+
 @CrossOrigin
 @RestController
 @RequestMapping("api/login")

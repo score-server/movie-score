@@ -8,6 +8,11 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
+
 @ControllerAdvice
 public class ExceptionController {
 

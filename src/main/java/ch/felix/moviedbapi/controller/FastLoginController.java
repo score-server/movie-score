@@ -21,6 +21,11 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
+
 @Controller
 @RequestMapping("fastlogin")
 public class FastLoginController {

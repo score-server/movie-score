@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
+
 @CrossOrigin
 @RestController
 @RequestMapping("api/steam")

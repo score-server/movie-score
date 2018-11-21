@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author Wetwer
+ * @project movie-db
+ */
+
 @Controller
 @RequestMapping("group")
 public class GroupController {
