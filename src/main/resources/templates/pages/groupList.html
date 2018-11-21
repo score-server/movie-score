@@ -65,9 +65,10 @@
                         <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
                     </form>
                 </li>
-                <li class="list-group-item">
+                <li class="list-group-item list-group-item-success">
                     <form th:action="'/group/' + ${group.id} + '/add'" method="post">
-                        <input type="text" name="name" list="users" placeholder="New Meber" class="form-control">
+                        <input type="text" name="name" list="users" autocomplete="off" placeholder="New Meber"
+                               class="form-control">
                     </form>
                 </li>
                 <li th:if="${group.users.isEmpty()}" class="list-group-item list-group-item-secondary">No Members</li>
