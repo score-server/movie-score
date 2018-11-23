@@ -34,8 +34,8 @@ public class User {
     @Size(min = 3, max = 20)
     private String name;
 
-    @JsonIgnore
     @NotNull
+    @JsonIgnore
     private String passwordSha;
 
     @ManyToOne
@@ -43,8 +43,10 @@ public class User {
 
     private Integer role;
 
+    @JsonIgnore
     private String videoPlayer;
 
+    @JsonIgnore
     private Timestamp lastLogin;
 
     private boolean sexabig;
