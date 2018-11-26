@@ -23,7 +23,7 @@ public class ImportLogService {
     }
 
     public void importLog(Movie movie, String log) {
-        ImportLog importLog = new ImportLog();
+        final ImportLog importLog = new ImportLog();
         importLog.setMovie(movie);
         importLog.setLog(log);
         importLog.setType("ok");

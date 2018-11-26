@@ -67,8 +67,7 @@ public class BlogController {
                               @RequestParam("title") String title,
                               @RequestParam("text") String text, Model model, HttpServletRequest request) {
         if (userAuthService.isAdministrator(model, request)) {
-            User user = userDto.getById(Long.valueOf(userId));
-
+            final User user = userDto.getById(Long.valueOf(userId));
             blogDao.createBlog(title, text, user);
             activityService.log(user.getName() + " created new Blog Post", user);
             return "redirect:/blog?new";

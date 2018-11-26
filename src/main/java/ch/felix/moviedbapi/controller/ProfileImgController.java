@@ -45,7 +45,7 @@ public class ProfileImgController {
     public String uploadProfileImg(@RequestParam("file") MultipartFile file, @PathVariable("userId") String userId,
                                    HttpServletRequest request) throws IOException {
         if (userAuthService.isUser(request)) {
-            User user = userDto.getById(Long.valueOf(userId));
+            final User user = userDto.getById(Long.valueOf(userId));
             user.setProfileImg(file.getBytes());
             userDto.save(user);
             return "redirect:/user/" + userId + "?profile";

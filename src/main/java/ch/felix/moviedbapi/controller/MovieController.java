@@ -88,15 +88,15 @@ public class MovieController {
     @PostMapping("{movieId}/like")
     public String likeMovie(@PathVariable("movieId") String movieId, HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            User user = userAuthService.getUser(request).getUser();
-            Movie movie = movieDto.getById(Long.valueOf(movieId));
+            final User user = userAuthService.getUser(request).getUser();
+            final Movie movie = movieDto.getById(Long.valueOf(movieId));
             try {
-                Likes likes = likesDto.getByUserAndMovie(user, movie);
+                final Likes likes = likesDto.getByUserAndMovie(user, movie);
                 likes.getId();
                 likesDto.delete(likes);
                 activityService.log(user.getName() + " removed like on movie " + movie.getTitle(), user);
             } catch (NullPointerException e) {
-                Likes likes = new Likes();
+                final Likes likes = new Likes();
                 likes.setMovie(movie);
                 likes.setUser(user);
                 likesDto.save(likes);
@@ -113,8 +113,8 @@ public class MovieController {
     public String setMoviePath(@PathVariable("movieId") Long movieId, @RequestParam("path") String path,
                                HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            User user = userAuthService.getUser(request).getUser();
-            Movie movie = movieDto.getById(movieId);
+            final User user = userAuthService.getUser(request).getUser();
+            final Movie movie = movieDto.getById(movieId);
             movie.setVideoPath(path);
             movieDto.save(movie);
             movieImportService.updateFile(new File(path));
@@ -131,7 +131,7 @@ public class MovieController {
                                @RequestParam("tmdbId") Integer tmdbId,
                                HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            Movie movie = movieDto.getById(movieId);
+            final Movie movie = movieDto.getById(movieId);
             movie.setQuality(quality);
             movie.setYear(year);
             movie.setTmdbId(tmdbId);

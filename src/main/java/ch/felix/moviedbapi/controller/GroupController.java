@@ -49,7 +49,7 @@ public class GroupController {
     @PostMapping("/delete/{groupId}")
     public String deleteGroup(@PathVariable Long groupId, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            GroupInvite group = groupDao.getById(groupId);
+            final GroupInvite group = groupDao.getById(groupId);
             if (group.isActive()) {
                 group.setActive(false);
             } else {
@@ -64,7 +64,7 @@ public class GroupController {
     @PostMapping("/new")
     public String saveGroup(@RequestParam("name") String name, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            GroupInvite groupInvite = new GroupInvite();
+            final GroupInvite groupInvite = new GroupInvite();
             groupInvite.setName(name);
             groupDao.save(groupInvite);
             return "redirect:/group?created";
@@ -76,7 +76,7 @@ public class GroupController {
     @PostMapping("remove/{userId}")
     public String removeUser(@PathVariable("userId") Long userId, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            User user = userDao.getById(userId);
+            final User user = userDao.getById(userId);
             user.setGroup(null);
             userDao.save(user);
             return "redirect:/group?removed";
@@ -90,7 +90,7 @@ public class GroupController {
                           HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
             try {
-                User user = userDao.getByName(name);
+                final User user = userDao.getByName(name);
                 user.setGroup(groupDao.getById(groupId));
                 userDao.save(user);
                 return "redirect:/group?added";

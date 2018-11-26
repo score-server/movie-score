@@ -40,7 +40,7 @@ public class ImportController {
 
     @PostMapping(value = "movie")
     public String importMovies(Model model, HttpServletRequest request) {
-        User user = userAuthService.getUser(request).getUser();
+        final User user = userAuthService.getUser(request).getUser();
         if (userAuthService.isAdministrator(model, request)) {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";

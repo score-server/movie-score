@@ -109,13 +109,13 @@ public class FastLoginController {
                                @RequestParam(name = "player", required = false, defaultValue = "plyr") String player,
                                HttpServletRequest request, HttpServletResponse response) {
         if (cookieService.getFastLogin(request) != null && passwordParam.equals(confirm)) {
-            User user = userDao.getById(userId);
+            final User user = userDao.getById(userId);
             user.setName(nameParam);
             user.setPasswordSha(shaService.encode(passwordParam));
             user.setVideoPlayer(player);
             user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7));
 
-            String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
+            final String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
             cookieService.setUserCookie(response, sessionId);
             sessionService.addSession(user, sessionId);
             user.setLastLogin(new Timestamp(new Date().getTime()));

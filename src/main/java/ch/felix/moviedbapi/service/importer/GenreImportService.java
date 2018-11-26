@@ -6,8 +6,9 @@ import ch.felix.moviedbapi.data.entity.Genre;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.jsonmodel.tmdb.GenreJson;
-import java.util.List;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Wetwer

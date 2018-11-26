@@ -47,8 +47,8 @@ public class EpisodeController {
     public String getOneEpisode(@PathVariable("episodeId") String episodeId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
 
-            User user = userAuthService.getUser(request).getUser();
-            Episode episode = episodeDao.getById(Long.valueOf(episodeId));
+            final User user = userAuthService.getUser(request).getUser();
+            final Episode episode = episodeDao.getById(Long.valueOf(episodeId));
 
             model.addAttribute("episode", episode);
             model.addAttribute("comments", episode.getComments());
@@ -69,14 +69,14 @@ public class EpisodeController {
     }
 
     private Episode getNextEpisode(Episode episode) {
-        Season season = episode.getSeason();
+        final Season season = episode.getSeason();
         for (Episode nextEpisode : season.getEpisodes()) {
             if (nextEpisode.getEpisode() == episode.getEpisode() + 1) {
                 return nextEpisode;
             }
         }
 
-        Serie serie = season.getSerie();
+        final Serie serie = season.getSerie();
         for (Season nextSeason : serie.getSeasons()) {
             if (nextSeason.getSeason() == season.getSeason() + 1)
                 for (Episode nextEpisode : nextSeason.getEpisodes()) {
@@ -91,8 +91,8 @@ public class EpisodeController {
     @PostMapping("{episodeId}/path")
     public String getOneEpisode(@PathVariable("episodeId") Long episodeId, @RequestParam("path") String path, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            User user = userAuthService.getUser(request).getUser();
-            Episode episode = episodeDao.getById(episodeId);
+            final User user = userAuthService.getUser(request).getUser();
+            final Episode episode = episodeDao.getById(episodeId);
             episode.setPath(path);
             episodeDao.save(episode);
             activityService.log(user.getName() + " changed Path on "

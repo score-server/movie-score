@@ -78,6 +78,7 @@ public class PropertiesHandler {
 
     /**
      * @param key to get property
+     *
      * @return property of key
      */
     public String getProperty(String key) {

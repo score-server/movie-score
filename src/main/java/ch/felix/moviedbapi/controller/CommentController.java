@@ -45,8 +45,8 @@ public class CommentController {
                                      @RequestParam("comment") String commentParam, HttpServletRequest request) {
 
         if (userAuthService.isUser(request)) {
-            User user = userAuthService.getUser(request).getUser();
-            Movie movie = movieDao.getById(Long.valueOf(movieId));
+            final User user = userAuthService.getUser(request).getUser();
+            final Movie movie = movieDao.getById(Long.valueOf(movieId));
 
             commentDao.createMovieComment(user, movie, commentParam);
 
@@ -61,8 +61,8 @@ public class CommentController {
     public String addCommentForEpisode(@RequestParam("episodeId") String episodeId,
                                        @RequestParam("comment") String commentParam, HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            User user = userAuthService.getUser(request).getUser();
-            Episode episode = episodeDao.getById(Long.valueOf(episodeId));
+            final User user = userAuthService.getUser(request).getUser();
+            final Episode episode = episodeDao.getById(Long.valueOf(episodeId));
 
             commentDao.createEpisodeComment(user, episode, commentParam);
 

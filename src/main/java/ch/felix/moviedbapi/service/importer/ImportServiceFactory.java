@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.concurrent.CompletableFuture;
 
 @Async
 @Service
@@ -16,6 +15,12 @@ public abstract class ImportServiceFactory {
 
     protected ImportServiceFactory(SettingsService settingsService) {
         this.settingsService = settingsService;
+    }
+
+    public static float round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
     }
 
     public abstract void importAll();
@@ -29,12 +34,6 @@ public abstract class ImportServiceFactory {
     public float getPercent(int current, int all) {
         float percent = (current * 100.0f) / all;
         return round(percent, 1);
-    }
-
-    public static float round(float d, int decimalPlace) {
-        BigDecimal bd = new BigDecimal(Float.toString(d));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
-        return bd.floatValue();
     }
 
     public void sleep(int millis) {

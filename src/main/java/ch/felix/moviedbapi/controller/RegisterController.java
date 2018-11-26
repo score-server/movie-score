@@ -120,19 +120,19 @@ public class RegisterController {
             if (userDao.search(nameParam).size() == 0) {
                 GroupInvite group = groupDao.getByName(groupKey);
                 if (group.isActive()) {
-                    User user = new User();
+                    final User user = new User();
                     user.setName(nameParam);
                     user.setPasswordSha(shaService.encode(password));
                     user.setRole(1);
                     user.setVideoPlayer(player);
-                    String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
+                    final String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
                     user.setAuthKey(authkey);
                     user.setGroup(group);
 
                     userDao.save(user);
                     activityService.log(nameParam + " registered with groupkey " + groupKey, user);
 
-                    String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
+                    final String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
                     cookieService.setUserCookie(response, sessionId);
                     sessionService.addSession(user, sessionId);
                     user.setLastLogin(new Timestamp(new Date().getTime()));
