@@ -70,5 +70,9 @@ public class Movie {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Time> times;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
+    private List<Subtitle> subtitles;
+
 
 }

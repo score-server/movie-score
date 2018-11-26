@@ -86,6 +86,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Session> sessions;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Subtitle> subtitles;
+
     public boolean isAdmin() {
         if (role == 2) {
             return true;

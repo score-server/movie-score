@@ -25,7 +25,7 @@ public class MovieDao implements DaoInterface<Movie> {
 
     @Override
     public List<Movie> getAll() {
-        return movieRepository.findAll();
+        return movieRepository.findMoviesByOrderByTitle();
     }
 
     public List<Movie> searchTop10(String search) {

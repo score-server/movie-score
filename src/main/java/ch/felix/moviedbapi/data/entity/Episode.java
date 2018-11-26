@@ -34,6 +34,9 @@ public class Episode {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "episode")
     private List<Time> times;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "episode")
+    private List<Subtitle> subtitles;
+
     private String path;
     private String quality;
     private Integer episode;

@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<h1>Upload Subtitle</h1>
+<form action="/subtitle/add" method="post" enctype="multipart/form-data">
+    Subtitle File (.srt)
+    <div class="custom-file">
+        <input name="file" type="file" class="custom-file-input" id="subtitles" required>
+        <label class="custom-file-label" for="subtitles">Choose file...</label>
+    </div>
+    <br>
+    Movie
+    <select name="movieId" class="form-control" required>
+        <option th:each="movie: ${movies}" th:value="${movie.id}" th:text="${movie.title}"></option>
+    </select>
+    <br>
+    Language
+    <select name="language" class="form-control" required>
+        <option value="de">German</option>
+        <option value="en">English</option>
+    </select>
+    <br>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>

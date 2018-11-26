@@ -23,9 +23,13 @@
 <div th:if="${currentUser} != null" th:switch="${currentUser.videoPlayer}" id="movie-div">
     <video th:case="'html5'" controls playsinline th:poster="${movie.backgroundImg}" width="100%" id="html-player">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
+        <track th:each="subtitle : ${movie.subtitles}" th:src="'/subtitle/' + ${subtitle.id}" kind="subtitles"
+               th:srclang="${subtitle.language}" th:label="${subtitle.language}">
     </video>
     <video th:case="*" controls playsinline th:poster="${movie.backgroundImg}" id="player">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
+        <track th:each="subtitle : ${movie.subtitles}" th:src="'/subtitle/' + ${subtitle.id}" kind="subtitles"
+               th:srclang="${subtitle.language}" th:label="${subtitle.language}">
     </video>
 </div>
 
@@ -120,6 +124,8 @@
             <br>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
+        <br>
+        <a href="/subtitle/add">Add Subtitles</a>
     </div>
 </div>
 <br>
