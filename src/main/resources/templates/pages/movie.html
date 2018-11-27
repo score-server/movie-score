@@ -66,20 +66,18 @@
 </div>
 
 <br>
-<div class="card card-body">
-    <details>
-        <summary style="outline: none;">
-            Trailer
-            <i class="fas fa-caret-down float-right"></i>
-        </summary>
-        <div class="card-body">
-            <div class="plyr__video-embed" id="trailer">
-                <iframe th:src="'https://www.youtube.com/embed/' + ${movie.trailerKey}
+<div class="card">
+    <a class="card-body" data-toggle="collapse" href="#trailerCollapse" role="button" aria-expanded="false"
+       aria-controls="trailerCollapse">
+        <i class="fas fa-chevron-down"></i> Trailer
+    </a>
+    <div class="card-body collapse multi-collapse" id="trailerCollapse">
+        <div class="plyr__video-embed" id="trailer">
+            <iframe th:src="'https://www.youtube.com/embed/' + ${movie.trailerKey}
                         + '?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1'"
-                        frameborder="0" allowfullscreen></iframe>
-            </div>
+                    frameborder="0" allowfullscreen></iframe>
         </div>
-    </details>
+    </div>
 </div>
 
 <br>
@@ -102,18 +100,19 @@
 </div>
 <br>
 <div class="card" th:if="${currentUser.isAdmin()}">
-    <div class="card-header">Movie Settings</div>
-    <div class="card-body">
-        <div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i>
-            Change Video Path
-        </div>
+    <a class="card-body" data-toggle="collapse" href="#settingsCollapse" role="button" aria-expanded="false"
+       aria-controls="settingsCollapse">
+        <i class="fas fa-chevron-down"></i> Movie Settings
+    </a>
+    <div class="card-body collapse multi-collapse" id="settingsCollapse">
+        <h3>Change Video Path</h3>
         <form th:action="'/movie/' + ${movie.id} + '/path'" method="post">
             <input th:value="${movie.videoPath}" type="text" class="form-control" name="path">
             <br>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
         <hr>
-        <p>Movie Attributes</p>
+        <h3>Change Movie Attributes</h3>
         <form th:action="'/movie/' + ${movie.id} + '/attributes'" method="post">
             Quality
             <input th:value="${movie.quality}" type="text" class="form-control" name="quality">

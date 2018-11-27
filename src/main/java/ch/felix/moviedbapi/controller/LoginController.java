@@ -52,9 +52,14 @@ public class LoginController {
 
     @GetMapping
     public String getLogin(Model model, HttpServletRequest request) {
-        userAuthService.allowGuest(model, request);
-        model.addAttribute("page", "login");
-        return "template";
+        if (userAuthService.isUser(request)) {
+            return "redirect:/";
+        } else {
+            userAuthService.allowGuest(model, request);
+            model.addAttribute("page", "login");
+            return "template";
+        }
+
     }
 
     @PostMapping
