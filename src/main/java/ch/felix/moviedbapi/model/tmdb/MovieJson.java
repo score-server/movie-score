@@ -1,4 +1,4 @@
-package ch.felix.moviedbapi.jsonmodel.tmdb;
+package ch.felix.moviedbapi.model.tmdb;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

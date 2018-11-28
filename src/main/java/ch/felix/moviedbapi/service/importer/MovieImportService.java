@@ -4,7 +4,7 @@ import ch.felix.moviedbapi.data.dao.MovieDao;
 import ch.felix.moviedbapi.data.dao.UpdateLogDao;
 import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.UpdateLog;
-import ch.felix.moviedbapi.jsonmodel.tmdb.MovieJson;
+import ch.felix.moviedbapi.model.tmdb.MovieJson;
 import ch.felix.moviedbapi.service.ImportLogService;
 import ch.felix.moviedbapi.service.SettingsService;
 import org.springframework.stereotype.Service;

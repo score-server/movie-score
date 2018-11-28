@@ -8,7 +8,7 @@ import ch.felix.moviedbapi.data.entity.UpdateLog;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
-import ch.felix.moviedbapi.jsonmodel.tmdb.SerieJson;
+import ch.felix.moviedbapi.model.tmdb.SerieJson;
 import ch.felix.moviedbapi.service.ImportLogService;
 import ch.felix.moviedbapi.service.SettingsService;
 import org.springframework.stereotype.Service;
