@@ -10,72 +10,93 @@
         <p>Join our <a href="https://discord.gg/6z9Eybe" target="_blank">Discord</a> or
             <a href="https://steamcommunity.com/groups/scoreserver">Steam Group</a></p>
         <p>Powered by <a href="https://scorewinner.ch">scorewinner.ch</a></p>
-        <div class="row card-body">
-            <table class="col-sm-4 table">
-                <tr>
-                    <th>Currently in Database:</th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td>Movies</td>
-                    <td th:text="${movies}"></td>
-                </tr>
-                <tr>
-                    <td>Series</td>
-                    <td th:text="${series}"></td>
-                </tr>
-                <tr>
-                    <td>Serie Episodes</td>
-                    <td th:text="${episodes}"></td>
-                </tr>
-            </table>
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Currently in Database</h3>
+                        <table class=" table">
+                            <tr>
+                                <td>Movies</td>
+                                <td th:text="${movies}"></td>
+                            </tr>
+                            <tr>
+                                <td>Series</td>
+                                <td th:text="${series}"></td>
+                            </tr>
+                            <tr>
+                                <td>Serie Episodes</td>
+                                <td th:text="${episodes}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Latest Imports</h3>
+                        <table class=" table">
+                            <tr th:each="log : ${updateLogs}">
+                                <td th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}"></td>
+                                <td th:text="${log.getTypeLong()}"></td>
+                                <td th:if="${log.completed}" class="alert alert-success">Finished</td>
+                                <td th:if="${!log.completed}" class="alert alert-warning">Running</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <h3>Browser Support</h3>
-        <table class="table">
-            <tr>
-                <th>Browser</th>
-                <th>Tested</th>
-                <th>Should Work</th>
-            </tr>
-            <tr>
-                <td>Chrome (recomended)</td>
-                <td class="alert alert-success">Tested</td>
-                <td class="alert alert-success">Works</td>
-            </tr>
-            <tr>
-                <td>Chrome Android (recomended)</td>
-                <td class="alert alert-success">Tested</td>
-                <td class="alert alert-success">Works</td>
-            </tr>
-            <tr>
-                <td>Opera</td>
-                <td class="alert alert-success">Tested</td>
-                <td class="alert alert-success">Works</td>
-            </tr>
-            <tr>
-                <td>Firefox</td>
-                <td class="alert alert-warning">Partialy Tested</td>
-                <td class="alert alert-success">Works</td>
-            </tr>
-            <tr>
-                <td>Safari Mac</td>
-                <td class="alert alert-danger">Not Tested</td>
-                <td class="alert alert-warning">Known Bugs</td>
-            </tr>
-            <tr>
-                <td>Safari iPhone</td>
-                <td class="alert alert-danger">Not Tested</td>
-                <td class="alert alert-warning">Known Bugs</td>
-            </tr>
-            <tr>
-                <td>IE/Edge</td>
-                <td class="alert alert-danger">Not Tested</td>
-                <td class="alert alert-danger">Lots of Bugs</td>
-            </tr>
-        </table>
-
-
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <h3>Browser Support</h3>
+                <table class="table">
+                    <tr>
+                        <th>Browser</th>
+                        <th>Tested</th>
+                        <th>Should Work</th>
+                    </tr>
+                    <tr>
+                        <td>Chrome (recomended)</td>
+                        <td class="alert alert-success">Tested</td>
+                        <td class="alert alert-success">Works</td>
+                    </tr>
+                    <tr>
+                        <td>Chrome Android (recomended)</td>
+                        <td class="alert alert-success">Tested</td>
+                        <td class="alert alert-success">Works</td>
+                    </tr>
+                    <tr>
+                        <td>Opera</td>
+                        <td class="alert alert-success">Tested</td>
+                        <td class="alert alert-success">Works</td>
+                    </tr>
+                    <tr>
+                        <td>Firefox</td>
+                        <td class="alert alert-warning">Partialy Tested</td>
+                        <td class="alert alert-success">Works</td>
+                    </tr>
+                    <tr>
+                        <td>Safari Mac</td>
+                        <td class="alert alert-danger">Not Tested</td>
+                        <td class="alert alert-warning">Known Bugs</td>
+                    </tr>
+                    <tr>
+                        <td>Safari iPhone</td>
+                        <td class="alert alert-danger">Not Tested</td>
+                        <td class="alert alert-warning">Known Bugs</td>
+                    </tr>
+                    <tr>
+                        <td>IE/Edge</td>
+                        <td class="alert alert-danger">Not Tested</td>
+                        <td class="alert alert-danger">Lots of Bugs</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br>
         <p>
             <a class="btn btn-success" href="https://paypal.me/pools/c/86A2S1yQrF" target="_blank">Donate</a>
         </p>

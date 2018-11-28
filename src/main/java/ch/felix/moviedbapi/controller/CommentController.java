@@ -41,12 +41,13 @@ public class CommentController {
     }
 
     @PostMapping("add/movie")
-    public String addCommentForMovie(@RequestParam("movieId") String movieId,
-                                     @RequestParam("comment") String commentParam, HttpServletRequest request) {
+    public String addCommentForMovie(@RequestParam("movieId") Long movieId,
+                                     @RequestParam("comment") String commentParam,
+                                     HttpServletRequest request) {
 
         if (userAuthService.isUser(request)) {
-            final User user = userAuthService.getUser(request).getUser();
-            final Movie movie = movieDao.getById(Long.valueOf(movieId));
+            User user = userAuthService.getUser(request).getUser();
+            Movie movie = movieDao.getById(movieId);
 
             commentDao.createMovieComment(user, movie, commentParam);
 
@@ -58,11 +59,12 @@ public class CommentController {
     }
 
     @PostMapping("add/episode")
-    public String addCommentForEpisode(@RequestParam("episodeId") String episodeId,
-                                       @RequestParam("comment") String commentParam, HttpServletRequest request) {
+    public String addCommentForEpisode(@RequestParam("episodeId") Long episodeId,
+                                       @RequestParam("comment") String commentParam,
+                                       HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            final User user = userAuthService.getUser(request).getUser();
-            final Episode episode = episodeDao.getById(Long.valueOf(episodeId));
+            User user = userAuthService.getUser(request).getUser();
+            Episode episode = episodeDao.getById(episodeId);
 
             commentDao.createEpisodeComment(user, episode, commentParam);
 

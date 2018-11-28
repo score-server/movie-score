@@ -54,7 +54,7 @@
             <form th:action="'/timeline/edit/' + ${timeline.id}" method="post">
                 <tr>
                     <td>
-                        <input th:value="${nextPlace}" class="form-control" type="number" name="place" required/>
+                        <input th:value="${nextListPlace}" class="form-control" type="number" name="place" required/>
                     </td>
                     <td colspan="2">
                         <select class="form-control" name="movie" required autofocus>

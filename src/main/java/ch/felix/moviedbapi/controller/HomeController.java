@@ -35,7 +35,7 @@ public class HomeController {
                                @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                                Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            final User user = userAuthService.getUser(request).getUser();
+            User user = userAuthService.getUser(request).getUser();
 
             if (!genreParam.equals("")) {
                 return "redirect:/movies/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;

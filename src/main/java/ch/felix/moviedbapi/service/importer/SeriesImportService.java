@@ -1,8 +1,10 @@
 package ch.felix.moviedbapi.service.importer;
 
+import ch.felix.moviedbapi.data.dao.UpdateLogDao;
 import ch.felix.moviedbapi.data.entity.Episode;
 import ch.felix.moviedbapi.data.entity.Season;
 import ch.felix.moviedbapi.data.entity.Serie;
+import ch.felix.moviedbapi.data.entity.UpdateLog;
 import ch.felix.moviedbapi.data.repository.EpisodeRepository;
 import ch.felix.moviedbapi.data.repository.SeasonRepository;
 import ch.felix.moviedbapi.data.repository.SerieRepository;
@@ -25,9 +27,12 @@ public class SeriesImportService extends ImportServiceFactory {
     private SearchMovieService searchMovieService;
     private ImportLogService importLogService;
     private GenreImportService genreImportService;
+    private UpdateLogDao updateLogDao;
 
-    protected SeriesImportService(SerieRepository serieRepository, EpisodeRepository episodeRepository, SeasonRepository seasonRepository, SettingsService settingsService,
-                                  SearchMovieService searchMovieService, ImportLogService importLogService, GenreImportService genreImportService) {
+    protected SeriesImportService(SerieRepository serieRepository, EpisodeRepository episodeRepository,
+                                  SeasonRepository seasonRepository, SettingsService settingsService,
+                                  SearchMovieService searchMovieService, ImportLogService importLogService,
+                                  GenreImportService genreImportService, UpdateLogDao updateLogDao) {
         super(settingsService);
         this.serieRepository = serieRepository;
         this.episodeRepository = episodeRepository;
@@ -36,10 +41,12 @@ public class SeriesImportService extends ImportServiceFactory {
         this.searchMovieService = searchMovieService;
         this.importLogService = importLogService;
         this.genreImportService = genreImportService;
+        this.updateLogDao = updateLogDao;
     }
 
     @Override
     public void importAll() {
+        UpdateLog updateLog = updateLogDao.addLog("SI");
         startImport();
         File file = new File(settingsService.getKey("seriePath"));
 
@@ -59,10 +66,12 @@ public class SeriesImportService extends ImportServiceFactory {
             }
         }
         stopImport();
+        updateLogDao.completeLog(updateLog);
     }
 
     @Override
     public void updateAll() {
+        UpdateLog updateLog = updateLogDao.addLog("SU");
         startImport();
         List<Serie> serieList = serieRepository.findSerieByOrderByTitle();
 
@@ -75,6 +84,7 @@ public class SeriesImportService extends ImportServiceFactory {
             currentFileIndex++;
         }
         stopImport();
+        updateLogDao.completeLog(updateLog);
     }
 
     @Override

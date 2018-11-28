@@ -32,9 +32,9 @@ public class SeasonController {
     }
 
     @GetMapping(value = "/{seasonId}")
-    public String getOneSeason(@PathVariable("seasonId") String seasonId, Model model, HttpServletRequest request) {
+    public String getOneSeason(@PathVariable("seasonId") Long seasonId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            Season season = seasonDao.getById(Long.valueOf(seasonId));
+            Season season = seasonDao.getById(seasonId);
 
             model.addAttribute("season", season);
             model.addAttribute("episodes", episodeDao.getBySeason(season));

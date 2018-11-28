@@ -53,10 +53,10 @@ public class RequestController {
     }
 
     @PostMapping("create/{userId}")
-    public String createRequest(@PathVariable("userId") String userId, @RequestParam("request") String requestParam,
+    public String createRequest(@PathVariable("userId") Long userId, @RequestParam("request") String requestParam,
                                 @RequestParam("type") String type, HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            User user = userDao.getById(Long.valueOf(userId));
+            User user = userDao.getById(userId);
 
             Request movieRequest = new Request();
             switch (type) {
@@ -79,9 +79,9 @@ public class RequestController {
     }
 
     @PostMapping("{requestId}/close")
-    public String closeRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
+    public String closeRequest(@PathVariable("requestId") Long requestId, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            Request movieRequest = requestDao.getById(Long.valueOf(requestParam));
+            Request movieRequest = requestDao.getById(requestId);
             movieRequest.setActive("0");
             requestDao.save(movieRequest);
             return "redirect:/settings#request";
@@ -91,9 +91,9 @@ public class RequestController {
     }
 
     @PostMapping("{requestId}/open")
-    public String openRequest(@PathVariable("requestId") String requestParam, HttpServletRequest request) {
+    public String openRequest(@PathVariable("requestId") Long requestId, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            Request movieRequest = requestDao.getById(Long.valueOf(requestParam));
+            Request movieRequest = requestDao.getById(requestId);
             movieRequest.setActive("1");
             requestDao.save(movieRequest);
             return "redirect:/settings#request";
@@ -103,8 +103,8 @@ public class RequestController {
     }
 
     @PostMapping("{requestId}/delete")
-    public String deleteRequest(@PathVariable("requestId") String requestId, HttpServletRequest request) {
-        Request movieRequest = requestDao.getById(Long.valueOf(requestId));
+    public String deleteRequest(@PathVariable("requestId") Long requestId, HttpServletRequest request) {
+        Request movieRequest = requestDao.getById(requestId);
         if (userAuthService.isAdministrator(request)) {
             requestDao.delete(movieRequest);
             return "redirect:/settings#request";
@@ -117,10 +117,10 @@ public class RequestController {
     }
 
     @PostMapping("{requestId}/edit")
-    public String editRequest(@PathVariable("requestId") String requestId,
+    public String editRequest(@PathVariable("requestId") Long requestId,
                               @RequestParam("request") String newRequest,
                               HttpServletRequest request) {
-        Request movieRequest = requestDao.getById(Long.valueOf(requestId));
+        Request movieRequest = requestDao.getById(requestId);
         if (userAuthService.isAdministrator(request)) {
             movieRequest.setRequest(newRequest);
             requestDao.save(movieRequest);

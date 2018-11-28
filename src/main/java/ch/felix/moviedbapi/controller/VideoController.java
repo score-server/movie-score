@@ -34,10 +34,10 @@ public class VideoController {
     }
 
     @GetMapping(value = "/movie/{movieId}")
-    public void getMovie(@PathVariable("movieId") String movieId, HttpServletRequest request,
-                         HttpServletResponse response) throws Exception {
+    public void getMovie(@PathVariable("movieId") Long movieId,
+                         HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (userAuthService.isUser(request)) {
-            MultipartFileSender.fromPath(Paths.get(movieDao.getById(Long.valueOf(movieId)).getVideoPath()))
+            MultipartFileSender.fromPath(Paths.get(movieDao.getById(movieId).getVideoPath()))
                     .with(request)
                     .with(response)
                     .serveResource();
@@ -45,10 +45,10 @@ public class VideoController {
     }
 
     @GetMapping(value = "/episode/{episodeId}")
-    public void getEpisode(@PathVariable("episodeId") String episodeId,
+    public void getEpisode(@PathVariable("episodeId") Long episodeId,
                            HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (userAuthService.isUser(request)) {
-            MultipartFileSender.fromPath(Paths.get(episodeDao.getById(Long.valueOf(episodeId)).getPath()))
+            MultipartFileSender.fromPath(Paths.get(episodeDao.getById(episodeId).getPath()))
                     .with(request)
                     .with(response)
                     .serveResource();

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SettingsService {
 
-    private final PropertiesHandler propertiesHandler = new PropertiesHandler("settings.properties");
+    private  PropertiesHandler propertiesHandler = new PropertiesHandler("settings.properties");
 
     public String getKey(String key) {
         return propertiesHandler.getProperty(key);

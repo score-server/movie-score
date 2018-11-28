@@ -3,10 +3,9 @@ package ch.felix.moviedbapi.controller;
 import ch.felix.moviedbapi.data.dao.EpisodeDao;
 import ch.felix.moviedbapi.data.dao.TimeDao;
 import ch.felix.moviedbapi.data.entity.Episode;
-import ch.felix.moviedbapi.data.entity.Season;
-import ch.felix.moviedbapi.data.entity.Serie;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
+import ch.felix.moviedbapi.service.EpisodeService;
 import ch.felix.moviedbapi.service.auth.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -34,21 +33,23 @@ public class EpisodeController {
 
     private UserAuthService userAuthService;
     private ActivityService activityService;
+    private EpisodeService episodeService;
 
-    public EpisodeController(EpisodeDao episodeDao, TimeDao timeDao,
-                             UserAuthService userAuthService, ActivityService activityService) {
+    public EpisodeController(EpisodeDao episodeDao, TimeDao timeDao, UserAuthService userAuthService,
+                             ActivityService activityService, EpisodeService episodeService) {
         this.episodeDao = episodeDao;
         this.timeDao = timeDao;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
+        this.episodeService = episodeService;
     }
 
     @GetMapping(value = "/{episodeId}")
-    public String getOneEpisode(@PathVariable("episodeId") String episodeId, Model model, HttpServletRequest request) {
+    public String getOneEpisode(@PathVariable("episodeId") Long episodeId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
 
-            final User user = userAuthService.getUser(request).getUser();
-            final Episode episode = episodeDao.getById(Long.valueOf(episodeId));
+            User user = userAuthService.getUser(request).getUser();
+            Episode episode = episodeDao.getById(episodeId);
 
             model.addAttribute("episode", episode);
             model.addAttribute("comments", episode.getComments());
@@ -60,7 +61,7 @@ public class EpisodeController {
 
             activityService.log(user.getName() + " gets Episode " + episode.getFullTitle(),
                     userAuthService.getUser(request).getUser());
-            model.addAttribute("nextEpisode", getNextEpisode(episode));
+            model.addAttribute("nextEpisode", episodeService.getNextEpisode(episode));
             model.addAttribute("page", "episode");
             return "template";
         } else {
@@ -68,31 +69,12 @@ public class EpisodeController {
         }
     }
 
-    private Episode getNextEpisode(Episode episode) {
-        final Season season = episode.getSeason();
-        for (Episode nextEpisode : season.getEpisodes()) {
-            if (nextEpisode.getEpisode() == episode.getEpisode() + 1) {
-                return nextEpisode;
-            }
-        }
-
-        final Serie serie = season.getSerie();
-        for (Season nextSeason : serie.getSeasons()) {
-            if (nextSeason.getSeason() == season.getSeason() + 1)
-                for (Episode nextEpisode : nextSeason.getEpisodes()) {
-                    if (nextEpisode.getEpisode() == 1) {
-                        return nextEpisode;
-                    }
-                }
-        }
-        return null;
-    }
 
     @PostMapping("{episodeId}/path")
     public String getOneEpisode(@PathVariable("episodeId") Long episodeId, @RequestParam("path") String path, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            final User user = userAuthService.getUser(request).getUser();
-            final Episode episode = episodeDao.getById(episodeId);
+            User user = userAuthService.getUser(request).getUser();
+            Episode episode = episodeDao.getById(episodeId);
             episode.setPath(path);
             episodeDao.save(episode);
             activityService.log(user.getName() + " changed Path on "

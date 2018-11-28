@@ -43,10 +43,10 @@ public class ListController {
     }
 
     @GetMapping("{timelineId}")
-    public String getOneTimeLine(@PathVariable("timelineId") String timeLineId,
+    public String getOneTimeLine(@PathVariable("timelineId") Long timeLineId,
                                  Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            model.addAttribute("timeline", timeLineDto.getById(Long.valueOf(timeLineId)));
+            model.addAttribute("timeline", timeLineDto.getById(timeLineId));
             model.addAttribute("page", "timeline");
             return "template";
         } else {

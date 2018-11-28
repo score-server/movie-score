@@ -53,9 +53,9 @@ public class MovieController {
 
 
     @GetMapping("{movieId}")
-    public String getOneMovie(@PathVariable("movieId") String movieId, Model model, HttpServletRequest request) {
+    public String getOneMovie(@PathVariable("movieId") Long movieId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            Movie movie = movieDto.getById(Long.valueOf(movieId));
+            Movie movie = movieDto.getById(movieId);
             model.addAttribute("movie", movie);
             model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
 
@@ -88,17 +88,17 @@ public class MovieController {
     }
 
     @PostMapping("{movieId}/like")
-    public String likeMovie(@PathVariable("movieId") String movieId, HttpServletRequest request) {
+    public String likeMovie(@PathVariable("movieId") Long movieId, HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            final User user = userAuthService.getUser(request).getUser();
-            final Movie movie = movieDto.getById(Long.valueOf(movieId));
+            User user = userAuthService.getUser(request).getUser();
+            Movie movie = movieDto.getById(movieId);
             try {
-                final Likes likes = likesDto.getByUserAndMovie(user, movie);
+                Likes likes = likesDto.getByUserAndMovie(user, movie);
                 likes.getId();
                 likesDto.delete(likes);
                 activityService.log(user.getName() + " removed like on movie " + movie.getTitle(), user);
             } catch (NullPointerException e) {
-                final Likes likes = new Likes();
+                Likes likes = new Likes();
                 likes.setMovie(movie);
                 likes.setUser(user);
                 likesDto.save(likes);
@@ -115,8 +115,8 @@ public class MovieController {
     public String setMoviePath(@PathVariable("movieId") Long movieId, @RequestParam("path") String path,
                                HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            final User user = userAuthService.getUser(request).getUser();
-            final Movie movie = movieDto.getById(movieId);
+            User user = userAuthService.getUser(request).getUser();
+            Movie movie = movieDto.getById(movieId);
             movie.setVideoPath(path);
             movieDto.save(movie);
             movieImportService.updateFile(new File(path));
@@ -133,7 +133,7 @@ public class MovieController {
                                @RequestParam("tmdbId") Integer tmdbId,
                                HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
-            final Movie movie = movieDto.getById(movieId);
+            Movie movie = movieDto.getById(movieId);
             movie.setQuality(quality);
             movie.setYear(year);
             movie.setTmdbId(tmdbId);

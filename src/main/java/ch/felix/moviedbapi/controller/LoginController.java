@@ -67,11 +67,11 @@ public class LoginController {
                         @RequestParam("name") String nameParam,
                         @RequestParam("password") String passwordParam,
                         HttpServletResponse response) {
-        final User user = userDto.login(nameParam, shaService.encode(passwordParam));
+        User user = userDto.login(nameParam, shaService.encode(passwordParam));
 
         try {
             userDto.exists(user);
-            final String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
+            String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
             cookieService.setUserCookie(response, sessionId);
             sessionService.addSession(user, sessionId);
             user.setLastLogin(new Timestamp(new Date().getTime()));
@@ -94,7 +94,7 @@ public class LoginController {
     public String logout(HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
             try {
-                final User user = cookieService.getCurrentUser(request);
+                User user = cookieService.getCurrentUser(request);
                 sessionService.logout(cookieService.getSessionId(request));
                 userDto.save(user);
                 activityService.log(user.getName() + " logged out", user);

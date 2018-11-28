@@ -1,7 +1,9 @@
 package ch.felix.moviedbapi.service.importer;
 
 import ch.felix.moviedbapi.data.dao.MovieDao;
+import ch.felix.moviedbapi.data.dao.UpdateLogDao;
 import ch.felix.moviedbapi.data.entity.Movie;
+import ch.felix.moviedbapi.data.entity.UpdateLog;
 import ch.felix.moviedbapi.jsonmodel.tmdb.MovieJson;
 import ch.felix.moviedbapi.service.ImportLogService;
 import ch.felix.moviedbapi.service.SettingsService;
@@ -19,19 +21,23 @@ public class MovieImportService extends ImportServiceFactory {
     private SearchMovieService searchMovieService;
     private ImportLogService importLogService;
     private GenreImportService genreImportService;
+    private UpdateLogDao updateLogDao;
 
-    public MovieImportService(MovieDao movieDto, SettingsService settingsService,
-                              SearchMovieService searchMovieService, ImportLogService importLogService, GenreImportService genreImportService) {
+    public MovieImportService(MovieDao movieDto, SettingsService settingsService, SearchMovieService searchMovieService,
+                              ImportLogService importLogService, GenreImportService genreImportService,
+                              UpdateLogDao updateLogDao) {
         super(settingsService);
         this.movieDto = movieDto;
         this.settingsService = settingsService;
         this.searchMovieService = searchMovieService;
         this.importLogService = importLogService;
         this.genreImportService = genreImportService;
+        this.updateLogDao = updateLogDao;
     }
 
     @Override
     public void importAll() {
+        UpdateLog updateLog = updateLogDao.addLog("MI");
         startImport();
         File file = new File(settingsService.getKey("moviePath"));
         File[] files = file.listFiles();
@@ -49,10 +55,12 @@ public class MovieImportService extends ImportServiceFactory {
             }
         }
         stopImport();
+        updateLogDao.completeLog(updateLog);
     }
 
     @Override
     public void updateAll() {
+        UpdateLog updateLog = updateLogDao.addLog("MU");
         startImport();
         List<Movie> movies = movieDto.getOrderByTitle();
         int currentFileIndex = 0;
@@ -64,6 +72,7 @@ public class MovieImportService extends ImportServiceFactory {
             currentFileIndex++;
         }
         stopImport();
+        updateLogDao.completeLog(updateLog);
     }
 
     @Override

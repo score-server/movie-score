@@ -56,9 +56,9 @@ public class SeriesController {
     }
 
     @GetMapping(value = "/{serieId}")
-    public String getOneSerie(@PathVariable("serieId") String serieId, Model model, HttpServletRequest request) {
+    public String getOneSerie(@PathVariable("serieId") Long serieId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            Serie serie = serieDao.getById(Long.valueOf(serieId));
+            Serie serie = serieDao.getById(serieId);
 
             model.addAttribute("serie", serie);
             model.addAttribute("seasons", seasonDao.getBySerie(serie));

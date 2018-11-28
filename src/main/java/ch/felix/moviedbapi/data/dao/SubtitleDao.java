@@ -1,9 +1,13 @@
 package ch.felix.moviedbapi.data.dao;
 
+import ch.felix.moviedbapi.data.entity.Movie;
 import ch.felix.moviedbapi.data.entity.Subtitle;
+import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.data.repository.SubtitleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -35,4 +39,15 @@ public class SubtitleDao implements DaoInterface<Subtitle> {
     public void save(Subtitle subtitle) {
         subtitleRepository.save(subtitle);
     }
+
+
+    public void addSubtitle(Movie movie, MultipartFile multipartFile, String language, User user) throws IOException {
+        Subtitle subtitle = new Subtitle();
+        subtitle.setMovie(movie);
+        subtitle.setUser(user);
+        subtitle.setFile(multipartFile.getBytes());
+        subtitle.setLanguage(language);
+        subtitleRepository.save(subtitle);
+    }
+
 }

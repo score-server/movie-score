@@ -7,6 +7,7 @@ import ch.felix.moviedbapi.data.entity.ListMovie;
 import ch.felix.moviedbapi.data.entity.Timeline;
 import ch.felix.moviedbapi.data.entity.User;
 import ch.felix.moviedbapi.service.ActivityService;
+import ch.felix.moviedbapi.service.ListService;
 import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,27 +29,30 @@ public class TimelineController {
 
     private UserAuthService userAuthService;
     private ActivityService activityService;
+    private ListService listService;
 
-    public TimelineController(MovieDao movieDao, TimeLineDao timeLineDao,
-                              ListMovieDao listMovieDao, UserAuthService userAuthService,
-                              ActivityService activityService) {
+    public TimelineController(MovieDao movieDao, TimeLineDao timeLineDao, ListMovieDao listMovieDao,
+                              UserAuthService userAuthService, ActivityService activityService,
+                              ListService listService) {
         this.movieDao = movieDao;
         this.timeLineDao = timeLineDao;
         this.listMovieDao = listMovieDao;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
+        this.listService = listService;
     }
 
     @GetMapping("edit/{timelineId}")
-    public String editTimeline(@PathVariable("timelineId") String timeLineId,
+    public String editTimeline(@PathVariable("timelineId") Long timeLineId,
                                Model model, HttpServletRequest request) {
 
         if (userAuthService.isUser(model, request)) {
-            Timeline timeLine = timeLineDao.getById(Long.valueOf(timeLineId));
-            if (isCurrentUser(request, timeLine) || isAdministrator(request)) {
+            Timeline timeLine = timeLineDao.getById(timeLineId);
+            if (userAuthService.isCurrentUser(request, timeLine.getUser())
+                    || userAuthService.isAdministrator(request)) {
                 model.addAttribute("timeline", timeLine);
                 model.addAttribute("movies", movieDao.getOrderByTitle());
-                getNextPlace(model, timeLine);
+                listService.getNextListPlace(model, timeLine);
 
                 model.addAttribute("page", "editTimeline");
                 return "template";
@@ -58,16 +62,17 @@ public class TimelineController {
     }
 
     @PostMapping("edit/{timelineId}")
-    public String saveNewMovie(@PathVariable("timelineId") String timeLineId,
+    public String saveNewMovie(@PathVariable("timelineId") Long timeLineId,
                                @RequestParam("place") String place,
-                               @RequestParam("movie") String movieId,
+                               @RequestParam("movie") Long movieId,
                                HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            Timeline timeline = timeLineDao.getById(Long.valueOf(timeLineId));
-            if (isCurrentUser(request, timeline) || isAdministrator(request)) {
+            Timeline timeline = timeLineDao.getById(timeLineId);
+            if (userAuthService.isCurrentUser(request, timeline.getUser())
+                    || userAuthService.isAdministrator(request)) {
                 ListMovie listMovie = new ListMovie();
                 listMovie.setPlace(Integer.valueOf(place));
-                listMovie.setMovie(movieDao.getById(Long.valueOf(movieId)));
+                listMovie.setMovie(movieDao.getById(movieId));
                 listMovie.setTimeline(timeline);
                 listMovieDao.save(listMovie);
                 return "redirect:/timeline/edit/" + timeLineId;
@@ -77,13 +82,14 @@ public class TimelineController {
     }
 
     @PostMapping("editatt/{timelineId}")
-    public String editListAttributes(@PathVariable("timelineId") String timeLineId,
+    public String editListAttributes(@PathVariable("timelineId") Long timeLineId,
                                      @RequestParam("title") String title,
                                      @RequestParam("description") String description,
                                      HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            Timeline timeline = timeLineDao.getById(Long.valueOf(timeLineId));
-            if (isCurrentUser(request, timeline) || isAdministrator(request)) {
+            Timeline timeline = timeLineDao.getById(timeLineId);
+            if (userAuthService.isCurrentUser(request, timeline.getUser())
+                    || userAuthService.isAdministrator(request)) {
                 timeline.setTitle(title);
                 timeline.setDescription(description);
                 timeLineDao.save(timeline);
@@ -93,12 +99,12 @@ public class TimelineController {
         return "redirect:/" + timeLineId;
     }
 
-    @PostMapping("delete/movie/{movieParId}")
-    public String deleteFromList(@PathVariable("movieParId") String movieParId,
-                                 HttpServletRequest request) {
+    @PostMapping("delete/movie/{movieId}")
+    public String deleteFromList(@PathVariable("movieId") Long movieId, HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
-            ListMovie listMovie = listMovieDao.getById(Long.valueOf(movieParId));
-            if (isCurrentUser(request, listMovie.getTimeline()) || isAdministrator(request)) {
+            ListMovie listMovie = listMovieDao.getById(movieId);
+            if (userAuthService.isCurrentUser(request, listMovie.getTimeline().getUser())
+                    || userAuthService.isAdministrator(request)) {
                 listMovieDao.delete(listMovie);
                 return "redirect:/timeline/edit/" + listMovie.getTimeline().getId();
             }
@@ -138,33 +144,16 @@ public class TimelineController {
     }
 
     @PostMapping("delete/{timelineId}")
-    public String deleteTimeline(@PathVariable("timelineId") String timeLineId,
+    public String deleteTimeline(@PathVariable("timelineId") Long timeLineId,
                                  Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            Timeline timeline = timeLineDao.getById(Long.valueOf(timeLineId));
-            if (isCurrentUser(request, timeline) || isAdministrator(request)) {
+            Timeline timeline = timeLineDao.getById(timeLineId);
+            if (userAuthService.isCurrentUser(request, timeline.getUser())
+                    || userAuthService.isAdministrator(request)) {
                 timeLineDao.delete(timeline);
                 return "redirect:/list?deleted";
             }
         }
         return "redirect:/list/" + timeLineId + "?notdeleted";
-    }
-
-    private boolean isAdministrator(HttpServletRequest request) {
-        return userAuthService.isAdministrator(request);
-    }
-
-
-    private boolean isCurrentUser(HttpServletRequest request, Timeline timeline) {
-        return userAuthService.getUser(request).getUser() == timeline.getUser();
-    }
-
-    private void getNextPlace(Model model, Timeline timeLine) {
-        try {
-            model.addAttribute("nextPlace",
-                    timeLine.getListMovies().get(timeLine.getListMovies().size() - 1).getPlace() + 1);
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
-            model.addAttribute("nextPlace", 1);
-        }
     }
 }

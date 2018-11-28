@@ -66,9 +66,9 @@ public class UserController {
     }
 
     @GetMapping(value = "{userId}")
-    public String getOneUser(@PathVariable("userId") String userId, Model model, HttpServletRequest request) {
+    public String getOneUser(@PathVariable("userId") Long userId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
-            User user = userDao.getById(Long.valueOf(userId));
+            User user = userDao.getById(userId);
 
             model.addAttribute("user", user);
             model.addAttribute("requests", user.getRequests());
@@ -90,12 +90,12 @@ public class UserController {
     }
 
     @PostMapping(value = "{userId}/role/{role}")
-    public String setRole(@PathVariable("userId") String userId, @PathVariable("role") String role,
+    public String setRole(@PathVariable("userId") Long userId, @PathVariable("role") String role,
                           HttpServletRequest request) {
         User currentUser = userAuthService.getUser(request).getUser();
 
         if (userAuthService.isAdministrator(request)) {
-            User user = userDao.getById(Long.valueOf(userId));
+            User user = userDao.getById(userId);
             user.setRole(Integer.valueOf(role));
             userDao.save(user);
             activityService.log(currentUser.getName() + " changed role of " + user.getName() + " to " + role, user);
@@ -106,12 +106,12 @@ public class UserController {
     }
 
     @PostMapping(value = "{userId}/group/{alpha}")
-    public String setAlpha(@PathVariable("userId") String userId, @PathVariable("alpha") String alpha,
+    public String setAlpha(@PathVariable("userId") Long userId, @PathVariable("alpha") String alpha,
                            HttpServletRequest request) {
         User currentUser = userAuthService.getUser(request).getUser();
 
         if (userAuthService.isAdministrator(request)) {
-            User user = userDao.getById(Long.valueOf(userId));
+            User user = userDao.getById(userId);
             if (alpha.equals("1")) {
                 activityService.log(currentUser.getName() + " is Sexy", user);
                 user.setSexabig(true);
@@ -127,9 +127,9 @@ public class UserController {
     }
 
     @PostMapping("{userId}/name")
-    public String setUsername(@PathVariable("userId") String userId, @RequestParam("name") String newName,
+    public String setUsername(@PathVariable("userId") Long userId, @RequestParam("name") String newName,
                               Model model, HttpServletRequest request) {
-        User user = userDao.getById(Long.valueOf(userId));
+        User user = userDao.getById(userId);
         String oldName = user.getName();
         if (userAuthService.isCurrentUser(model, request, user)) {
             user.setName(newName);
@@ -142,11 +142,11 @@ public class UserController {
     }
 
     @PostMapping("{userId}/password")
-    public String setPassword(@PathVariable("userId") String userId,
+    public String setPassword(@PathVariable("userId") Long userId,
                               @RequestParam("old") String oldPassword,
                               @RequestParam("new") String newPassword, Model model, HttpServletRequest request) {
 
-        User user = userDao.getByIdAndPasswordSha(Long.valueOf(userId), shaService.encode(oldPassword));
+        User user = userDao.getByIdAndPasswordSha(userId, shaService.encode(oldPassword));
 
         if (userAuthService.isCurrentUser(model, request, user)) {
             user.setPasswordSha(shaService.encode(newPassword));
@@ -159,10 +159,11 @@ public class UserController {
     }
 
     @PostMapping("{userId}/player")
-    public String setPlayer(@PathVariable("userId") String userId,
-                            @RequestParam("player") String videoPlayer, Model model, HttpServletRequest request) {
+    public String setPlayer(@PathVariable("userId") Long userId,
+                            @RequestParam("player") String videoPlayer,
+                            Model model, HttpServletRequest request) {
 
-        User user = userDao.getById(Long.valueOf(userId));
+        User user = userDao.getById(userId);
 
         if (userAuthService.isCurrentUser(model, request, user)) {
             user.setVideoPlayer(videoPlayer);

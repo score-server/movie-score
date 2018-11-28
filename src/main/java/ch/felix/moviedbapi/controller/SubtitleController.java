@@ -2,7 +2,6 @@ package ch.felix.moviedbapi.controller;
 
 import ch.felix.moviedbapi.data.dao.MovieDao;
 import ch.felix.moviedbapi.data.dao.SubtitleDao;
-import ch.felix.moviedbapi.data.entity.Subtitle;
 import ch.felix.moviedbapi.service.auth.UserAuthService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -60,12 +59,8 @@ public class SubtitleController {
         if (userAuthService.isUser(request)) {
             try {
                 if (multipartFile.getOriginalFilename().endsWith(".srt")) {
-                    Subtitle subtitle = new Subtitle();
-                    subtitle.setMovie(movieDao.getById(movieId));
-                    subtitle.setUser(userAuthService.getUser(request).getUser());
-                    subtitle.setFile(multipartFile.getBytes());
-                    subtitle.setLanguage(language);
-                    subtitleDao.save(subtitle);
+                    subtitleDao.addSubtitle(movieDao.getById(movieId), multipartFile, language,
+                            userAuthService.getUser(request).getUser());
                     return "redirect:/movie/" + movieId + "?subtitle";
                 } else {
                     return "redirect:/movie/" + movieId + "?wrongFile";

@@ -63,11 +63,11 @@ public class BlogController {
 
 
     @PostMapping("new/{userId}")
-    public String saveNewPost(@PathVariable("userId") String userId,
+    public String saveNewPost(@PathVariable("userId") Long userId,
                               @RequestParam("title") String title,
                               @RequestParam("text") String text, Model model, HttpServletRequest request) {
         if (userAuthService.isAdministrator(model, request)) {
-            final User user = userDto.getById(Long.valueOf(userId));
+            User user = userDto.getById(userId);
             blogDao.createBlog(title, text, user);
             activityService.log(user.getName() + " created new Blog Post", user);
             return "redirect:/blog?new";
@@ -77,10 +77,10 @@ public class BlogController {
     }
 
     @PostMapping("{blogId}/delete")
-    public String deleteBlog(@PathVariable("blogId") String blogId,
+    public String deleteBlog(@PathVariable("blogId") Long blogId,
                              Model model, HttpServletRequest request) {
         if (userAuthService.isAdministrator(model, request)) {
-            blogDao.delete(blogDao.getById(Long.valueOf(blogId)));
+            blogDao.delete(blogDao.getById(blogId));
             return "redirect:/blog?deleted";
         } else {
             return "redirect:/blog?notdeleted";

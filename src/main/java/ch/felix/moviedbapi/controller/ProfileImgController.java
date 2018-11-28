@@ -33,19 +33,19 @@ public class ProfileImgController {
 
     @ResponseBody
     @GetMapping("{userId}")
-    public ResponseEntity<ByteArrayResource> getProfileFile(@PathVariable("userId") String userId) {
+    public ResponseEntity<ByteArrayResource> getProfileFile(@PathVariable("userId") Long userId) {
         ByteArrayResource file = new ByteArrayResource(
-                userDto.getById(Long.valueOf(userId)).getProfileImg());
+                userDto.getById(userId).getProfileImg());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
 
     @PostMapping("{userId}")
-    public String uploadProfileImg(@RequestParam("file") MultipartFile file, @PathVariable("userId") String userId,
+    public String uploadProfileImg(@RequestParam("file") MultipartFile file, @PathVariable("userId") Long userId,
                                    HttpServletRequest request) throws IOException {
         if (userAuthService.isUser(request)) {
-            final User user = userDto.getById(Long.valueOf(userId));
+            User user = userDto.getById(userId);
             user.setProfileImg(file.getBytes());
             userDto.save(user);
             return "redirect:/user/" + userId + "?profile";

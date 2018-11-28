@@ -23,7 +23,7 @@ public class GenreImportService {
         this.genreDao = genreDao;
     }
 
-    void setGenre(Movie movie, List<GenreJson> genreList) {
+    public void setGenre(Movie movie, List<GenreJson> genreList) {
         for (GenreJson genreJson : genreList) {
             Genre genre = new Genre();
             genre.setName(genreJson.getName());
@@ -33,7 +33,7 @@ public class GenreImportService {
 
     }
 
-    void setGenre(Serie serie, List<GenreJson> genreList) {
+    public void setGenre(Serie serie, List<GenreJson> genreList) {
         for (GenreJson genreJson : genreList) {
             Genre genre = new Genre();
             genre.setName(genreJson.getName());
