@@ -1,5 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
+
+<div th:if="${param.error}" class="alert alert-danger">
+    A Error occured on the main page, please contact the Admin
+</div>
+
+
 <h1>Movies</h1>
 
 <form action="/movies/1" id="search">
