@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<link rel='stylesheet' href="https://cdn.plyr.io/3.3.12/plyr.css">
-<script src="https://cdn.plyr.io/3.3.12/plyr.js"></script>
+<link rel='stylesheet' href="https://cdn.plyr.io/3.4.7/plyr.css">
+<script src="https://cdn.plyr.io/3.4.7/plyr.js"></script>
 
 <link rel="stylesheet" th:href="'../plyr/style.css'">
 <script th:src="'../plyr/index.js'"></script>
@@ -22,11 +22,11 @@
 <div th:switch="${currentUser.videoPlayer}">
     <video th:case="'html5'" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
            width="100%" id="html-player">
-        <source th:src="'/video/episode/' + ${episode.id}">
+        <source th:src="'/video/episode/' + ${episode.id}" th:type="${episode.getMime()}">
     </video>
     <video th:case="*" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
            id="player">
-        <source th:src="'/video/episode/' + ${episode.id}">
+        <source th:src="'/video/episode/' + ${episode.id}" th:type="${episode.getMime()}">
     </video>
 </div>
 <br>
