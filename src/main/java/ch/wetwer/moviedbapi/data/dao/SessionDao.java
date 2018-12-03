@@ -31,10 +31,11 @@ public class SessionDao implements DaoInterface<Session> {
     }
 
     public Session getBySessionId(String sessionId) {
-        return sessionRepository.findSessionBySessionId(sessionId);
+        return sessionRepository.findSessionBySessionIdAndActive(sessionId, true);
     }
 
-    public void delete(String sessionId) {
-        sessionRepository.delete(sessionRepository.findSessionBySessionId(sessionId));
+    public void deactivate(Session session) {
+        session.setActive(false);
+        save(session);
     }
 }

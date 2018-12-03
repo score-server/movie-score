@@ -37,5 +37,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     List<Movie> findMoviesByOrderByTitle();
 
+    List<Movie> findTop3ByOrderByTimestampDesc();
+
 }
 

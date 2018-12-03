@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 
 /**
  * @author Wetwer
@@ -27,5 +28,8 @@ public class Session {
     @ManyToOne
     private User user;
 
+    private Timestamp timestamp;
+
+    private boolean active;
 
 }

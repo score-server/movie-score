@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -42,6 +43,7 @@ public class Movie {
     private Double popularity;
     private Double voteAverage;
     private String filetype;
+    private Timestamp timestamp;
 
     @Lob
     @Column

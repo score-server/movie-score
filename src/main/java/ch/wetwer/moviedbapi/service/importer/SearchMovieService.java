@@ -19,7 +19,7 @@ public class SearchMovieService {
 
     int findMovieId(String movieName, String year) {
         Search search = new Gson().fromJson(
-                new WebHandler("https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query="
+                new WebHandler("http://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query="
                         + movieName.replace(" ", "%20") + "&year=" + year).getContent(), Search.class);
         if (search != null) {
             try {
@@ -34,7 +34,7 @@ public class SearchMovieService {
 
     int findSeriesId(String seriesName) {
         Search search = new Gson().fromJson(
-                new WebHandler("https://api.themoviedb.org/3/search/tv?api_key=" + API_KEY + "&query="
+                new WebHandler("http://api.themoviedb.org/3/search/tv?api_key=" + API_KEY + "&query="
                         + seriesName.replace(" ", "%20")).getContent(), Search.class);
         if (search != null) {
             try {
@@ -49,7 +49,7 @@ public class SearchMovieService {
 
     int findSeriesId(String seriesName, String year) {
         Search search = new Gson().fromJson(
-                new WebHandler("https://api.themoviedb.org/3/search/tv?api_key=" + API_KEY + "&query="
+                new WebHandler("http://api.themoviedb.org/3/search/tv?api_key=" + API_KEY + "&query="
                         + seriesName.replace(" ", "%20") + "&year=" + year).getContent(), Search.class);
         if (search != null) {
             try {
@@ -64,7 +64,7 @@ public class SearchMovieService {
 
     String getTrailer(int movieId) {
         try {
-            return new Gson().fromJson(new WebHandler("https://api.themoviedb.org/3/movie/" + String.valueOf(movieId)
+            return new Gson().fromJson(new WebHandler("http://api.themoviedb.org/3/movie/" + String.valueOf(movieId)
                     + "/videos?api_key=" + API_KEY + "&language=en-US").getContent(), TrailerResult.class)
                     .getTrailers().get(0).getKey();
         } catch (NullPointerException | IndexOutOfBoundsException e) {
@@ -74,12 +74,12 @@ public class SearchMovieService {
     }
 
     MovieJson getMovieInfo(int id) {
-        return new Gson().fromJson(new WebHandler("https://api.themoviedb.org/3/movie/" + String.valueOf(id)
+        return new Gson().fromJson(new WebHandler("http://api.themoviedb.org/3/movie/" + String.valueOf(id)
                 + "?api_key=" + API_KEY + "&language=en-US").getContent(), MovieJson.class);
     }
 
     SerieJson getSerieInfo(int id) {
-        return new Gson().fromJson(new WebHandler("https://api.themoviedb.org/3/tv/" + String.valueOf(id)
+        return new Gson().fromJson(new WebHandler("http://api.themoviedb.org/3/tv/" + String.valueOf(id)
                 + "?api_key=" + API_KEY + "&language=en-US").getContent(), SerieJson.class);
     }
 

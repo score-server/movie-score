@@ -5,6 +5,9 @@ import ch.wetwer.moviedbapi.data.entity.Session;
 import ch.wetwer.moviedbapi.data.entity.User;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 @Service
 public class SessionService {
 
@@ -18,10 +21,12 @@ public class SessionService {
         Session session = new Session();
         session.setSessionId(sessionId);
         session.setUser(user);
+        session.setActive(true);
+        session.setTimestamp(new Timestamp(new Date().getTime()));
         sessionDto.save(session);
     }
 
     public void logout(String sessionId) {
-        sessionDto.delete(sessionId);
+        sessionDto.deactivate(sessionDto.getBySessionId(sessionId));
     }
 }

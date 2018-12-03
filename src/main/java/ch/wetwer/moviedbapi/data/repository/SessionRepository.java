@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SessionRepository extends JpaRepository<Session, Long> {
 
-    Session findSessionBySessionId(String sessionId);
+    Session findSessionBySessionIdAndActive(String sessionId, Boolean active);
 
 }

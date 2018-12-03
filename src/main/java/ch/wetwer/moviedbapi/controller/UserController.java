@@ -1,8 +1,10 @@
 package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.dao.ActivityLogDao;
+import ch.wetwer.moviedbapi.data.dao.SessionDao;
 import ch.wetwer.moviedbapi.data.dao.TimeLineDao;
 import ch.wetwer.moviedbapi.data.dao.UserDao;
+import ch.wetwer.moviedbapi.data.entity.Session;
 import ch.wetwer.moviedbapi.data.entity.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.SearchService;
@@ -33,6 +35,7 @@ public class UserController {
     private TimeLineDao timeLineDao;
     private ActivityLogDao logDao;
     private UserDao userDao;
+    private SessionDao sessionDao;
 
     private ShaService shaService;
     private SearchService searchService;
@@ -40,9 +43,9 @@ public class UserController {
     private ActivityService activityService;
 
 
-    public UserController(TimeLineDao timeLineDao, UserDao userDao, ShaService shaService,
-                          SearchService searchService, UserAuthService userAuthService,
-                          ActivityService activityService, ActivityLogDao logDao) {
+    public UserController(TimeLineDao timeLineDao, UserDao userDao, ShaService shaService, SearchService searchService,
+                          UserAuthService userAuthService, ActivityService activityService, ActivityLogDao logDao,
+                          SessionDao sessionDao) {
         this.timeLineDao = timeLineDao;
         this.userDao = userDao;
         this.shaService = shaService;
@@ -50,6 +53,7 @@ public class UserController {
         this.userAuthService = userAuthService;
         this.activityService = activityService;
         this.logDao = logDao;
+        this.sessionDao = sessionDao;
     }
 
     @GetMapping
@@ -85,7 +89,7 @@ public class UserController {
             model.addAttribute("page", "user");
             return "template";
         } else {
-            return "redirect:/";
+            return "redirect:/login?redirect=/user/" + userId;
         }
     }
 
@@ -151,6 +155,9 @@ public class UserController {
         if (userAuthService.isCurrentUser(model, request, user)) {
             user.setPasswordSha(shaService.encode(newPassword));
             userDao.save(user);
+            for (Session session : user.getSessions()) {
+                sessionDao.deactivate(session);
+            }
             activityService.log(user.getName() + " changed Password", user);
             return "redirect:/user/" + userId + "?password";
         } else {

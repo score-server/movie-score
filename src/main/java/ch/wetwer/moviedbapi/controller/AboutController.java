@@ -41,6 +41,7 @@ public class AboutController {
     public String getAboutPage(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
             model.addAttribute("movies", movieDao.getAll().size());
+            model.addAttribute("latest", movieDao.getLatestInfo());
             model.addAttribute("series", serieDao.getAll().size());
             model.addAttribute("episodes", episodeDao.getAll().size());
             model.addAttribute("updateLogs", updateLogDao.getAll());
@@ -49,6 +50,5 @@ public class AboutController {
         } else {
             return "redirect:/login?redirect=/about";
         }
-
     }
 }

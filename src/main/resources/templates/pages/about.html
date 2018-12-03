@@ -11,7 +11,7 @@
             <a href="https://steamcommunity.com/groups/scoreserver">Steam Group</a></p>
         <p>Powered by <a href="https://scorewinner.ch">scorewinner.ch</a></p>
         <div class="row">
-            <div class="col-4">
+            <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 5px">
                 <div class="card">
                     <div class="card-body">
                         <h3>Currently in Database</h3>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 5px">
                 <div class="card">
                     <div class="card-body">
                         <h3>Latest Imports</h3>
@@ -44,6 +44,20 @@
                                 <td th:if="${!log.completed}" class="alert alert-warning">Running</td>
                             </tr>
                         </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 5px">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>New Movies</h3>
+                        <ul class="list-group">
+                            <li th:each="movie : ${latest}" class="list-group-item">
+                                <a th:href="'/movie/' + ${movie.id}" th:text="${movie.title}"></a>
+                                <span th:text="${#dates.format(movie.timestamp, 'dd.MM.yyyy HH:mm')}"
+                                      class="float-right"></span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

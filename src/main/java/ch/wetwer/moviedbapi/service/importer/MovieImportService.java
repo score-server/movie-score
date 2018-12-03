@@ -10,6 +10,8 @@ import ch.wetwer.moviedbapi.service.SettingsService;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -90,6 +92,7 @@ public class MovieImportService extends ImportServiceFactory {
             movie.setQuality(getQuality(filename));
             movie.setYear(getYear(filename));
             movie.setVideoPath(file.getPath());
+            movie.setTimestamp(new Timestamp(new Date().getTime()));
             sleep(300);
 
             movie.setTmdbId(searchMovieService.findMovieId(movie.getTitle(), movie.getYear()));
