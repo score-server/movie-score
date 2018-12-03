@@ -53,7 +53,8 @@
                         <h3>New Movies</h3>
                         <ul class="list-group">
                             <li th:each="movie : ${latest}" class="list-group-item">
-                                <a th:href="'/movie/' + ${movie.id}" th:text="${movie.title}"></a>
+                                <a th:href="'/movie/' + ${movie.id}"
+                                   th:text="${movie.title} + ' (' + ${movie.year} + ')'"></a>
                                 <span th:text="${#dates.format(movie.timestamp, 'dd.MM.yyyy HH:mm')}"
                                       class="float-right"></span>
                             </li>
