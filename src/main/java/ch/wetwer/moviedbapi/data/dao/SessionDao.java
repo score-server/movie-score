@@ -1,6 +1,7 @@
 package ch.wetwer.moviedbapi.data.dao;
 
 import ch.wetwer.moviedbapi.data.entity.Session;
+import ch.wetwer.moviedbapi.data.entity.User;
 import ch.wetwer.moviedbapi.data.repository.SessionRepository;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +38,9 @@ public class SessionDao implements DaoInterface<Session> {
     public void deactivate(Session session) {
         session.setActive(false);
         save(session);
+    }
+
+    public List<Session> getByUser(User user) {
+        return sessionRepository.findSessionsByUserAndActiveOrderByTimestamp(user, true);
     }
 }

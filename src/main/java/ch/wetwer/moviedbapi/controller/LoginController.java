@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,6 +95,23 @@ public class LoginController {
                 userDto.save(user);
                 activityService.log(user.getName() + " logged out", user);
                 return "redirect:/login?logout";
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                return "redirect:/";
+            }
+        } else {
+            return "redirect:/";
+        }
+
+    }
+
+    @PostMapping("logout/{sessionId}")
+    public String logout(@PathVariable("sessionId") String sessionId, HttpServletRequest request) {
+        if (userAuthService.isAdministrator(request)) {
+            try {
+                User user = userDto.getBySessionId(sessionId);
+                sessionService.logout(cookieService.getSessionId(request));
+                return "redirect:/user/" + user.isSexabig();
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 return "redirect:/";

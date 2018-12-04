@@ -176,6 +176,16 @@
             <form th:action="'/user/generate/' + ${user.id}" method="post">
                 <button type="submit" class="btn btn-primary">Generate new Authkey</button>
             </form>
+            <br>
+            <b>Sessions</b>
+            <ul class="list-group">
+                <li th:each="sessionId : ${sessions}" class="list-group-item">
+                    <span th:text="${#dates.format(sessionId.timestamp, 'dd.MM.yyyy HH:mm')}"></span>
+                    <form th:action="'/logout/' + ${sessionId.sessionId}" method="post" class="float-right">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </li>
+            </ul>
         </div>
     </div>
     <br>

@@ -75,6 +75,7 @@ public class UserController {
             User user = userDao.getById(userId);
 
             model.addAttribute("user", user);
+            model.addAttribute("sessions", sessionDao.getByUser(user));
             model.addAttribute("requests", user.getRequests());
             model.addAttribute("timelines", timeLineDao.getByUser(user));
             model.addAttribute("activities",
