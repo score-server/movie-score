@@ -21,6 +21,7 @@ public class GroupInvite {
 
     private String name;
 
+    @JsonIgnore
     private boolean active;
 
     @JsonIgnore

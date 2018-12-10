@@ -2,6 +2,7 @@ package ch.wetwer.moviedbapi.controller.api;
 
 import ch.wetwer.moviedbapi.data.dao.UserDao;
 import ch.wetwer.moviedbapi.data.entity.User;
+import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.auth.ShaService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +28,12 @@ public class UserApiController {
     private UserDao userDto;
 
     private ShaService shaService;
+    private ActivityService activityService;
 
-    public UserApiController(UserDao userDto, ShaService shaService) {
+    public UserApiController(UserDao userDto, ShaService shaService, ActivityService activityService) {
         this.userDto = userDto;
         this.shaService = shaService;
+        this.activityService = activityService;
     }
 
     @GetMapping(produces = "application/json")
@@ -67,6 +70,7 @@ public class UserApiController {
             user.setPasswordSha(shaService.encode(String.valueOf(new Random().nextInt())) + "-NOK");
             user.setRole(1);
             user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
+            activityService.log("Registered new User " + nameParam + " with API");
             userDto.save(user);
             return user.getAuthKey();
         } else {

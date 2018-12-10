@@ -54,7 +54,7 @@ public class LoginApiController {
             sessionService.addSession(user, sessionId);
             cookieService.setUserCookie(response, sessionId);
             userDao.save(user);
-            activityService.log(user.getName() + " logged in", user);
+            activityService.log(user.getName() + " logged in over API", user);
             return sessionId;
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -68,7 +68,7 @@ public class LoginApiController {
             try {
                 User user = userDao.getBySessionId(sessionId);
                 sessionService.logout(sessionId);
-                activityService.log(user.getName() + " logged out", user);
+                activityService.log(user.getName() + " logged out over API", user);
                 return "ok";
             } catch (NullPointerException e) {
                 e.printStackTrace();

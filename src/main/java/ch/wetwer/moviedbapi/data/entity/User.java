@@ -49,6 +49,7 @@ public class User {
     @JsonIgnore
     private Timestamp lastLogin;
 
+    @JsonIgnore
     private boolean sexabig;
 
     @JsonIgnore
