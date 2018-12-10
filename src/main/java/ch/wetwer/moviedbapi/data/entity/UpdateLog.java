@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 /**
  * @author Wetwer
  * @project movie-db-api
- * @package ch.felix.moviedbapi.data.entity
+ * @package ch.wetwer.moviedbapi.data.entity
  * @created 28.11.2018
  **/
 @Data

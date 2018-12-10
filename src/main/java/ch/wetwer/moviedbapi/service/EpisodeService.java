@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 /**
  * @author Wetwer
  * @project movie-db-api
- * @package ch.felix.moviedbapi.service
+ * @package ch.wetwer.moviedbapi.service
  * @created 28.11.2018
  **/
 

@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 /**
  * @author Wetwer
  * @project movie-db-api
- * @package ch.felix.moviedbapi.data.entity
+ * @package ch.wetwer.moviedbapi.data.entity
  * @created 26.11.2018
  **/
 

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author Wetwer
  * @project movie-db-api
- * @package ch.felix.moviedbapi.data.repository
+ * @package ch.wetwer.moviedbapi.data.repository
  * @created 28.11.2018
  **/
 @Repository

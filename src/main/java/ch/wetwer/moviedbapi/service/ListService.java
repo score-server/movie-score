@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 /**
  * @author Wetwer
  * @project movie-db-api
- * @package ch.felix.moviedbapi.service
+ * @package ch.wetwer.moviedbapi.service
  * @created 28.11.2018
  **/
 

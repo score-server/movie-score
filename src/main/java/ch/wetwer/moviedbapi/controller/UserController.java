@@ -76,6 +76,7 @@ public class UserController {
 
             model.addAttribute("user", user);
             model.addAttribute("sessions", sessionDao.getByUser(user));
+            model.addAttribute("currentSession", userAuthService.getCurrentSessionId(request));
             model.addAttribute("requests", user.getRequests());
             model.addAttribute("timelines", timeLineDao.getByUser(user));
             model.addAttribute("activities",

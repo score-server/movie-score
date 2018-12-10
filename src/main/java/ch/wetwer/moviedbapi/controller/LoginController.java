@@ -1,6 +1,8 @@
 package ch.wetwer.moviedbapi.controller;
 
+import ch.wetwer.moviedbapi.data.dao.SessionDao;
 import ch.wetwer.moviedbapi.data.dao.UserDao;
+import ch.wetwer.moviedbapi.data.entity.Session;
 import ch.wetwer.moviedbapi.data.entity.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.auth.CookieService;
@@ -32,6 +34,7 @@ import java.util.Random;
 @RequestMapping("login")
 public class LoginController {
 
+    private SessionDao sessionDao;
     private UserDao userDto;
 
     private CookieService cookieService;
@@ -40,9 +43,10 @@ public class LoginController {
     private ActivityService activityService;
     private SessionService sessionService;
 
-    public LoginController(UserDao userDto, CookieService cookieService, ShaService shaService,
+    public LoginController(SessionDao sessionDao, UserDao userDto, CookieService cookieService, ShaService shaService,
                            UserAuthService userAuthService, ActivityService activityService,
                            SessionService sessionService) {
+        this.sessionDao = sessionDao;
         this.userDto = userDto;
         this.cookieService = cookieService;
         this.shaService = shaService;
@@ -110,8 +114,10 @@ public class LoginController {
         if (userAuthService.isAdministrator(request)) {
             try {
                 User user = userDto.getBySessionId(sessionId);
-                sessionService.logout(cookieService.getSessionId(request));
-                return "redirect:/user/" + user.isSexabig();
+                Session session = sessionDao.getBySessionId(sessionId);
+                session.setActive(false);
+                sessionDao.save(session);
+                return "redirect:/user/" + user.getId();
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 return "redirect:/";

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Wetwer
  * @project movie-db-api
- * @package ch.felix.moviedbapi.data.dao
+ * @package ch.wetwer.moviedbapi.data.dao
  * @created 26.11.2018
  **/
 @Service

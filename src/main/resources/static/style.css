@@ -103,7 +103,7 @@ body {
     padding-left: 0;
 }
 
-.noHigh{
+.noHightlight{
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
