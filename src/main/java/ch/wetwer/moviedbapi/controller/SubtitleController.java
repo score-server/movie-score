@@ -3,6 +3,8 @@ package ch.wetwer.moviedbapi.controller;
 import ch.wetwer.moviedbapi.data.dao.MovieDao;
 import ch.wetwer.moviedbapi.data.dao.SubtitleDao;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,8 @@ public class SubtitleController {
     private SubtitleDao subtitleDao;
 
     private UserAuthService userAuthService;
+    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
+
 
     public SubtitleController(MovieDao movieDao, SubtitleDao subtitleDao, UserAuthService userAuthService) {
         this.movieDao = movieDao;
@@ -66,6 +70,7 @@ public class SubtitleController {
                     return "redirect:/movie/" + movieId + "?wrongFile";
                 }
             } catch (IOException e) {
+                LOG.error(userAuthService.getUser(request).getUser().getName());
                 e.printStackTrace();
                 return "redirect:/movie/" + movieId;
             }

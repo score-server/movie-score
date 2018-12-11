@@ -10,6 +10,8 @@ import ch.wetwer.moviedbapi.service.auth.SessionService;
 import ch.wetwer.moviedbapi.service.auth.ShaService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +44,7 @@ public class LoginController {
     private UserAuthService userAuthService;
     private ActivityService activityService;
     private SessionService sessionService;
+    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
 
     public LoginController(SessionDao sessionDao, UserDao userDto, CookieService cookieService, ShaService shaService,
                            UserAuthService userAuthService, ActivityService activityService,
@@ -100,6 +103,7 @@ public class LoginController {
                 activityService.log(user.getName() + " logged out", user);
                 return "redirect:/login?logout";
             } catch (NullPointerException e) {
+                LOG.error(userAuthService.getUser(request).getUser().getName());
                 e.printStackTrace();
                 return "redirect:/";
             }
@@ -125,6 +129,12 @@ public class LoginController {
         } else {
             return "redirect:/";
         }
+    }
 
+    @GetMapping("request")
+    public String noLogin(HttpServletRequest request, Model model) {
+        userAuthService.allowGuest(model, request);
+        model.addAttribute("page", "nologin");
+        return "template";
     }
 }

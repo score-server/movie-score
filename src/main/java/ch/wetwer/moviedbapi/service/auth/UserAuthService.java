@@ -2,6 +2,8 @@ package ch.wetwer.moviedbapi.service.auth;
 
 import ch.wetwer.moviedbapi.data.dao.UserDao;
 import ch.wetwer.moviedbapi.data.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -17,6 +19,7 @@ public class UserAuthService {
     private UserDao userDao;
 
     private CookieService cookieService;
+    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
 
     public UserAuthService(UserDao userDao, CookieService cookieService) {
         this.userDao = userDao;
@@ -28,6 +31,7 @@ public class UserAuthService {
         try {
             userIndicator.setUser(cookieService.getCurrentUser(request));
             userIndicator.setLoggedIn(true);
+            LOG.info(userIndicator.getUser().getName());
         } catch (NullPointerException ignored) {
             userIndicator.setLoggedIn(false);
         }

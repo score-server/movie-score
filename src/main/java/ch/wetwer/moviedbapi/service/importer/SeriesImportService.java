@@ -11,6 +11,9 @@ import ch.wetwer.moviedbapi.data.repository.SerieRepository;
 import ch.wetwer.moviedbapi.model.tmdb.SerieJson;
 import ch.wetwer.moviedbapi.service.ImportLogService;
 import ch.wetwer.moviedbapi.service.SettingsService;
+import ch.wetwer.moviedbapi.service.auth.UserAuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -28,6 +31,7 @@ public class SeriesImportService extends ImportServiceFactory {
     private ImportLogService importLogService;
     private GenreImportService genreImportService;
     private UpdateLogDao updateLogDao;
+    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
 
     protected SeriesImportService(SerieRepository serieRepository, EpisodeRepository episodeRepository,
                                   SeasonRepository seasonRepository, SettingsService settingsService,
@@ -110,6 +114,7 @@ public class SeriesImportService extends ImportServiceFactory {
                 serie.setVoteAverage(serieJson.getVoteAverage());
                 serie.setPopularity(serieJson.getPopularity());
             } catch (NullPointerException e) {
+                LOG.error(seriesName);
                 e.printStackTrace();
             }
             importLogService.importLog("<i class=\"fas fa-angle-double-down\" style=\"color: green;\"></i> " +
@@ -120,6 +125,7 @@ public class SeriesImportService extends ImportServiceFactory {
                         serieJson.getGenres());
                 sleep(250);
             } catch (NullPointerException e) {
+                LOG.error(seriesName);
                 e.printStackTrace();
             }
         }
@@ -172,6 +178,7 @@ public class SeriesImportService extends ImportServiceFactory {
             serie.setVoteAverage(serieJson.getVoteAverage());
             serie.setPopularity(serieJson.getPopularity());
         } catch (NullPointerException e) {
+            LOG.error(serie.getTitle());
             e.printStackTrace();
             importLogService.errorLog("<i class=\"fas fa-times\" style=\"color: red;\"></i> " +
                     "No json found for " + serie.getTitle());

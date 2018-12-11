@@ -179,8 +179,8 @@
             <br>
             <b>Sessions</b>
             <ul class="list-group">
-                <li th:each="sessionId : ${sessions}" class="list-group-item">
-                    <div th:if="${currentSession} == ${sessionId.sessionId}" class="alert alert-success">
+                <li th:each="sessionId : ${sessions}" class="list-group-item p-0">
+                    <div th:if="${currentSession} == ${sessionId.sessionId}" class="alert alert-success m-0">
                         <span th:text="${#dates.format(sessionId.timestamp, 'dd.MM.yyyy HH:mm')}
                         + ' current Session'"></span>
                         <pre th:text="${sessionId.sessionId}"></pre>
@@ -188,7 +188,7 @@
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
-                    <div th:if="${currentSession} != ${sessionId.sessionId}" class="alert alert-warning">
+                    <div th:if="${currentSession} != ${sessionId.sessionId}" class="alert alert-warning m-0">
                         <span th:text="${#dates.format(sessionId.timestamp, 'dd.MM.yyyy HH:mm')}"></span>
                         <pre th:text="${sessionId.sessionId}"></pre>
                         <form th:action="'/login/logout/' + ${sessionId.sessionId}" method="post">

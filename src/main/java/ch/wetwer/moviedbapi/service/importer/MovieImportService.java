@@ -7,6 +7,9 @@ import ch.wetwer.moviedbapi.data.entity.UpdateLog;
 import ch.wetwer.moviedbapi.model.tmdb.MovieJson;
 import ch.wetwer.moviedbapi.service.ImportLogService;
 import ch.wetwer.moviedbapi.service.SettingsService;
+import ch.wetwer.moviedbapi.service.auth.UserAuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -18,12 +21,14 @@ import java.util.List;
 public class MovieImportService extends ImportServiceFactory {
 
     private MovieDao movieDto;
+    private UpdateLogDao updateLogDao;
 
     private SettingsService settingsService;
     private SearchMovieService searchMovieService;
     private ImportLogService importLogService;
     private GenreImportService genreImportService;
-    private UpdateLogDao updateLogDao;
+    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
+
 
     public MovieImportService(MovieDao movieDto, SettingsService settingsService, SearchMovieService searchMovieService,
                               ImportLogService importLogService, GenreImportService genreImportService,
@@ -144,6 +149,7 @@ public class MovieImportService extends ImportServiceFactory {
         try {
             movie.setFiletype(setMimeType(file.getName()));
         } catch (Exception e) {
+            LOG.error(movie.getTitle());
             e.printStackTrace();
         }
         movieDto.save(movie);
