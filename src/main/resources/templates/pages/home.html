@@ -36,6 +36,7 @@
                 <option th:selected="${orderBy.contains('title')}" value="title">Title</option>
                 <option th:selected="${orderBy.contains('rating')}" value="rating">Rating</option>
                 <option th:selected="${orderBy.contains('year')}" value="year">Year</option>
+                <option th:selected="${orderBy.contains('latest')}" value="latest">Latest</option>
             </select>
         </div>
     </div>
@@ -69,7 +70,8 @@
 <div th:if="${!movies.isEmpty()}" class="row">
     <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div class="card card-body">
-            <a href="/movies/1">All movies</a>
+            <a th:href="'/movies/1?search=' + ${search} + '&orderBy=' + ${orderBy} + '&genre=' + ${currentGenre}">
+                All movies</a>
         </div>
     </div>
 </div>
@@ -95,7 +97,7 @@
 <div th:if="${!series.isEmpty()}" class="row">
     <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div class="card card-body">
-            <a href="/serie">All series</a>
+            <a th:href="'/serie?search=' + ${search}">All series</a>
         </div>
     </div>
 </div>

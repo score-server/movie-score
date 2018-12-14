@@ -25,6 +25,8 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     List<Movie> findTop24ByTitleContainingOrderByYearDesc(String title);
 
+    List<Movie> findTop24ByTitleContainingOrderByTimestampDesc(String title);
+
     List<Movie> findMoviesByTitleContainingOrderByVoteAverageDesc(String title);
 
     List<Movie> findTop24ByTitleContainingOrderByVoteAverageDesc(String title);

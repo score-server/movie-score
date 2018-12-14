@@ -43,28 +43,31 @@ public class SearchService {
         this.duplicateService = duplicateService;
     }
 
-    public List<Movie> searchMovies(String searchParam, String orderByParam, String genreParam) {
+    public List<Movie> searchMovies(String search, String orderByParam, String genreParam) {
         List<Movie> movies;
         List<Movie> movies2 = new ArrayList<>();
 
         switch (orderByParam) {
             case "":
-                movies = movieRepository.findMoviesByTitleContainingOrderByPopularityDesc(searchParam);
+                movies = movieRepository.findMoviesByTitleContainingOrderByPopularityDesc(search);
                 break;
             case "title":
-                movies = movieRepository.findMoviesByTitleContainingOrderByTitle(searchParam);
+                movies = movieRepository.findMoviesByTitleContainingOrderByTitle(search);
                 break;
             case "rating":
-                movies = movieRepository.findMoviesByTitleContainingOrderByVoteAverageDesc(searchParam);
+                movies = movieRepository.findMoviesByTitleContainingOrderByVoteAverageDesc(search);
                 break;
             case "year":
-                movies = movieRepository.findMoviesByTitleContainingOrderByYearDesc(searchParam);
+                movies = movieRepository.findMoviesByTitleContainingOrderByYearDesc(search);
                 break;
             case "recomended":
-                movies = movieDao.searchRecomended(searchParam);
+                movies = movieDao.searchRecomended(search);
+                break;
+            case "latest":
+                movies = movieRepository.findTop24ByTitleContainingOrderByTimestampDesc(search);
                 break;
             default:
-                movies = movieRepository.findMoviesByTitleContainingOrderByTitle(searchParam);
+                movies = movieRepository.findMoviesByTitleContainingOrderByTitle(search);
                 break;
         }
 
@@ -98,6 +101,13 @@ public class SearchService {
             case "year":
                 movies = movieRepository.findTop24ByTitleContainingOrderByYearDesc(search);
                 break;
+            case "latest":
+                movies = movieRepository.findTop24ByTitleContainingOrderByTimestampDesc(search);
+                break;
+            case "recomended":
+                movies = movieDao.searchRecomended(search);
+                break;
+
             default:
                 movies = movieRepository.findTop24ByTitleContainingOrderByTitle(search);
                 break;
