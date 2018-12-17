@@ -2,13 +2,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Movie Score</title>
-    <meta name="robots" content="noindex">
+    <meta content="noindex" name="robots">
 
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" rel="stylesheet">
 </head>
 <body>
 <table class="table">
@@ -18,34 +18,34 @@
         <th>Status</th>
     </tr>
     <tr>
-        <td><a target="_parent" href="https://scorewinner.ch/games/minecraft.php">Minecraft Server</a></td>
+        <td><a href="https://scorewinner.ch/games/minecraft.php" target="_parent">Minecraft Server</a></td>
         <td>scorewinner.ch</td>
-        <td th:if="${minecraft} == 'Online'" th:text="${minecraft}" style="color: forestgreen"></td>
-        <td th:if="${minecraft} == 'Offline'" th:text="${minecraft}" style="color: red"></td>
+        <td style="color: forestgreen" th:if="${minecraft} == 'Online'" th:text="${minecraft}"></td>
+        <td style="color: red" th:if="${minecraft} == 'Offline'" th:text="${minecraft}"></td>
     </tr>
     <tr>
-        <td><a target="_parent" href="https://scorewinner.ch/games/killingfloor.php">Killing Floor 2 Server</a></td>
+        <td><a href="https://scorewinner.ch/games/killingfloor.php" target="_parent">Killing Floor 2 Server</a></td>
         <td>scorewinner.ch:7777</td>
-        <td th:if="${steam} == 'Online'" th:text="${steam}" style="color: forestgreen"></td>
-        <td th:if="${steam} == 'Offline'" th:text="${steam}" style="color: red"></td>
+        <td style="color: forestgreen" th:if="${steam} == 'Online'" th:text="${steam}"></td>
+        <td style="color: red" th:if="${steam} == 'Offline'" th:text="${steam}"></td>
     </tr>
     <tr>
-        <td><a target="_blank" href="http://games.scorewinner.ch">Pterodactyl</a></td>
+        <td><a href="http://games.scorewinner.ch" target="_blank">Pterodactyl</a></td>
         <td>games.scorewinner.ch</td>
-        <td th:if="${pterodactyl} == 'Online'" th:text="${pterodactyl}" style="color: forestgreen"></td>
-        <td th:if="${pterodactyl} == 'Offline'" th:text="${pterodactyl}" style="color: red"></td>
+        <td style="color: forestgreen" th:if="${pterodactyl} == 'Online'" th:text="${pterodactyl}"></td>
+        <td style="color: red" th:if="${pterodactyl} == 'Offline'" th:text="${pterodactyl}"></td>
     </tr>
     <tr>
-        <td><a target="_blank" href="http://movie.scorewinner.ch">MovieScore</a></td>
+        <td><a href="http://movie.scorewinner.ch" target="_blank">MovieScore</a></td>
         <td>movie.scorewinner.ch</td>
-        <td th:if="${moviedb} == 'Online'" th:text="${moviedb}" style="color: forestgreen"></td>
-        <td th:if="${moviedb} == 'Offline'" th:text="${moviedb}" style="color: red"></td>
+        <td style="color: forestgreen" th:if="${moviedb} == 'Online'" th:text="${moviedb}"></td>
+        <td style="color: red" th:if="${moviedb} == 'Offline'" th:text="${moviedb}"></td>
     </tr>
     <tr>
-        <td><a target="_blank" href="http://scorewinner.ch:8090">Hermann</a></td>
+        <td><a href="http://scorewinner.ch:8090" target="_blank">Hermann</a></td>
         <td>scorewinner.ch:8090</td>
-        <td th:if="${hermann} == 'Online'" th:text="${hermann}" style="color: forestgreen"></td>
-        <td th:if="${hermann} == 'Offline'" th:text="${hermann}" style="color: red"></td>
+        <td style="color: forestgreen" th:if="${hermann} == 'Online'" th:text="${hermann}"></td>
+        <td style="color: red" th:if="${hermann} == 'Offline'" th:text="${hermann}"></td>
     </tr>
 
 </table>

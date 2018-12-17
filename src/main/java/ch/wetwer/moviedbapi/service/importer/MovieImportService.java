@@ -20,14 +20,13 @@ import java.util.List;
 @Service
 public class MovieImportService extends ImportServiceFactory {
 
+    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
     private MovieDao movieDto;
     private UpdateLogDao updateLogDao;
-
     private SettingsService settingsService;
     private SearchMovieService searchMovieService;
     private ImportLogService importLogService;
     private GenreImportService genreImportService;
-    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
 
 
     public MovieImportService(MovieDao movieDto, SettingsService settingsService, SearchMovieService searchMovieService,

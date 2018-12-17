@@ -1,18 +1,18 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<div th:if="${param.deactivated}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.deactivated}">
     Changed Group Status
 </div>
 
-<div th:if="${param.created}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.created}">
     Created Group
 </div>
 
-<div th:if="${param.added}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.added}">
     User added to group
 </div>
 
-<div th:if="${param.notexist}" class="alert alert-danger">
+<div class="alert alert-danger" th:if="${param.notexist}">
     User <span th:text="${param.notexist}"></span> doesnt exist...
 </div>
 
@@ -20,35 +20,39 @@
 <div class="card">
     <div class="card-header">New Group</div>
     <div class="card-body">
-        <form action="/group/new" method="post" class="form-inline">
-            <input name="name" class="form-control" placeholder="Group Name">
-            <button type="submit" class="btn btn-primary">Save</button>
+        <form action="/group/new" class="form-inline" method="post">
+            <input class="form-control" name="name" placeholder="Group Name">
+            <button class="btn btn-primary" type="submit">Save</button>
         </form>
     </div>
 </div>
 <br>
 <ul class="list-group">
-    <li th:each="group : ${groups}" class="list-group-item">
+    <li class="list-group-item" th:each="group : ${groups}">
         <div class="row">
             <div class="col-2">
                 <b th:if="${group.active}" th:text="${group.name}"></b>
                 <span th:if="!${group.active}" th:text="${group.name}"></span>
             </div>
-            <div class="col-9">
-                <input th:value="'http://scorewinner.ch:8081/register/' + ${group.name}" type="text"
-                       class="form-control"
-                       width="100%" disabled>
+            <div class="col-8">
+                <input class="form-control" disabled
+                       th:value="'http://scorewinner.ch:8081/register/' + ${group.name}"
+                       type="text" width="100%">
             </div>
-            <div class="col-1">
-                <form th:action="'/group/delete/' + ${group.id}" method="post" class="btn-group float-right">
-                    <button th:if="!${group.active}" type="submit" class="btn btn-danger">
+            <div class="col-2">
+                <form class="btn-group float-right" method="post" th:action="'/group/delete/' + ${group.id}">
+                    <a class="btn btn-secondary" data-toggle="modal" th:data-target="'#qr' + ${group.id}"
+                       th:if="${group.active}">
+                        <i class="fas fa-qrcode"></i>
+                    </a>
+                    <button class="btn btn-danger" th:if="!${group.active}" type="submit">
                         <i class="fas fa-link"></i>
                     </button>
-                    <button th:if="${group.active}" type="submit" class="btn btn-success">
+                    <button class="btn btn-success" th:if="${group.active}" type="submit">
                         <i class="fas fa-link"></i>
                     </button>
-                    <a class="btn btn-primary" data-toggle="collapse" th:href="'#colapse'+ ${group.id}" role="button"
-                       aria-expanded="false" th:aria-controls="'colapse'+ ${group.id}">
+                    <a aria-expanded="false" class="btn btn-primary" data-toggle="collapse" role="button"
+                       th:aria-controls="'colapse'+ ${group.id}" th:href="'#colapse'+ ${group.id}">
                         <i class="fas fa-plus"></i>
                     </a>
                 </form>
@@ -58,20 +62,20 @@
             <br>
             <ul class="list-group">
                 <li class="list-group-item active">Members</li>
-                <li th:each="user : ${group.users}" class="list-group-item">
-                    <a th:text="${user.name}" th:href="'/user/' + ${user.id}"></a>
-                    <form th:action="'/group/remove/' + ${user.id}" method="post"
-                          class="float-right">
-                        <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                <li class="list-group-item" th:each="user : ${group.users}">
+                    <a th:href="'/user/' + ${user.id}" th:text="${user.name}"></a>
+                    <form class="float-right" method="post"
+                          th:action="'/group/remove/' + ${user.id}">
+                        <button class="btn btn-danger" type="submit"><i class="fas fa-times"></i></button>
                     </form>
                 </li>
                 <li class="list-group-item list-group-item-success">
-                    <form th:action="'/group/' + ${group.id} + '/add'" method="post">
-                        <input type="text" name="name" list="users" autocomplete="off" placeholder="New Meber"
-                               class="form-control">
+                    <form method="post" th:action="'/group/' + ${group.id} + '/add'">
+                        <input autocomplete="off" class="form-control" list="users" name="name" placeholder="New Meber"
+                               type="text">
                     </form>
                 </li>
-                <li th:if="${group.users.isEmpty()}" class="list-group-item list-group-item-secondary">No Members</li>
+                <li class="list-group-item list-group-item-secondary" th:if="${group.users.isEmpty()}">No Members</li>
             </ul>
         </div>
     </li>
@@ -79,3 +83,27 @@
 <datalist id="users">
     <option th:each="user : ${users}" th:value="${user.name}">
 </datalist>
+
+<th:block th:each="group : ${groups}">
+    <div aria-hidden="true" th:aria-labelledby="'qr' + ${group.id}" class="modal fade" th:id="'qr' + ${group.id}"
+         role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="'qr' + ${groupId}">Group Qr Code</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img width="100%"
+                         th:src="'http://www.barcodes4.me/barcode/qr/qr.png?size=10'
+                         + '&value=http://scorewinner.ch:8081/register/' + ${group.name}">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>

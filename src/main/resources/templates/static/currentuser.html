@@ -1,8 +1,8 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div>
     <a th:if="${currentUser != null}">
         Logged in:
-        <a th:text="${currentUser.name}" th:href="'/user/' + ${currentUser.id}" class="btn btn-link"></a>
+        <a class="btn btn-link" th:href="'/user/' + ${currentUser.id}" th:text="${currentUser.name}"></a>
     </a>
-    <a th:if="${currentUser == null}" href="/login" class="btn btn-primary">Sign In</a>
+    <a class="btn btn-primary" href="/login" th:if="${currentUser == null}">Sign In</a>
 </div>

@@ -1,5 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<link rel='stylesheet' href="https://cdn.plyr.io/3.4.7/plyr.css">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<link href="https://cdn.plyr.io/3.4.7/plyr.css" rel='stylesheet'>
 <script src="https://cdn.plyr.io/3.4.7/plyr.js"></script>
 
 <link rel="stylesheet" th:href="'../plyr/style.css'">
@@ -20,12 +20,12 @@
 </th:block>
 
 <div th:switch="${currentUser.videoPlayer}">
-    <video th:case="'html5'" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
-           width="100%" id="html-player">
+    <video controls crossorigin id="html-player" playsinline th:case="'html5'"
+           th:poster="${episode.season.serie.backgroundImg}" width="100%">
         <source th:src="'/video/episode/' + ${episode.id}" th:type="${episode.getMime()}">
     </video>
-    <video th:case="*" controls crossorigin playsinline th:poster="${episode.season.serie.backgroundImg}"
-           id="player">
+    <video controls crossorigin id="player" playsinline th:case="*"
+           th:poster="${episode.season.serie.backgroundImg}">
         <source th:src="'/video/episode/' + ${episode.id}" th:type="${episode.getMime()}">
     </video>
 </div>
@@ -34,36 +34,36 @@
     <h1>
         <a th:text="${episode.season.serie.title} + ' Season ' + ${episode.season.season} + ' Episode '
     + ${episode.episode}"></a>
-        <a th:if="${nextEpisode} != null" th:href="'/episode/' + ${nextEpisode.id}"
-           class="btn btn-primary float-right">Next Episode</a>
+        <a class="btn btn-primary float-right" th:href="'/episode/' + ${nextEpisode.id}"
+           th:if="${nextEpisode} != null">Next Episode</a>
     </h1>
     <p>
-        <a th:href="'/video/episode/' + ${episode.id}" target="_blank" class="btn btn-primary">Download</a>
+        <a class="btn btn-primary" target="_blank" th:href="'/video/episode/' + ${episode.id}">Download</a>
     </p>
     <p th:text="'Quality: ' + ${episode.quality}"></p>
     <p>Genres:
         <span th:each="genre : ${episode.season.serie.genres}">
-            <a th:text="${genre.name}" th:href="'/serie?genre=' + ${genre.name}" class="badge"
-               style="color: white;"></a>
+            <a class="badge" style="color: white;" th:href="'/serie?genre=' + ${genre.name}"
+               th:text="${genre.name}"></a>
         </span>
     </p>
     <p>
-        <img th:src="'http://www.barcodes4.me/barcode/qr/qr.png?value=http://scorewinner.ch:8081/episode/'
-        + ${episode.id}" class="img-thumbnail">
+        <img class="img-thumbnail" th:src="'http://www.barcodes4.me/barcode/qr/qr.png?value=http://scorewinner.ch:8081/episode/'
+        + ${episode.id}">
     </p>
 </div>
 <br>
 <ul class="list-group">
     <li class="list-group-item active">Comments</li>
-    <li th:each="comment:${comments}" class="list-group-item">
-        <a th:text="${comment.user.name}" th:href="'/user/' + ${comment.user.id}"></a>
+    <li class="list-group-item" th:each="comment:${comments}">
+        <a th:href="'/user/' + ${comment.user.id}" th:text="${comment.user.name}"></a>
         <span th:text="': ' + ${comment.comment}"></span>
     </li>
 </ul>
 <br>
-<form th:action="'/comment/add/episode?userId=' + ${currentUser.id} + '&episodeId=' + ${episode.id}" method="post">
-    <textarea th:placeholder="'Comment as ' + ${currentUser.name}" name="comment" class="form-control"
-              required></textarea>
+<form method="post" th:action="'/comment/add/episode?userId=' + ${currentUser.id} + '&episodeId=' + ${episode.id}">
+    <textarea class="form-control" name="comment" required
+              th:placeholder="'Comment as ' + ${currentUser.name}"></textarea>
     <br>
     <button class="btn btn-primary" type="submit">Save Comment</button>
 </form>
@@ -74,10 +74,10 @@
         <div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i>
             Change Video Path
         </div>
-        <form th:action="'/episode/' + ${episode.id} + '/path'" method="post">
-            <input th:value="${episode.path}" type="text" class="form-control" name="path">
+        <form method="post" th:action="'/episode/' + ${episode.id} + '/path'">
+            <input class="form-control" name="path" th:value="${episode.path}" type="text">
             <br>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button class="btn btn-primary" type="submit">Save</button>
         </form>
     </div>
 </div>

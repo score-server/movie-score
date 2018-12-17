@@ -1,7 +1,7 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 
-<div th:if="${param.error}" class="alert alert-danger">
+<div class="alert alert-danger" th:if="${param.error}">
     A Error occured on the main page, please contact the Admin
 </div>
 
@@ -11,21 +11,21 @@
 <form action="/movies/1" id="search">
     <div class="row">
         <div class="col-12 col-md-6 col-lg-6" style="margin-bottom: 5px">
-            <input th:value="${search}" class="form-control" type="text" name="search"
-                   placeholder="Search" autocomplete="off">
+            <input autocomplete="off" class="form-control" name="search" placeholder="Search"
+                   th:value="${search}" type="text">
         </div>
         <div class="col-6 col-md-3 col-lg-3">
             <select class="form-control" name="genre"
                     onchange="document.getElementById('search').submit()">
                 <option th:selected="true" value="">All Genres</option>
-                <option th:each="genre : ${genres}" th:selected="${currentGenre} == ${genre}" th:value="${genre}"
-                        th:text="${genre}"></option>
+                <option th:each="genre : ${genres}" th:selected="${currentGenre} == ${genre}" th:text="${genre}"
+                        th:value="${genre}"></option>
             </select>
         </div>
         <div class="col-6 col-md-3 col-lg-3">
             <select class="form-control" name="orderBy"
                     onchange="document.getElementById('search').submit()">
-                <option selected disabled>Order By</option>
+                <option disabled selected>Order By</option>
                 <option th:selected="${orderBy.contains('')}" value="">Popularity</option>
                 <option th:selected="${orderBy.contains('title')}" value="title">Title</option>
                 <option th:selected="${orderBy.contains('rating')}" value="rating">Rating</option>
@@ -38,11 +38,11 @@
 </form>
 <br>
 <div class="row">
-    <div th:each="movie : ${movies}" class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
+    <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px" th:each="movie : ${movies}">
         <div th:include="'static/movieCard.html'"></div>
     </div>
 </div>
-<div th:if="${movies.isEmpty()}" class="row">
+<div class="row" th:if="${movies.isEmpty()}">
     <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No movies found</a>
@@ -54,12 +54,12 @@
 </div>
 <center>
     <div class="btn-group">
-        <a th:if="${lastDisabled}" class="btn btn-primary" th:href="'/movies/' + ${pageIndexLast}
-        + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}">Last</a>
-        <a th:href="'/movies/' + ${pageIndex} + '?search=' + ${search} + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
-           th:text="${pageIndex}" class="btn btn-secondary"></a>
-        <a th:if="${movies.size()} == 24"
+        <a class="btn btn-primary" th:href="'/movies/' + ${pageIndexLast}
+        + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}" th:if="${lastDisabled}">Last</a>
+        <a class="btn btn-secondary"
+           th:href="'/movies/' + ${pageIndex} + '?search=' + ${search} + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}" th:text="${pageIndex}"></a>
+        <a class="btn btn-primary"
            th:href="'/movies/' + ${pageIndexNext} + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
-           class="btn btn-primary">Next</a>
+           th:if="${movies.size()} == 24">Next</a>
     </div>
 </center>

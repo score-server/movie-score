@@ -15,14 +15,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class EpisodeService {
     public Episode getNextEpisode(Episode episode) {
-         Season season = episode.getSeason();
+        Season season = episode.getSeason();
         for (Episode nextEpisode : season.getEpisodes()) {
             if (nextEpisode.getEpisode() == episode.getEpisode() + 1) {
                 return nextEpisode;
             }
         }
 
-         Serie serie = season.getSerie();
+        Serie serie = season.getSerie();
         for (Season nextSeason : serie.getSeasons()) {
             if (nextSeason.getSeason() == season.getSeason() + 1)
                 for (Episode nextEpisode : nextSeason.getEpisodes()) {

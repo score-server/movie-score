@@ -1,30 +1,30 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <h1>Login</h1>
 
-<div th:if="${param.error}" class="alert alert-danger">
+<div class="alert alert-danger" th:if="${param.error}">
     Invalid username or password
 </div>
 
-<div th:if="${param.error}" class="alert alert-info">
+<div class="alert alert-info" th:if="${param.error}">
     For Password reset contact your Administrator
 </div>
 
-<div th:if="${param.redirect}" class="alert alert-warning">
+<div class="alert alert-warning" th:if="${param.redirect}">
     Requires Login
 </div>
 
-<div th:if="${param.logout}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.logout}">
     Logged Out
 </div>
 
 
 <div class="card card-body">
-    <form th:action="'/login?redirect=' + ${param.redirect}" method="post">
+    <form method="post" th:action="'/login?redirect=' + ${param.redirect}">
         <label for="name">Username:</label>
-        <input class="form-control" type="text" name="name" id="name" th:value="${param.user}">
+        <input class="form-control" id="name" name="name" th:value="${param.user}" type="text">
         <label for="password">Password:</label>
-        <input class="form-control" type="password" name="password" id="password">
+        <input class="form-control" id="password" name="password" type="password">
         <br>
         <button class="btn btn-primary" type="submit">Login</button>
     </form>

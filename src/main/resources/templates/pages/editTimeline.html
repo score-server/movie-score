@@ -1,22 +1,22 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <h1>Edit List</h1>
-<link rel="stylesheet" type="text/css" th:href="'../../assets/bootstrap/css/bootstrap.min.css'">
+<link rel="stylesheet" th:href="'../../assets/bootstrap/css/bootstrap.min.css'" type="text/css">
 <link rel="stylesheet" th:href="'../../style.css'">
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" rel="stylesheet">
 <div class="card ">
     <div class="card-header">
         Attributes
     </div>
     <div class="card-body">
-        <form th:action="'/timeline/editatt/' + ${timeline.id}" method="post">
-            <input th:value="${timeline.title}" name="title" type="text" class="form-control">
+        <form method="post" th:action="'/timeline/editatt/' + ${timeline.id}">
+            <input class="form-control" name="title" th:value="${timeline.title}" type="text">
             <br>
-            <textarea th:text="${timeline.description}" name="description" class="form-control"></textarea>
+            <textarea class="form-control" name="description" th:text="${timeline.description}"></textarea>
             <br>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button class="btn btn-primary" type="submit">Save</button>
         </form>
     </div>
 </div>
@@ -37,27 +37,27 @@
             <tr th:each="moviePar : ${timeline.listMovies}">
                 <td th:text="${moviePar.place}"></td>
                 <td>
-                    <img th:src="${moviePar.movie.caseImg}" style="max-height: 40px; min-height: 40px" class="card"/>
+                    <img class="card" style="max-height: 40px; min-height: 40px" th:src="${moviePar.movie.caseImg}"/>
                 </td>
                 <td>
                     <a th:text="${moviePar.movie.title}"></a>
                 </td>
                 <td th:text="${moviePar.movie.year}"></td>
                 <td>
-                    <form th:action="'/timeline/delete/movie/' + ${moviePar.id}" method="post" class="float-right">
-                        <button type="submit" class="btn btn-danger">
+                    <form class="float-right" method="post" th:action="'/timeline/delete/movie/' + ${moviePar.id}">
+                        <button class="btn btn-danger" type="submit">
                             <i class="fas fa-times"></i>
                         </button>
                     </form>
                 </td>
             </tr>
-            <form th:action="'/timeline/edit/' + ${timeline.id}" method="post">
+            <form method="post" th:action="'/timeline/edit/' + ${timeline.id}">
                 <tr>
                     <td>
-                        <input th:value="${nextListPlace}" class="form-control" type="number" name="place" required/>
+                        <input class="form-control" name="place" required th:value="${nextListPlace}" type="number"/>
                     </td>
                     <td colspan="2">
-                        <select class="form-control" name="movie" required autofocus>
+                        <select autofocus class="form-control" name="movie" required>
                             <option disabled>Chose Movie...</option>
                             <option th:each="movie : ${movies}" th:text="${movie.title} + ' ' + ${movie.year}"
                                     th:value="${movie.id}"></option>
@@ -70,7 +70,7 @@
             </form>
         </table>
         <br>
-        <form th:action="'/timeline/delete/' + ${timeline.id}" method="post" class="form">
+        <form class="form" method="post" th:action="'/timeline/delete/' + ${timeline.id}">
             <button class="btn btn-danger">Delete</button>
         </form>
     </div>

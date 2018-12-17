@@ -1,9 +1,9 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="robots" content="noindex">
+    <meta content="noindex" name="robots">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet"/>
 
     <style>
         * {
@@ -20,6 +20,6 @@
             </a>
         </a>
     </div>
-    <a th:if="${currentUser == null}" target="_parent" href="http://scorewinner.ch/login.php"
-       class="btn btn-outline-primary float-right">Sign In</a>
+    <a class="btn btn-outline-primary float-right" href="http://scorewinner.ch/login.php" target="_parent"
+       th:if="${currentUser == null}">Sign In</a>
 </div>

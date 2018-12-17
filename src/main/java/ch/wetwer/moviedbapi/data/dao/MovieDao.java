@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 

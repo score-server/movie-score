@@ -1,8 +1,8 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <h1 th:text="'List ' + ${timeline.title}"></h1>
 
-<div th:if="${param.notdeleted}" class="alert alert-danger">
+<div class="alert alert-danger" th:if="${param.notdeleted}">
     List not deleted
 </div>
 
@@ -12,16 +12,16 @@
     <br>
     <small class="text-muted">
         <span>List created by </span>
-        <a th:text="${timeline.user.name}" th:href="'/user/' + ${timeline.user.id}"></a>
+        <a th:href="'/user/' + ${timeline.user.id}" th:text="${timeline.user.name}"></a>
     </small>
 </div>
 <br>
 <div class="row">
-    <div th:each="moviePar : ${timeline.listMovies}" class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
+    <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px" th:each="moviePar : ${timeline.listMovies}">
         <div th:include="'static/movieListCard.html'"></div>
     </div>
 </div>
-<div th:if="${timeline.listMovies.isEmpty()}" class="row">
+<div class="row" th:if="${timeline.listMovies.isEmpty()}">
     <div class="col-sm-2" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No movies found</a>
@@ -30,13 +30,13 @@
 </div>
 <div th:if="${currentUser} == ${timeline.user} OR ${currentUser.isAdmin()}">
     <div>
-        <a th:href="'/timeline/edit/' + ${timeline.id} " class="btn btn-primary">Edit</a>
+        <a class="btn btn-primary" th:href="'/timeline/edit/' + ${timeline.id} ">Edit</a>
         <br>
         <br>
-        <form th:action="'/timeline/delete/' + ${timeline.id}" method="post" class="form">
-            <button type="submit" class="btn btn-danger">Delete</button>
+        <form class="form" method="post" th:action="'/timeline/delete/' + ${timeline.id}">
+            <button class="btn btn-danger" type="submit">Delete</button>
         </form>
     </div>
     <br>
 </div>
-<a href="/list" class="btn btn-primary">Back</a>
+<a class="btn btn-primary" href="/list">Back</a>

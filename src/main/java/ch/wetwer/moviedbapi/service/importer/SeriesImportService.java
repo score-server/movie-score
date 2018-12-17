@@ -22,16 +22,15 @@ import java.util.List;
 @Service
 public class SeriesImportService extends ImportServiceFactory {
 
+    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
     private SerieRepository serieRepository;
     private EpisodeRepository episodeRepository;
     private SeasonRepository seasonRepository;
-
     private SettingsService settingsService;
     private SearchMovieService searchMovieService;
     private ImportLogService importLogService;
     private GenreImportService genreImportService;
     private UpdateLogDao updateLogDao;
-    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
 
     protected SeriesImportService(SerieRepository serieRepository, EpisodeRepository episodeRepository,
                                   SeasonRepository seasonRepository, SettingsService settingsService,

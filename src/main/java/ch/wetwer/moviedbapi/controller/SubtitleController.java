@@ -32,11 +32,10 @@ import java.io.IOException;
 @RequestMapping("subtitle")
 public class SubtitleController {
 
+    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
     private MovieDao movieDao;
     private SubtitleDao subtitleDao;
-
     private UserAuthService userAuthService;
-    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
 
 
     public SubtitleController(MovieDao movieDao, SubtitleDao subtitleDao, UserAuthService userAuthService) {

@@ -1,9 +1,9 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <h1>Create new Post</h1>
 <div class="card card-body">
-    <form th:action="'/blog/new/' + ${currentUser.id}" method="post">
-        <input class="form-control" type="text" name="title" placeholder="Title"><br>
+    <form method="post" th:action="'/blog/new/' + ${currentUser.id}">
+        <input class="form-control" name="title" placeholder="Title" type="text"><br>
         <textarea class="form-control" name="text" placeholder="Post Text"></textarea><br>
         <button class="btn btn-primary">Submit</button>
     </form>

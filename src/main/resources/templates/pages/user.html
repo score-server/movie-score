@@ -1,35 +1,35 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <h1>
     <span th:text="'User ' + ${user.name}"></span>
-    <span th:if="${user.sexabig} == true" class="badge badge-primary">Alpha</span>
+    <span class="badge badge-primary" th:if="${user.sexabig} == true">Alpha</span>
 </h1>
 
-<div th:if="${param.request}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.request}">
     Request saved
 </div>
 
-<div th:if="${param.role}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.role}">
     Role Changed
 </div>
 
-<div th:if="${param.username}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.username}">
     Username Changed
 </div>
 
-<div th:if="${param.password}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.password}">
     Password changed
 </div>
 
-<div th:if="${param.removedRequest}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.removedRequest}">
     Removed Request
 </div>
 
-<div th:if="${param.player}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.player}">
     Player changed to <span th:text="${param.player}"></span>
 </div>
 
-<div th:if="${param.error}" class="alert alert-danger">
+<div class="alert alert-danger" th:if="${param.error}">
     Error while saving changes
 </div>
 
@@ -37,34 +37,34 @@
     <div class="card">
         <div class="card-header">Profile</div>
         <div class="card-body">
-            <div data-toggle="modal" data-target="#changeImg">
+            <div data-target="#changeImg" data-toggle="modal">
                 <span class="btn btn-primary" th:if="${user.profileImg} == null">Set Profile Image</span>
-                <img th:if="${user.profileImg} != null" class="img-thumbnail" th:src="'/img/' + ${user.id}"
-                     style="max-height: 100px; min-height: 100px"/>
+                <img class="img-thumbnail" style="max-height: 100px; min-height: 100px" th:if="${user.profileImg} != null"
+                     th:src="'/img/' + ${user.id}"/>
             </div>
             <br>
             <p>
                 <a th:text="'Name: ' + ${user.name}"></a>
-                <a data-toggle="modal" data-target="#changeName" class="btn">
+                <a class="btn" data-target="#changeName" data-toggle="modal">
                     <i class="fas fa-pen"></i>
                 </a>
             </p>
             <p>Group: <span th:text="${user.group?.name}"></span></p>
             <p>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changePsw">
+                <button class="btn btn-primary" data-target="#changePsw" data-toggle="modal" type="button">
                     Change Password
                 </button>
             </p>
             <div id="accordion">
-                <button class="btn btn-primary" data-toggle="collapse" data-target="#collapsePlayer"
-                        aria-expanded="true" aria-controls="collapseOne">
+                <button aria-controls="collapseOne" aria-expanded="true" class="btn btn-primary"
+                        data-target="#collapsePlayer" data-toggle="collapse">
                     Video Player
                 </button>
                 <br>
-                <div id="collapsePlayer" class="collapse card card-body" aria-labelledby="headingOne"
-                     data-parent="#accordion">
+                <div aria-labelledby="headingOne" class="collapse card card-body" data-parent="#accordion"
+                     id="collapsePlayer">
 
-                    <form class="row" th:action="'/user/' + ${user.id} + '/player'" method="post" id="videoPlayerForm">
+                    <form class="row" id="videoPlayerForm" method="post" th:action="'/user/' + ${user.id} + '/player'">
                         <div class="col-6">
                             <div class="card">
                                 <div class="card-header">Plyr.io (default)</div>
@@ -72,9 +72,9 @@
                                     <img src="https://i.imgur.com/Y3RAwxP.png" width="100%"><br>
                                     <br>
                                     <div class="custom-control custom-radio">
-                                        <input th:checked="${user.videoPlayer} == 'plyr'" type="radio"
-                                               id="plyr.io" name="player" value="plyr" class="custom-control-input"
-                                               onchange="document.getElementById('videoPlayerForm').submit()">
+                                        <input class="custom-control-input" id="plyr.io"
+                                               name="player" onchange="document.getElementById('videoPlayerForm').submit()" th:checked="${user.videoPlayer} == 'plyr'" type="radio"
+                                               value="plyr">
                                         <label class="custom-control-label" for="plyr.io">Plyr.io (default)</label>
                                     </div>
                                 </div>
@@ -87,9 +87,9 @@
                                     <img src="https://i.imgur.com/OXf4cP6.png" width="100%"><br>
                                     <br>
                                     <div class="custom-control custom-radio">
-                                        <input th:checked="${user.videoPlayer} == 'html5'" type="radio" id="html5"
-                                               name="player" value="html5" class="custom-control-input"
-                                               onchange="document.getElementById('videoPlayerForm').submit()">
+                                        <input class="custom-control-input" id="html5" name="player"
+                                               onchange="document.getElementById('videoPlayerForm').submit()" th:checked="${user.videoPlayer} == 'html5'" type="radio"
+                                               value="html5">
                                         <label class="custom-control-label" for="html5">HTML 5</label>
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@
             </div>
             <br>
             <form action="/login/logout" method="post">
-                <button type="submit" class="btn btn-danger">Logout</button>
+                <button class="btn btn-danger" type="submit">Logout</button>
             </form>
         </div>
     </div>
@@ -112,8 +112,8 @@
         <div class="card-header">Profile</div>
         <div class="card-body">
             <div th:if="${user.profileImg} != null">
-                <img class="img-thumbnail" th:src="'/img/' + ${user.id}"
-                     style="max-height: 100px; min-height: 100px"/>
+                <img class="img-thumbnail" style="max-height: 100px; min-height: 100px"
+                     th:src="'/img/' + ${user.id}"/>
                 <br>
                 <br>
             </div>
@@ -139,12 +139,12 @@
                 </p>
             </div>
             <div th:switch="${user.role}">
-                <form th:case="'1'" th:action="'/user/' + ${user.id} + '/role/2'" method="post">
+                <form method="post" th:action="'/user/' + ${user.id} + '/role/2'" th:case="'1'">
                     <button class="btn btn-light">
                         <i class="fas fa-chess-pawn"></i>
                     </button>
                 </form>
-                <form th:case="'2'" th:action="'/user/' + ${user.id} + '/role/1'" method="post">
+                <form method="post" th:action="'/user/' + ${user.id} + '/role/1'" th:case="'2'">
                     <button class="btn btn-dark">
                         <i class="fas fa-chess-king"></i>
                     </button>
@@ -152,13 +152,13 @@
             </div>
             <br>
             <div th:switch="${user.sexabig}">
-                <form th:case="true" th:action="'/user/' + ${user.id} + '/group/0'" method="post">
-                    <button type="submit" class="btn btn-success">
+                <form method="post" th:action="'/user/' + ${user.id} + '/group/0'" th:case="true">
+                    <button class="btn btn-success" type="submit">
                         Alpha
                     </button>
                 </form>
-                <form th:case="false" th:action="'/user/' + ${user.id} + '/group/1'" method="post">
-                    <button type="submit" class="btn btn-light">
+                <form method="post" th:action="'/user/' + ${user.id} + '/group/1'" th:case="false">
+                    <button class="btn btn-light" type="submit">
                         Alpha
                     </button>
                 </form>
@@ -168,31 +168,31 @@
                th:text="'Last Login: ' + ${#dates.format(user.lastLogin, 'dd.MM.yyyy HH:mm')}"></p>
             <br>
             Authkey:
-            <input th:value="'http://scorewinner.ch:8081/fastlogin/' + ${user.authKey}" class="form-control"
-                   type="text" disabled>
+            <input class="form-control" disabled
+                   th:value="'http://scorewinner.ch:8081/fastlogin/' + ${user.authKey}" type="text">
             <br>
-            <p th:if="${registered} == true" style="color: green">Registered</p>
-            <p th:if="${registered} == false" style="color: red;">Not Registered</p>
-            <form th:action="'/user/generate/' + ${user.id}" method="post">
-                <button type="submit" class="btn btn-primary">Generate new Authkey</button>
+            <p style="color: green" th:if="${registered} == true">Registered</p>
+            <p style="color: red;" th:if="${registered} == false">Not Registered</p>
+            <form method="post" th:action="'/user/generate/' + ${user.id}">
+                <button class="btn btn-primary" type="submit">Generate new Authkey</button>
             </form>
             <br>
             <b>Sessions</b>
             <ul class="list-group">
-                <li th:each="sessionId : ${sessions}" class="list-group-item p-0">
-                    <div th:if="${currentSession} == ${sessionId.sessionId}" class="alert alert-success m-0">
+                <li class="list-group-item p-0" th:each="sessionId : ${sessions}">
+                    <div class="alert alert-success m-0" th:if="${currentSession} == ${sessionId.sessionId}">
                         <span th:text="${#dates.format(sessionId.timestamp, 'dd.MM.yyyy HH:mm')}
                         + ' current Session'"></span>
                         <pre th:text="${sessionId.sessionId}"></pre>
-                        <form th:action="'/login/logout/' + ${sessionId.sessionId}" method="post">
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                        <form method="post" th:action="'/login/logout/' + ${sessionId.sessionId}">
+                            <button class="btn btn-danger" type="submit">Delete</button>
                         </form>
                     </div>
-                    <div th:if="${currentSession} != ${sessionId.sessionId}" class="alert alert-warning m-0">
+                    <div class="alert alert-warning m-0" th:if="${currentSession} != ${sessionId.sessionId}">
                         <span th:text="${#dates.format(sessionId.timestamp, 'dd.MM.yyyy HH:mm')}"></span>
                         <pre th:text="${sessionId.sessionId}"></pre>
-                        <form th:action="'/login/logout/' + ${sessionId.sessionId}" method="post">
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                        <form method="post" th:action="'/login/logout/' + ${sessionId.sessionId}">
+                            <button class="btn btn-danger" type="submit">Delete</button>
                         </form>
                     </div>
                 </li>
@@ -207,24 +207,24 @@
     <div class="card-header">Requests</div>
     <div class="card-body">
         <ul class="list-group">
-            <li th:each="request : ${requests}" class="list-group-item">
+            <li class="list-group-item" th:each="request : ${requests}">
                     <span th:switch="${request.active}">
                         <span th:case="1" th:text="${request.request}"></span>
                         <span th:case="0" th:text="${request.request} + ' - closed'"></span>
                     </span>
-                <div th:if="${currentUser} == ${user}" class="float-right">
-                    <a data-toggle="modal" th:data-target="'#editRequest' + ${request.id}" href="#"
-                       class="btn btn-primary">
+                <div class="float-right" th:if="${currentUser} == ${user}">
+                    <a class="btn btn-primary" data-toggle="modal" href="#"
+                       th:data-target="'#editRequest' + ${request.id}">
                         <i class="fas fa-pen"></i>
                     </a>
-                    <form th:action="'/request/' + ${request.id} + '/delete'" method="post" style="display: inline">
-                        <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                    <form method="post" style="display: inline" th:action="'/request/' + ${request.id} + '/delete'">
+                        <button class="btn btn-danger" type="submit"><i class="fas fa-times"></i></button>
                     </form>
                 </div>
 
             </li>
         </ul>
-        <div th:if="${requests.isEmpty()}" class="row">
+        <div class="row" th:if="${requests.isEmpty()}">
             <div class="col-12 col-md-4 col-lg-3">
                 <div class="alert alert-secondary">
                     <a>No Requests</a>
@@ -233,7 +233,7 @@
         </div>
         <div th:if="${currentUser} == ${user}">
             <br>
-            <a href="/request/create" class="btn btn-primary">Create Request</a>
+            <a class="btn btn-primary" href="/request/create">Create Request</a>
         </div>
         <div th:if="${currentUser.isAdmin()}">
             <br>
@@ -246,11 +246,11 @@
     <div class="card-header">Lists</div>
     <div class="card-body">
         <div class="row">
-            <div th:each="timeline : ${timelines}" class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
+            <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px" th:each="timeline : ${timelines}">
                 <div th:include="'static/listCard.html'"></div>
             </div>
         </div>
-        <div th:if="${timelines.isEmpty()}" class="row">
+        <div class="row" th:if="${timelines.isEmpty()}">
             <div class="col-12 col-md-4 col-lg-3">
                 <div class="alert alert-secondary">
                     <a>No Lists found</a>
@@ -264,11 +264,11 @@
     <div class="card-header">Likes</div>
     <div class="card-body">
         <div class="row">
-            <div th:each="like : ${user.likes}" class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
+            <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px" th:each="like : ${user.likes}">
                 <div th:include="'static/likesMovieCard.html'"></div>
             </div>
         </div>
-        <div th:if="${user.likes.isEmpty()}" class="row">
+        <div class="row" th:if="${user.likes.isEmpty()}">
             <div class="col-12 col-md-4 col-lg-3">
                 <div class="alert alert-secondary">
                     <a>No Likes</a>
@@ -278,111 +278,111 @@
     </div>
 </div>
 <br>
-<div th:if="${currentUser.isAdmin()}" class="card">
+<div class="card" th:if="${currentUser.isAdmin()}">
     <div class="card-header">Activity Logs</div>
     <div class="card-body">
         <ul class="list-group">
-            <li th:each="log : ${activities}" class="list-group-item">
+            <li class="list-group-item" th:each="log : ${activities}">
                 <a th:text="${log.log}"></a>
-                <a th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}" class="float-right"></a>
+                <a class="float-right" th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}"></a>
             </li>
         </ul>
     </div>
 </div>
 
 
-<div class="modal fade" id="changeName" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="changeName" role="dialog"
+     tabindex="-1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Change Username</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form th:action="'/user/' + ${user.id} + '/name'" method="post">
+            <form method="post" th:action="'/user/' + ${user.id} + '/name'">
                 <div class="modal-body">
-                    <input class="form-control" type="text" name="name" required th:value="${user.name}">
+                    <input class="form-control" name="name" required th:value="${user.name}" type="text">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="changePsw" tabindex="-1" role="dialog" aria-labelledby="password"
-     aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="password" class="modal fade" id="changePsw" role="dialog"
+     tabindex="-1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="password">Change Password</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form th:action="'/user/' + ${user.id} + '/password'" method="post">
+            <form method="post" th:action="'/user/' + ${user.id} + '/password'">
                 <div class="modal-body">
-                    <input class="form-control" type="password" name="old" placeholder="Old Password" required><br>
-                    <input class="form-control" type="password" name="new" placeholder="New Password" required><br>
-                    <input class="form-control" type="password" name="name" placeholder="Confirm Password" required>
+                    <input class="form-control" name="old" placeholder="Old Password" required type="password"><br>
+                    <input class="form-control" name="new" placeholder="New Password" required type="password"><br>
+                    <input class="form-control" name="name" placeholder="Confirm Password" required type="password">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div th:if="${currentUser} == ${user}" th:each="request : ${requests}" class="modal fade"
-     th:id="'editRequest' + ${request.id}" tabindex="-1" role="dialog" aria-labelledby="request" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="request" class="modal fade"
+     role="dialog" tabindex="-1" th:each="request : ${requests}" th:id="'editRequest' + ${request.id}" th:if="${currentUser} == ${user}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="request">Edit Request</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form th:action="'/request/' + ${request.id} + '/edit'" method="post">
+            <form method="post" th:action="'/request/' + ${request.id} + '/edit'">
                 <div class="modal-body">
-                    <input th:value="${request.request}" class="form-control" type="text" name="request"
-                           placeholder="Request" required><br>
+                    <input class="form-control" name="request" placeholder="Request" required
+                           th:value="${request.request}" type="text"><br>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="changeImg" tabindex="-1" role="dialog" aria-labelledby="img"
-     aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="img" class="modal fade" id="changeImg" role="dialog"
+     tabindex="-1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="img">Set Profile Img</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form th:action="'/img/' + ${user.id}" enctype="multipart/form-data" method="POST">
+            <form enctype="multipart/form-data" method="POST" th:action="'/img/' + ${user.id}">
                 <div class="modal-body">
                     <div class="custom-file">
-                        <input name="file" type="file" class="custom-file-input" id="validatedCustomFile" required>
+                        <input class="custom-file-input" id="validatedCustomFile" name="file" required type="file">
                         <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>
         </div>

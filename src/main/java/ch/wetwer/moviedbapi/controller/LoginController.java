@@ -36,15 +36,14 @@ import java.util.Random;
 @RequestMapping("login")
 public class LoginController {
 
+    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
     private SessionDao sessionDao;
     private UserDao userDto;
-
     private CookieService cookieService;
     private ShaService shaService;
     private UserAuthService userAuthService;
     private ActivityService activityService;
     private SessionService sessionService;
-    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
 
     public LoginController(SessionDao sessionDao, UserDao userDto, CookieService cookieService, ShaService shaService,
                            UserAuthService userAuthService, ActivityService activityService,

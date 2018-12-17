@@ -63,7 +63,7 @@ public class HomeController {
             model.addAttribute("page", "home");
             return "template";
         } else {
-            return "redirect:/login";
+            return "redirect:/login?redirect=/";
         }
     }
 }

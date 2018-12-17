@@ -99,6 +99,5 @@ public class GroupController {
             }
         }
         return "redirect:/";
-
     }
 }

@@ -1,19 +1,19 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <h1>Register new User</h1>
 
-<div th:if="${param.exists}" class="alert alert-danger">
+<div class="alert alert-danger" th:if="${param.exists}">
     User allready exists
 </div>
 
-<div th:if="${param.added}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.added}">
     Authkey:
-    <input th:value="'http://scorewinner.ch:8081/fastlogin/' + ${param.added}" class="form-control" type="text"
-           disabled>
+    <input class="form-control" disabled th:value="'http://scorewinner.ch:8081/fastlogin/' + ${param.added}"
+           type="text">
 </div>
 
 <form action="/register" method="post">
-    Username: <input class="form-control" type="text" name="name" required>
+    Username: <input class="form-control" name="name" required type="text">
     <br>
     <input class="btn btn-primary" type="submit">
 </form>

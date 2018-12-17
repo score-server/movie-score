@@ -23,7 +23,7 @@ public class ActivityService {
     }
 
     public void log(String log, User user) {
-         ActivityLog activityLog = new ActivityLog();
+        ActivityLog activityLog = new ActivityLog();
         activityLog.setLog(log);
         activityLog.setUser(user);
         activityLog.setTimestamp(new Timestamp(new Date().getTime()));
@@ -31,7 +31,7 @@ public class ActivityService {
     }
 
     public void log(String log) {
-         ActivityLog activityLog = new ActivityLog();
+        ActivityLog activityLog = new ActivityLog();
         activityLog.setLog(log);
         activityLog.setTimestamp(new Timestamp(new Date().getTime()));
         activityLogDao.save(activityLog);

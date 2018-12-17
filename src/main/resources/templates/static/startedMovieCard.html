@@ -1,25 +1,25 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <a th:href="'/' + ${startedVideo.videoModel.type} + '/' + ${startedVideo.videoModel.id}">
     <div class="card moviecard">
         <div>
-            <span th:text="${startedVideo.videoModel.quality}" class="quality-badge"></span>
-            <form th:action="'/time/delete/' + ${startedVideo.time.id}" method="post" class="remove-time">
-                <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top"
-                        title="Reset Time"><i class="fas fa-fast-backward"></i></button>
+            <span class="quality-badge" th:text="${startedVideo.videoModel.quality}"></span>
+            <form class="remove-time" method="post" th:action="'/time/delete/' + ${startedVideo.time.id}">
+                <button class="btn btn-danger" data-placement="top" data-toggle="tooltip" title="Reset Time"
+                        type="submit"><i class="fas fa-fast-backward"></i></button>
             </form>
-            <img th:src="${startedVideo.videoModel.caseImg}" class="card-img-top">
+            <img class="card-img-top" th:src="${startedVideo.videoModel.caseImg}">
         </div>
         <div class="card-body nodec">
-            <h5 th:text="${startedVideo.videoModel.title}" class="card-title"></h5>
+            <h5 class="card-title" th:text="${startedVideo.videoModel.title}"></h5>
             <a>
                 <span class="fa fa-star checked" style="color: #D7D700;"></span>
                 <span th:text="${startedVideo.videoModel.voteAverage}"></span>
             </a>
-            <a th:text="${startedVideo.videoModel.year}" class="float-right"></a>
+            <a class="float-right" th:text="${startedVideo.videoModel.year}"></a>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" th:style="'width: ' + ${startedVideo.progress} + '%'"
-                     aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25"
+                     class="progress-bar" role="progressbar" th:style="'width: ' + ${startedVideo.progress} + '%'">
                 </div>
             </div>
         </div>

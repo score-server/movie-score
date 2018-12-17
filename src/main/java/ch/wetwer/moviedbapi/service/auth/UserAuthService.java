@@ -16,10 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class UserAuthService {
 
-    private UserDao userDao;
-
-    private CookieService cookieService;
     final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
+    private UserDao userDao;
+    private CookieService cookieService;
 
     public UserAuthService(UserDao userDao, CookieService cookieService) {
         this.userDao = userDao;

@@ -1,12 +1,12 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <h1>User List</h1>
 
-<div th:if="${param.added}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.added}">
     User added
 </div>
 
-<div th:if="${param.deleted}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.deleted}">
     User deleted
 </div>
 
@@ -14,25 +14,25 @@
     <div class="row">
         <br>
         <div class="col-12">
-            <input th:value="${search}" class="form-control" type="text" name="search"
-                   placeholder="Search" autocomplete="off">
+            <input autocomplete="off" class="form-control" name="search" placeholder="Search"
+                   th:value="${search}" type="text">
         </div>
     </div>
 </form>
 <br>
 <ul class="list-group">
-    <li th:each="user : ${users}" class="list-group-item">
-        <img th:if="${user.profileImg} != null" class="img-thumbnail" th:src="'/img/' + ${user.id}"
-             style="max-height: 40px; min-height: 40px"/>
-        <a th:text="${user.name}" th:href="'/user/' + ${user.id}"></a>
-        <span th:if="${user.sexabig} == true" class="badge badge-primary">Alpha</span>
-        <div th:if="${currentUser.isAdmin()}" class="float-right" th:switch="${user.role}">
-            <form th:case="'1'" th:action="'/user/' + ${user.id} + '/role/2'" method="post">
+    <li class="list-group-item" th:each="user : ${users}">
+        <img class="img-thumbnail" style="max-height: 40px; min-height: 40px" th:if="${user.profileImg} != null"
+             th:src="'/img/' + ${user.id}"/>
+        <a th:href="'/user/' + ${user.id}" th:text="${user.name}"></a>
+        <span class="badge badge-primary" th:if="${user.sexabig} == true">Alpha</span>
+        <div class="float-right" th:if="${currentUser.isAdmin()}" th:switch="${user.role}">
+            <form method="post" th:action="'/user/' + ${user.id} + '/role/2'" th:case="'1'">
                 <button class="btn btn-light">
                     <i class="fas fa-chess-pawn"></i>
                 </button>
             </form>
-            <form th:case="'2'" th:action="'/user/' + ${user.id} + '/role/1'" method="post">
+            <form method="post" th:action="'/user/' + ${user.id} + '/role/1'" th:case="'2'">
                 <button class="btn btn-dark">
                     <i class="fas fa-chess-king"></i>
                 </button>
@@ -40,7 +40,7 @@
         </div>
     </li>
 </ul>
-<div th:if="${users.isEmpty()}" class="row">
+<div class="row" th:if="${users.isEmpty()}">
     <div class="col-sm-3" style="margin-bottom: 20px">
         <div class="alert alert-secondary">
             <a>No Users found</a>

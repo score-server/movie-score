@@ -1,40 +1,40 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 
 <h1>Blog/News</h1>
 
-<div th:if="${param.new}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.new}">
     Saved new Post
 </div>
 
-<div th:if="${param.deleted}" class="alert alert-success">
+<div class="alert alert-success" th:if="${param.deleted}">
     Post deleted
 </div>
 
-<div th:if="${param.notdeleted}" class="alert alert-danger">
+<div class="alert alert-danger" th:if="${param.notdeleted}">
     Post not deleted
 </div>
 
-<div th:each="blog : ${blogs}" class="col-sm-12" style="margin-bottom: 20px">
+<div class="col-sm-12" style="margin-bottom: 20px" th:each="blog : ${blogs}">
     <div class="card">
         <div class="card-header">
             <b th:text="${blog.title}"></b>
-            <a th:text="${#dates.format(blog.timestamp, 'dd.MM.yyyy HH:mm')}" class="float-right"></a>
+            <a class="float-right" th:text="${#dates.format(blog.timestamp, 'dd.MM.yyyy HH:mm')}"></a>
         </div>
         <div class="card-body">
             <p th:utext="${blog.text}"></p>
             <small class="text-muted">
                 <span>By </span>
-                <a th:text="${blog.user.name}" th:href="'/user/' + ${blog.user.id}"></a>
-                <form th:if="${currentUser.isAdmin()}" th:action="'/blog/' + ${blog.id} + '/delete'" method="post"
-                      class="float-right">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                <a th:href="'/user/' + ${blog.user.id}" th:text="${blog.user.name}"></a>
+                <form class="float-right" method="post" th:action="'/blog/' + ${blog.id} + '/delete'"
+                      th:if="${currentUser.isAdmin()}">
+                    <button class="btn btn-danger" type="submit">Delete</button>
                 </form>
             </small>
         </div>
     </div>
 </div>
-<a th:if="${currentUser.isAdmin()}" href="/blog/new" class="btn btn-primary">New Post</a>
+<a class="btn btn-primary" href="/blog/new" th:if="${currentUser.isAdmin()}">New Post</a>
 <br>
 <br>
-<a href="/" class="btn btn-primary">Back</a>
+<a class="btn btn-primary" href="/">Back</a>

@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <h1>Create Request</h1>
 
@@ -8,8 +8,8 @@
         Movie / Serie / Feature Request
     </div>
     <div class="card-body">
-        <form th:action="'/request/create/' + ${currentUser.id} + '?type=request'" method="post">
-            <input class="form-control" type="text" name="request" placeholder="Request" required>
+        <form method="post" th:action="'/request/create/' + ${currentUser.id} + '?type=request'">
+            <input class="form-control" name="request" placeholder="Request" required type="text">
             <br>
             <button class="btn btn-primary">Submit</button>
         </form>
@@ -23,13 +23,13 @@
     <div class="card-body">
         <p>This Application is Invite Only. If you have anyone who wants an Account be sure he is reliable and won't
             sue us or do something else stupid.</p>
-        <form th:action="'/request/create/' + ${currentUser.id} + '?type=user'" method="post">
-            <input class="form-control" type="text" name="request" placeholder="Username" required>
+        <form method="post" th:action="'/request/create/' + ${currentUser.id} + '?type=user'">
+            <input class="form-control" name="request" placeholder="Username" required type="text">
             <!--<input type="checkbox" id="reliable" class="custom-control-input" required>-->
             <!--<label for="reliable">Reliable</label>-->
 
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="customCheck1" required>
+                <input class="custom-control-input" id="customCheck1" required type="checkbox">
                 <label class="custom-control-label" for="customCheck1">Reliable</label>
             </div>
             <br>

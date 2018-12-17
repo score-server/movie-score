@@ -1,19 +1,19 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <h1>Register</h1>
 
-<div th:if="${param.exists}" class="alert alert-danger">
+<div class="alert alert-danger" th:if="${param.exists}">
     User allready exists
 </div>
 
-<div th:if="${param.password}" class="alert alert-danger">
+<div class="alert alert-danger" th:if="${param.password}">
     Passwords don't match
 </div>
 
-<form th:action="'/register/' + ${groupKey}" method="post">
-    Username: <input class="form-control" type="text" name="name" required>
-    Password: <input class="form-control" type="password" name="password" required>
-    Confirm Password: <input class="form-control" type="password" name="confirm" required>
+<form method="post" th:action="'/register/' + ${groupKey}">
+    Username: <input class="form-control" name="name" required type="text">
+    Password: <input class="form-control" name="password" required type="password">
+    Confirm Password: <input class="form-control" name="confirm" required type="password">
     <br>
     <h3>Video Player</h3>
     <div class="row">
@@ -28,7 +28,7 @@
                     <br>
                     <br>
                     <div class="custom-control custom-radio">
-                        <input type="radio" id="plyr.io" name="player" value="plyr" class="custom-control-input">
+                        <input class="custom-control-input" id="plyr.io" name="player" type="radio" value="plyr">
                         <label class="custom-control-label" for="plyr.io">Plyr.io (default)</label>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <br>
                     <br>
                     <div class="custom-control custom-radio">
-                        <input type="radio" id="html5" name="player" value="html5" class="custom-control-input">
+                        <input class="custom-control-input" id="html5" name="player" type="radio" value="html5">
                         <label class="custom-control-label" for="html5">HTML 5</label>
                     </div>
                 </div>
@@ -53,5 +53,10 @@
         </div>
     </div>
     <br>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <div class="custom-control custom-checkbox">
+        <input class="custom-control-input" id="check" name="check" required type="checkbox" value="check">
+        <label class="custom-control-label" for="check">No account sharing, no sueing, thanks</label>
+    </div>
+    <br>
+    <button class="btn btn-primary" type="submit">Save</button>
 </form>
