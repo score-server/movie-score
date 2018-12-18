@@ -192,10 +192,16 @@ public class UserController {
     }
 
     @PostMapping("generate/{userId}")
-    public String generateKey(@PathVariable("userId") Long userId, HttpServletRequest request) {
+    public String generateKey(@PathVariable("userId") Long userId,
+                              @RequestParam(name = "extended", required = false, defaultValue = "") String extendedAuth,
+                              HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
             User user = userDao.getById(userId);
-            user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7));
+            if (extendedAuth.equals("extended")) {
+                user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
+            } else {
+                user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7));
+            }
             userDao.save(user);
         }
         return "redirect:/user/" + userId;

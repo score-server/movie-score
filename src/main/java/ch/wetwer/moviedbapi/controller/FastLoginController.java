@@ -113,7 +113,7 @@ public class FastLoginController {
             user.setName(nameParam);
             user.setPasswordSha(shaService.encode(passwordParam));
             user.setVideoPlayer(player);
-            user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7));
+            user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
 
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
             cookieService.setUserCookie(response, sessionId);
