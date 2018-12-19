@@ -90,6 +90,7 @@ public class RegisterController {
     public String register(@RequestParam("name") String nameParam, HttpServletRequest request) {
         User adminUser = userAuthService.getUser(request).getUser();
         if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
             if (userDao.search(nameParam).size() == 0) {
                 User user = new User();
                 user.setName(nameParam);

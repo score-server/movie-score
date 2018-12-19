@@ -47,6 +47,7 @@ public class EpisodeController {
     @GetMapping(value = "/{episodeId}")
     public String getOneEpisode(@PathVariable("episodeId") Long episodeId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
 
             User user = userAuthService.getUser(request).getUser();
             Episode episode = episodeDao.getById(episodeId);

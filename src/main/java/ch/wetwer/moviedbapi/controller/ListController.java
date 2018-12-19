@@ -32,6 +32,7 @@ public class ListController {
     public String getLists(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                            Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             model.addAttribute("timelines", timeLineDto.searchTimeLine(search));
             model.addAttribute("search", search);
             model.addAttribute("page", "timelineList");

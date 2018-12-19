@@ -36,6 +36,7 @@ public class HomeController {
                                Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
             User user = userAuthService.getUser(request).getUser();
+            userAuthService.log(this.getClass(), user);
 
             if (!genreParam.equals("")) {
                 return "redirect:/movies/1?search=" + search + "&orderBy=" + orderBy + "&genre=" + genreParam;

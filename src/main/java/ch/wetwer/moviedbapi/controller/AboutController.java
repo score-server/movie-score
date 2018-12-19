@@ -5,6 +5,8 @@ import ch.wetwer.moviedbapi.data.dao.MovieDao;
 import ch.wetwer.moviedbapi.data.dao.SerieDao;
 import ch.wetwer.moviedbapi.data.dao.UpdateLogDao;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +23,11 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("about")
 public class AboutController {
 
+    private final Logger LOG = LoggerFactory.getLogger(AboutController.class);
     private EpisodeDao episodeDao;
     private MovieDao movieDao;
     private SerieDao serieDao;
     private UpdateLogDao updateLogDao;
-
     private UserAuthService userAuthService;
 
     public AboutController(EpisodeDao episodeDao, MovieDao movieDao, SerieDao serieDao, UpdateLogDao updateLogDao,
@@ -40,6 +42,7 @@ public class AboutController {
     @GetMapping
     public String getAboutPage(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             model.addAttribute("movies", movieDao.getAll().size());
             model.addAttribute("latest", movieDao.getLatestInfo());
             model.addAttribute("series", serieDao.getAll().size());

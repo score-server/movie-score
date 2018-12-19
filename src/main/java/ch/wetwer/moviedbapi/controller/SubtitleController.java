@@ -47,6 +47,7 @@ public class SubtitleController {
     @GetMapping("add")
     public String getAddSubtitlesForm(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             model.addAttribute("movies", movieDao.getAll());
             model.addAttribute("page", "subtitle");
             return "template";
@@ -60,6 +61,7 @@ public class SubtitleController {
                                @RequestParam("language") String language,
                                HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
+            userAuthService.log(this.getClass(), request);
             try {
                 if (multipartFile.getOriginalFilename().endsWith(".srt")) {
                     subtitleDao.addSubtitle(movieDao.getById(movieId), multipartFile, language,

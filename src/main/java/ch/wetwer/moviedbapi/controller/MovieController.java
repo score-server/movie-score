@@ -55,6 +55,7 @@ public class MovieController {
     @GetMapping("{movieId}")
     public String getOneMovie(@PathVariable("movieId") Long movieId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             Movie movie = movieDto.getById(movieId);
             model.addAttribute("movie", movie);
             model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));

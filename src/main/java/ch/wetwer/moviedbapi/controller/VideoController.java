@@ -37,6 +37,7 @@ public class VideoController {
     public void getMovie(@PathVariable("movieId") Long movieId,
                          HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (userAuthService.isUser(request)) {
+            userAuthService.log(this.getClass(), request);
             MultipartFileSender.fromPath(Paths.get(movieDao.getById(movieId).getVideoPath()))
                     .with(request)
                     .with(response)
@@ -48,6 +49,8 @@ public class VideoController {
     public void getEpisode(@PathVariable("episodeId") Long episodeId,
                            HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (userAuthService.isUser(request)) {
+            userAuthService.log(this.getClass(), request);
+
             MultipartFileSender.fromPath(Paths.get(episodeDao.getById(episodeId).getPath()))
                     .with(request)
                     .with(response)

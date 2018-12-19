@@ -60,6 +60,7 @@ public class UserController {
     public String getUserList(@RequestParam(name = "search", required = false, defaultValue = "") String search,
                               Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             model.addAttribute("users", searchService.searchUser(search));
             model.addAttribute("search", search);
             model.addAttribute("page", "userList");
@@ -72,6 +73,7 @@ public class UserController {
     @GetMapping(value = "{userId}")
     public String getOneUser(@PathVariable("userId") Long userId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             User user = userDao.getById(userId);
 
             model.addAttribute("user", user);
@@ -101,6 +103,7 @@ public class UserController {
         User currentUser = userAuthService.getUser(request).getUser();
 
         if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
             User user = userDao.getById(userId);
             user.setRole(Integer.valueOf(role));
             userDao.save(user);
@@ -117,6 +120,7 @@ public class UserController {
         User currentUser = userAuthService.getUser(request).getUser();
 
         if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
             User user = userDao.getById(userId);
             if (alpha.equals("1")) {
                 activityService.log(currentUser.getName() + " is Sexy", user);
@@ -138,6 +142,7 @@ public class UserController {
         User user = userDao.getById(userId);
         String oldName = user.getName();
         if (userAuthService.isCurrentUser(model, request, user)) {
+            userAuthService.log(this.getClass(), request);
             user.setName(newName);
             userDao.save(user);
             activityService.log(oldName + " changed Username to " + newName, user);
@@ -155,6 +160,7 @@ public class UserController {
         User user = userDao.getByIdAndPasswordSha(userId, shaService.encode(oldPassword));
 
         if (userAuthService.isCurrentUser(model, request, user)) {
+            userAuthService.log(this.getClass(), request);
             user.setPasswordSha(shaService.encode(newPassword));
             userDao.save(user);
             for (Session session : user.getSessions()) {
@@ -175,6 +181,7 @@ public class UserController {
         User user = userDao.getById(userId);
 
         if (userAuthService.isCurrentUser(model, request, user)) {
+            userAuthService.log(this.getClass(), request);
             user.setVideoPlayer(videoPlayer);
             userDao.save(user);
             activityService.log(user.getName() + " set Video Player to " + videoPlayer, user);
@@ -196,6 +203,7 @@ public class UserController {
                               @RequestParam(name = "extended", required = false, defaultValue = "") String extendedAuth,
                               HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
             User user = userDao.getById(userId);
             if (extendedAuth.equals("extended")) {
                 user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));

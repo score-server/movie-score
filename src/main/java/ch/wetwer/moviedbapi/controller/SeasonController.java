@@ -34,6 +34,7 @@ public class SeasonController {
     @GetMapping(value = "/{seasonId}")
     public String getOneSeason(@PathVariable("seasonId") Long seasonId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             Season season = seasonDao.getById(seasonId);
 
             model.addAttribute("season", season);

@@ -47,6 +47,7 @@ public class TimelineController {
                                Model model, HttpServletRequest request) {
 
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             Timeline timeLine = timeLineDao.getById(timeLineId);
             if (userAuthService.isCurrentUser(request, timeLine.getUser())
                     || userAuthService.isAdministrator(request)) {
@@ -67,6 +68,7 @@ public class TimelineController {
                                @RequestParam("movie") Long movieId,
                                HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
+            userAuthService.log(this.getClass(), request);
             Timeline timeline = timeLineDao.getById(timeLineId);
             if (userAuthService.isCurrentUser(request, timeline.getUser())
                     || userAuthService.isAdministrator(request)) {
@@ -87,6 +89,7 @@ public class TimelineController {
                                      @RequestParam("description") String description,
                                      HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
+            userAuthService.log(this.getClass(), request);
             Timeline timeline = timeLineDao.getById(timeLineId);
             if (userAuthService.isCurrentUser(request, timeline.getUser())
                     || userAuthService.isAdministrator(request)) {
@@ -102,6 +105,7 @@ public class TimelineController {
     @PostMapping("delete/movie/{movieId}")
     public String deleteFromList(@PathVariable("movieId") Long movieId, HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
+            userAuthService.log(this.getClass(), request);
             ListMovie listMovie = listMovieDao.getById(movieId);
             if (userAuthService.isCurrentUser(request, listMovie.getTimeline().getUser())
                     || userAuthService.isAdministrator(request)) {
@@ -115,6 +119,7 @@ public class TimelineController {
     @GetMapping("new")
     public String getCreateForm(HttpServletRequest request, Model model) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             model.addAttribute("page", "createTimeline");
             return "template";
         } else {
@@ -128,6 +133,7 @@ public class TimelineController {
                              @RequestParam("description") String description,
                              HttpServletRequest request) {
         if (userAuthService.isUser(request)) {
+            userAuthService.log(this.getClass(), request);
             User user = userAuthService.getUser(request).getUser();
 
             Timeline timeline = new Timeline();
@@ -147,6 +153,7 @@ public class TimelineController {
     public String deleteTimeline(@PathVariable("timelineId") Long timeLineId,
                                  Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             Timeline timeline = timeLineDao.getById(timeLineId);
             if (userAuthService.isCurrentUser(request, timeline.getUser())
                     || userAuthService.isAdministrator(request)) {

@@ -42,6 +42,7 @@ public class SeriesController {
                             @RequestParam(name = "genre", required = false, defaultValue = "") String genreParam,
                             Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             model.addAttribute("genres", searchService.getGenres(GenreSearchType.SERIE));
             model.addAttribute("series", searchService.searchSerie(search, genreParam));
 

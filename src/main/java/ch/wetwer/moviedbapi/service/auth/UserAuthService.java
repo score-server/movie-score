@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class UserAuthService {
 
-    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
     private UserDao userDao;
     private CookieService cookieService;
 
@@ -30,7 +29,6 @@ public class UserAuthService {
         try {
             userIndicator.setUser(cookieService.getCurrentUser(request));
             userIndicator.setLoggedIn(true);
-            LOG.info(userIndicator.getUser().getName());
         } catch (NullPointerException ignored) {
             userIndicator.setLoggedIn(false);
         }
@@ -105,6 +103,15 @@ public class UserAuthService {
             return userIndicator.getUser() == user;
         }
         return false;
+    }
+
+    public void log(Object controller, HttpServletRequest request) {
+        log(controller, getUser(request).getUser());
+    }
+
+    public void log(Object controller, User user) {
+        final Logger LOG = LoggerFactory.getLogger(controller.toString());
+        LOG.info(user.getName());
     }
 
     public String getCurrentSessionId(HttpServletRequest request) {

@@ -44,6 +44,7 @@ public class RequestController {
     @GetMapping(value = "create")
     public String getCreateForm(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             model.addAttribute("page", "createRequest");
             return "template";
         } else {
@@ -128,6 +129,7 @@ public class RequestController {
         } else if (userAuthService.isCurrentUser(request, movieRequest.getUser())) {
             movieRequest.setRequest(newRequest);
             requestDao.save(movieRequest);
+            userAuthService.log(this.getClass(), movieRequest.getUser());
             return "redirect:/user/" + movieRequest.getUser().getId() + "?requestChanged";
         } else {
             return "redirect:/";

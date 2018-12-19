@@ -43,6 +43,7 @@ public class BlogController {
     @GetMapping
     public String getBlogList(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             model.addAttribute("blogs", blogDao.getAll());
             model.addAttribute("page", "blog");
             return "template";
@@ -54,6 +55,7 @@ public class BlogController {
     @GetMapping("new")
     public String getBlogForm(Model model, HttpServletRequest request) {
         if (userAuthService.isAdministrator(model, request)) {
+            userAuthService.log(this.getClass(), request);
             model.addAttribute("page", "createBlog");
             return "template";
         } else {
@@ -67,6 +69,7 @@ public class BlogController {
                               @RequestParam("title") String title,
                               @RequestParam("text") String text, Model model, HttpServletRequest request) {
         if (userAuthService.isAdministrator(model, request)) {
+            userAuthService.log(this.getClass(), request);
             User user = userDto.getById(userId);
             blogDao.createBlog(title, text, user);
             activityService.log(user.getName() + " created new Blog Post", user);
