@@ -22,7 +22,6 @@ import java.util.List;
 @Service
 public class SeriesImportService extends ImportServiceFactory {
 
-    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
     private SerieRepository serieRepository;
     private EpisodeRepository episodeRepository;
     private SeasonRepository seasonRepository;
@@ -113,7 +112,6 @@ public class SeriesImportService extends ImportServiceFactory {
                 serie.setVoteAverage(serieJson.getVoteAverage());
                 serie.setPopularity(serieJson.getPopularity());
             } catch (NullPointerException e) {
-                LOG.error(seriesName);
                 e.printStackTrace();
             }
             importLogService.importLog("<i class=\"fas fa-angle-double-down\" style=\"color: green;\"></i> " +
@@ -124,7 +122,6 @@ public class SeriesImportService extends ImportServiceFactory {
                         serieJson.getGenres());
                 sleep(250);
             } catch (NullPointerException e) {
-                LOG.error(seriesName);
                 e.printStackTrace();
             }
         }
@@ -177,7 +174,6 @@ public class SeriesImportService extends ImportServiceFactory {
             serie.setVoteAverage(serieJson.getVoteAverage());
             serie.setPopularity(serieJson.getPopularity());
         } catch (NullPointerException e) {
-            LOG.error(serie.getTitle());
             e.printStackTrace();
             importLogService.errorLog("<i class=\"fas fa-times\" style=\"color: red;\"></i> " +
                     "No json found for " + serie.getTitle());

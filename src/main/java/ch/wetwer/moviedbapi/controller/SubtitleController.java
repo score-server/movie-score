@@ -32,7 +32,6 @@ import java.io.IOException;
 @RequestMapping("subtitle")
 public class SubtitleController {
 
-    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
     private MovieDao movieDao;
     private SubtitleDao subtitleDao;
     private UserAuthService userAuthService;
@@ -71,7 +70,6 @@ public class SubtitleController {
                     return "redirect:/movie/" + movieId + "?wrongFile";
                 }
             } catch (IOException e) {
-                LOG.error(userAuthService.getUser(request).getUser().getName());
                 e.printStackTrace();
                 return "redirect:/movie/" + movieId;
             }

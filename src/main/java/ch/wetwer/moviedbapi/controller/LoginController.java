@@ -36,7 +36,6 @@ import java.util.Random;
 @RequestMapping("login")
 public class LoginController {
 
-    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
     private SessionDao sessionDao;
     private UserDao userDto;
     private CookieService cookieService;
@@ -105,7 +104,6 @@ public class LoginController {
                 activityService.log(user.getName() + " logged out", user);
                 return "redirect:/login?logout";
             } catch (NullPointerException e) {
-                LOG.error(userAuthService.getUser(request).getUser().getName());
                 e.printStackTrace();
                 return "redirect:/";
             }

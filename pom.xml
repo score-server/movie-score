@@ -5,7 +5,7 @@
 
     <groupId>ch.wetwer</groupId>
     <artifactId>movie-score</artifactId>
-    <version>2.3.5</version>
+    <version>2.3.6</version>
     <packaging>jar</packaging>
 
     <name>movie-score</name>
@@ -74,11 +74,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-model</artifactId>
-            <version>3.3.9</version>
         </dependency>
     </dependencies>
 

@@ -20,7 +20,6 @@ import java.util.List;
 @Service
 public class MovieImportService extends ImportServiceFactory {
 
-    final Logger LOG = LoggerFactory.getLogger(UserAuthService.class);
     private MovieDao movieDto;
     private UpdateLogDao updateLogDao;
     private SettingsService settingsService;
@@ -148,7 +147,6 @@ public class MovieImportService extends ImportServiceFactory {
         try {
             movie.setFiletype(setMimeType(file.getName()));
         } catch (Exception e) {
-            LOG.error(movie.getTitle());
             e.printStackTrace();
         }
         movieDto.save(movie);
