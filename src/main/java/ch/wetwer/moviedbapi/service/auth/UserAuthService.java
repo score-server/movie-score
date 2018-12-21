@@ -2,6 +2,7 @@ package ch.wetwer.moviedbapi.service.auth;
 
 import ch.wetwer.moviedbapi.data.dao.UserDao;
 import ch.wetwer.moviedbapi.data.entity.User;
+import ch.wetwer.moviedbapi.service.SettingsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 public class UserAuthService {
 
     private UserDao userDao;
-    private CookieService cookieService;
 
-    public UserAuthService(UserDao userDao, CookieService cookieService) {
+    private CookieService cookieService;
+    private SettingsService settingsService;
+
+    public UserAuthService(UserDao userDao, CookieService cookieService, SettingsService settingsService) {
         this.userDao = userDao;
         this.cookieService = cookieService;
+        this.settingsService = settingsService;
     }
 
     public UserIndicator getUser(HttpServletRequest request) {
@@ -37,6 +41,7 @@ public class UserAuthService {
 
     public void allowGuest(Model model, HttpServletRequest request) {
         UserIndicator userIndicator = getUser(request);
+        model.addAttribute("restart", settingsService.getKey("restart"));
 
         if (userIndicator.isLoggedIn()) {
             model.addAttribute("currentUser", userIndicator.getUser());
@@ -47,6 +52,7 @@ public class UserAuthService {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
+            model.addAttribute("restart", settingsService.getKey("restart"));
             model.addAttribute("currentUser", userIndicator.getUser());
             return true;
         }
@@ -71,6 +77,7 @@ public class UserAuthService {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
+            model.addAttribute("restart", settingsService.getKey("restart"));
             model.addAttribute("currentUser", userIndicator.getUser());
             return userIndicator.getUser().getRole() == 2;
         }
@@ -90,6 +97,7 @@ public class UserAuthService {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
+            model.addAttribute("restart", settingsService.getKey("restart"));
             model.addAttribute("currentUser", userIndicator.getUser());
             return userIndicator.getUser() == user;
         }

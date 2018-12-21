@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -57,6 +58,12 @@ public class ControlCenterSettings {
                 model.addAttribute("running", settingsService.getKey("import").equals("1"));
             }
 
+            try {
+                model.addAttribute("restart", settingsService.getKey("restart"));
+            } catch (NullPointerException e) {
+
+            }
+
             model.addAttribute("page", "controlCenter");
             return "template";
         } else {
@@ -91,6 +98,26 @@ public class ControlCenterSettings {
         if (userAuthService.isAdministrator(request)) {
             activityLogDao.delete();
             return "redirect:/settings";
+        } else {
+            return "redirect:/login?redirect=/settings/error";
+        }
+    }
+
+    @PostMapping("scedule")
+    private String scedule(@RequestParam("time") String time, HttpServletRequest request) {
+        if (userAuthService.isAdministrator(request)) {
+            settingsService.setValue("restart", time);
+            return "redirect:/settings?sceduled";
+        } else {
+            return "redirect:/login?redirect=/settings/error";
+        }
+    }
+
+    @PostMapping("scedule/cancel")
+    private String scedule(HttpServletRequest request) {
+        if (userAuthService.isAdministrator(request)) {
+            settingsService.setValue("restart", "0");
+            return "redirect:/settings?canceled";
         } else {
             return "redirect:/login?redirect=/settings/error";
         }

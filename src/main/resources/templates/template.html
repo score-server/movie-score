@@ -55,7 +55,8 @@
         <img alt="nav brand" class="d-inline-block align-top nav-logo" src="https://i.imgur.com/kHO4IKs.png">
         MovieScore
     </a>
-    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler btn"
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler btn"
             data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -111,6 +112,10 @@
         <div class="col-0 col-md-0 col-lg-1"></div>
         <div class="col-12 col-md-12 col-lg-10 nopadding">
             <div class="card card-body darker" style="text-align: left">
+                <div class="alert alert-warning" th:if="${restart} != '0'">Sceduled restart at
+                    <span th:text="${restart}"></span>
+                    <a href="https://scorewinner.ch/pages/services.php">Check Server Status</a>
+                </div>
                 <div class="darker" th:include="'pages/' + ${page} + '.html'"></div>
             </div>
         </div>

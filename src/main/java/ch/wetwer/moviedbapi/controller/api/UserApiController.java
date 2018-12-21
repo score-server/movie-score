@@ -70,7 +70,7 @@ public class UserApiController {
             user.setPasswordSha(shaService.encode(String.valueOf(new Random().nextInt())) + "-NOK");
             user.setRole(1);
             user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
-            activityService.log("Registered new User " + nameParam + " with API");
+            activityService.log("Registered new User " + nameParam + " over API");
             userDto.save(user);
             return user.getAuthKey();
         } else {

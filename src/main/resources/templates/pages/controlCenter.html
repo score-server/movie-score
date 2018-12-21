@@ -1,7 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <h1>Control Center</h1>
-
 <div th:if="${running}">
     <div class="alert alert-warning">
         Import in progress
@@ -71,6 +70,21 @@
         </form>
         <br>
         <a class="btn btn-primary" href="/settings/error">Console Logs</a>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-header">Settings</div>
+    <div class="card-body">
+        <b>Scedule Restart</b>
+        <form action="/settings/scedule" method="post">
+            At: <input type="time" name="time" class="form-control" th:value="${restart}"><br>
+            <button class="btn btn-primary" type="submit">Scedule</button>
+        </form>
+        <br>
+        <form action="/settings/scedule/cancel" method="post">
+            <button class="btn btn-danger" type="submit">Cancel</button>
+        </form>
     </div>
 </div>
 <br>
