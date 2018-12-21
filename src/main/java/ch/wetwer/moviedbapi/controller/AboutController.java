@@ -4,6 +4,7 @@ import ch.wetwer.moviedbapi.data.dao.EpisodeDao;
 import ch.wetwer.moviedbapi.data.dao.MovieDao;
 import ch.wetwer.moviedbapi.data.dao.SerieDao;
 import ch.wetwer.moviedbapi.data.dao.UpdateLogDao;
+import ch.wetwer.moviedbapi.service.MavenPropertiesService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,21 +29,25 @@ public class AboutController {
     private MovieDao movieDao;
     private SerieDao serieDao;
     private UpdateLogDao updateLogDao;
+
     private UserAuthService userAuthService;
+    private MavenPropertiesService mavenPropertiesService;
 
     public AboutController(EpisodeDao episodeDao, MovieDao movieDao, SerieDao serieDao, UpdateLogDao updateLogDao,
-                           UserAuthService userAuthService) {
+                           UserAuthService userAuthService, MavenPropertiesService mavenPropertiesService) {
         this.episodeDao = episodeDao;
         this.movieDao = movieDao;
         this.updateLogDao = updateLogDao;
         this.serieDao = serieDao;
         this.userAuthService = userAuthService;
+        this.mavenPropertiesService = mavenPropertiesService;
     }
 
     @GetMapping
     public String getAboutPage(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
             userAuthService.log(this.getClass(), request);
+            model.addAttribute("appVersion", mavenPropertiesService.getVersion());
             model.addAttribute("movies", movieDao.getAll().size());
             model.addAttribute("latest", movieDao.getLatestInfo());
             model.addAttribute("series", serieDao.getAll().size());
