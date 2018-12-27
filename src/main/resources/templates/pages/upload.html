@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div class="alert alert-success" th:if="${param.uploaded}">
+    Movie Uploaded
+</div>
+<div class="alert alert-success" th:if="${param.deleted}">
+    Movie Deleted <span th:text="${param.deleted}"></span>
+</div>
+<div class="alert alert-success" th:if="${param.added}">
+    Movie Added
+</div>
+<div class="alert alert-danger" th:if="${param.cancel}">
+    Movie Upload Canceled
+</div>
+<div class="alert alert-danger" th:if="${param.exists}">
+    Movie allready exists
+</div>
+
+<h1>Upload Movie</h1>
+<form action="/upload/movie" method="post" enctype="multipart/form-data">
+    <div class="custom-file">
+        <input class="custom-file-input" id="movie" name="movie" required type="file">
+        <label class="custom-file-label" for="movie">Choose movie...</label>
+    </div>
+    <br>
+    <br>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
+<br>
+<div class="card">
+    <div class="card-header">Uploaded Files</div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li th:each="file : ${files}" class="list-group-item">
+                <b th:text="${file.name}"></b>
+                <span th:text="${filesize.getFileSize(file)} + ' MB'"></span>
+                <div class="btn-group float-right" role="group">
+                    <div>
+                        <a class="btn btn-secondary" data-toggle="modal" href="#"
+                           th:data-target="'#editFile' + ${file.hashCode()}">
+                            <i class="far fa-edit"></i>
+                        </a>
+                    </div>
+                    <form th:action="'/upload/accept/' + ${file.hashCode()}" method="post">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                    </form>
+                    <form th:action="'/upload/delete/' + ${file.hashCode()}" method="post">
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                    </form>
+                </div>
+            </li>
+            <li class="list-group-item list-group-item-secondary" th:if="${files.isEmpty()}">
+                No Movies in Upload Folder
+            </li>
+        </ul>
+    </div>
+</div>
+
+<form>
+
+</form>
+
+<div aria-hidden="true" aria-labelledby="edit" class="modal fade" role="dialog" tabindex="-1"
+     th:each="file : ${files}" th:id="'editFile' + ${file.hashCode()}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="request">Edit File</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" th:action="'/upload/edit/' + ${file.hashCode()}">
+                <div class="modal-body">
+                    <input class="form-control" name="name" placeholder="File Name" required th:value="${file.name}"
+                           type="text">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<a class="btn btn-primary" href="/settings">Back</a>
