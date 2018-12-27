@@ -1,5 +1,6 @@
 package ch.wetwer.moviedbapi.controller;
 
+import ch.wetwer.moviedbapi.data.dao.MovieDao;
 import ch.wetwer.moviedbapi.data.dao.RequestDao;
 import ch.wetwer.moviedbapi.data.dao.UserDao;
 import ch.wetwer.moviedbapi.data.entity.Request;
@@ -29,14 +30,16 @@ public class RequestController {
 
     private RequestDao requestDao;
     private UserDao userDao;
+    private MovieDao movieDao;
 
     private UserAuthService userAuthService;
     private ActivityService activityService;
 
-    public RequestController(RequestDao requestDao, UserDao userDao, UserAuthService userAuthService,
+    public RequestController(RequestDao requestDao, UserDao userDao, MovieDao movieDao, UserAuthService userAuthService,
                              ActivityService activityService) {
         this.requestDao = requestDao;
         this.userDao = userDao;
+        this.movieDao = movieDao;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
     }
@@ -45,6 +48,7 @@ public class RequestController {
     public String getCreateForm(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
             userAuthService.log(this.getClass(), request);
+            model.addAttribute("movies", movieDao.getAll());
             model.addAttribute("page", "createRequest");
             return "template";
         } else {
@@ -76,6 +80,24 @@ public class RequestController {
             return "redirect:/user/" + userId + "?request";
         } else {
             return "redirect:/user/" + userId;
+        }
+    }
+
+    @PostMapping("create/takedown")
+    public String createTakedownRequest(@RequestParam("movie") Long movieId,
+                                        @RequestParam("email") String email, HttpServletRequest request) {
+        if (userAuthService.isUser(request)) {
+            User user = userAuthService.getUser(request).getUser();
+            Request movieRequest = new Request();
+            movieRequest.setRequest("Takedown Request: "
+                    + movieDao.getById(movieId).getTitle() + " " + email);
+            movieRequest.setUser(user);
+            movieRequest.setActive("1");
+            requestDao.save(movieRequest);
+            activityService.log(user.getName() + " created Takedown Request for Movie " + movieId, user);
+            return "redirect:/user/" + user.getId() + "?request";
+        } else {
+            return "redirect:/";
         }
     }
 

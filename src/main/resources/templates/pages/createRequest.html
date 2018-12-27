@@ -38,6 +38,26 @@
     </div>
 </div>
 <br>
+<div class="card">
+    <div class="card-header">
+        DMCA Takedown Request
+    </div>
+    <div class="card-body">
+        <form method="post" th:action="'/request/create/takedown/'">
+            <label for="movieselect">Movie</label>
+            <select name="movie" id="movieselect" class="form-control" required>
+                <option th:each="movie : ${movies}" th:text="${movie.title} + ' ' + ${movie.year}"
+                        th:value="${movie.id}"></option>
+            </select>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="Email" class="form-control" required>
+            <p>Takedown Request may take several days to process</p>
+            <br>
+            <button class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+<br>
 <a href="https://github.com/score-server/movie-score/issues/new" target="_blank">
     Feature Request / Bug Report (Github)
 </a>
