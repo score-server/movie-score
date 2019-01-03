@@ -1,6 +1,6 @@
 package ch.wetwer.moviedbapi.service;
 
-import ch.wetwer.moviedbapi.data.entity.Timeline;
+import ch.wetwer.moviedbapi.data.timeline.Timeline;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 

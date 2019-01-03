@@ -1,6 +1,6 @@
 package ch.wetwer.moviedbapi.model;
 
-import ch.wetwer.moviedbapi.data.entity.User;
+import ch.wetwer.moviedbapi.data.user.User;
 import lombok.Data;
 
 import java.util.List;

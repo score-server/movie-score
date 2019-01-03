@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.service;
 
-import ch.wetwer.moviedbapi.data.entity.Episode;
-import ch.wetwer.moviedbapi.data.entity.Season;
-import ch.wetwer.moviedbapi.data.entity.Serie;
+import ch.wetwer.moviedbapi.data.episode.Episode;
+import ch.wetwer.moviedbapi.data.season.Season;
+import ch.wetwer.moviedbapi.data.serie.Serie;
 import org.springframework.stereotype.Service;
 
 /**

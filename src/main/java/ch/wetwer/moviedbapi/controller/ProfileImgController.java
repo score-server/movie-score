@@ -1,7 +1,7 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.dao.UserDao;
-import ch.wetwer.moviedbapi.data.entity.User;
+import ch.wetwer.moviedbapi.data.user.UserDao;
+import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;

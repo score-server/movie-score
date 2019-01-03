@@ -1,7 +1,7 @@
 package ch.wetwer.moviedbapi.service.auth;
 
-import ch.wetwer.moviedbapi.data.dao.UserDao;
-import ch.wetwer.moviedbapi.data.entity.User;
+import ch.wetwer.moviedbapi.data.user.UserDao;
+import ch.wetwer.moviedbapi.data.user.User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;

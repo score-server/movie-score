@@ -1,9 +1,9 @@
 package ch.wetwer.moviedbapi.controller;
 
 
-import ch.wetwer.moviedbapi.data.dao.ActivityLogDao;
-import ch.wetwer.moviedbapi.data.dao.ImportLogDao;
-import ch.wetwer.moviedbapi.data.dao.RequestDao;
+import ch.wetwer.moviedbapi.data.activitylog.ActivityLogDao;
+import ch.wetwer.moviedbapi.data.importlog.ImportLogDao;
+import ch.wetwer.moviedbapi.data.request.RequestDao;
 import ch.wetwer.moviedbapi.service.SettingsService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import ch.wetwer.moviedbapi.service.filehandler.FileHandler;

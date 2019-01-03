@@ -1,6 +1,6 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.entity.User;
+import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.GenreSearchType;
 import ch.wetwer.moviedbapi.service.SearchService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;

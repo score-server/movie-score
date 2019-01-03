@@ -1,7 +1,7 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.dao.EpisodeDao;
-import ch.wetwer.moviedbapi.data.dao.MovieDao;
+import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
+import ch.wetwer.moviedbapi.data.movie.MovieDao;
 import ch.wetwer.moviedbapi.service.MultipartFileSender;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;

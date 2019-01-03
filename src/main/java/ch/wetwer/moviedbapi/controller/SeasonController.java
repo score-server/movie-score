@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.dao.EpisodeDao;
-import ch.wetwer.moviedbapi.data.dao.SeasonDao;
-import ch.wetwer.moviedbapi.data.entity.Season;
+import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
+import ch.wetwer.moviedbapi.data.season.SeasonDao;
+import ch.wetwer.moviedbapi.data.season.Season;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

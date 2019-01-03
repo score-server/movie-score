@@ -1,10 +1,10 @@
 package ch.wetwer.moviedbapi.service.importer;
 
 
-import ch.wetwer.moviedbapi.data.dao.GenreDao;
-import ch.wetwer.moviedbapi.data.entity.Genre;
-import ch.wetwer.moviedbapi.data.entity.Movie;
-import ch.wetwer.moviedbapi.data.entity.Serie;
+import ch.wetwer.moviedbapi.data.genre.GenreDao;
+import ch.wetwer.moviedbapi.data.genre.Genre;
+import ch.wetwer.moviedbapi.data.movie.Movie;
+import ch.wetwer.moviedbapi.data.serie.Serie;
 import ch.wetwer.moviedbapi.model.tmdb.GenreJson;
 import org.springframework.stereotype.Service;
 

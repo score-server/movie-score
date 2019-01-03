@@ -1,6 +1,6 @@
 package ch.wetwer.moviedbapi.service;
 
-import ch.wetwer.moviedbapi.data.entity.Movie;
+import ch.wetwer.moviedbapi.data.movie.Movie;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;

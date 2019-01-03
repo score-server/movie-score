@@ -1,9 +1,9 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.dao.GroupDao;
-import ch.wetwer.moviedbapi.data.dao.UserDao;
-import ch.wetwer.moviedbapi.data.entity.GroupInvite;
-import ch.wetwer.moviedbapi.data.entity.User;
+import ch.wetwer.moviedbapi.data.groupinvite.GroupDao;
+import ch.wetwer.moviedbapi.data.user.UserDao;
+import ch.wetwer.moviedbapi.data.groupinvite.GroupInvite;
+import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

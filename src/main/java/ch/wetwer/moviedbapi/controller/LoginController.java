@@ -1,17 +1,15 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.dao.SessionDao;
-import ch.wetwer.moviedbapi.data.dao.UserDao;
-import ch.wetwer.moviedbapi.data.entity.Session;
-import ch.wetwer.moviedbapi.data.entity.User;
+import ch.wetwer.moviedbapi.data.session.SessionDao;
+import ch.wetwer.moviedbapi.data.user.UserDao;
+import ch.wetwer.moviedbapi.data.session.Session;
+import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.auth.CookieService;
 import ch.wetwer.moviedbapi.service.auth.SessionService;
 import ch.wetwer.moviedbapi.service.auth.ShaService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,6 +1,6 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.dao.TimeLineDao;
+import ch.wetwer.moviedbapi.data.timeline.TimeLineDao;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

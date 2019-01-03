@@ -1,11 +1,11 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.dao.CommentDao;
-import ch.wetwer.moviedbapi.data.dao.EpisodeDao;
-import ch.wetwer.moviedbapi.data.dao.MovieDao;
-import ch.wetwer.moviedbapi.data.entity.Episode;
-import ch.wetwer.moviedbapi.data.entity.Movie;
-import ch.wetwer.moviedbapi.data.entity.User;
+import ch.wetwer.moviedbapi.data.comment.CommentDao;
+import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
+import ch.wetwer.moviedbapi.data.movie.MovieDao;
+import ch.wetwer.moviedbapi.data.episode.Episode;
+import ch.wetwer.moviedbapi.data.movie.Movie;
+import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;

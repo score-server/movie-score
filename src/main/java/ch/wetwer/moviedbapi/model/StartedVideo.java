@@ -1,6 +1,6 @@
 package ch.wetwer.moviedbapi.model;
 
-import ch.wetwer.moviedbapi.data.entity.Time;
+import ch.wetwer.moviedbapi.data.time.Time;
 import lombok.Data;
 
 @Data

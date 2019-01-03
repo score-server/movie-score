@@ -1,7 +1,7 @@
 package ch.wetwer.moviedbapi.controller.api;
 
-import ch.wetwer.moviedbapi.data.dao.UserDao;
-import ch.wetwer.moviedbapi.data.entity.User;
+import ch.wetwer.moviedbapi.data.user.UserDao;
+import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.auth.ShaService;
 import org.springframework.web.bind.annotation.CrossOrigin;

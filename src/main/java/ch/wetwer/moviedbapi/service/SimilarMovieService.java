@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.service;
 
-import ch.wetwer.moviedbapi.data.entity.Genre;
-import ch.wetwer.moviedbapi.data.entity.Movie;
-import ch.wetwer.moviedbapi.data.repository.MovieRepository;
+import ch.wetwer.moviedbapi.data.genre.Genre;
+import ch.wetwer.moviedbapi.data.movie.Movie;
+import ch.wetwer.moviedbapi.data.movie.MovieRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

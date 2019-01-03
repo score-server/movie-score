@@ -1,12 +1,10 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.dao.EpisodeDao;
-import ch.wetwer.moviedbapi.data.dao.MovieDao;
-import ch.wetwer.moviedbapi.data.dao.SerieDao;
-import ch.wetwer.moviedbapi.data.dao.UpdateLogDao;
+import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
+import ch.wetwer.moviedbapi.data.movie.MovieDao;
+import ch.wetwer.moviedbapi.data.serie.SerieDao;
+import ch.wetwer.moviedbapi.data.updatelog.UpdateLogDao;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,11 +1,11 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.dao.ActivityLogDao;
-import ch.wetwer.moviedbapi.data.dao.SessionDao;
-import ch.wetwer.moviedbapi.data.dao.TimeLineDao;
-import ch.wetwer.moviedbapi.data.dao.UserDao;
-import ch.wetwer.moviedbapi.data.entity.Session;
-import ch.wetwer.moviedbapi.data.entity.User;
+import ch.wetwer.moviedbapi.data.activitylog.ActivityLogDao;
+import ch.wetwer.moviedbapi.data.session.SessionDao;
+import ch.wetwer.moviedbapi.data.timeline.TimeLineDao;
+import ch.wetwer.moviedbapi.data.user.UserDao;
+import ch.wetwer.moviedbapi.data.session.Session;
+import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.SearchService;
 import ch.wetwer.moviedbapi.service.auth.ShaService;

@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.service;
 
-import ch.wetwer.moviedbapi.data.entity.ImportLog;
-import ch.wetwer.moviedbapi.data.entity.Movie;
-import ch.wetwer.moviedbapi.data.repository.ImportLogRepository;
+import ch.wetwer.moviedbapi.data.importlog.ImportLog;
+import ch.wetwer.moviedbapi.data.movie.Movie;
+import ch.wetwer.moviedbapi.data.importlog.ImportLogRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
