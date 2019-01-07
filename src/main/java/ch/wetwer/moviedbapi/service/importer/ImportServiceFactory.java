@@ -1,6 +1,6 @@
 package ch.wetwer.moviedbapi.service.importer;
 
-import ch.wetwer.moviedbapi.service.SettingsService;
+import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 

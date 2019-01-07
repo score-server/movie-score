@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.controller;
 
+import ch.wetwer.moviedbapi.data.episode.Episode;
 import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
 import ch.wetwer.moviedbapi.data.time.TimeDao;
-import ch.wetwer.moviedbapi.data.episode.Episode;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.EpisodeService;
@@ -60,7 +60,8 @@ public class EpisodeController {
                 model.addAttribute("time", 0);
             }
 
-            activityService.log(user.getName() + " gets Episode " + episode.getFullTitle(),
+            activityService.log(user.getName() + " gets Episode " +
+                            "<a href=\"/episode/" + episode.getId() + "\">" + episode.getFullTitle() + "</a>",
                     userAuthService.getUser(request).getUser());
             model.addAttribute("nextEpisode", episodeService.getNextEpisode(episode));
             model.addAttribute("page", "episode");
@@ -78,8 +79,9 @@ public class EpisodeController {
             Episode episode = episodeDao.getById(episodeId);
             episode.setPath(path);
             episodeDao.save(episode);
-            activityService.log(user.getName() + " changed Path on "
-                    + episode.getFullTitle() + " to " + path, user);
+            activityService.log(user.getName() + " changed Path on " +
+                            "<a href=\"/episode/" + episode.getId() + "\">" + episode.getFullTitle() + "</a>",
+                    user);
             return "redirect:/episode/" + episodeId + "?path";
         } else {
             return "redirect:/episode/" + episodeId;

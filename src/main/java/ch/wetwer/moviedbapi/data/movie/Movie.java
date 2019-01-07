@@ -1,12 +1,12 @@
 package ch.wetwer.moviedbapi.data.movie;
 
-import ch.wetwer.moviedbapi.data.subtitle.Subtitle;
-import ch.wetwer.moviedbapi.data.time.Time;
 import ch.wetwer.moviedbapi.data.comment.Comment;
 import ch.wetwer.moviedbapi.data.genre.Genre;
 import ch.wetwer.moviedbapi.data.importlog.ImportLog;
 import ch.wetwer.moviedbapi.data.likes.Likes;
 import ch.wetwer.moviedbapi.data.listmovie.ListMovie;
+import ch.wetwer.moviedbapi.data.subtitle.Subtitle;
+import ch.wetwer.moviedbapi.data.time.Time;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -83,5 +83,8 @@ public class Movie {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<Subtitle> subtitles;
 
+    public boolean isBroken() {
+        return getQuality().contains(" ");
+    }
 
 }

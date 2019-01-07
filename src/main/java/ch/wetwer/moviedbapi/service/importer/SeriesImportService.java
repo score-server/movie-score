@@ -9,8 +9,7 @@ import ch.wetwer.moviedbapi.data.episode.EpisodeRepository;
 import ch.wetwer.moviedbapi.data.season.SeasonRepository;
 import ch.wetwer.moviedbapi.data.serie.SerieRepository;
 import ch.wetwer.moviedbapi.model.tmdb.SerieJson;
-import ch.wetwer.moviedbapi.service.ImportLogService;
-import ch.wetwer.moviedbapi.service.SettingsService;
+import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
 import org.springframework.stereotype.Service;
 
 import java.io.File;

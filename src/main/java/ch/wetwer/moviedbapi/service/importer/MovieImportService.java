@@ -5,8 +5,7 @@ import ch.wetwer.moviedbapi.data.updatelog.UpdateLogDao;
 import ch.wetwer.moviedbapi.data.movie.Movie;
 import ch.wetwer.moviedbapi.data.updatelog.UpdateLog;
 import ch.wetwer.moviedbapi.model.tmdb.MovieJson;
-import ch.wetwer.moviedbapi.service.ImportLogService;
-import ch.wetwer.moviedbapi.service.SettingsService;
+import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
 import org.springframework.stereotype.Service;
 
 import java.io.File;

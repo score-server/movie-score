@@ -1,7 +1,7 @@
 package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.service.FileSizeService;
-import ch.wetwer.moviedbapi.service.SettingsService;
+import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;

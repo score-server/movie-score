@@ -1,10 +1,10 @@
 package ch.wetwer.moviedbapi.controller;
 
+import ch.wetwer.moviedbapi.data.likes.Likes;
 import ch.wetwer.moviedbapi.data.likes.LikesDao;
+import ch.wetwer.moviedbapi.data.movie.Movie;
 import ch.wetwer.moviedbapi.data.movie.MovieDao;
 import ch.wetwer.moviedbapi.data.time.TimeDao;
-import ch.wetwer.moviedbapi.data.likes.Likes;
-import ch.wetwer.moviedbapi.data.movie.Movie;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.SimilarMovieService;
@@ -61,8 +61,7 @@ public class MovieController {
             model.addAttribute("similar", similarMovieService.getSimilarMovies(movie));
 
             try {
-                Likes likes = likesDto.getByUserAndMovie(
-                        userAuthService.getUser(request).getUser(), movie);
+                Likes likes = likesDto.getByUserAndMovie(userAuthService.getUser(request).getUser(), movie);
                 likes.getId();
                 model.addAttribute("hasliked", true);
             } catch (NullPointerException e) {
@@ -70,7 +69,8 @@ public class MovieController {
             }
             User user = userAuthService.getUser(request).getUser();
             try {
-                activityService.log(user.getName() + " gets Movie " + movie.getTitle(), user);
+                activityService.log(user.getName()
+                        + " gets Movie <a href=\"/movie/" + movie.getId() + "\">" + movie.getTitle() + "</a>", user);
             } catch (NullPointerException e) {
                 activityService.log("Guest gets Trailer " + movie.getTitle(), null);
             }
@@ -97,13 +97,15 @@ public class MovieController {
                 Likes likes = likesDto.getByUserAndMovie(user, movie);
                 likes.getId();
                 likesDto.delete(likes);
-                activityService.log(user.getName() + " removed like on movie " + movie.getTitle(), user);
+                activityService.log(user.getName() + " removed like on movie " +
+                        "<a href=\"/movie/" + movie.getId() + "\">" + movie.getTitle() + "</a>", user);
             } catch (NullPointerException e) {
                 Likes likes = new Likes();
                 likes.setMovie(movie);
                 likes.setUser(user);
                 likesDto.save(likes);
-                activityService.log(user.getName() + " likes movie " + movie.getTitle(), user);
+                activityService.log(user.getName() + " likes movie " +
+                        "<a href=\"/movie/" + movie.getId() + "\">" + movie.getTitle() + "</a>", user);
             }
             return "redirect:/movie/" + movieId;
         } else {
@@ -121,7 +123,8 @@ public class MovieController {
             movie.setVideoPath(path);
             movieDto.save(movie);
             movieImportService.updateFile(new File(path));
-            activityService.log(user.getName() + " changed Path on Movie " + movie.getTitle() + " to " + path, user);
+            activityService.log(user.getName() + " changed Path on Movie " +
+                    "<a href=\"/movie/" + movie.getId() + "\">" + movie.getTitle() + "</a> to " + path, user);
             return "redirect:/movie/" + movieId + "?path";
         } else {
             return "redirect:/movie/" + movieId;

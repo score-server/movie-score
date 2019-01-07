@@ -3,67 +3,61 @@
 <h1>Create Request</h1>
 
 
-<div class="card">
-    <div class="card-header">
-        Movie / Serie / Feature Request
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#default-request" role="tab"
+           aria-controls="nav-home" aria-selected="true">Default</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#invite-request" role="tab"
+           aria-controls="nav-profile" aria-selected="false">Invite</a>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#takedown-request" role="tab"
+           aria-controls="nav-contact" aria-selected="false">DMCA</a>
     </div>
-    <div class="card-body">
-        <form method="post" th:action="'/request/create/' + ${currentUser.id} + '?type=request'">
-            <input class="form-control" name="request" placeholder="Request" required type="text">
-            <br>
-            <button class="btn btn-primary">Submit</button>
-        </form>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="default-request" role="tabpanel" aria-labelledby="default-request">
+        <div class="card card-body">
+            <h3>Movie / Serie / Feature Request</h3>
+            <form method="post" th:action="'/request/create/' + ${currentUser.id} + '?type=request'">
+                <input class="form-control" name="request" placeholder="Request" required type="text">
+                <br>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
-</div>
-<br>
-<div class="card">
-    <div class="card-header">
-        Request Invite
+    <div class="tab-pane fade" id="invite-request" role="tabpanel" aria-labelledby="invite-request">
+        <div class="card card-body">
+            <h3>Request Invite</h3>
+            <p>This Application is Invite Only. If you have anyone who wants an Account be sure he is reliable and won't
+                sue us or do something else stupid.</p>
+            <form method="post" th:action="'/request/create/' + ${currentUser.id} + '?type=user'">
+                <input class="form-control" name="request" placeholder="Username" required type="text">
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" id="reliable" required type="checkbox">
+                    <label class="custom-control-label" for="reliable">Reliable</label>
+                </div>
+                <br>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
-    <div class="card-body">
-        <p>This Application is Invite Only. If you have anyone who wants an Account be sure he is reliable and won't
-            sue us or do something else stupid.</p>
-        <form method="post" th:action="'/request/create/' + ${currentUser.id} + '?type=user'">
-            <input class="form-control" name="request" placeholder="Username" required type="text">
-            <!--<input type="checkbox" id="reliable" class="custom-control-input" required>-->
-            <!--<label for="reliable">Reliable</label>-->
+    <div class="tab-pane fade" id="takedown-request" role="tabpanel" aria-labelledby="takedown-request">
+        <div class="card card-body">
+            <h3>DMCA Takedown Request</h3>
+            <form method="post" th:action="'/request/create/takedown/'">
+                <label for="movieselect">Movie</label>
+                <select name="movie" id="movieselect" class="form-control" required>
+                    <option th:each="movie : ${movies}" th:text="${movie.title} + ' ' + ${movie.year}"
+                            th:value="${movie.id}"></option>
+                </select>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Email" class="form-control" required>
+                <p>Takedown Request may take several days to process</p>
+                <br>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
 
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input" id="customCheck1" required type="checkbox">
-                <label class="custom-control-label" for="customCheck1">Reliable</label>
-            </div>
-            <br>
-            <button class="btn btn-primary">Submit</button>
-        </form>
     </div>
-</div>
-<br>
-<div class="card">
-    <div class="card-header">
-        DMCA Takedown Request
-    </div>
-    <div class="card-body">
-        <form method="post" th:action="'/request/create/takedown/'">
-            <label for="movieselect">Movie</label>
-            <select name="movie" id="movieselect" class="form-control" required>
-                <option th:each="movie : ${movies}" th:text="${movie.title} + ' ' + ${movie.year}"
-                        th:value="${movie.id}"></option>
-            </select>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" placeholder="Email" class="form-control" required>
-            <p>Takedown Request may take several days to process</p>
-            <br>
-            <button class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-</div>
-<br>
-<a href="https://github.com/score-server/movie-score/issues/new" target="_blank">
-    Feature Request / Bug Report (Github)
-</a>
-<div th:if="${currentUser.isAdmin()}">
-    <br>
-    <a class="btn btn-primary" href="/settings">Request List</a>
 </div>
 <br>
 <a class="btn btn-primary" href="/">Back</a>

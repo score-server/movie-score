@@ -1,4 +1,4 @@
-package ch.wetwer.moviedbapi.service;
+package ch.wetwer.moviedbapi.service.importer;
 
 import ch.wetwer.moviedbapi.data.importlog.ImportLog;
 import ch.wetwer.moviedbapi.data.movie.Movie;

@@ -2,7 +2,7 @@ package ch.wetwer.moviedbapi.service.auth;
 
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.user.UserDao;
-import ch.wetwer.moviedbapi.service.SettingsService;
+import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

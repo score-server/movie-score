@@ -51,7 +51,8 @@ public class CommentController {
 
             commentDao.createMovieComment(user, movie, commentParam);
 
-            activityService.log(user.getName() + " created Comment on Movie " + movie.getTitle());
+            activityService.log(user.getName() + " created Comment on Movie " +
+                    "<a href=\"/movie/" + movie.getId() + "\">" + movie.getTitle() + "</a>");
             return "redirect:/movie/" + movieId;
         } else {
             return "redirect:/movie/" + movieId + "?error";
@@ -68,7 +69,8 @@ public class CommentController {
 
             commentDao.createEpisodeComment(user, episode, commentParam);
 
-            activityService.log(user.getName() + " created Comment on Episode " + episode.getFullTitle());
+            activityService.log(user.getName() + " created Comment on Episode " +
+                    "<a href=\"/episode/" + episode.getId() + "\">" + episode.getFullTitle() + "</a>");
             return "redirect:/episode/" + episodeId;
         } else {
             return "redirect:/episode/" + episodeId + "?error";

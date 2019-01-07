@@ -1,4 +1,4 @@
-package ch.wetwer.moviedbapi.service;
+package ch.wetwer.moviedbapi.service.filehandler;
 
 import ch.wetwer.moviedbapi.service.filehandler.PropertiesHandler;
 import org.springframework.stereotype.Service;
