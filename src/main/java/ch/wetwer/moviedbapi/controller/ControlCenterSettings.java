@@ -67,7 +67,7 @@ public class ControlCenterSettings {
             model.addAttribute("page", "controlCenter");
             return "template";
         } else {
-            return "redirect:/login?redirect=/settings";
+            return "redirect:/?access";
         }
     }
 
@@ -78,7 +78,7 @@ public class ControlCenterSettings {
             model.addAttribute("page", "errorLog");
             return "template";
         } else {
-            return "redirect:/login?redirect=/settings/error";
+            return "redirect:/?access";
         }
     }
 
@@ -88,7 +88,7 @@ public class ControlCenterSettings {
             importLogDao.delete();
             return "redirect:/settings";
         } else {
-            return "redirect:/login?redirect=/settings/error";
+            return "redirect:/?access";
         }
 
     }
@@ -99,7 +99,7 @@ public class ControlCenterSettings {
             activityLogDao.delete();
             return "redirect:/settings";
         } else {
-            return "redirect:/login?redirect=/settings/error";
+            return "redirect:/?access";
         }
     }
 
@@ -109,7 +109,7 @@ public class ControlCenterSettings {
             settingsService.setValue("restart", time);
             return "redirect:/settings?sceduled";
         } else {
-            return "redirect:/login?redirect=/settings/error";
+            return "redirect:/?access";
         }
     }
 
@@ -119,7 +119,7 @@ public class ControlCenterSettings {
             settingsService.setValue("restart", "0");
             return "redirect:/settings?canceled";
         } else {
-            return "redirect:/login?redirect=/settings/error";
+            return "redirect:/?access";
         }
     }
 }

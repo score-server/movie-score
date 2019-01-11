@@ -25,7 +25,6 @@
         <img class="img-thumbnail" style="max-height: 40px; min-height: 40px" th:if="${user.profileImg} != null"
              th:src="'/img/' + ${user.id}"/>
         <a th:href="'/user/' + ${user.id}" th:text="${user.name}"></a>
-        <span class="badge badge-primary" th:if="${user.sexabig} == true">Alpha</span>
         <div class="float-right" th:if="${currentUser.isAdmin()}" th:switch="${user.role}">
             <form method="post" th:action="'/user/' + ${user.id} + '/role/2'" th:case="'1'">
                 <button class="btn btn-light">

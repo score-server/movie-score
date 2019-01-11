@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.service.FileSizeService;
-import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
+import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +21,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * @author Wetwer
@@ -44,9 +45,10 @@ public class UploadController {
 
     @GetMapping
     public String getUploadPage(Model model, HttpServletRequest request) {
-        if (userAuthService.isAdministrator(model, request)) {
+        if (userAuthService.isAdministrator(model, request)) { //TODO allow user access
             File file = new File(settingsService.getKey("moviePath") + "_tmp");
             ArrayList<File> files = new ArrayList<>(Arrays.asList(file.listFiles()));
+            Collections.sort(files);
             model.addAttribute("files", files);
             model.addAttribute("filesize", new FileSizeService());
             model.addAttribute("page", "upload");

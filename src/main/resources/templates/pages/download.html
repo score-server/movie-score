@@ -1,15 +1,80 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <h1>Downloads</h1>
 <div class="card">
     <div class="card-body">
         <h3>Movie-Score-Desktop</h3>
-        <a style="font-size: 5em;"
-           href="https://drive.google.com/drive/folders/1B4vT-kQErS97MR0Sr6PFRx8d2YL4aVTc?usp=sharing"
-           class="btn btn-primary pd-10">
-            <i class="fab fa-windows"></i>
-            Windows Download
-        </a>
+        <ul class="list-group">
+            <div class="list-group-item">
+                <a th:href="${windows}" target="_blank" style="font-size: 25px;">
+                    <i class="fab fa-windows"></i>
+                    Windows Download
+                </a>
+                <button th:if="${currentUser?.isAdmin()}" class="btn btn-primary float-right" data-target="#windows"
+                        data-toggle="modal">
+                    <i class="far fa-edit"></i>
+                </button>
+            </div>
+            <div class="list-group-item">
+                <a th:href="${mac}" target="_blank" style="font-size: 25px;">
+                    <i class="fab fa-apple"></i>
+                    Mac Download
+                </a>
+                <button th:if="${currentUser?.isAdmin()}" class="btn btn-primary float-right" data-target="#mac"
+                        data-toggle="modal">
+                    <i class="far fa-edit"></i>
+                </button>
+            </div>
+        </ul>
+        <br>
+        <div class="text-center">
+            <img src="https://i.imgur.com/kClxhMg.png" class="rounded" width="50%">
+            <p>movie-score-desktop</p>
+        </div>
     </div>
 </div>
 <br>
 <a class="btn btn-primary" href="/">Back</a>
+
+<div aria-hidden="true" aria-labelledby="windows" class="modal fade" id="windows" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Set Windows Download Path</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" th:action="'/download/windows'">
+                <div class="modal-body">
+                    <input class="form-control" name="path" required th:value="${windows}" type="text">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="mac" class="modal fade" id="mac" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Set Mac Download Path</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" th:action="'/download/mac'">
+                <div class="modal-body">
+                    <input class="form-control" name="path" required th:value="${mac}" type="text">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,6 @@
 
 <h1>
     <span th:text="'User ' + ${user.name}"></span>
-    <span class="badge badge-primary" th:if="${user.sexabig} == true">Alpha</span>
 </h1>
 
 <div class="alert alert-success" th:if="${param.request}">
@@ -151,19 +150,6 @@
                 <form method="post" th:action="'/user/' + ${user.id} + '/role/1'" th:case="'2'">
                     <button class="btn btn-dark">
                         <i class="fas fa-chess-king"></i>
-                    </button>
-                </form>
-            </div>
-            <br>
-            <div th:switch="${user.sexabig}">
-                <form method="post" th:action="'/user/' + ${user.id} + '/group/0'" th:case="true">
-                    <button class="btn btn-success" type="submit">
-                        Alpha
-                    </button>
-                </form>
-                <form method="post" th:action="'/user/' + ${user.id} + '/group/1'" th:case="false">
-                    <button class="btn btn-light" type="submit">
-                        Alpha
                     </button>
                 </form>
             </div>

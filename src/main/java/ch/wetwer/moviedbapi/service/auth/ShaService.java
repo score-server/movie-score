@@ -37,4 +37,8 @@ public class ShaService {
     private byte[] getDigest(String s) throws NoSuchAlgorithmException {
         return MessageDigest.getInstance("SHA-256").digest(s.getBytes(StandardCharsets.UTF_8));
     }
+
+    public String encodeShort(String s) {
+        return encode(s).substring(1, 7);
+    }
 }

@@ -1,11 +1,11 @@
 package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.activitylog.ActivityLogDao;
+import ch.wetwer.moviedbapi.data.session.Session;
 import ch.wetwer.moviedbapi.data.session.SessionDao;
 import ch.wetwer.moviedbapi.data.timeline.TimeLineDao;
-import ch.wetwer.moviedbapi.data.user.UserDao;
-import ch.wetwer.moviedbapi.data.session.Session;
 import ch.wetwer.moviedbapi.data.user.User;
+import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.SearchService;
 import ch.wetwer.moviedbapi.service.auth.ShaService;
@@ -114,28 +114,6 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "{userId}/group/{alpha}")
-    public String setAlpha(@PathVariable("userId") Long userId, @PathVariable("alpha") String alpha,
-                           HttpServletRequest request) {
-        User currentUser = userAuthService.getUser(request).getUser();
-
-        if (userAuthService.isAdministrator(request)) {
-            userAuthService.log(this.getClass(), request);
-            User user = userDao.getById(userId);
-            if (alpha.equals("1")) {
-                activityService.log(currentUser.getName() + " is Sexy", user);
-                user.setSexabig(true);
-            } else if (alpha.equals("0")) {
-                user.setSexabig(false);
-                activityService.log(currentUser.getName() + " is no longer Sexy", user);
-            }
-            userDao.save(user);
-            return "redirect:/user/" + userId;
-        } else {
-            return "redirect:/user/" + userId + "?error";
-        }
-    }
-
     @PostMapping("{userId}/name")
     public String setUsername(@PathVariable("userId") Long userId, @RequestParam("name") String newName,
                               Model model, HttpServletRequest request) {
@@ -208,7 +186,7 @@ public class UserController {
             if (extendedAuth.equals("extended")) {
                 user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
             } else {
-                user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7));
+                user.setAuthKey(shaService.encodeShort(String.valueOf(new Random().nextInt())));
             }
             userDao.save(user);
         }

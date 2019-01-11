@@ -14,6 +14,10 @@
     Logged in
 </div>
 
+<div class="alert alert-warning" th:if="${param.access}">
+    Missing access rights
+</div>
+
 <form action="/" id="search">
     <div class="row">
         <div class="col-12 col-md-6 col-lg-6" style="margin-bottom: 5px">

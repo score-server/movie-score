@@ -1,9 +1,9 @@
 package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.groupinvite.GroupDao;
-import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.data.groupinvite.GroupInvite;
 import ch.wetwer.moviedbapi.data.user.User;
+import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.auth.CookieService;
 import ch.wetwer.moviedbapi.service.auth.SessionService;
@@ -61,7 +61,7 @@ public class RegisterController {
             model.addAttribute("page", "register");
             return "template";
         } else {
-            return "redirect:/";
+            return "redirect:/?access";
         }
     }
 
@@ -81,7 +81,7 @@ public class RegisterController {
                     }
                 }
             }
-            return "redirect:/";
+            return "redirect:/?access";
         }
 
     }
@@ -96,9 +96,8 @@ public class RegisterController {
                 user.setName(nameParam);
                 user.setPasswordSha(shaService.encode(String.valueOf(new Random().nextInt())) + "-NOK");
                 user.setRole(1);
-                String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
+                String authkey = shaService.encodeShort(String.valueOf(new Random().nextInt()));
                 user.setAuthKey(authkey);
-                user.setSexabig(false);
                 userDao.save(user);
                 activityService.log(nameParam + " registered by " + adminUser.getName(), adminUser);
                 return "redirect:/register?added=" + authkey;
@@ -106,7 +105,7 @@ public class RegisterController {
                 return "redirect:/register?exists";
             }
         } else {
-            return "redirect:/user";
+            return "redirect:/?access";
         }
     }
 
@@ -126,7 +125,7 @@ public class RegisterController {
                     user.setPasswordSha(shaService.encode(password));
                     user.setRole(1);
                     user.setVideoPlayer(player);
-                    String authkey = shaService.encode(String.valueOf(new Random().nextInt())).substring(1, 7);
+                    String authkey = shaService.encodeShort(String.valueOf(new Random().nextInt()));
                     user.setAuthKey(authkey);
                     user.setGroup(group);
 
