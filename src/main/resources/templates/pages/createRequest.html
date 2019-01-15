@@ -5,12 +5,14 @@
 
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#default-request" role="tab"
-           aria-controls="nav-home" aria-selected="true">Default</a>
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#invite-request" role="tab"
-           aria-controls="nav-profile" aria-selected="false">Invite</a>
-        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#takedown-request" role="tab"
-           aria-controls="nav-contact" aria-selected="false">DMCA</a>
+        <a class="nav-item nav-link active" data-toggle="tab" href="#default-request" role="tab"
+           aria-selected="true">Default</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#invite-request" role="tab"
+           aria-selected="false">Invite</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#takedown-request" role="tab"
+           aria-selected="false">DMCA</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="#bug-report" role="tab"
+           aria-selected="false">Bug / Feature</a>
     </div>
 </nav>
 <div class="tab-content" id="nav-tabContent">
@@ -56,7 +58,14 @@
                 <button class="btn btn-primary">Submit</button>
             </form>
         </div>
-
+    </div>
+    <div class="tab-pane fade" id="bug-report" role="tabpanel" aria-labelledby="takedown-request">
+        <div class="card card-body">
+            <h3>Bug Report / Feature Request</h3>
+            <a href="https://github.com/score-server/movie-score/issues/new" class="btn btn-dark" target="_blank">
+                <i class="fab fa-github"></i> Redirect to Github
+            </a>
+        </div>
     </div>
 </div>
 <br>

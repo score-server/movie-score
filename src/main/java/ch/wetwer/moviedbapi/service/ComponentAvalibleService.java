@@ -13,7 +13,7 @@ import java.net.Socket;
  **/
 
 @Service
-public class AvalibleService {
+public class ComponentAvalibleService {
 
     public String checkOnline(String ip, Integer port) {
         String status = "Online";

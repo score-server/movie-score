@@ -59,6 +59,7 @@
                                       th:text="${#dates.format(movie.timestamp, 'dd.MM.yyyy HH:mm')}"></span>
                             </li>
                         </ul>
+                        <a href="/movies/1?orderBy=latest">Latest Uploads</a>
                     </div>
                 </div>
             </div>
@@ -117,8 +118,20 @@
             </div>
         </div>
         <br>
+        <div class="card">
+            <div class="card-body">
+                <h3>Tech Stack</h3>
+                <ul class="list-group">
+                    <li class="list-group-item">Frontend: Spring-Tymleaf 2.1.2 Release</li>
+                    <li class="list-group-item">Backend: Spring-Boot 2.1.2 Release & Java 11</li>
+                    <li class="list-group-item">Database: MySql</li>
+                    <li class="list-group-item">Server: Ubuntu 18.04 bionic</li>
+                </ul>
+            </div>
+        </div>
+        <br>
         <p>
-            <a class="btn btn-success" href="https://paypal.me/pools/c/8aEK3LiBqR" target="_blank">Donate</a>
+            <a class="btn btn-success" href="https://www.paypal.com/pools/c/8aEK3LiBqR" target="_blank">Donate</a>
         </p>
     </div>
 </div>

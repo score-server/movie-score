@@ -1,6 +1,6 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.service.AvalibleService;
+import ch.wetwer.moviedbapi.service.ComponentAvalibleService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,20 +14,20 @@ import javax.servlet.http.HttpServletRequest;
 public class WidgetController {
 
     private UserAuthService userAuthService;
-    private AvalibleService avalibleService;
+    private ComponentAvalibleService componentAvalibleService;
 
-    public WidgetController(UserAuthService userAuthService, AvalibleService avalibleService) {
+    public WidgetController(UserAuthService userAuthService, ComponentAvalibleService componentAvalibleService) {
         this.userAuthService = userAuthService;
-        this.avalibleService = avalibleService;
+        this.componentAvalibleService = componentAvalibleService;
     }
 
     @GetMapping
     public String getServerStatus(Model model) {
-        model.addAttribute("minecraft", avalibleService.checkOnline("scorewinner.ch", 25565));
-        model.addAttribute("steam", avalibleService.checkOnline("scorewinner.ch", 7777));
-        model.addAttribute("pterodactyl", avalibleService.checkOnline("games.scorewinner.ch", 80));
-        model.addAttribute("moviedb", avalibleService.checkOnline("movie.scorewinner.ch", 80));
-        model.addAttribute("hermann", avalibleService.checkOnline("scorewinner.ch", 8090));
+        model.addAttribute("minecraft", componentAvalibleService.checkOnline("scorewinner.ch", 25565));
+        model.addAttribute("steam", componentAvalibleService.checkOnline("scorewinner.ch", 7777));
+        model.addAttribute("pterodactyl", componentAvalibleService.checkOnline("games.scorewinner.ch", 80));
+        model.addAttribute("moviedb", componentAvalibleService.checkOnline("movie.scorewinner.ch", 80));
+        model.addAttribute("hermann", componentAvalibleService.checkOnline("scorewinner.ch", 8090));
         return "widget/status.html";
     }
 
