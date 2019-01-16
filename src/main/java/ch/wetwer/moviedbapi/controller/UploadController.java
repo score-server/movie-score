@@ -55,9 +55,6 @@ public class UploadController {
             List<UploadFile> uploadFileList = uploadFileDao.getAll();
             model.addAttribute("files", uploadFileList);
 
-//            File file = new File(settingsService.getKey("moviePath") + "_tmp");
-//            ArrayList<File> files = new ArrayList<>(Arrays.asList(file.listFiles()));
-//            Collections.sort(files);
             model.addAttribute("filesize", new FileSizeService());
             model.addAttribute("page", "upload");
             return "template";
@@ -70,21 +67,24 @@ public class UploadController {
                          HttpServletRequest request) throws IOException {
         if (userAuthService.isAdministrator(request)) {
 
-            UploadFile uploadFile = new UploadFile();
-            uploadFile.setFilename(multipartFile.getOriginalFilename());
-            uploadFile.setCompleted(false);
-            uploadFile.setSize(multipartFile.getSize());
-            uploadFile.setTimestamp(new Timestamp(new Date().getTime()));
-            uploadFileDao.save(uploadFile);
-
             InputStream fileStream;
             fileStream = multipartFile.getInputStream();
             File targetFile = new File(settingsService.getKey("moviePath") + "_tmp/"
                     + multipartFile.getOriginalFilename());
             FileUtils.copyInputStreamToFile(fileStream, targetFile);
 
+            UploadFile uploadFile = uploadFileDao.getByHash(targetFile.hashCode());
+            try {
+                uploadFile.getHash();
+            } catch (NullPointerException e) {
+                uploadFile = new UploadFile();
+            }
+            uploadFile.setFilename(targetFile.getName());
+            uploadFile.setSize(multipartFile.getSize());
+            uploadFile.setTimestamp(new Timestamp(new Date().getTime()));
             uploadFile.setHash(targetFile.hashCode());
             uploadFile.setCompleted(true);
+            uploadFile.setVideoType("movie");
             uploadFileDao.save(uploadFile);
 
             return "redirect:/upload?uploading";
@@ -93,8 +93,10 @@ public class UploadController {
     }
 
     @PostMapping("edit/{uploadId}")
-    public String changeFileName(@PathVariable("uploadId") Long uploadId, @RequestParam("name") String newName,
-                                 HttpServletRequest request) {
+    public String changeAttributes(@PathVariable("uploadId") Long uploadId,
+                                   @RequestParam("name") String newName,
+                                   @RequestParam("videoType") String videoType,
+                                   HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
             File uploadDir = new File(settingsService.getKey("moviePath") + "_tmp");
 
@@ -106,6 +108,7 @@ public class UploadController {
                         File newFile = new File(file.getParent(), newName);
                         Files.move(file.toPath(), newFile.toPath());
                         uploadFile.setFilename(newFile.getName());
+                        uploadFile.setVideoType(videoType);
                         uploadFile.setHash(newFile.hashCode());
                         uploadFileDao.save(uploadFile);
                     } catch (IOException e) {
@@ -113,8 +116,9 @@ public class UploadController {
                     }
                 }
             }
+            return "redirect:/upload?name";
         }
-        return "redirect:/upload";
+        return "redirect:/";
     }
 
     @PostMapping("accept/{uploadId}")
@@ -127,9 +131,18 @@ public class UploadController {
             for (File fi : file.listFiles()) {
                 if (fi.hashCode() == uploadFile.getHash()) {
                     try {
-                        File movedFile = new File(settingsService.getKey("moviePath") + "/" + fi.getName());
-                        Files.move(fi.toPath(), movedFile.toPath());
-                        uploadFileDao.delete(uploadFile);
+
+                        if (uploadFile.getVideoType().equals("movie")) {
+                            File movedFile = new File(
+                                    settingsService.getKey("moviePath") + "/" + fi.getName());
+                            Files.move(fi.toPath(), movedFile.toPath());
+                            uploadFileDao.delete(uploadFile);
+                        } else if (uploadFile.getVideoType().equals("episode")) {
+                            File movedFile = new File(
+                                    settingsService.getKey("seriePath") + "/" + fi.getName());
+                            Files.move(fi.toPath(), movedFile.toPath());
+                            uploadFileDao.delete(uploadFile);
+                        }
                         return "redirect:/upload?added";
                     } catch (FileAlreadyExistsException e) {
                         return "redirect:/upload?exists";
@@ -139,7 +152,7 @@ public class UploadController {
                 }
             }
         }
-        return "redirect:/upload";
+        return "redirect:/";
     }
 
     @PostMapping("delete/{uploadId}")
@@ -160,41 +173,46 @@ public class UploadController {
                 }
             }
         }
-        return "redirect:/upload";
+        return "redirect:/";
     }
 
     @PostMapping("scan")
     public String scan(HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
+            scan();
+            return "redirect:/upload?scan";
+        }
+        return "redirect:/";
+    }
 
-            File[] files = new File(settingsService.getKey("moviePath") + "_tmp").listFiles();
+    private void scan() {
+        File[] files = new File(settingsService.getKey("moviePath") + "_tmp").listFiles();
 
-            for (File fi : files) {
-                if (!uploadFileDao.exists(fi.hashCode())) {
-                    UploadFile uploadFile = new UploadFile();
-                    uploadFile.setFilename(fi.getName());
-                    uploadFile.setHash(fi.hashCode());
-                    uploadFile.setCompleted(true);
-                    uploadFile.setSize(fi.length());
-                    uploadFile.setTimestamp(new Timestamp(new Date().getTime()));
-                    uploadFileDao.save(uploadFile);
-                }
-            }
-
-            for (UploadFile uploadFile : uploadFileDao.getAll()) {
-
-                boolean fileExists = false;
-                for (File fi : files) {
-                    if (fi.hashCode() == uploadFile.getHash()) {
-                        fileExists = true;
-                    }
-                }
-
-                if (!fileExists) {
-                    uploadFileDao.delete(uploadFile);
-                }
+        for (File fi : files) {
+            if (!uploadFileDao.exists(fi.hashCode())) {
+                UploadFile uploadFile = new UploadFile();
+                uploadFile.setFilename(fi.getName());
+                uploadFile.setHash(fi.hashCode());
+                uploadFile.setCompleted(true);
+                uploadFile.setSize(fi.length());
+                uploadFile.setVideoType("movie");
+                uploadFile.setTimestamp(new Timestamp(new Date().getTime()));
+                uploadFileDao.save(uploadFile);
             }
         }
-        return "redirect:/upload?scan";
+
+        for (UploadFile uploadFile : uploadFileDao.getAll()) {
+
+            boolean fileExists = false;
+            for (File fi : files) {
+                if (fi.hashCode() == uploadFile.getHash()) {
+                    fileExists = true;
+                }
+            }
+
+            if (!fileExists) {
+                uploadFileDao.delete(uploadFile);
+            }
+        }
     }
 }

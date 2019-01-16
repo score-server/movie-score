@@ -19,11 +19,12 @@
     Movie allready exists
 </div>
 
+
 <h1>Upload Movie</h1>
 <form action="/upload/movie" id="uploadMovie" method="post" enctype="multipart/form-data">
     <div class="custom-file">
-        <input class="custom-file-input" id="movie" name="movie" required type="file">
-        <label class="custom-file-label" for="movie">Choose movie...</label>
+        <input class="custom-file-input" id="movie" name="movie" required type="file" onchange="setLabel()">
+        <label class="custom-file-label" id="filelabel" for="movie">Choose movie...</label>
     </div>
     <br>
     <br>
@@ -38,14 +39,28 @@
     <div class="card-header">Uploaded Files</div>
     <div class="card-body">
         <ul class="list-group">
+            <li style="display: none" id="progress-list-item" class="list-group-item card-body">
+                <b>
+                    <i class="fas fa-universal-access fa-spin"></i>
+                    <!--<i class="fas fa-spinner "></i>-->
+                    <span id="filedesc"></span>
+                </b>
+                <div class="progress">
+                    <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" id="progress" role="progressbar"
+                         class="progress-bar progress-bar-striped progress-bar-animated">
+                    </div>
+                </div>
+            </li>
             <li th:each="file : ${files}" class="list-group-item">
+                <i th:if="${file.videoType.contains('movie')}" class="fas fa-circle" style="color: darkblue;"></i>
+                <i th:if="${file.videoType.contains('episode')}" class="fas fa-circle" style="color: darkviolet;"></i>
                 <b th:text="${file.filename}"></b>
                 <span th:text="${filesize.getFileSize(file.size)} + ' MB'"></span>
                 <div class="float-right">
                     <span th:text="${#dates.format(file.timestamp, 'dd.MM.yyyy HH:mm')}"></span>
                     <th:block th:if="${file.completed}">
                         <div style="display: inline">
-                            <a class="btn btn-secondary" data-toggle="modal" href="#" style="display: inline"
+                            <a class="btn btn-secondary" data-toggle="modal" href="#"
                                th:data-target="'#editFile' + ${file.id}">
                                 <i class="far fa-edit"></i>
                             </a>
@@ -87,6 +102,12 @@
                 <div class="modal-body">
                     <input class="form-control" name="name" placeholder="File Name" required th:value="${file.filename}"
                            type="text">
+                    <br>
+                    <label for="videotype">Video Type</label>
+                    <select id="videotype" name="videoType" class="form-control">
+                        <option th:selected="${file.videoType.contains('movie')}" value="movie">Movie</option>
+                        <option th:selected="${file.videoType.contains('episode')}" value="episode">Episode</option>
+                    </select>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
@@ -99,23 +120,60 @@
 <br>
 <a class="btn btn-primary" href="/settings">Back</a>
 <script>
+    function setLabel() {
+        document.getElementById('filelabel').innerHTML = document.getElementById('movie').value;
+    }
+
     (function ($) {
         $("#submitUpload").on("click", function (e) {
             const formData = new FormData(document.forms["uploadMovie"]);
+            document.getElementById('filedesc').innerHTML =
+                document.getElementById('movie').value.replace("C:\\fakepath\\", "");
             $.ajax({
                 url: '/upload/movie',
                 type: 'POST',
                 data: formData,
-                async: false,
+                async: true,
                 cache: false,
                 contentType: false,
                 processData: false,
+                xhr: function () {
+                    var myXhr = $.ajaxSettings.xhr();
+                    if (myXhr.upload) {
+                        myXhr.upload.addEventListener('progress', progress, false);
+                    }
+                    return myXhr;
+                },
                 success: function (data) {
                 },
                 error: function (data) {
                 }
             });
+            window.location.href('/upload?uploaded');
             return false;
         });
     })(jQuery);
+
+    function progress(e) {
+        if (e.lengthComputable) {
+
+            document.getElementById('progress-list-item').style.display = 'block';
+
+            var max = e.total;
+            var current = e.loaded;
+
+            var uploadProgress = (current * 100) / max;
+
+            document.getElementById('progress').style.width = uploadProgress + '%';
+            document.getElementById('progress').innerText = Math.round(uploadProgress * 100) / 100 + '%';
+
+            console.log(uploadProgress);
+
+
+            if (uploadProgress >= 100) {
+                window.location.href('/upload?uploaded');
+            }
+        }
+    }
+
 </script>

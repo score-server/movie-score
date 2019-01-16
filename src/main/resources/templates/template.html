@@ -38,8 +38,8 @@
 
         @media only screen and (min-width: 912px) {
             body {
-                background: url("https://i.imgur.com/mKC0Xch.jpg") no-repeat fixed;
-                /*background: url("https://i.imgur.com/KGlEQlj.jpg") no-repeat fixed;*/
+                /*background: url("https://hdwallpaperim.com/wp-content/uploads/2017/08/31/154405-minimalism-gradient-blurred-748x468.jpg") no-repeat fixed;*/
+                background: url("https://i.imgur.com/KGlEQlj.jpg") no-repeat fixed;
                 background-size: 100%;
             }
         }
@@ -91,6 +91,11 @@
                     <li class="nav-item" th:if="${currentUser?.isAdmin()}">
                         <a class="nav-link text-dark" href="/group">
                             <i>Groups</i>
+                        </a>
+                    </li>
+                    <li class="nav-item" th:if="${currentUser?.isAdmin()}">
+                        <a class="nav-link text-dark" href="/upload">
+                            <i>Upload</i>
                         </a>
                     </li>
                     <li class="nav-item" th:if="${currentUser?.isAdmin()}">

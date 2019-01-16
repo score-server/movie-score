@@ -2,6 +2,7 @@ package ch.wetwer.moviedbapi.data.uploadFile;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,10 +28,13 @@ public class UploadFile {
 
     private Long size;
 
+    @Column(unique = true)
     private int hash;
 
     private Timestamp timestamp;
 
     private Boolean completed;
+
+    private String videoType;
 
 }

@@ -23,8 +23,8 @@
                 success: function (responseText) {
                     if (importBlub <= responseText) {
                         importBlub = responseText;
-                        document.getElementById('progress').style.width = responseText + '%'
-                        document.getElementById('progress').innerText = responseText + '%'
+                        document.getElementById('progress').style.width = responseText + '%';
+                        document.getElementById('progress').innerText = responseText + '%';
                     } else {
                         location.reload();
                     }

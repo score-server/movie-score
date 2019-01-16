@@ -2,6 +2,8 @@ package ch.wetwer.moviedbapi.data.uploadFile;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * @author Wetwer
  * @project movie-db-web
@@ -11,5 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UploadFileRepository extends JpaRepository<UploadFile, Long> {
 
     UploadFile findByHash(int hash);
+
+    List<UploadFile> findAllByOrderByVideoTypeDescFilenameAsc();
 
 }

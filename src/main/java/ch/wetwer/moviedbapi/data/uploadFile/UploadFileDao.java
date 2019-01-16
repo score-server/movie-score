@@ -28,12 +28,15 @@ public class UploadFileDao implements DaoInterface<UploadFile> {
 
     @Override
     public List<UploadFile> getAll() {
-        return uploadFileRepository.findAll();
+        return uploadFileRepository.findAllByOrderByVideoTypeDescFilenameAsc();
     }
 
     @Override
     public void save(UploadFile uploadFile) {
-        uploadFileRepository.save(uploadFile);
+        try {
+            uploadFileRepository.save(uploadFile);
+        } catch (Exception ignored) {
+        }
     }
 
     public UploadFile getByHash(int hash) {
