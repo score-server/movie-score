@@ -1,7 +1,5 @@
 package ch.wetwer.moviedbapi.service;
 
-import java.io.File;
-
 /**
  * @author Wetwer
  * @project movie-db-api
@@ -10,8 +8,8 @@ import java.io.File;
  **/
 public class FileSizeService {
 
-    public long getFileSize(File file) {
-        long fileSizeInBytes = file.length();
+    public long getFileSize(Long size) {
+        long fileSizeInBytes = size;
         long fileSizeInKB = fileSizeInBytes / 1024;
         return fileSizeInKB / 1024;
     }

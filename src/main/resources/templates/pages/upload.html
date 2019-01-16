@@ -6,6 +6,9 @@
 <div class="alert alert-success" th:if="${param.deleted}">
     Movie Deleted <span th:text="${param.deleted}"></span>
 </div>
+<div class="alert alert-success" th:if="${param.scan}">
+    Scan Complete
+</div>
 <div class="alert alert-success" th:if="${param.added}">
     Movie Added
 </div>
@@ -17,14 +20,18 @@
 </div>
 
 <h1>Upload Movie</h1>
-<form action="/upload/movie" method="post" enctype="multipart/form-data">
+<form action="/upload/movie" id="uploadMovie" method="post" enctype="multipart/form-data">
     <div class="custom-file">
         <input class="custom-file-input" id="movie" name="movie" required type="file">
         <label class="custom-file-label" for="movie">Choose movie...</label>
     </div>
     <br>
     <br>
-    <button type="submit" class="btn btn-primary">Upload</button>
+    <button id="submitUpload" type="submit" class="btn btn-primary">Upload</button>
+</form>
+<br>
+<form action="/upload/scan" method="post">
+    <button type="submit" class="btn btn-secondary"><i class="fas fa-sync-alt"></i> Scan</button>
 </form>
 <br>
 <div class="card">
@@ -32,21 +39,27 @@
     <div class="card-body">
         <ul class="list-group">
             <li th:each="file : ${files}" class="list-group-item">
-                <b th:text="${file.name}"></b>
-                <span th:text="${filesize.getFileSize(file)} + ' MB'"></span>
-                <div class="btn-group float-right" role="group">
-                    <div>
-                        <a class="btn btn-secondary" data-toggle="modal" href="#"
-                           th:data-target="'#editFile' + ${file.hashCode()}">
-                            <i class="far fa-edit"></i>
-                        </a>
-                    </div>
-                    <form th:action="'/upload/accept/' + ${file.hashCode()}" method="post">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
-                    </form>
-                    <form th:action="'/upload/delete/' + ${file.hashCode()}" method="post">
-                        <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                    </form>
+                <b th:text="${file.filename}"></b>
+                <span th:text="${filesize.getFileSize(file.size)} + ' MB'"></span>
+                <div class="float-right">
+                    <span th:text="${#dates.format(file.timestamp, 'dd.MM.yyyy HH:mm')}"></span>
+                    <th:block th:if="${file.completed}">
+                        <div style="display: inline">
+                            <a class="btn btn-secondary" data-toggle="modal" href="#" style="display: inline"
+                               th:data-target="'#editFile' + ${file.id}">
+                                <i class="far fa-edit"></i>
+                            </a>
+                        </div>
+                        <form th:action="'/upload/accept/' + ${file.id}" method="post" style="display: inline">
+                            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                        </form>
+                        <form th:action="'/upload/delete/' + ${file.id}" method="post" style="display: inline">
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                        </form>
+                    </th:block>
+                    <th:block th:if="${!file.completed}">
+                        <button class="btn btn-secondary" disabled><i class="fas fa-cloud-upload-alt"></i></button>
+                    </th:block>
                 </div>
             </li>
             <li class="list-group-item list-group-item-secondary" th:if="${files.isEmpty()}">
@@ -61,7 +74,7 @@
 </form>
 
 <div aria-hidden="true" aria-labelledby="edit" class="modal fade" role="dialog" tabindex="-1"
-     th:each="file : ${files}" th:id="'editFile' + ${file.hashCode()}">
+     th:each="file : ${files}" th:id="'editFile' + ${file.id}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -70,9 +83,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" th:action="'/upload/edit/' + ${file.hashCode()}">
+            <form method="post" th:action="'/upload/edit/' + ${file.id}">
                 <div class="modal-body">
-                    <input class="form-control" name="name" placeholder="File Name" required th:value="${file.name}"
+                    <input class="form-control" name="name" placeholder="File Name" required th:value="${file.filename}"
                            type="text">
                 </div>
                 <div class="modal-footer">
@@ -85,3 +98,24 @@
 </div>
 <br>
 <a class="btn btn-primary" href="/settings">Back</a>
+<script>
+    (function ($) {
+        $("#submitUpload").on("click", function (e) {
+            const formData = new FormData(document.forms["uploadMovie"]);
+            $.ajax({
+                url: '/upload/movie',
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                },
+                error: function (data) {
+                }
+            });
+            return false;
+        });
+    })(jQuery);
+</script>
