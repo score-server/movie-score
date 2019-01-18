@@ -15,6 +15,8 @@ import lombok.Data;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,7 +52,8 @@ public class User {
     @ManyToOne
     private GroupInvite group;
 
-    private Integer role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @JsonIgnore
     private String videoPlayer;
@@ -98,10 +101,7 @@ public class User {
     private List<Subtitle> subtitles;
 
     public boolean isAdmin() {
-        if (role == 2) {
-            return true;
-        }
-        return false;
+        return role == Role.ADMIN;
     }
 
 }

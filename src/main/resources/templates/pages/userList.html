@@ -25,13 +25,13 @@
         <img class="img-thumbnail" style="max-height: 40px; min-height: 40px" th:if="${user.profileImg} != null"
              th:src="'/img/' + ${user.id}"/>
         <a th:href="'/user/' + ${user.id}" th:text="${user.name}"></a>
-        <div class="float-right" th:if="${currentUser.isAdmin()}" th:switch="${user.role}">
-            <form method="post" th:action="'/user/' + ${user.id} + '/role/2'" th:case="'1'">
+        <div class="float-right" th:if="${currentUser.isAdmin()}" th:switch="${user.isAdmin()}">
+            <form method="post" th:action="'/user/' + ${user.id} + '/role/admin'" th:case="false">
                 <button class="btn btn-light">
                     <i class="fas fa-chess-pawn"></i>
                 </button>
             </form>
-            <form method="post" th:action="'/user/' + ${user.id} + '/role/1'" th:case="'2'">
+            <form method="post" th:action="'/user/' + ${user.id} + '/role/user'" th:case="true">
                 <button class="btn btn-dark">
                     <i class="fas fa-chess-king"></i>
                 </button>

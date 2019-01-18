@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+    <meta content="noindex" name="robots">
+
+    <meta content="Movie Score" property="og:title"/>
+    <meta content="Welcome to MovieScore" property="og:description"/>
+    <meta content="text/html" property="og:type"/>
+    <meta content="http://movie.scorewinner.ch" property="og:url"/>
+    <meta content="https://i.imgur.com/kHO4IKs.png" property="og:image"/>
+
+    <title>MovieScore</title>
+    <link href="https://i.imgur.com/kHO4IKs.png" rel="shortcut icon" type="image/png"/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="'../style.css'">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <style>
+        body {
+            background: url("https://i.imgur.com/RHuethK.jpg") no-repeat fixed;
+            background-size: 100%;
+
+        }
+
+        @media only screen and (max-width: 600px) {
+            body {
+                background: url("https://i.imgur.com/mKC0Xch.jpg") no-repeat fixed;
+                background-size: 100%;
+            }
+        }
+
+        @media only screen and (min-width: 912px) {
+            body {
+                /*background: url("https://hdwallpaperim.com/wp-content/uploads/2017/08/31/154405-minimalism-gradient-blurred-748x468.jpg") no-repeat fixed;*/
+                background: url("https://i.imgur.com/KGlEQlj.jpg") no-repeat fixed;
+                background-size: 100%;
+            }
+        }
+
+        .nav-logo {
+            margin-right: 5px;
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light border-bottom shadow-sm darker">
+    <a class="navbar-brand" href="/">
+        <img alt="nav brand" class="d-inline-block align-top nav-logo" src="https://i.imgur.com/kHO4IKs.png">
+        MovieScore
+    </a>
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler btn"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/movies/1">Movies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/serie">Series</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/list">Lists</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/request/create">Request</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/user">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/blog">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/about">About</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br>
+<center>
+    <div class="row" style="width: 100%">
+        <div class="col-0 col-md-0 col-lg-1"></div>
+        <div class="col-12 col-md-12 col-lg-10 nopadding">
+            <div class="card card-body darker" style="text-align: left">
+                <div class="darker">
+                    <h1>WTF are you doing!!! (error)</h1>
+                    <img src="https://i.imgur.com/77anNFA.jpg" class="img-thumbnail" height="100px">
+                    <p>This shouldnt happen, if this happens often send it to your Admin...</p>
+                    <a href="/" class="btn btn-primary">Better go back</a>
+                    <br>
+                    <br>
+                    <div class="card card-body">
+                        <table class="table">
+                            <tr>
+                                <td>Date</td>
+                                <td th:text="${timestamp}"/>
+                            </tr>
+                            <tr>
+                                <td>Path</td>
+                                <td th:text="${path}"/>
+                            </tr>
+                            <tr>
+                                <td>Error</td>
+                                <td th:text="${error}"/>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <td th:text="${status}"/>
+                            </tr>
+                            <tr>
+                                <td>Message</td>
+                                <td th:text="${message}"/>
+                            </tr>
+                            <tr>
+                                <td>Exception</td>
+                                <td th:text="${exception}"/>
+                            </tr>
+                            <tr>
+                                <td>Trace</td>
+                                <td>
+                                    <pre th:text="${trace}"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-0 col-md-0 col-lg-1"></div>
+    </div>
+</center>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+</html>

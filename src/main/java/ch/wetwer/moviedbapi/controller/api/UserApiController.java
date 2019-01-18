@@ -1,7 +1,8 @@
 package ch.wetwer.moviedbapi.controller.api;
 
-import ch.wetwer.moviedbapi.data.user.UserDao;
+import ch.wetwer.moviedbapi.data.user.Role;
 import ch.wetwer.moviedbapi.data.user.User;
+import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.auth.ShaService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -68,7 +69,7 @@ public class UserApiController {
             User user = new User();
             user.setName(nameParam);
             user.setPasswordSha(shaService.encode(String.valueOf(new Random().nextInt())) + "-NOK");
-            user.setRole(1);
+            user.setRole(Role.USER);
             user.setAuthKey(shaService.encode(String.valueOf(new Random().nextInt())));
             activityService.log("Registered new User " + nameParam + " over API");
             userDto.save(user);

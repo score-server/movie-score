@@ -4,6 +4,7 @@ import ch.wetwer.moviedbapi.data.activitylog.ActivityLogDao;
 import ch.wetwer.moviedbapi.data.session.Session;
 import ch.wetwer.moviedbapi.data.session.SessionDao;
 import ch.wetwer.moviedbapi.data.timeline.TimeLineDao;
+import ch.wetwer.moviedbapi.data.user.Role;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.service.ActivityService;
@@ -105,7 +106,7 @@ public class UserController {
         if (userAuthService.isAdministrator(request)) {
             userAuthService.log(this.getClass(), request);
             User user = userDao.getById(userId);
-            user.setRole(Integer.valueOf(role));
+            user.setRole(Role.getRole(role));
             userDao.save(user);
             activityService.log(currentUser.getName() + " changed role of " + user.getName() + " to " + role, user);
             return "redirect:/user/" + userId + "?role";

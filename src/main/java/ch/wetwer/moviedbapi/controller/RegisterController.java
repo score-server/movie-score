@@ -2,6 +2,7 @@ package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.groupinvite.GroupDao;
 import ch.wetwer.moviedbapi.data.groupinvite.GroupInvite;
+import ch.wetwer.moviedbapi.data.user.Role;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.service.ActivityService;
@@ -95,7 +96,7 @@ public class RegisterController {
                 User user = new User();
                 user.setName(nameParam);
                 user.setPasswordSha(shaService.encode(String.valueOf(new Random().nextInt())) + "-NOK");
-                user.setRole(1);
+                user.setRole(Role.USER);
                 String authkey = shaService.encodeShort(String.valueOf(new Random().nextInt()));
                 user.setAuthKey(authkey);
                 userDao.save(user);
@@ -123,7 +124,7 @@ public class RegisterController {
                     User user = new User();
                     user.setName(nameParam);
                     user.setPasswordSha(shaService.encode(password));
-                    user.setRole(1);
+                    user.setRole(Role.USER);
                     user.setVideoPlayer(player);
                     String authkey = shaService.encodeShort(String.valueOf(new Random().nextInt()));
                     user.setAuthKey(authkey);

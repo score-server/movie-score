@@ -137,17 +137,16 @@
             <p th:text="'Id: ' + ${user.id}"></p>
             <div th:switch="${user.role}">
                 <p>Role:
-                    <span th:case="1">User</span>
-                    <span th:case="2">Admin</span>
+                    <span th:text="${user.role}"></span>
                 </p>
             </div>
-            <div th:switch="${user.role}">
-                <form method="post" th:action="'/user/' + ${user.id} + '/role/2'" th:case="'1'">
+            <div th:switch="${user.isAdmin()}">
+                <form method="post" th:action="'/user/' + ${user.id} + '/role/admin'" th:case="false">
                     <button class="btn btn-light">
                         <i class="fas fa-chess-pawn"></i>
                     </button>
                 </form>
-                <form method="post" th:action="'/user/' + ${user.id} + '/role/1'" th:case="'2'">
+                <form method="post" th:action="'/user/' + ${user.id} + '/role/user'" th:case="true">
                     <button class="btn btn-dark">
                         <i class="fas fa-chess-king"></i>
                     </button>

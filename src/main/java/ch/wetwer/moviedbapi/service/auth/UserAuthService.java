@@ -1,5 +1,6 @@
 package ch.wetwer.moviedbapi.service.auth;
 
+import ch.wetwer.moviedbapi.data.user.Role;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
@@ -79,7 +80,7 @@ public class UserAuthService {
         if (userIndicator.isLoggedIn()) {
             model.addAttribute("restart", settingsService.getKey("restart"));
             model.addAttribute("currentUser", userIndicator.getUser());
-            return userIndicator.getUser().getRole() == 2;
+            return userIndicator.getUser().getRole() == Role.ADMIN;
         }
         return false;
     }
@@ -88,7 +89,7 @@ public class UserAuthService {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
-            return userIndicator.getUser().getRole() == 2;
+            return userIndicator.getUser().getRole() == Role.ADMIN;
         }
         return false;
     }
