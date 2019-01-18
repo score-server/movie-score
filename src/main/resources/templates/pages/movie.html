@@ -35,16 +35,14 @@
 
 <div class="card card-body">
     <h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'"></h1>
-    <form class="float-right" method="post" th:action="'/movie/' + ${movie.id} + '/like'">
-        <button class="btn btn-danger" th:if="${hasliked} == true" type="submit">
-            <i class="fas fa-heart"></i>
-            <a th:text="' ' + ${movie.likes.size()} + ' likes'"></a>
-        </button>
-        <button class="btn btn-secondary" th:if="${hasliked} == false" type="submit">
+
+    <form>
+        <button class="btn" id="like-btn" type="button" onclick="like()">
             <i class="fas fa-heart"></i>
             <a th:text="' ' + ${movie.likes.size()} + ' likes'"></a>
         </button>
     </form>
+
     <br>
     <p>
         <a class="btn btn-primary" target="_blank" th:href="'/video/movie/' + ${movie.id}">Download</a>
@@ -67,7 +65,8 @@
 
 <br>
 <div class="card">
-    <a aria-controls="trailerCollapse" aria-expanded="false" class="card-body" data-toggle="collapse" href="#trailerCollapse"
+    <a aria-controls="trailerCollapse" aria-expanded="false" class="card-body" data-toggle="collapse"
+       href="#trailerCollapse"
        role="button">
         <i class="fas fa-chevron-down"></i> Trailer
     </a>
@@ -100,7 +99,8 @@
 </div>
 <br>
 <div class="card" th:if="${currentUser.isAdmin()}">
-    <a aria-controls="settingsCollapse" aria-expanded="false" class="card-body" data-toggle="collapse" href="#settingsCollapse"
+    <a aria-controls="settingsCollapse" aria-expanded="false" class="card-body" data-toggle="collapse"
+       href="#settingsCollapse"
        role="button">
         <i class="fas fa-chevron-down"></i> Movie Settings
     </a>
@@ -148,8 +148,44 @@
     }
 </style>
 
+<script>
+    // likes reactive
+
+    // /movie/' + ${movie.id} + '/like
+
+    const likebtn = document.getElementById('like-btn');
+    let likes = [[${movie.likes.size()}]];
+    const heart = '<i class="fas fa-heart"></i>';
+
+    if ([[${hasliked}]]) {
+        likebtn.classList.add('btn-danger');
+    } else {
+        likebtn.classList.add('btn-secondary');
+    }
+
+    function like() {
+        $.ajax({
+            type: "POST",
+            url: "/movie/" + [[${movie.id}]] + "/like",
+        });
+
+        if (likebtn.classList.contains('btn-secondary')) {
+            likebtn.classList.remove('btn-secondary');
+            likebtn.classList.add('btn-danger');
+            likes = likes + 1;
+        } else {
+            likebtn.classList.remove('btn-danger');
+            likebtn.classList.add('btn-secondary');
+            likes = likes - 1;
+        }
+        likebtn.innerHTML = heart + ' ' + likes + ' likes';
+        return false;
+    }
+</script>
+
 <th:block th:switch="${currentUser.videoPlayer}">
     <script th:case="'html5'" type="application/javascript">
+        // time save for html5 player
         setInterval(function () {
             if (document.getElementById('html-player').currentTime !== 0) {
                 saveTime();
@@ -169,6 +205,7 @@
         }
     </script>
     <script th:case="*" type="application/javascript">
+        // time save for plyr.io player
         setInterval(function () {
             if (player.currentTime !== 0) {
                 saveTime();
