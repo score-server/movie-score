@@ -2,6 +2,7 @@ package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.groupinvite.GroupDao;
 import ch.wetwer.moviedbapi.data.groupinvite.GroupInvite;
+import ch.wetwer.moviedbapi.data.request.Request;
 import ch.wetwer.moviedbapi.data.user.Role;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.user.UserDao;
@@ -111,7 +112,7 @@ public class RegisterController {
     }
 
     @PostMapping("{groupKey}")
-    public String registerFull(@RequestParam("name") String nameParam,
+    public String groupRegister(@RequestParam("name") String nameParam,
                                @RequestParam("password") String password,
                                @RequestParam("confirm") String confirm,
                                @RequestParam(name = "player", required = false, defaultValue = "") String player,

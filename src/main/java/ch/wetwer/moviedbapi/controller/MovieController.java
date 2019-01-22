@@ -107,9 +107,9 @@ public class MovieController {
                 activityService.log(user.getName() + " likes movie " +
                         "<a href=\"/movie/" + movie.getId() + "\">" + movie.getTitle() + "</a>", user);
             }
-            return "redirect:/movie/" + movieId;
+            return null;
         } else {
-            return "redirect:/login?redirect=/movie/" + movieId;
+            return null;
         }
     }
 
