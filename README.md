@@ -1,5 +1,5 @@
 <h1>Movie Score</h1>
-<h3><a href="https://github.com/orgs/score-server/projects/1">Tasks</a></h3> 
+<h3><a href="https://github.com/score-server/movie-score/projects/1">Tasks</a></h3> 
 <pre>
 MIT License
 
