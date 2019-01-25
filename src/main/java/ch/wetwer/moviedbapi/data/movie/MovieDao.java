@@ -27,13 +27,13 @@ public class MovieDao implements DaoInterface<Movie> {
         return movieRepository.findMoviesByOrderByTitle();
     }
 
-    public List<Movie> searchTop10(String search) {
-        return movieRepository.findTop10ByTitleContainingOrderByPopularityDesc(search);
-    }
-
     @Override
     public void save(Movie movie) {
         movieRepository.save(movie);
+    }
+
+    public List<Movie> searchTop10(String search) {
+        return movieRepository.findTop10ByTitleContainingOrderByPopularityDesc(search);
     }
 
     public List<Movie> searchRecomended(String search) {

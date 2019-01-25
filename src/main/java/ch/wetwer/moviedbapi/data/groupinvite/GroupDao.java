@@ -19,6 +19,7 @@ public class GroupDao implements DaoInterface<GroupInvite> {
         return groupRepository.getOne(id);
     }
 
+    @Override
     public List<GroupInvite> getAll() {
         return groupRepository.findAll();
     }

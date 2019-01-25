@@ -25,13 +25,13 @@ public class ActivityLogDao implements DaoInterface<ActivityLog> {
         return activityLogRepository.findAllByOrderByTimestampDesc();
     }
 
-    public List<ActivityLog> getAllByUser(User user) {
-        return activityLogRepository.findActivityLogsByUserOrderByTimestampDesc(user);
-    }
-
     @Override
     public void save(ActivityLog activityLog) {
         activityLogRepository.save(activityLog);
+    }
+
+    public List<ActivityLog> getAllByUser(User user) {
+        return activityLogRepository.findActivityLogsByUserOrderByTimestampDesc(user);
     }
 
     public void delete() {

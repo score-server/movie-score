@@ -117,3 +117,4 @@ public class ControllerLoadsTest {
         assertNotNull(widgetController);
     }
 }
+

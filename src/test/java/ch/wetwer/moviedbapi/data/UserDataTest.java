@@ -1,7 +1,7 @@
 package ch.wetwer.moviedbapi.data;
 
 import ch.wetwer.moviedbapi.data.user.User;
-import ch.wetwer.moviedbapi.data.user.UserRepository;
+import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.service.auth.ShaService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,7 @@ public class UserDataTest {
     private TestEntityManager entityManager;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserDao userDao;
 
     @Autowired
     private ShaService shaService;
@@ -33,7 +33,7 @@ public class UserDataTest {
         entityManager.persist(user);
         entityManager.flush();
 
-        User found = userRepository.findUserByName(user.getName());
+        User found = userDao.getByName(user.getName());
 
         assertEquals(user.getName(), found.getName());
         assertEquals(shaService.encode("password"), found.getPasswordSha());

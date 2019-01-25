@@ -38,7 +38,7 @@ public class AboutController {
     }
 
     @GetMapping
-    public String getAboutPage(Model model, HttpServletRequest request) {
+    public String getAboutView(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
             userAuthService.log(this.getClass(), request);
             model.addAttribute("movies", movieDao.getAll().size());

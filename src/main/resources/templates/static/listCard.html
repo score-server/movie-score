@@ -6,7 +6,7 @@
             <img class="card-img-top" th:src="${timeline.listMovies.get(0).movie.caseImg}">
         </div>
         <div class="card-body nodec">
-            <h5 class="card-title" th:text="${timeline.title}"></h5>
+            <h6 class="card-title" th:text="${timeline.title}"></h6>
             <small class="text-muted">
                 <a>List created by </a>
                 <a th:href="'/user/' + ${timeline.user.id}" th:text="${timeline.user.name}"></a>

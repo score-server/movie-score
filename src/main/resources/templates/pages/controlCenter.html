@@ -94,12 +94,12 @@
 <div class="card">
     <div class="card-header">
         Import Logs
-        <form action="/settings/clear" class="float-right" method="post">
-            <button class="btn btn-danger" type="submit">Clear</button>
+        <form class="float-right">
+            <button class="btn btn-danger" type="button" onclick="clearImportLogs()">Clear</button>
         </form>
     </div>
     <div class="card-body">
-        <ul class="list-group">
+        <ul class="list-group" id="importLogList">
             <li class="list-group-item" th:each="log : ${importLogs}">
                 <a th:if="${log.type} == 'ok'" th:utext="${log.log}"></a>
 
@@ -157,12 +157,12 @@
 <div class="card">
     <div class="card-header">
         Activity Logs
-        <form action="/settings/clearactivity" class="float-right" method="post">
-            <button class="btn btn-danger" type="submit">Clear</button>
+        <form class="float-right">
+            <button class="btn btn-danger" type="button" onclick="clearActivityLogs()">Clear</button>
         </form>
     </div>
     <div class="card-body">
-        <ul class="list-group">
+        <ul class="list-group" id="activityLogList">
             <li class="list-group-item" th:each="log : ${activityLogs}">
                 <a th:utext="${log.log}"></a>
                 <a class="float-right" th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}"></a>
@@ -215,4 +215,23 @@
             </form>
         </div>
     </div>
+    <script type="application/javascript">
+        function clearImportLogs() {
+            $.ajax({
+                type: "POST",
+                url: "/settings/clear",
+            });
+
+            document.getElementById('importLogList').style.display = 'none'
+        }
+
+        function clearActivityLogs() {
+            $.ajax({
+                type: "POST",
+                url: "/settings/clearactivity",
+            });
+
+            document.getElementById('activityLogList').style.display = 'none'
+        }
+    </script>
 </div>

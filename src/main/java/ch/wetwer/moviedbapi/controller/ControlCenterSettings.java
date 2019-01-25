@@ -86,9 +86,9 @@ public class ControlCenterSettings {
     private String clearImportLogs(HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
             importLogDao.delete();
-            return "redirect:/settings";
+            return null;
         } else {
-            return "redirect:/?access";
+            return null;
         }
 
     }
