@@ -184,23 +184,23 @@
     }
 
     function addComment() {
-        var commentBox = document.getElementById('commentText').value;
+        var commentBox = document.getElementById('commentText');
         $.ajax({
             type: "POST",
             url: "/comment/add/movie",
             async: true,
             data: {
                 movieId: [[${movie.id}]],
-                comment: commentBox
+                comment: commentBox.value
             }
         });
 
         const newCommentNode = document.createElement("li");
         newCommentNode.classList.add('list-group-item');
-        const textnode = document.createTextNode("[[${currentUser.name}]]: " + commentBox);
+        const textnode = document.createTextNode("[[${currentUser.name}]] : " + commentBox.value);
         newCommentNode.appendChild(textnode);
         document.getElementById("commentList").appendChild(newCommentNode);
-        commentBox = '';
+        commentBox.value = "";
     }
 </script>
 

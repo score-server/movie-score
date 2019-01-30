@@ -80,13 +80,13 @@
     <div class="card-header">Settings</div>
     <div class="card-body">
         <b>Scedule Restart</b>
-        <form action="/settings/scedule" method="post">
-            At: <input type="time" name="time" class="form-control" th:value="${restart}"><br>
-            <button class="btn btn-primary" type="submit">Scedule</button>
+        <form>
+            At: <input type="time" name="time" class="form-control" th:value="${restart}" id="sceduledTime"><br>
+            <button class="btn btn-primary" onclick="sceduleEvent()" type="button">Scedule</button>
         </form>
         <br>
-        <form action="/settings/scedule/cancel" method="post">
-            <button class="btn btn-danger" type="submit">Cancel</button>
+        <form>
+            <button class="btn btn-danger" type="button" onclick="cancelEvent()">Cancel</button>
         </form>
     </div>
 </div>
@@ -120,7 +120,8 @@
     </div>
     <div class="card-body">
         <ul class="list-group">
-            <li class="list-group-item" th:each="request : ${requests}" th:switch="${request.active}">
+            <li class="list-group-item" th:each="request : ${requests}" th:switch="${request.active}"
+                th:id="'request' + ${request.id}">
                 <div>
                     <div th:case="1">
                         <span th:text="${request.user.name}  + ': ' +${request.request}"></span>
@@ -129,22 +130,27 @@
                                   th:action="'/request/' + ${request.id} + '/close'">
                                 <button class="btn btn-secondary"><i class="far fa-square"></i></button>
                             </form>
-                            <form method="post" style="display: inline"
-                                  th:action="'/request/' + ${request.id} + '/delete'">
-                                <button class="btn btn-danger" type="submit"><i class="fas fa-times"></i></button>
+                            <form style="display: inline">
+                                <button class="btn btn-danger" type="button" th:id="'requestStatus' + ${request.id}"
+                                        th:onclick="'deleteRequest(' + ${request.id} + ')'">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </form>
                         </div>
                     </div>
                     <div th:case="0">
                         <span th:text="${request.user.name}  + ': ' + ${request.request}"></span>
                         <div class="float-right">
-                            <form method="post" style="display: inline"
-                                  th:action="'/request/' + ${request.id} + '/open'">
-                                <button class="btn btn-success"><i class="far fa-check-square"></i></button>
+                            <form style="display: inline">
+                                <button class="btn btn-success" type="button" th:id="'requestStatus' + ${request.id}"
+                                        th:onclick="'closeRequest(' + ${request.id} + ')'">
+                                    <i class="far fa-check-square"></i>
+                                </button>
                             </form>
-                            <form method="post" style="display: inline"
-                                  th:action="'/request/' + ${request.id} + '/delete'">
-                                <button class="btn btn-danger" type="submit"><i class="fas fa-times"></i></button>
+                            <form style="display: inline">
+                                <button class="btn btn-danger" type="button"
+                                        th:onclick="'deleteRequest(' + ${request.id} + ')'">
+                                    <i class="fas fa-times"></i></button>
                             </form>
                         </div>
                     </div>
@@ -219,7 +225,7 @@
         function clearImportLogs() {
             $.ajax({
                 type: "POST",
-                url: "/settings/clear",
+                url: "/settings/clear"
             });
 
             document.getElementById('importLogList').style.display = 'none'
@@ -228,10 +234,61 @@
         function clearActivityLogs() {
             $.ajax({
                 type: "POST",
-                url: "/settings/clearactivity",
+                url: "/settings/clearactivity"
             });
 
             document.getElementById('activityLogList').style.display = 'none'
         }
+
+        function deleteRequest(requestId) {
+            $.ajax({
+                type: "POST",
+                url: "/request/" + requestId + "/delete"
+            });
+
+            document.getElementById('request' + requestId).style.display = 'none'
+        }
+
+        function openRequest(requestId) {
+            $.ajax({
+                type: "POST",
+                url: "/request/" + requestId + "/open"
+            });
+
+            document.getElementById('requestStatus' + requestId).style.display = 'none'
+        }
+
+        function closeRequest(requestId) {
+            $.ajax({
+                type: "POST",
+                url: "/request/" + requestId + "/close"
+            });
+
+            document.getElementById('requestStatus' + requestId).style.display = 'none'
+        }
+
+        function sceduleEvent() {
+            $.ajax({
+                type: "POST",
+                url: "/settings/scedule",
+                async: true,
+                data: {
+                    time: document.getElementById('sceduledTime').value,
+                }
+            });
+        }
+
+        function cancelEvent() {
+            $.ajax({
+                type: "POST",
+                url: "/settings/scedule/cancel",
+                async: true
+            });
+
+            const newCommentNode = document.createElement("div");
+            newCommentNode.classList.add('alert alert-success');
+
+        }
+
     </script>
 </div>

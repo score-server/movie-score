@@ -49,9 +49,6 @@ public class User {
     @JsonIgnore
     private String passwordSha;
 
-    @ManyToOne
-    private GroupInvite group;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -67,6 +64,9 @@ public class User {
     @Lob
     @JsonIgnore
     private byte[] profileImg;
+
+    @ManyToOne
+    private GroupInvite group;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
