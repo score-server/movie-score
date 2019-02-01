@@ -9,6 +9,7 @@ import ch.wetwer.moviedbapi.data.session.Session;
 import ch.wetwer.moviedbapi.data.subtitle.Subtitle;
 import ch.wetwer.moviedbapi.data.time.Time;
 import ch.wetwer.moviedbapi.data.timeline.Timeline;
+import ch.wetwer.moviedbapi.data.uploadFile.UploadFile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -99,6 +100,10 @@ public class User {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Subtitle> subtitles;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<UploadFile> uploadFiles;
 
     public boolean isAdmin() {
         return role == Role.ADMIN;

@@ -2,6 +2,8 @@ package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.uploadFile.UploadFile;
 import ch.wetwer.moviedbapi.data.uploadFile.UploadFileDao;
+import ch.wetwer.moviedbapi.data.uploadFile.VideoType;
+import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.service.FileSizeService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
@@ -37,13 +39,15 @@ import java.util.List;
 public class UploadController {
 
     private UploadFileDao uploadFileDao;
+    private UserDao userDao;
 
     private SettingsService settingsService;
     private UserAuthService userAuthService;
 
-    public UploadController(UploadFileDao uploadFileDao, SettingsService settingsService,
+    public UploadController(UploadFileDao uploadFileDao, UserDao userDao, SettingsService settingsService,
                             UserAuthService userAuthService) {
         this.uploadFileDao = uploadFileDao;
+        this.userDao = userDao;
         this.settingsService = settingsService;
         this.userAuthService = userAuthService;
     }
@@ -51,7 +55,7 @@ public class UploadController {
 
     @GetMapping
     public String getUploadPage(Model model, HttpServletRequest request) {
-        if (userAuthService.isAdministrator(model, request)) {
+        if (userAuthService.isUser(model, request)) {
             List<UploadFile> uploadFileList = uploadFileDao.getAll();
             model.addAttribute("files", uploadFileList);
 
@@ -62,10 +66,22 @@ public class UploadController {
         return "redirect:/";
     }
 
+    @GetMapping("preview/{hash}")
+    public String getPreviewPage(@PathVariable("hash") int hash, Model model, HttpServletRequest request) {
+        if (userAuthService.isAdministrator(model, request)) {
+            userAuthService.log(this.getClass(), request);
+            model.addAttribute("file", uploadFileDao.getByHash(hash));
+            model.addAttribute("page", "uploadPreview");
+            return "template";
+        }
+        return "redirect:/upload";
+    }
+
     @PostMapping("movie")
     public String upload(@RequestParam("movie") MultipartFile multipartFile,
                          HttpServletRequest request) throws IOException {
-        if (userAuthService.isAdministrator(request)) {
+        if (userAuthService.isUser(request)) {
+            userAuthService.log(this.getClass(), request);
 
             InputStream fileStream;
             fileStream = multipartFile.getInputStream();
@@ -84,7 +100,8 @@ public class UploadController {
             uploadFile.setTimestamp(new Timestamp(new Date().getTime()));
             uploadFile.setHash(targetFile.hashCode());
             uploadFile.setCompleted(true);
-            uploadFile.setVideoType("movie");
+            uploadFile.setUser(userAuthService.getUser(request).getUser());
+            uploadFile.setVideoType(VideoType.UNDEFINED);
             uploadFileDao.save(uploadFile);
 
             return "redirect:/upload?uploading";
@@ -98,6 +115,7 @@ public class UploadController {
                                    @RequestParam("videoType") String videoType,
                                    HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
             File uploadDir = new File(settingsService.getKey("moviePath") + "_tmp");
 
             UploadFile uploadFile = uploadFileDao.getById(uploadId);
@@ -108,7 +126,7 @@ public class UploadController {
                         File newFile = new File(file.getParent(), newName);
                         Files.move(file.toPath(), newFile.toPath());
                         uploadFile.setFilename(newFile.getName());
-                        uploadFile.setVideoType(videoType);
+                        uploadFile.setVideoType(VideoType.getType(videoType));
                         uploadFile.setHash(newFile.hashCode());
                         uploadFileDao.save(uploadFile);
                     } catch (IOException e) {
@@ -124,6 +142,7 @@ public class UploadController {
     @PostMapping("accept/{uploadId}")
     public String acceptMovie(@PathVariable("uploadId") Long uploadId, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
             File file = new File(settingsService.getKey("moviePath") + "_tmp");
 
             UploadFile uploadFile = uploadFileDao.getById(uploadId);
@@ -158,6 +177,7 @@ public class UploadController {
     @PostMapping("delete/{uploadId}")
     public String deleteFile(@PathVariable("uploadId") Long uploadId, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
 
             UploadFile uploadFile = uploadFileDao.getById(uploadId);
 
@@ -179,6 +199,7 @@ public class UploadController {
     @PostMapping("scan")
     public String scan(HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
             scan();
             return "redirect:/upload?scan";
         }
@@ -195,14 +216,13 @@ public class UploadController {
                 uploadFile.setHash(fi.hashCode());
                 uploadFile.setCompleted(true);
                 uploadFile.setSize(fi.length());
-                uploadFile.setVideoType("movie");
+                uploadFile.setVideoType(VideoType.UNDEFINED);
                 uploadFile.setTimestamp(new Timestamp(new Date().getTime()));
                 uploadFileDao.save(uploadFile);
             }
         }
 
         for (UploadFile uploadFile : uploadFileDao.getAll()) {
-
             boolean fileExists = false;
             for (File fi : files) {
                 if (fi.hashCode() == uploadFile.getHash()) {

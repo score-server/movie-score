@@ -2,8 +2,10 @@ package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
 import ch.wetwer.moviedbapi.data.movie.MovieDao;
+import ch.wetwer.moviedbapi.data.uploadFile.UploadFileDao;
 import ch.wetwer.moviedbapi.service.MultipartFileSender;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
+import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,14 +25,19 @@ public class VideoController {
 
     private MovieDao movieDao;
     private EpisodeDao episodeDao;
+    private UploadFileDao uploadFileDao;
 
     private UserAuthService userAuthService;
+    private SettingsService settingsService;
 
     public VideoController(MovieDao movieDao, EpisodeDao episodeDao,
-                           UserAuthService userAuthService) {
+                           UploadFileDao uploadFileDao, UserAuthService userAuthService,
+                           SettingsService settingsService) {
         this.movieDao = movieDao;
         this.episodeDao = episodeDao;
+        this.uploadFileDao = uploadFileDao;
         this.userAuthService = userAuthService;
+        this.settingsService = settingsService;
     }
 
     @GetMapping(value = "/movie/{movieId}")
@@ -57,4 +64,20 @@ public class VideoController {
                     .serveResource();
         }
     }
+
+    @GetMapping("preview/{hash}")
+    public void getPreviewMovie(@PathVariable("hash") int hash,
+                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (userAuthService.isUser(request)) {
+            userAuthService.log(this.getClass(), request);
+
+            MultipartFileSender.fromPath(Paths.get(
+                    settingsService.getKey("moviePath") + "_tmp/" + uploadFileDao.getByHash(hash).getFilename()))
+                    .with(request)
+                    .with(response)
+                    .serveResource();
+        }
+    }
+
+
 }

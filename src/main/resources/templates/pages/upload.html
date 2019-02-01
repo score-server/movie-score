@@ -29,20 +29,26 @@
     <br>
     <br>
     <button id="submitUpload" type="submit" class="btn btn-primary">Upload</button>
-</form>
-<br>
-<form action="/upload/scan" method="post">
-    <button type="submit" class="btn btn-secondary"><i class="fas fa-sync-alt"></i> Scan</button>
+    <br>
+    <br>
+    <div class="alert alert-info">
+        Chrome does not support DTS or AC3 Audio formats, aswell as .avi Video files<br>
+        Reloading or Exiting this page cancels upload...<br>
+        Max Filesize 5 GB. Everything else is unoptimized...
+    </div>
 </form>
 <br>
 <div class="card">
-    <div class="card-header">Uploaded Files</div>
+    <div class="card-header">Staged Videofiles
+        <form action="/upload/scan" method="post" th:if="${currentUser.isAdmin()}" class="float-right">
+            <button type="submit" class="btn btn-secondary"><i class="fas fa-sync-alt"></i> Scan</button>
+        </form>
+    </div>
     <div class="card-body">
         <ul class="list-group">
             <li style="display: none" id="progress-list-item" class="list-group-item card-body">
                 <b>
-                    <i class="fas fa-universal-access fa-spin"></i>
-                    <!--<i class="fas fa-spinner "></i>-->
+                    <i class="fas fa-atom fa-spin"></i>
                     <span id="filedesc"></span>
                 </b>
                 <div class="progress">
@@ -52,13 +58,16 @@
                 </div>
             </li>
             <li th:each="file : ${files}" class="list-group-item">
-                <i th:if="${file.videoType.contains('movie')}" class="fas fa-circle" style="color: darkblue;"></i>
-                <i th:if="${file.videoType.contains('episode')}" class="fas fa-circle" style="color: darkviolet;"></i>
+                <i th:if="${file.getVideoType().equals('movie')}" class="fas fa-circle"
+                   style="color: darkblue;"></i>
+                <i th:if="${file.getVideoType().equals('episode')}" class="fas fa-circle"
+                   style="color: darkviolet;"></i>
                 <b th:text="${file.filename}"></b>
                 <span th:text="${filesize.getFileSize(file.size)} + ' MB'"></span>
                 <div class="float-right">
-                    <span th:text="${#dates.format(file.timestamp, 'dd.MM.yyyy HH:mm')}"></span>
-                    <th:block th:if="${file.completed}">
+                    <span th:text="${#dates.format(file.timestamp, 'dd.MM.yyyy')}"></span>
+                    <span th:text="${file.user?.name}"></span>
+                    <th:block th:if="${file.completed && currentUser.isAdmin()}">
                         <div style="display: inline">
                             <a class="btn btn-secondary" data-toggle="modal" href="#"
                                th:data-target="'#editFile' + ${file.id}">
@@ -71,6 +80,9 @@
                         <form th:action="'/upload/delete/' + ${file.id}" method="post" style="display: inline">
                             <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
                         </form>
+                        <a th:href="'/upload/preview/' + ${file.hash}" class="btn btn-primary">
+                            <i class="fas fa-play-circle"></i>
+                        </a>
                     </th:block>
                     <th:block th:if="${!file.completed}">
                         <button class="btn btn-secondary" disabled><i class="fas fa-cloud-upload-alt"></i></button>
@@ -83,10 +95,6 @@
         </ul>
     </div>
 </div>
-
-<form>
-
-</form>
 
 <div aria-hidden="true" aria-labelledby="edit" class="modal fade" role="dialog" tabindex="-1"
      th:each="file : ${files}" th:id="'editFile' + ${file.id}">
@@ -129,6 +137,7 @@
             const formData = new FormData(document.forms["uploadMovie"]);
             document.getElementById('filedesc').innerHTML =
                 document.getElementById('movie').value.replace("C:\\fakepath\\", "");
+            document.getElementById('submitUpload').disabled = true;
             $.ajax({
                 url: '/upload/movie',
                 type: 'POST',
@@ -149,7 +158,6 @@
                 error: function (data) {
                 }
             });
-            window.location.href('/upload?uploaded');
             return false;
         });
     })(jQuery);
@@ -170,8 +178,8 @@
             console.log(uploadProgress);
 
 
-            if (uploadProgress >= 100) {
-                window.location.href('/upload?uploaded');
+            if (uploadProgress === 100) {
+                window.location.href = '/upload?uploaded';
             }
         }
     }
