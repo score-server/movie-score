@@ -19,7 +19,7 @@ public class WebHandler {
     /**
      * This class is good to use for XML or Json Rest services. Rest results cant be handled here
      *
-     * @param url of the website
+     * @param url represents the URL of the requested website
      */
     public WebHandler(String url) {
         try {

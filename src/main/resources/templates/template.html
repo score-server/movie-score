@@ -86,11 +86,8 @@
                     <a class="nav-link text-dark" href="/about">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/upload">
-                        <b>Upload</b>
-                    </a>
+                    <a class="nav-link text-dark" href="/upload">Upload</a>
                 </li>
-
                 <th:block th:if="${page} != 'login'">
                     <li class="nav-item" th:if="${currentUser?.isAdmin()}">
                         <a class="nav-link text-dark" href="/group">

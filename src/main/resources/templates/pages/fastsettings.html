@@ -14,7 +14,7 @@
     <form method="post" th:action="'/fastlogin/settings/' + ${user.id}">
         <h3>Login Data</h3>
         Username: <input class="form-control" name="name" required th:value="${user.name}" type="text">
-        Password: <input class="form-control" name="password" required type="password">
+        Set new Password: <input class="form-control" name="password" required type="password">
         Confirm Password: <input class="form-control" name="confirm" required type="password">
         <br>
         <h3>Video Player</h3>

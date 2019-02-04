@@ -8,8 +8,8 @@
     </script>
 
     <th:block th:case="*">
-        <link href='https://cdn.plyr.io/3.4.7/plyr.css' rel='stylesheet'>
-        <script src='https://cdn.plyr.io/3.4.7/plyr.js'></script>
+        <link href='https://cdn.plyr.io/3.4.8/plyr.css' rel='stylesheet'>
+        <script src='https://cdn.plyr.io/3.4.8/plyr.js'></script>
         <link rel="stylesheet" th:href="'../plyr/style.css'">
         <script th:src="'../plyr/index.js'"></script>
         <script type="application/javascript">
@@ -36,12 +36,10 @@
 <div class="card card-body">
     <h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'"></h1>
 
-    <form>
-        <button class="btn" id="like-btn" type="button" onclick="like()">
-            <i class="fas fa-heart"></i>
-            <a th:text="' ' + ${movie.likes.size()} + ' likes'"></a>
-        </button>
-    </form>
+    <button class="btn" id="like-btn" type="button" onclick="like()">
+        <i class="fas fa-heart"></i>
+        <a th:text="' ' + ${movie.likes.size()} + ' likes'"></a>
+    </button>
 
     <br>
     <p>
@@ -90,12 +88,10 @@
     </ul>
     <br>
     <div th:if="${currentUser} != null">
-        <form>
-            <textarea class="form-control" id="commentText" required
-                      th:placeholder="'Comment as ' + ${currentUser.name}"></textarea>
-            <br>
-            <button class="btn btn-primary" type="button" onclick="addComment()">Save Comment</button>
-        </form>
+        <textarea class="form-control" id="commentText" required
+                  th:placeholder="'Comment as ' + ${currentUser.name}"></textarea>
+        <br>
+        <button class="btn btn-primary" type="button" onclick="addComment()">Save Comment</button>
     </div>
 </div>
 <br>

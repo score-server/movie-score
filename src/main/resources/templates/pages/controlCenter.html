@@ -80,14 +80,10 @@
     <div class="card-header">Settings</div>
     <div class="card-body">
         <b>Scedule Restart</b>
-        <form>
-            At: <input type="time" name="time" class="form-control" th:value="${restart}" id="sceduledTime"><br>
-            <button class="btn btn-primary" onclick="sceduleEvent()" type="button">Scedule</button>
-        </form>
+        At: <input type="time" name="time" class="form-control" th:value="${restart}" id="sceduledTime"><br>
+        <button class="btn btn-primary" onclick="sceduleEvent()" type="button">Scedule</button>
         <br>
-        <form>
-            <button class="btn btn-danger" type="button" onclick="cancelEvent()">Cancel</button>
-        </form>
+        <button class="btn btn-danger" type="button" onclick="cancelEvent()">Cancel</button>
     </div>
 </div>
 <br>
