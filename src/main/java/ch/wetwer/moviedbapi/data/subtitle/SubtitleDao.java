@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.data.subtitle;
 
 import ch.wetwer.moviedbapi.data.DaoInterface;
-import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.movie.Movie;
+import ch.wetwer.moviedbapi.data.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

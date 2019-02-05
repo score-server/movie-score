@@ -1,9 +1,9 @@
 package ch.wetwer.moviedbapi.data.episode;
 
+import ch.wetwer.moviedbapi.data.comment.Comment;
 import ch.wetwer.moviedbapi.data.season.Season;
 import ch.wetwer.moviedbapi.data.subtitle.Subtitle;
 import ch.wetwer.moviedbapi.data.time.Time;
-import ch.wetwer.moviedbapi.data.comment.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 

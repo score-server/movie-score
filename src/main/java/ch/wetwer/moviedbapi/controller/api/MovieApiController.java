@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.controller.api;
 
+import ch.wetwer.moviedbapi.data.movie.Movie;
 import ch.wetwer.moviedbapi.data.movie.MovieDao;
 import ch.wetwer.moviedbapi.data.user.UserDao;
-import ch.wetwer.moviedbapi.data.movie.Movie;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

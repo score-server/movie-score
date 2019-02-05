@@ -1,7 +1,7 @@
 package ch.wetwer.moviedbapi.data.timeline;
 
-import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.listmovie.ListMovie;
+import ch.wetwer.moviedbapi.data.user.User;
 import lombok.Data;
 
 import javax.persistence.CascadeType;

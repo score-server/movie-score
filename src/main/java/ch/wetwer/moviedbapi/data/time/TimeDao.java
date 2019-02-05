@@ -1,10 +1,10 @@
 package ch.wetwer.moviedbapi.data.time;
 
 import ch.wetwer.moviedbapi.data.DaoInterface;
-import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.episode.Episode;
 import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
 import ch.wetwer.moviedbapi.data.movie.Movie;
+import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.model.StartedVideo;
 import ch.wetwer.moviedbapi.model.VideoModel;
 import org.springframework.stereotype.Service;

@@ -112,11 +112,11 @@ public class RegisterController {
 
     @PostMapping("{groupKey}")
     public String groupRegister(@RequestParam("name") String nameParam,
-                               @RequestParam("password") String password,
-                               @RequestParam("confirm") String confirm,
-                               @RequestParam(name = "player", required = false, defaultValue = "") String player,
-                               @PathVariable("groupKey") String groupKey,
-                               HttpServletResponse response) {
+                                @RequestParam("password") String password,
+                                @RequestParam("confirm") String confirm,
+                                @RequestParam(name = "player", required = false, defaultValue = "") String player,
+                                @PathVariable("groupKey") String groupKey,
+                                HttpServletResponse response) {
         if (password.equals(confirm)) {
             if (userDao.search(nameParam).size() == 0) {
                 GroupInvite group = groupDao.getByName(groupKey);

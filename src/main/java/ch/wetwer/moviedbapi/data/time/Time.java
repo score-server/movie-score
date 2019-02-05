@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.data.time;
 
-import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.episode.Episode;
 import ch.wetwer.moviedbapi.data.movie.Movie;
+import ch.wetwer.moviedbapi.data.user.User;
 import lombok.Data;
 
 import javax.persistence.Entity;

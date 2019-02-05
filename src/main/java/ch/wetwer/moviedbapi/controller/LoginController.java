@@ -1,9 +1,9 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.session.SessionDao;
-import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.data.session.Session;
+import ch.wetwer.moviedbapi.data.session.SessionDao;
 import ch.wetwer.moviedbapi.data.user.User;
+import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.auth.CookieService;
 import ch.wetwer.moviedbapi.service.auth.SessionService;

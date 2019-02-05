@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.data.subtitle;
 
-import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.episode.Episode;
 import ch.wetwer.moviedbapi.data.movie.Movie;
+import ch.wetwer.moviedbapi.data.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 

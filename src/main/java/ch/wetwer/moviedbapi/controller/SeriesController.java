@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.season.SeasonDao;
-import ch.wetwer.moviedbapi.data.serie.SerieDao;
 import ch.wetwer.moviedbapi.data.serie.Serie;
+import ch.wetwer.moviedbapi.data.serie.SerieDao;
 import ch.wetwer.moviedbapi.service.GenreSearchType;
 import ch.wetwer.moviedbapi.service.SearchService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;

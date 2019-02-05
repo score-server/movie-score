@@ -1,7 +1,5 @@
 package ch.wetwer.moviedbapi.data.uploadFile;
 
-import ch.wetwer.moviedbapi.data.user.Role;
-
 /**
  * @author Wetwer
  * @project movie-db-web

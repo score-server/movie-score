@@ -1,7 +1,7 @@
 package ch.wetwer.moviedbapi.service;
 
-import ch.wetwer.moviedbapi.data.activitylog.ActivityLogDao;
 import ch.wetwer.moviedbapi.data.activitylog.ActivityLog;
+import ch.wetwer.moviedbapi.data.activitylog.ActivityLogDao;
 import ch.wetwer.moviedbapi.data.user.User;
 import org.springframework.stereotype.Service;
 

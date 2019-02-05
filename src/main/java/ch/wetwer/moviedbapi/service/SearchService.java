@@ -1,15 +1,15 @@
 package ch.wetwer.moviedbapi.service;
 
-import ch.wetwer.moviedbapi.data.genre.GenreDao;
-import ch.wetwer.moviedbapi.data.movie.MovieDao;
-import ch.wetwer.moviedbapi.data.time.TimeDao;
-import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.data.genre.Genre;
+import ch.wetwer.moviedbapi.data.genre.GenreDao;
 import ch.wetwer.moviedbapi.data.movie.Movie;
-import ch.wetwer.moviedbapi.data.serie.Serie;
-import ch.wetwer.moviedbapi.data.user.User;
+import ch.wetwer.moviedbapi.data.movie.MovieDao;
 import ch.wetwer.moviedbapi.data.movie.MovieRepository;
+import ch.wetwer.moviedbapi.data.serie.Serie;
 import ch.wetwer.moviedbapi.data.serie.SerieRepository;
+import ch.wetwer.moviedbapi.data.time.TimeDao;
+import ch.wetwer.moviedbapi.data.user.User;
+import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.model.StartedVideo;
 import org.springframework.stereotype.Service;
 

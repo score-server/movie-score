@@ -1,9 +1,9 @@
 package ch.wetwer.moviedbapi.controller;
 
+import ch.wetwer.moviedbapi.data.listmovie.ListMovie;
 import ch.wetwer.moviedbapi.data.listmovie.ListMovieDao;
 import ch.wetwer.moviedbapi.data.movie.MovieDao;
 import ch.wetwer.moviedbapi.data.timeline.TimeLineDao;
-import ch.wetwer.moviedbapi.data.listmovie.ListMovie;
 import ch.wetwer.moviedbapi.data.timeline.Timeline;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.ActivityService;

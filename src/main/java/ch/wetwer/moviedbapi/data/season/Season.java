@@ -1,7 +1,7 @@
 package ch.wetwer.moviedbapi.data.season;
 
-import ch.wetwer.moviedbapi.data.serie.Serie;
 import ch.wetwer.moviedbapi.data.episode.Episode;
+import ch.wetwer.moviedbapi.data.serie.Serie;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 

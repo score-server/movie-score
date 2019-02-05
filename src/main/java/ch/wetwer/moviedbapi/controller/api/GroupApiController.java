@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.controller.api;
 
 import ch.wetwer.moviedbapi.data.groupinvite.GroupDao;
-import ch.wetwer.moviedbapi.data.session.SessionDao;
 import ch.wetwer.moviedbapi.data.groupinvite.GroupInvite;
+import ch.wetwer.moviedbapi.data.session.SessionDao;
 import ch.wetwer.moviedbapi.model.GroupModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

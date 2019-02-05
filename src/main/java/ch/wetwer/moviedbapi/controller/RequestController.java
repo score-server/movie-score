@@ -1,10 +1,10 @@
 package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.movie.MovieDao;
-import ch.wetwer.moviedbapi.data.request.RequestDao;
-import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.data.request.Request;
+import ch.wetwer.moviedbapi.data.request.RequestDao;
 import ch.wetwer.moviedbapi.data.user.User;
+import ch.wetwer.moviedbapi.data.user.UserDao;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import lombok.extern.slf4j.Slf4j;

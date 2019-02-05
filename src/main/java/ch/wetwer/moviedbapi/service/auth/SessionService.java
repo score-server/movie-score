@@ -1,7 +1,7 @@
 package ch.wetwer.moviedbapi.service.auth;
 
-import ch.wetwer.moviedbapi.data.session.SessionDao;
 import ch.wetwer.moviedbapi.data.session.Session;
+import ch.wetwer.moviedbapi.data.session.SessionDao;
 import ch.wetwer.moviedbapi.data.user.User;
 import org.springframework.stereotype.Service;
 

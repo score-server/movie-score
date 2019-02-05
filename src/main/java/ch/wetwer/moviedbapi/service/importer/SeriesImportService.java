@@ -1,13 +1,13 @@
 package ch.wetwer.moviedbapi.service.importer;
 
-import ch.wetwer.moviedbapi.data.updatelog.UpdateLogDao;
 import ch.wetwer.moviedbapi.data.episode.Episode;
-import ch.wetwer.moviedbapi.data.season.Season;
-import ch.wetwer.moviedbapi.data.serie.Serie;
-import ch.wetwer.moviedbapi.data.updatelog.UpdateLog;
 import ch.wetwer.moviedbapi.data.episode.EpisodeRepository;
+import ch.wetwer.moviedbapi.data.season.Season;
 import ch.wetwer.moviedbapi.data.season.SeasonRepository;
+import ch.wetwer.moviedbapi.data.serie.Serie;
 import ch.wetwer.moviedbapi.data.serie.SerieRepository;
+import ch.wetwer.moviedbapi.data.updatelog.UpdateLog;
+import ch.wetwer.moviedbapi.data.updatelog.UpdateLogDao;
 import ch.wetwer.moviedbapi.model.tmdb.SerieJson;
 import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
 import org.springframework.stereotype.Service;

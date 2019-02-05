@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.data.time;
 
-import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.episode.Episode;
 import ch.wetwer.moviedbapi.data.movie.Movie;
+import ch.wetwer.moviedbapi.data.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

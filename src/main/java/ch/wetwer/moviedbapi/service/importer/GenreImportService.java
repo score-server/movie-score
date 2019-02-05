@@ -1,8 +1,8 @@
 package ch.wetwer.moviedbapi.service.importer;
 
 
-import ch.wetwer.moviedbapi.data.genre.GenreDao;
 import ch.wetwer.moviedbapi.data.genre.Genre;
+import ch.wetwer.moviedbapi.data.genre.GenreDao;
 import ch.wetwer.moviedbapi.data.movie.Movie;
 import ch.wetwer.moviedbapi.data.serie.Serie;
 import ch.wetwer.moviedbapi.model.tmdb.GenreJson;
