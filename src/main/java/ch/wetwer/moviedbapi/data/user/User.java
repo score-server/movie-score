@@ -11,7 +11,10 @@ import ch.wetwer.moviedbapi.data.time.Time;
 import ch.wetwer.moviedbapi.data.timeline.Timeline;
 import ch.wetwer.moviedbapi.data.uploadFile.UploadFile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,6 +37,9 @@ import java.util.List;
  * @project movie-db
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class User {
 

@@ -56,6 +56,7 @@ public class UploadController {
     @GetMapping
     public String getUploadPage(Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
             List<UploadFile> uploadFileList = uploadFileDao.getAll();
             model.addAttribute("files", uploadFileList);
 

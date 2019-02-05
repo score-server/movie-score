@@ -2,7 +2,6 @@ package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.groupinvite.GroupDao;
 import ch.wetwer.moviedbapi.data.groupinvite.GroupInvite;
-import ch.wetwer.moviedbapi.data.request.Request;
 import ch.wetwer.moviedbapi.data.user.Role;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.data.user.UserDao;

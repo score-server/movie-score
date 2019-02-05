@@ -8,7 +8,10 @@ import ch.wetwer.moviedbapi.data.listmovie.ListMovie;
 import ch.wetwer.moviedbapi.data.subtitle.Subtitle;
 import ch.wetwer.moviedbapi.data.time.Time;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,6 +29,9 @@ import java.util.List;
  * @project movie-db
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Movie {
 

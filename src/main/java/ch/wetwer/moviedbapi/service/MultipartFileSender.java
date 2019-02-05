@@ -71,21 +71,7 @@ public class MultipartFileSender {
         String fileName = filepath.getFileName().toString();
 
         long lastModified = Files.getLastModifiedTime(filepath).toMillis();
-        String eTag = fileName + "_" + length + "_" + lastModified;
-        long expires = System.currentTimeMillis() + DEFAULT_EXPIRE_TIME;
 
-        //FileTime lastModifiedObj = Files.getLastModifiedTime(filepath);
-
-        /*if (StringUtils.isEmpty(fileName) || lastModifiedObj == null) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            return;
-        }*/
-        //long lastModified = LocalDateTime.ofInstant(lastModifiedObj.toInstant(), ZoneId.of(ZoneOffset.systemDefault().getId())).toEpochSecond(ZoneOffset.UTC);
-        //String contentType = MimeTypeUtils.probeContentType(filepath);
-
-        // Validate request headers for caching ---------------------------------------------------
-
-        // If-None-Match header should contain "*" or ETag. If so, then return 304.
         String ifNoneMatch = request.getHeader("If-None-Match");
         if (ifNoneMatch != null && HttpUtils.matches(ifNoneMatch, fileName)) {
             response.setHeader("ETag", fileName); // Required in 304.
@@ -93,8 +79,6 @@ public class MultipartFileSender {
             return;
         }
 
-        // If-Modified-Since header should be greater than LastModified. If so, then return 304.
-        // This header is ignored if any If-None-Match header is specified.
         long ifModifiedSince = request.getDateHeader("If-Modified-Since");
         if (ifNoneMatch == null && ifModifiedSince != -1 && ifModifiedSince + 1000 > lastModified) {
             response.setHeader("ETag", fileName); // Required in 304.
@@ -102,33 +86,24 @@ public class MultipartFileSender {
             return;
         }
 
-        // Validate request headers for resume ----------------------------------------------------
-
-        // If-Match header should contain "*" or ETag. If not, then return 412.
         String ifMatch = request.getHeader("If-Match");
         if (ifMatch != null && !HttpUtils.matches(ifMatch, fileName)) {
             response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED);
             return;
         }
 
-        // If-Unmodified-Since header should be greater than LastModified. If not, then return 412.
         long ifUnmodifiedSince = request.getDateHeader("If-Unmodified-Since");
         if (ifUnmodifiedSince != -1 && ifUnmodifiedSince + 1000 <= lastModified) {
             response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED);
             return;
         }
 
-        // Validate and process range -------------------------------------------------------------
-
-        // Prepare some variables. The full Range represents the complete file.
         Range full = new Range(0, length - 1, length);
         List<Range> ranges = new ArrayList<>();
 
-        // Validate and process Range and If-Range headers.
         String range = request.getHeader("Range");
         if (range != null) {
 
-            // Range header should match format "bytes=n-n,n-n,n-n...". If not, then return 416.
             if (!range.matches("^bytes=\\d*-\\d*(,\\d*-\\d*)*$")) {
                 response.setHeader("Content-Range", "bytes */" + length); // Required in 416.
                 response.sendError(HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE);
@@ -147,7 +122,6 @@ public class MultipartFileSender {
                 }
             }
 
-            // If any valid If-Range header, then process each part of byte range.
             if (ranges.isEmpty()) {
                 for (String part : range.substring(6).split(",")) {
                     long start = Range.sublong(part, 0, part.indexOf("-"));
@@ -160,35 +134,23 @@ public class MultipartFileSender {
                         end = length - 1;
                     }
 
-                    // Check if Range is syntactically valid. If not, then return 416.
                     if (start > end) {
                         response.setHeader("Content-Range", "bytes */" + length); // Required in 416.
                         response.sendError(HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE);
                         return;
                     }
 
-                    // Add range.
                     ranges.add(new Range(start, end, length));
                 }
             }
         }
 
-        // Prepare and initialize response --------------------------------------------------------
-
-        // Get content type by file name and set content disposition.
         String disposition = "inline";
 
-        // If content type is unknown, then set the default value.
-        // For all content types, see: http://www.w3schools.com/media/media_mimeref.asp
-        // To add new content types, add new mime-mapping entry in web.xml.
-
-        //String contentType = Files.probeContentType(filepath);
         String contentType = null;
         if (contentType == null) {
             contentType = "application/octet-stream";
         } else if (!contentType.startsWith("image")) {
-            // Else, expect for images, determine content disposition. If content type is supported by
-            // the browser, then set to inline, else attachment which will pop a 'save as' dialogue.
             String accept = request.getHeader("Accept");
             disposition = accept != null && HttpUtils.accepts(accept, contentType) ? "inline" : "attachment";
         }
@@ -207,15 +169,11 @@ public class MultipartFileSender {
         response.setDateHeader("Last-Modified", lastModified);
         response.setDateHeader("Expires", System.currentTimeMillis() + DEFAULT_EXPIRE_TIME);
 
-        // Send requested file (part(s)) to client ------------------------------------------------
-
-        // Prepare streams.
         try (InputStream input = new BufferedInputStream(Files.newInputStream(filepath));
-             OutputStream output = response.getOutputStream()) {
+             ServletOutputStream output = response.getOutputStream()) {
 
             if (ranges.isEmpty() || ranges.get(0) == full) {
 
-                // Return full file.
                 log.debug("Return full file");
                 response.setContentType(contentType);
                 response.setHeader("Content-Range", "bytes " + full.start + "-" + full.end + "/" + full.total);
@@ -230,34 +188,28 @@ public class MultipartFileSender {
                 response.setHeader("Content-Length", String.valueOf(r.length));
                 response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT); // 206.
 
-                // Copy single part range.
                 Range.copy(input, output, length, r.start, r.length);
 
             } else {
 
-                // Return multiple parts of file.
                 response.setContentType("multipart/byteranges; boundary=" + MULTIPART_BOUNDARY);
                 response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT); // 206.
 
-                // Cast back to ServletOutputStream to get the easy println methods.
-                ServletOutputStream sos = (ServletOutputStream) output;
-
-                // Copy multi part range.
                 for (Range r : ranges) {
                     log.debug("Return multi part of file : from ({}) to ({})", r.start, r.end);
-                    // Add multipart boundary and header fields for every range.
-                    sos.println();
-                    sos.println("--" + MULTIPART_BOUNDARY);
-                    sos.println("Content-Type: " + contentType);
-                    sos.println("Content-Range: bytes " + r.start + "-" + r.end + "/" + r.total);
+
+                    output.println();
+                    output.println("--" + MULTIPART_BOUNDARY);
+                    output.println("Content-Type: " + contentType);
+                    output.println("Content-Range: bytes " + r.start + "-" + r.end + "/" + r.total);
 
                     // Copy single part range of multi part range.
                     Range.copy(input, output, length, r.start, r.length);
                 }
 
                 // End with multipart boundary.
-                sos.println();
-                sos.println("--" + MULTIPART_BOUNDARY + "--");
+                output.println();
+                output.println("--" + MULTIPART_BOUNDARY + "--");
             }
         }
 

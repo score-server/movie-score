@@ -281,7 +281,7 @@
     <div class="card-body">
         <ul class="list-group">
             <li class="list-group-item" th:each="log : ${activities}">
-                <a th:text="${log.log}"></a>
+                <a th:utext="${log.log}"></a>
                 <a class="float-right" th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}"></a>
             </li>
         </ul>

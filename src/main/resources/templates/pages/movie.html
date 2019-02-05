@@ -36,10 +36,12 @@
 <div class="card card-body">
     <h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'"></h1>
 
-    <button class="btn" id="like-btn" type="button" onclick="like()">
-        <i class="fas fa-heart"></i>
-        <a th:text="' ' + ${movie.likes.size()} + ' likes'"></a>
-    </button>
+    <div>
+        <button class="btn" id="like-btn" type="button" onclick="like()">
+            <i class="fas fa-heart"></i>
+            <a th:text="' ' + ${movie.likes.size()} + ' likes'"></a>
+        </button>
+    </div>
 
     <br>
     <p>

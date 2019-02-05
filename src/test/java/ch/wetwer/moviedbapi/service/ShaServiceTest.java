@@ -19,7 +19,7 @@ import java.util.Random;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class ShaTest {
+public class ShaServiceTest {
 
     @Autowired
     private ShaService shaService;
