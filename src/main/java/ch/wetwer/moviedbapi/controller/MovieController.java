@@ -107,9 +107,9 @@ public class MovieController {
                 activityService.log(user.getName() + " likes movie " +
                         "<a href=\"/movie/" + movie.getId() + "\">" + movie.getTitle() + "</a>", user);
             }
-            return null;
+            return "null";
         } else {
-            return null;
+            return "null";
         }
     }
 
