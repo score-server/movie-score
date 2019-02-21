@@ -81,9 +81,14 @@
     <div class="card-body">
         <b>Scedule Restart</b>
         At: <input type="time" name="time" class="form-control" th:value="${restart}" id="sceduledTime"><br>
-        <button class="btn btn-primary" onclick="sceduleEvent()" type="button">Scedule</button>
-        <br>
-        <button class="btn btn-danger" type="button" onclick="cancelEvent()">Cancel</button>
+        <div class="btn-group">
+            <button class="btn btn-success" onclick="sceduleEvent()" type="button">
+                <i class="fas fa-check"></i>
+            </button>
+            <button class="btn btn-danger" type="button" onclick="cancelEvent()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
     </div>
 </div>
 <br>
@@ -122,32 +127,27 @@
                     <div th:case="1">
                         <span th:text="${request.user.name}  + ': ' +${request.request}"></span>
                         <div class="float-right">
-                            <form method="post" style="display: inline"
-                                  th:action="'/request/' + ${request.id} + '/close'">
-                                <button class="btn btn-secondary"><i class="far fa-square"></i></button>
-                            </form>
-                            <form style="display: inline">
-                                <button class="btn btn-danger" type="button" th:id="'requestStatus' + ${request.id}"
-                                        th:onclick="'deleteRequest(' + ${request.id} + ')'">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </form>
+                            <button class="btn btn-secondary" th:onclick="'closeRequest(' + ${request.id} + ')'">
+                                <i class="far fa-square"></i></button>
+                            <button class="btn btn-danger" type="button" th:id="'requestStatus' + ${request.id}"
+                                    th:onclick="'deleteRequest(' + ${request.id} + ')'">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
                     </div>
                     <div th:case="0">
                         <span th:text="${request.user.name}  + ': ' + ${request.request}"></span>
                         <div class="float-right">
-                            <form style="display: inline">
+                            <div class="btn-group">
                                 <button class="btn btn-success" type="button" th:id="'requestStatus' + ${request.id}"
                                         th:onclick="'closeRequest(' + ${request.id} + ')'">
                                     <i class="far fa-check-square"></i>
                                 </button>
-                            </form>
-                            <form style="display: inline">
                                 <button class="btn btn-danger" type="button"
                                         th:onclick="'deleteRequest(' + ${request.id} + ')'">
-                                    <i class="fas fa-times"></i></button>
-                            </form>
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

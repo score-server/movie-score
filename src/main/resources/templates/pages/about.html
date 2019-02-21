@@ -40,8 +40,8 @@
                             <tr th:each="log : ${updateLogs}">
                                 <td th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}"></td>
                                 <td th:text="${log.getTypeLong()}"></td>
-                                <td class="alert alert-success" th:if="${log.completed}">Finished</td>
-                                <td class="alert alert-warning" th:if="${!log.completed}">Running</td>
+                                <td class="bg bg-success" th:if="${log.completed}">Finished</td>
+                                <td class="bg bg-warning" th:if="${!log.completed}">Running</td>
                             </tr>
                         </table>
                     </div>
@@ -76,43 +76,43 @@
                     </tr>
                     <tr>
                         <td>Chrome (recomended)</td>
-                        <td class="alert alert-success">Tested</td>
-                        <td class="alert alert-success">Works</td>
+                        <td class="bg bg-success">Tested</td>
+                        <td class="bg bg-success">Works</td>
                     </tr>
                     <tr>
                         <td>Chrome Android (recomended)</td>
-                        <td class="alert alert-success">Tested</td>
-                        <td class="alert alert-success">Works</td>
+                        <td class="bg bg-success">Tested</td>
+                        <td class="bg bg-success">Works</td>
                     </tr>
                     <tr>
                         <td>Opera</td>
-                        <td class="alert alert-success">Tested</td>
-                        <td class="alert alert-success">Works</td>
+                        <td class="bg bg-success">Tested</td>
+                        <td class="bg bg-success">Works</td>
                     </tr>
                     <tr>
                         <td>Firefox</td>
-                        <td class="alert alert-warning">Partialy Tested</td>
-                        <td class="alert alert-success">Works</td>
+                        <td class="bg bg-warning">Partialy Tested</td>
+                        <td class="bg bg-success">Works</td>
                     </tr>
                     <tr>
                         <td>Safari Mac</td>
-                        <td class="alert alert-danger">Not Tested</td>
-                        <td class="alert alert-warning">Known Bugs</td>
+                        <td class="bg bg-danger">Not Tested</td>
+                        <td class="bg bg-warning">Known Bugs</td>
                     </tr>
                     <tr>
                         <td>Safari iPhone</td>
-                        <td class="alert alert-danger">Not Tested</td>
-                        <td class="alert alert-warning">Known Bugs</td>
+                        <td class="bg bg-danger">Not Tested</td>
+                        <td class="bg bg-warning">Known Bugs</td>
                     </tr>
                     <tr>
                         <td>Chrome iPhone</td>
-                        <td class="alert alert-danger">Not Tested</td>
-                        <td class="alert alert-warning">Known Bugs</td>
+                        <td class="bg bg-danger">Not Tested</td>
+                        <td class="bg bg-warning">Known Bugs</td>
                     </tr>
                     <tr>
                         <td>IE/Edge</td>
-                        <td class="alert alert-danger">Not Tested</td>
-                        <td class="alert alert-danger">Lots of Bugs</td>
+                        <td class="bg bg-danger">Not Tested</td>
+                        <td class="bg bg-danger">Lots of Bugs</td>
                     </tr>
                 </table>
             </div>
@@ -207,6 +207,7 @@ SOFTWARE.
         </pre>
     </div>
 </div>
+<br>
 <div class="card">
     <div class="card-header">Sampl Lawsuit against Moviescore Template</div>
     <div class="card-body">

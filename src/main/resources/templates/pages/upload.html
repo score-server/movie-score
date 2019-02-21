@@ -68,21 +68,29 @@
                     <span th:text="${#dates.format(file.timestamp, 'dd.MM.yyyy')}"></span>
                     <span th:text="${file.user?.name}"></span>
                     <th:block th:if="${file.completed && currentUser.isAdmin()}">
-                        <div style="display: inline">
+                        <div class="btn-group">
                             <a class="btn btn-secondary" data-toggle="modal" href="#"
                                th:data-target="'#editFile' + ${file.id}">
                                 <i class="far fa-edit"></i>
                             </a>
+                            <button type="submit" class="btn btn-success"
+                                    th:onclick="'document.getElementById(\'accept' + ${file.id} + '\').submit();'">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button type="submit" class="btn btn-danger"
+                                    th:onclick="'document.getElementById(\'delete' + ${file.id} + '\').submit();'">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <a th:href="'/upload/preview/' + ${file.hash}" class="btn btn-primary">
+                                <i class="fas fa-play-circle"></i>
+                            </a>
                         </div>
-                        <form th:action="'/upload/accept/' + ${file.id}" method="post" style="display: inline">
-                            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
-                        </form>
-                        <form th:action="'/upload/delete/' + ${file.id}" method="post" style="display: inline">
-                            <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                        </form>
-                        <a th:href="'/upload/preview/' + ${file.hash}" class="btn btn-primary">
-                            <i class="fas fa-play-circle"></i>
-                        </a>
+
+                        <form th:action="'/upload/accept/' + ${file.id}" method="post" style="display: inline"
+                              th:id="'accept' + ${file.id}"></form>
+                        <form th:action="'/upload/delete/' + ${file.id}" method="post" style="display: inline"
+                              th:id="'delete' + ${file.id}"></form>
+
                     </th:block>
                     <th:block th:if="${!file.completed}">
                         <button class="btn btn-secondary" disabled><i class="fas fa-cloud-upload-alt"></i></button>
