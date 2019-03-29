@@ -25,8 +25,7 @@
                    type="text">
         </div>
         <div class="col-6 col-md-3 col-lg-3">
-            <select class="form-control" name="genre"
-                    onchange="document.getElementById('search').submit()">
+            <select class="form-control" name="genre" onchange="document.getElementById('search').submit()">
                 <option th:selected="true" value="">All Genres</option>
                 <option th:each="genre : ${genres}" th:selected="${currentGenre} == ${genre}" th:text="${genre}"
                         th:value="${genre}"></option>

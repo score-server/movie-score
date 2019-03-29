@@ -17,13 +17,14 @@ public class SessionService {
         this.sessionDto = sessionDto;
     }
 
-    public void addSession(User user, String sessionId) {
+    public Session addSession(User user, String sessionId) {
         Session session = new Session();
         session.setSessionId(sessionId);
         session.setUser(user);
         session.setActive(true);
         session.setTimestamp(new Timestamp(new Date().getTime()));
         sessionDto.save(session);
+        return session;
     }
 
     public void logout(String sessionId) {

@@ -26,7 +26,7 @@ public class UpdateLog {
 
     private Timestamp timestamp;
 
-    private Boolean completed;
+    private String status;
 
     public String getTypeLong() {
         switch (type) {

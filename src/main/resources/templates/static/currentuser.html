@@ -2,7 +2,7 @@
 <div>
     <a th:if="${currentUser != null}">
         Logged in:
-        <a class="btn btn-link" th:href="'/user/' + ${currentUser.id}" th:text="${currentUser.name}"></a>
+        <a th:href="'/user/' + ${currentUser.id}" th:text="${currentUser.name}"></a>
     </a>
     <a class="btn btn-primary" href="/login" th:if="${currentUser == null}">Sign In</a>
 </div>

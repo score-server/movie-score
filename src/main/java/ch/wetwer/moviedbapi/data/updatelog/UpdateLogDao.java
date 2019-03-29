@@ -39,7 +39,7 @@ public class UpdateLogDao implements DaoInterface<UpdateLog> {
 
     public UpdateLog addLog(String type) {
         UpdateLog updateLog = new UpdateLog();
-        updateLog.setCompleted(false);
+        updateLog.setStatus("Running");
         updateLog.setType(type);
         updateLog.setTimestamp(new Timestamp(new Date().getTime()));
         save(updateLog);
@@ -47,7 +47,7 @@ public class UpdateLogDao implements DaoInterface<UpdateLog> {
     }
 
     public void completeLog(UpdateLog updateLog) {
-        updateLog.setCompleted(true);
+        updateLog.setStatus("Complete");
         save(updateLog);
     }
 }

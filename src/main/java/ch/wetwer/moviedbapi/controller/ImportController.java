@@ -1,5 +1,7 @@
 package ch.wetwer.moviedbapi.controller;
 
+import ch.wetwer.moviedbapi.data.updatelog.UpdateLog;
+import ch.wetwer.moviedbapi.data.updatelog.UpdateLogDao;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
@@ -22,18 +24,21 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("import")
 public class ImportController {
 
+    private UpdateLogDao updateLogDao;
+
     private UserAuthService userAuthService;
-    private MovieImportService newMovieMovieImportService;
-    private SeriesImportService newSeriesImportService;
+    private MovieImportService movieImportService;
+    private SeriesImportService seriesImportService;
     private ActivityService activityService;
     private SettingsService settingsService;
 
-    public ImportController(UserAuthService userAuthService, MovieImportService newMovieMovieImportService,
-                            SeriesImportService newSeriesImportService, ActivityService activityService,
+    public ImportController(UpdateLogDao updateLogDao, UserAuthService userAuthService, MovieImportService movieImportService,
+                            SeriesImportService seriesImportService, ActivityService activityService,
                             SettingsService settingsService) {
+        this.updateLogDao = updateLogDao;
         this.userAuthService = userAuthService;
-        this.newMovieMovieImportService = newMovieMovieImportService;
-        this.newSeriesImportService = newSeriesImportService;
+        this.movieImportService = movieImportService;
+        this.seriesImportService = seriesImportService;
         this.activityService = activityService;
         this.settingsService = settingsService;
     }
@@ -45,7 +50,7 @@ public class ImportController {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
-            newMovieMovieImportService.importAll();
+            movieImportService.importAll();
             activityService.log(user.getName() + " started Movie Import", user);
             return "redirect:/settings";
         } else {
@@ -60,7 +65,7 @@ public class ImportController {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
-            newMovieMovieImportService.updateAll();
+            movieImportService.updateAll();
             activityService.log(user.getName() + " started Movie Update", user);
             return "redirect:/settings";
         } else {
@@ -75,7 +80,7 @@ public class ImportController {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
-            newSeriesImportService.importAll();
+            seriesImportService.importAll();
             activityService.log(user.getName() + " started Series Import", user);
             return "redirect:/settings";
         } else {
@@ -90,7 +95,7 @@ public class ImportController {
             if (settingsService.getKey("import").equals("1")) {
                 return "redirect:/settings";
             }
-            newSeriesImportService.updateAll();
+            seriesImportService.updateAll();
             activityService.log(user.getName() + " started Series Update", user);
             return "redirect:/settings";
         } else {
@@ -122,7 +127,12 @@ public class ImportController {
     @PostMapping("reset")
     public String importReset(Model model, HttpServletRequest request) {
         if (userAuthService.isAdministrator(model, request)) {
-            newMovieMovieImportService.setImportStatus("0");
+            movieImportService.setImportStatus("0");
+
+            UpdateLog updateLog = updateLogDao.getAll().get(0);
+            updateLog.setStatus("Failed");
+            updateLogDao.save(updateLog);
+
             return "redirect:/settings";
         } else {
             return "redirect:/";

@@ -19,6 +19,7 @@
     <div class="tab-pane fade show active" id="default-request" role="tabpanel" aria-labelledby="default-request">
         <div class="card card-body">
             <h3>Movie / Serie / Feature Request</h3>
+            <p>Pls send further info for movies if avalible, fx: tmdb id, year, link etc...</p>
             <form method="post" th:action="'/request/create/' + ${currentUser.id} + '?type=request'">
                 <input class="form-control" name="request" placeholder="Request" required type="text">
                 <br>

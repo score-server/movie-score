@@ -45,11 +45,12 @@ public class LoginApiController {
         this.sessionService = sessionService;
     }
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
     public String login(@RequestParam("name") String name, @RequestParam("password") String password,
                         HttpServletResponse response) {
         User user = userDao.login(name, shaService.encode(password));
         try {
+            System.out.println(user.getName());
             String sessionId = shaService.encode(String.valueOf(new Random().nextInt()));
             sessionService.addSession(user, sessionId);
             cookieService.setUserCookie(response, sessionId);

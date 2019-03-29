@@ -40,8 +40,9 @@
                             <tr th:each="log : ${updateLogs}">
                                 <td th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}"></td>
                                 <td th:text="${log.getTypeLong()}"></td>
-                                <td class="bg bg-success" th:if="${log.completed}">Finished</td>
-                                <td class="bg bg-warning" th:if="${!log.completed}">Running</td>
+                                <td class="bg bg-success" th:if="${log.status} == 'Complete'">Finished</td>
+                                <td class="bg bg-warning" th:if="${log.status} == 'Running'">Running</td>
+                                <td class="bg bg-danger" th:if="${log.status} == 'Failed'">Failed</td>
                             </tr>
                         </table>
                     </div>
@@ -159,21 +160,21 @@
     </div>
     <div class="col-sm-3">
         <div class="card">
-            <img class="card-img-top" src="https://avatars3.githubusercontent.com/u/24542471">
+            <img class="card-img-top" src="https://avatars1.githubusercontent.com/u/32476926">
             <div class="card-body">
-                <h5 class="card-title">Thellux</h5>
-                <p class="card-text">Sponsor</p>
-                <a href="https://github.com/Thellux">Github</a>
+                <h5 class="card-title">YKing</h5>
+                <p class="card-text">Developer</p>
+                <a href="https://github.com/YKaelin">Github</a>
             </div>
         </div>
     </div>
     <div class="col-sm-3">
         <div class="card">
-            <img class="card-img-top" src="https://avatars1.githubusercontent.com/u/32476926">
+            <img class="card-img-top" src="https://avatars3.githubusercontent.com/u/24542471">
             <div class="card-body">
-                <h5 class="card-title">YKing</h5>
-                <p class="card-text">Server Support</p>
-                <a href="https://github.com/YKaelin">Github</a>
+                <h5 class="card-title">Thellux</h5>
+                <p class="card-text">Sponsor</p>
+                <a href="https://github.com/Thellux">Github</a>
             </div>
         </div>
     </div>

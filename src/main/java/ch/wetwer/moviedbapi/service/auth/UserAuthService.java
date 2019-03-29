@@ -53,8 +53,7 @@ public class UserAuthService {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
-            model.addAttribute("restart", settingsService.getKey("restart"));
-            model.addAttribute("currentUser", userIndicator.getUser());
+            setModels(model, userIndicator);
             return true;
         }
 
@@ -78,11 +77,15 @@ public class UserAuthService {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
-            model.addAttribute("restart", settingsService.getKey("restart"));
-            model.addAttribute("currentUser", userIndicator.getUser());
+            setModels(model, userIndicator);
             return userIndicator.getUser().getRole() == Role.ADMIN;
         }
         return false;
+    }
+
+    private void setModels(Model model, UserIndicator userIndicator) {
+        model.addAttribute("restart", settingsService.getKey("restart"));
+        model.addAttribute("currentUser", userIndicator.getUser());
     }
 
     public boolean isAdministrator(HttpServletRequest request) {
@@ -98,8 +101,7 @@ public class UserAuthService {
         UserIndicator userIndicator = getUser(request);
 
         if (userIndicator.isLoggedIn()) {
-            model.addAttribute("restart", settingsService.getKey("restart"));
-            model.addAttribute("currentUser", userIndicator.getUser());
+            setModels(model, userIndicator);
             return userIndicator.getUser() == user;
         }
         return false;

@@ -50,17 +50,12 @@ public class HomeControllerTest {
 
         when(userAuthService.getUser(any())).thenReturn(userIndicator);
 
-        when(searchService.findStartedVideos(any())).thenReturn(getT());
+        when(searchService.findStartedVideos(any())).thenReturn(new ArrayList<>());
         when(searchService.getGenres(any())).thenReturn(new ArrayList<>());
         when(searchService.searchMoviesTop(any(), any())).thenReturn(new ArrayList<>());
         when(searchService.searchSerieTop(any())).thenReturn(new ArrayList<>());
 
-        this.mockMvc.perform(get("/").accept(MediaType.TEXT_PLAIN))
-                .andExpect(status().isOk());
+        this.mockMvc.perform(get("/").accept(MediaType.TEXT_PLAIN)).andExpect(status().isOk());
 
-    }
-
-    private ArrayList<StartedVideo> getT() {
-        return new ArrayList<>();
     }
 }
