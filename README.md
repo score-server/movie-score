@@ -133,7 +133,7 @@ cac94142672fc9fae2c91daa8043f9bdacd8148efda9c2085862654662ee866e
 ### Get Movie List <i>GET</i>
 
 <p>Requires to be Logged in</p>
-<pre>movie.scorewinner.ch/api/movie</pre>
+<pre>/api/movie</pre>
 <h4>Params</h4>
 <p><b>sessionId</b> String required</p>
 <h4>Response</h4>
@@ -197,7 +197,7 @@ cac94142672fc9fae2c91daa8043f9bdacd8148efda9c2085862654662ee866e
 
 ### Get one Movie <i>GET</i>
 <p>Requires to be Logged in</p>
-<pre>movie.scorewinner.ch/api/movie/{movieId}</pre>
+<pre>/api/movie/{movieId}</pre>
 <h4>Params</h4>
 <p><b>sessionId</b> String required</p>
 <h4>Response</h4>
@@ -236,7 +236,7 @@ cac94142672fc9fae2c91daa8043f9bdacd8148efda9c2085862654662ee866e
 ### Get Movie Video <i>GET</i>
 
 <p>Requires to be Logged in</p>
-<pre>movie.scorewinner.ch/video/movie/{movieId}</pre>
+<pre>/video/movie/{movieId}</pre>
 <h4>Params</h4>
 <p><b>sessionId</b> String required</p>
 <h4>Response</h4>
@@ -246,7 +246,7 @@ cac94142672fc9fae2c91daa8043f9bdacd8148efda9c2085862654662ee866e
 ### Get Episode Video <i>GET</i>
 
 <p>Requires to be Logged in</p>
-<pre>movie.scorewinner.ch/video/episode/{movieId}</pre>
+<pre>/video/episode/{movieId}</pre>
 <h4>Params</h4>
 <p><b>sessionId</b> String required</p>
 <h4>Response</h4>
