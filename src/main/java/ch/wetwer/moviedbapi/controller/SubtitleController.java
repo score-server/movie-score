@@ -21,7 +21,7 @@ import java.io.IOException;
 
 /**
  * @author Wetwer
- * @project movie-db-api
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.controller
  * @created 26.11.2018
  **/

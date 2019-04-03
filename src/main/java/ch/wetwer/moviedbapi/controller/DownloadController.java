@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Wetwer
- * @project movie-db-api
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.controller
  * @created 04.01.2019
  **/

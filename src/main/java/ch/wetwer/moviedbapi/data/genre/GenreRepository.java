@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Repository
 public interface GenreRepository extends JpaRepository<Genre, Long> {

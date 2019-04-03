@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Repository
 public interface SerieRepository extends JpaRepository<Serie, Long> {

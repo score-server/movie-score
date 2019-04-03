@@ -8,8 +8,9 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * @author Wetwer
- * @project hermann
+ * @project movie-score
  */
+
 @Service
 public class ShaService {
 

@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Data
 @Entity

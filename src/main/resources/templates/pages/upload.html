@@ -21,14 +21,14 @@
 
 
 <h1>Upload Movie</h1>
-<form action="/upload/movie" id="uploadMovie" method="post" enctype="multipart/form-data">
+<form action="/upload/movie" enctype="multipart/form-data" id="uploadMovie" method="post">
     <div class="custom-file">
-        <input class="custom-file-input" id="movie" name="movie" required type="file" onchange="setLabel()">
-        <label class="custom-file-label" id="filelabel" for="movie">Choose movie...</label>
+        <input class="custom-file-input" id="movie" name="movie" onchange="setLabel()" required type="file">
+        <label class="custom-file-label" for="movie" id="filelabel">Choose movie...</label>
     </div>
     <br>
     <br>
-    <button id="submitUpload" type="submit" class="btn btn-primary">Upload</button>
+    <button class="btn btn-primary" id="submitUpload" type="submit">Upload</button>
     <br>
     <br>
     <div class="alert alert-info">
@@ -40,28 +40,28 @@
 <br>
 <div class="card">
     <div class="card-header">Staged Videofiles
-        <form action="/upload/scan" method="post" th:if="${currentUser.isAdmin()}" class="float-right">
-            <button type="submit" class="btn btn-secondary"><i class="fas fa-sync-alt"></i> Scan</button>
+        <form action="/upload/scan" class="float-right" method="post" th:if="${currentUser.isAdmin()}">
+            <button class="btn btn-secondary" type="submit"><i class="fas fa-sync-alt"></i> Scan</button>
         </form>
     </div>
     <div class="card-body">
         <ul class="list-group">
-            <li style="display: none" id="progress-list-item" class="list-group-item card-body">
+            <li class="list-group-item card-body" id="progress-list-item" style="display: none">
                 <b>
                     <i class="fas fa-atom fa-spin"></i>
                     <span id="filedesc"></span>
                 </b>
                 <div class="progress">
-                    <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" id="progress" role="progressbar"
-                         class="progress-bar progress-bar-striped progress-bar-animated">
+                    <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar progress-bar-striped progress-bar-animated" id="progress"
+                         role="progressbar">
                     </div>
                 </div>
             </li>
-            <li th:each="file : ${files}" class="list-group-item">
-                <i th:if="${file.getVideoType().equals('movie')}" class="fas fa-circle"
-                   style="color: darkblue;"></i>
-                <i th:if="${file.getVideoType().equals('episode')}" class="fas fa-circle"
-                   style="color: darkviolet;"></i>
+            <li class="list-group-item" th:each="file : ${files}">
+                <i class="fas fa-circle" style="color: darkblue;"
+                   th:if="${file.getVideoType().equals('movie')}"></i>
+                <i class="fas fa-circle" style="color: darkviolet;"
+                   th:if="${file.getVideoType().equals('episode')}"></i>
                 <b th:text="${file.filename}"></b>
                 <span th:text="${filesize.getFileSize(file.size)} + ' MB'"></span>
                 <div class="float-right">
@@ -73,22 +73,22 @@
                                th:data-target="'#editFile' + ${file.id}">
                                 <i class="far fa-edit"></i>
                             </a>
-                            <button type="submit" class="btn btn-success"
-                                    th:onclick="'document.getElementById(\'accept' + ${file.id} + '\').submit();'">
+                            <button class="btn btn-success" th:onclick="'document.getElementById(\'accept' + ${file.id} + '\').submit();'"
+                                    type="submit">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button type="submit" class="btn btn-danger"
-                                    th:onclick="'document.getElementById(\'delete' + ${file.id} + '\').submit();'">
+                            <button class="btn btn-danger" th:onclick="'document.getElementById(\'delete' + ${file.id} + '\').submit();'"
+                                    type="submit">
                                 <i class="fas fa-times"></i>
                             </button>
-                            <a th:href="'/upload/preview/' + ${file.hash}" class="btn btn-primary">
+                            <a class="btn btn-primary" th:href="'/upload/preview/' + ${file.hash}">
                                 <i class="fas fa-play-circle"></i>
                             </a>
                         </div>
 
-                        <form th:action="'/upload/accept/' + ${file.id}" method="post" style="display: inline"
+                        <form method="post" style="display: inline" th:action="'/upload/accept/' + ${file.id}"
                               th:id="'accept' + ${file.id}"></form>
-                        <form th:action="'/upload/delete/' + ${file.id}" method="post" style="display: inline"
+                        <form method="post" style="display: inline" th:action="'/upload/delete/' + ${file.id}"
                               th:id="'delete' + ${file.id}"></form>
 
                     </th:block>
@@ -120,7 +120,7 @@
                            type="text">
                     <br>
                     <label for="videotype">Video Type</label>
-                    <select id="videotype" name="videoType" class="form-control">
+                    <select class="form-control" id="videotype" name="videoType">
                         <option th:selected="${file.videoType.contains('movie')}" value="movie">Movie</option>
                         <option th:selected="${file.videoType.contains('episode')}" value="episode">Episode</option>
                     </select>

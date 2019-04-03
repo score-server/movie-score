@@ -23,7 +23,7 @@ import java.io.File;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 
 @Controller

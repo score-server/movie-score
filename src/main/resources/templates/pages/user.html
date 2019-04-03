@@ -175,25 +175,22 @@
                 <i class="fas fa-chevron-down"></i> <span th:text="'Sessions (' + ${sessions.size()} + ')'"></span>
             </a>
             <div class="card-body collapse multi-collapse" id="sessionCollapse">
-                <ul class="list-group">
-                    <li class="list-group-item p-0" th:each="sessionId : ${sessions}">
-                        <div class="alert alert-success m-0" th:if="${currentSession} == ${sessionId.sessionId}">
-                        <span th:text="${#dates.format(sessionId.timestamp, 'dd.MM.yyyy HH:mm')}
-                        + ' current Session'"></span>
-                            <pre th:text="${sessionId.sessionId}"></pre>
-                            <form method="post" th:action="'/login/logout/' + ${sessionId.sessionId}">
-                                <button class="btn btn-danger" type="submit">Delete</button>
-                            </form>
-                        </div>
-                        <div class="alert alert-warning m-0" th:if="${currentSession} != ${sessionId.sessionId}">
+
+                <div class="row">
+                    <div class="col-12 col-sm-4 col-md-3" th:each="sessionId : ${sessions}"
+                         style="margin-bottom: .5rem">
+                        <div class="card card-body">
                             <span th:text="${#dates.format(sessionId.timestamp, 'dd.MM.yyyy HH:mm')}"></span>
-                            <pre th:text="${sessionId.sessionId}"></pre>
+                            <b th:if="${currentSession} == ${sessionId.sessionId}">Current</b>
+                            <br>
+                            <input class="form-control" disabled th:value="${sessionId.sessionId}"/>
+                            <br>
                             <form method="post" th:action="'/login/logout/' + ${sessionId.sessionId}">
                                 <button class="btn btn-danger" type="submit">Delete</button>
                             </form>
                         </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

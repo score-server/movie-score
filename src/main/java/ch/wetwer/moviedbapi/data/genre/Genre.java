@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Data
 @Entity

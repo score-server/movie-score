@@ -5,6 +5,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author Wetwer
+ * @project movie-score
+ */
+
 @Service
 public class SerieDao implements DaoInterface<Serie> {
 

@@ -4,8 +4,10 @@
     <div class="card moviecard">
         <div>
             <span class="place-badge" th:text="${moviePar.place}"></span>
-            <span th:if="${moviePar.movie.isBroken()}" class="quality-badge-red" th:text="${moviePar.movie.quality}"></span>
-            <span th:if="!${moviePar.movie.isBroken()}" class="quality-badge" th:text="${moviePar.movie.quality}"></span>
+            <span class="quality-badge-red" th:if="${moviePar.movie.isBroken()}"
+                  th:text="${moviePar.movie.quality}"></span>
+            <span class="quality-badge" th:if="!${moviePar.movie.isBroken()}"
+                  th:text="${moviePar.movie.quality}"></span>
             <img class="card-img-top" th:src="${moviePar.movie.caseImg}">
         </div>
         <div class="card-body nodec">

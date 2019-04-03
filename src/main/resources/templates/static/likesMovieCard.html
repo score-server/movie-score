@@ -3,8 +3,8 @@
 <a th:href="'/movie/' + ${like.movie.id}">
     <div class="card moviecard">
         <div>
-            <span th:if="${like.movie.isBroken()}" class="quality-badge-red" th:text="${like.movie.quality}"></span>
-            <span th:if="!${like.movie.isBroken()}" class="quality-badge" th:text="${like.movie.quality}"></span>
+            <span class="quality-badge-red" th:if="${like.movie.isBroken()}" th:text="${like.movie.quality}"></span>
+            <span class="quality-badge" th:if="!${like.movie.isBroken()}" th:text="${like.movie.quality}"></span>
             <img class="card-img-top" th:src="${like.movie.caseImg}">
         </div>
         <div class="card-body nodec">

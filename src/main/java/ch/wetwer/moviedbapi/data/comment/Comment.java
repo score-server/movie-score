@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Data
 @Entity

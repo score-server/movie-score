@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Data
 public class Search {

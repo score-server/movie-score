@@ -18,8 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Wetwer: Hello this is not my code. Thanks to davinkevin (https://github.com/davinkevin).
+ *
  * Created by kevin on 10/02/15.
- * See full code here : https://github.com/davinkevin/Podcast-Server/blob/d927d9b8cb9ea1268af74316cd20b7192ca92da7/src/main/java/lan/dk/podcastserver/utils/multipart/MultipartFileSender.java
+ * See full code here: https://github.com/davinkevin/Podcast-Server/blob/d927d9b8cb9ea1268af74316cd20b7192ca92da7/src/main/java/lan/dk/podcastserver/utils/multipart/MultipartFileSender.java
  */
 
 @Slf4j

@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author Wetwer
+ * @project movie-score
+ */
+
 @Controller
 @RequestMapping("status")
 public class WidgetController {

@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Service
 public class GenreImportService {

@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @EnableAsync
 @SpringBootApplication

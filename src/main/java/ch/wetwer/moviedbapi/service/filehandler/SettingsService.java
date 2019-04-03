@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Service
 public class SettingsService {

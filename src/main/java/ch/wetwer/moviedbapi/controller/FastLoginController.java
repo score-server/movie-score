@@ -23,7 +23,7 @@ import java.util.Random;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 
 @Controller
@@ -73,7 +73,7 @@ public class FastLoginController {
                     return "redirect:/fastlogin/settings";
                 }
             }
-            return "redirect:/login?error";
+            return "redirect:/login?registerError";
         }
     }
 

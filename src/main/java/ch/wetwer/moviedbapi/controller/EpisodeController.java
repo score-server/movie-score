@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 
 @Slf4j

@@ -12,7 +12,8 @@
                 <a th:href="'/user/' + ${timeline.user.id}" th:text="${timeline.user.name}"></a>
             </small>
             <a class="btn btn-primary float-right"
-               th:href="'/timeline/edit/' + ${timeline.id} " th:if="${currentUser} == ${timeline.user} OR ${currentUser.isAdmin()}">Edit</a>
+               th:href="'/timeline/edit/' + ${timeline.id} "
+               th:if="${currentUser} == ${timeline.user} OR ${currentUser.isAdmin()}">Edit</a>
         </div>
     </div>
 </a>

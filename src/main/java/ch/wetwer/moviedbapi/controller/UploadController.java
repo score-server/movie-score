@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * @author Wetwer
- * @project movie-db-api
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.controller
  * @created 27.12.2018
  **/

@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @author Wetwer
- * @project movie-db-api
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.data.dao
  * @created 28.11.2018
  **/

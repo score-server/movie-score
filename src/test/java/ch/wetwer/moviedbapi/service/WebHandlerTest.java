@@ -7,7 +7,7 @@ import org.junit.Test;
 
 /**
  * @author Wetwer
- * @project movie-db-web
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.service
  * @created 21.01.2019
  **/

@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * @author Wetwer
+ * @project movie-score
+ */
+
 @Service
 public class MovieDao implements DaoInterface<Movie> {
 

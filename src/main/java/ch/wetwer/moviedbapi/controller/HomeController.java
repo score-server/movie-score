@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Controller
 @RequestMapping("")
@@ -64,7 +64,7 @@ public class HomeController {
             model.addAttribute("page", "home");
             return "template";
         } else {
-            return "redirect:/login?redirect=/";
+            return "redirect:/login";
         }
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * @author Wetwer
- * @project movie-db-api
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.controller.api
  * @created 17.12.2018
  **/

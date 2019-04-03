@@ -9,7 +9,7 @@ import java.util.Properties;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 public class PropertiesHandler {
     public Properties properties;

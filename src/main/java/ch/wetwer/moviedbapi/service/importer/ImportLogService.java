@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 
 @Service

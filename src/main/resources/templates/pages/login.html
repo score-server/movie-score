@@ -6,6 +6,10 @@
     Invalid username or password
 </div>
 
+<div class="alert alert-danger" th:if="${param.registerError}">
+    Authentication Key seems to be expired... Request new one
+</div>
+
 <div class="alert alert-info" th:if="${param.error}">
     For Password reset contact your Administrator
 </div>

@@ -55,9 +55,11 @@
 <center>
     <div class="btn-group">
         <a class="btn btn-primary" th:href="'/movies/' + ${pageIndexLast}
-        + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}" th:if="${lastDisabled}">Last</a>
+        + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
+           th:if="${lastDisabled}">Last</a>
         <a class="btn btn-secondary"
-           th:href="'/movies/' + ${pageIndex} + '?search=' + ${search} + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}" th:text="${pageIndex}"></a>
+           th:href="'/movies/' + ${pageIndex} + '?search=' + ${search} + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
+           th:text="${pageIndex}"></a>
         <a class="btn btn-primary"
            th:href="'/movies/' + ${pageIndexNext} + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
            th:if="${movies.size()} == 24">Next</a>

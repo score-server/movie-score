@@ -80,12 +80,12 @@
     <div class="card-header">Settings</div>
     <div class="card-body">
         <b>Scedule Restart</b>
-        At: <input type="time" name="time" class="form-control" th:value="${restart}" id="sceduledTime"><br>
+        At: <input class="form-control" id="sceduledTime" name="time" th:value="${restart}" type="time"><br>
         <div class="btn-group">
             <button class="btn btn-success" onclick="sceduleEvent()" type="button">
                 <i class="fas fa-check"></i>
             </button>
-            <button class="btn btn-danger" type="button" onclick="cancelEvent()">
+            <button class="btn btn-danger" onclick="cancelEvent()" type="button">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -96,10 +96,17 @@
     <div class="card-header">
         Import Logs
         <form class="float-right">
-            <button class="btn btn-danger" type="button" onclick="clearImportLogs()">Clear</button>
+            <button class="btn btn-danger" onclick="clearImportLogs()" type="button">Clear</button>
         </form>
     </div>
     <div class="card-body">
+        <div class="row" th:if="${importLogs.isEmpty()}">
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="alert alert-secondary">
+                    <a>No Imports found</a>
+                </div>
+            </div>
+        </div>
         <ul class="list-group" id="importLogList">
             <li class="list-group-item" th:each="log : ${importLogs}">
                 <a th:if="${log.type} == 'ok'" th:utext="${log.log}"></a>
@@ -120,17 +127,24 @@
         Requests
     </div>
     <div class="card-body">
+        <div class="row" th:if="${requests.isEmpty()}">
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="alert alert-secondary">
+                    <a>No Requests open</a>
+                </div>
+            </div>
+        </div>
         <ul class="list-group">
-            <li class="list-group-item" th:each="request : ${requests}" th:switch="${request.active}"
-                th:id="'request' + ${request.id}">
+            <li class="list-group-item" th:each="request : ${requests}" th:id="'request' + ${request.id}"
+                th:switch="${request.active}">
                 <div>
                     <div th:case="1">
                         <span th:text="${request.user.name}  + ': ' +${request.request}"></span>
                         <div class="float-right">
                             <button class="btn btn-secondary" th:onclick="'closeRequest(' + ${request.id} + ')'">
                                 <i class="far fa-square"></i></button>
-                            <button class="btn btn-danger" type="button" th:id="'requestStatus' + ${request.id}"
-                                    th:onclick="'deleteRequest(' + ${request.id} + ')'">
+                            <button class="btn btn-danger" th:id="'requestStatus' + ${request.id}" th:onclick="'deleteRequest(' + ${request.id} + ')'"
+                                    type="button">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -139,12 +153,12 @@
                         <span th:text="${request.user.name}  + ': ' + ${request.request}"></span>
                         <div class="float-right">
                             <div class="btn-group">
-                                <button class="btn btn-success" type="button" th:id="'requestStatus' + ${request.id}"
-                                        th:onclick="'closeRequest(' + ${request.id} + ')'">
+                                <button class="btn btn-success" th:id="'requestStatus' + ${request.id}" th:onclick="'closeRequest(' + ${request.id} + ')'"
+                                        type="button">
                                     <i class="far fa-check-square"></i>
                                 </button>
-                                <button class="btn btn-danger" type="button"
-                                        th:onclick="'deleteRequest(' + ${request.id} + ')'">
+                                <button class="btn btn-danger" th:onclick="'deleteRequest(' + ${request.id} + ')'"
+                                        type="button">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -160,10 +174,17 @@
     <div class="card-header">
         Activity Logs
         <form class="float-right">
-            <button class="btn btn-danger" type="button" onclick="clearActivityLogs()">Clear</button>
+            <button class="btn btn-danger" onclick="clearActivityLogs()" type="button">Clear</button>
         </form>
     </div>
     <div class="card-body">
+        <div class="row" th:if="${activityLogs.isEmpty()}">
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="alert alert-secondary">
+                    <a>No recoded activity</a>
+                </div>
+            </div>
+        </div>
         <ul class="list-group" id="activityLogList">
             <li class="list-group-item" th:each="log : ${activityLogs}">
                 <a th:utext="${log.log}"></a>

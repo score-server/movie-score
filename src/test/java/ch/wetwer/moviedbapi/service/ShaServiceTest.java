@@ -12,7 +12,7 @@ import java.util.Random;
 
 /**
  * @author Wetwer
- * @project movie-db-web
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.service
  * @created 08.01.2019
  **/

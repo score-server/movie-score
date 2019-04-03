@@ -8,6 +8,9 @@
 <ul class="list-group">
     <li class="list-group-item" th:each="episode:${episodes}">
         <a th:href="'/episode/' + ${episode.id}" th:text="'Episode ' + ${episode.episode}"></a>
+        <a class="btn btn-primary float-right" target="_blank" th:href="'/video/episode/' + ${episode.id}">
+            <i class="fas fa-download"></i>
+        </a>
     </li>
 </ul>
 <br>

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Repository
 public interface LikesRepository extends JpaRepository<Likes, Long> {

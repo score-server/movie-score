@@ -5,41 +5,42 @@
         <h3>Movie-Score-Desktop</h3>
         <ul class="list-group">
             <div class="list-group-item">
-                <a th:href="${windows}" target="_blank" style="font-size: 25px;">
+                <a style="font-size: 25px;" target="_blank" th:href="${windows}">
                     <i class="fab fa-windows"></i>
                     Windows Download
                 </a>
-                <button th:if="${currentUser?.isAdmin()}" class="btn btn-primary float-right" data-target="#windows"
-                        data-toggle="modal">
+                <button class="btn btn-primary float-right" data-target="#windows" data-toggle="modal"
+                        th:if="${currentUser?.isAdmin()}">
                     <i class="far fa-edit"></i>
                 </button>
             </div>
             <div class="list-group-item">
-                <a th:href="${mac}" target="_blank" style="font-size: 25px;">
+                <a style="font-size: 25px;" target="_blank" th:href="${mac}">
                     <i class="fab fa-apple"></i>
                     Mac Download
                 </a>
-                <button th:if="${currentUser?.isAdmin()}" class="btn btn-primary float-right" data-target="#mac"
-                        data-toggle="modal">
+                <button class="btn btn-primary float-right" data-target="#mac" data-toggle="modal"
+                        th:if="${currentUser?.isAdmin()}">
                     <i class="far fa-edit"></i>
                 </button>
             </div>
         </ul>
         <br>
         <div class="text-center">
-            <img src="https://i.imgur.com/kClxhMg.png" class="rounded" width="50%">
+            <img src="https://i.imgur.com/kClxhMg.png" width="50%"
+                 style="border-radius: 1rem;     box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);">
             <p>movie-score-desktop</p>
         </div>
     </div>
 </div>
 <br>
 <div class="card">
-    <div class="card-header">Errors</div>
+    <div class="card-header">Installation</div>
     <div class="card-body">
     <pre>
 Windows:
 If you use windows 8.1 or windows 10, it may happen that a this massage will be shown:
-(da denn Bild vode meldig)
+<img src="https://i.imgur.com/gkSREBI.png" style="max-width: 100%">
 if you want to start the setup, just click on "more informations"  and click on "run anyways"
 Cause: this may happen because we didn't sign the application with a valid certificate
 
@@ -50,6 +51,15 @@ MacOS:
 4)If the extraction of the packages (MovieScore.7z.001 and MovieScore.7z.002) completed successfully, the MovieScore Installer should appear.
 5) Install MovieScore
 </pre>
+    </div>
+</div>
+<br>
+<div class="card card-body">
+    <p>Reguarding Feedback or Errors with the Movie-Score-Desktop please contact YKing</p>
+    <div>
+        <a class="btn btn-secondary" href="https://discord.gg/rf3JRfW" target="_blank">
+            <i class="fab fa-discord"></i> ScoreServer
+        </a>
     </div>
 </div>
 <br>

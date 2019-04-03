@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 
 @Data

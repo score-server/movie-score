@@ -1,6 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<h1>User List</h1>
+<h1>
+    User List
+</h1>
 
 <div class="alert alert-success" th:if="${param.added}">
     User added
@@ -19,6 +21,9 @@
         </div>
     </div>
 </form>
+<br>
+<a class="btn btn-primary" href="/request/create">Request Invite</a>
+<br>
 <br>
 <ul class="list-group">
     <li class="list-group-item" th:each="user : ${users}">
@@ -46,9 +51,10 @@
         </div>
     </div>
 </div>
-<div th:if="${currentUser?.isAdmin()}">
-    <br>
-    <a class="btn btn-primary" href="/register">New User</a>
-</div>
 <br>
+<div th:if="${currentUser?.isAdmin()}">
+    <a class="btn btn-primary" href="/register">New User</a>
+    <br>
+    <br>
+</div>
 <a class="btn btn-primary" href="/">Back</a>

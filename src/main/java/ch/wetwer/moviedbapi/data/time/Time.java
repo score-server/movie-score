@@ -12,6 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
 
+/**
+ * @author Wetwer
+ * @project movie-score
+ */
+
 @Data
 @Entity
 public class Time {

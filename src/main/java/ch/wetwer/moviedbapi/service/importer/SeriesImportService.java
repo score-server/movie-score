@@ -15,6 +15,11 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.util.List;
 
+/**
+ * @author Wetwer
+ * @project movie-score
+ */
+
 @Service
 public class SeriesImportService extends ImportServiceFactory {
 

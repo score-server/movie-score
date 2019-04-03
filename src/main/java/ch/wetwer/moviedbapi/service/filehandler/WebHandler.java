@@ -10,7 +10,7 @@ import java.net.URLConnection;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 public class WebHandler {
 

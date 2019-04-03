@@ -1,5 +1,6 @@
 package ch.wetwer.moviedbapi.controller;
 
+import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
 import ch.wetwer.moviedbapi.data.movie.MovieDao;
 import ch.wetwer.moviedbapi.data.request.Request;
 import ch.wetwer.moviedbapi.data.request.RequestDao;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 
 @Slf4j
@@ -31,15 +32,17 @@ public class RequestController {
     private RequestDao requestDao;
     private UserDao userDao;
     private MovieDao movieDao;
+    private EpisodeDao episodeDao;
 
     private UserAuthService userAuthService;
     private ActivityService activityService;
 
-    public RequestController(RequestDao requestDao, UserDao userDao, MovieDao movieDao, UserAuthService userAuthService,
-                             ActivityService activityService) {
+    public RequestController(RequestDao requestDao, UserDao userDao, MovieDao movieDao, EpisodeDao episodeDao,
+                             UserAuthService userAuthService, ActivityService activityService) {
         this.requestDao = requestDao;
         this.userDao = userDao;
         this.movieDao = movieDao;
+        this.episodeDao = episodeDao;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
     }

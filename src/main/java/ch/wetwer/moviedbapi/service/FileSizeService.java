@@ -2,7 +2,7 @@ package ch.wetwer.moviedbapi.service;
 
 /**
  * @author Wetwer
- * @project movie-db-api
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.service
  * @created 27.12.2018
  **/

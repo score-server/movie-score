@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Wetwer
- * @project hermann
+ * @project movie-score
  */
+
 @Service
 public class CookieService {
 

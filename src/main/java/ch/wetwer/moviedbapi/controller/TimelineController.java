@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author Wetwer
+ * @project movie-score
+ */
+
 @Controller
 @RequestMapping("timeline")
 public class TimelineController {

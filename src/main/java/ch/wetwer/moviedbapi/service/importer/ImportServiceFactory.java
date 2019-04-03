@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.math.BigDecimal;
 
+/**
+ * @author Wetwer
+ * @project movie-score
+ */
+
 @Async
 @Service
 public abstract class ImportServiceFactory {

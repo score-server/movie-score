@@ -7,7 +7,7 @@ import java.net.Socket;
 
 /**
  * @author Wetwer
- * @project movie-db-api
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.service
  * @created 28.11.2018
  **/

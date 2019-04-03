@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * @author Wetwer
+ * @project movie-score
+ */
+
 @Controller
 @RequestMapping("movies")
 public class MoviesController {

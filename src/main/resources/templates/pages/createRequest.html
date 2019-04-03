@@ -5,18 +5,18 @@
 
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" data-toggle="tab" href="#default-request" role="tab"
-           aria-selected="true">Default</a>
-        <a class="nav-item nav-link" data-toggle="tab" href="#invite-request" role="tab"
-           aria-selected="false">Invite</a>
-        <a class="nav-item nav-link" data-toggle="tab" href="#takedown-request" role="tab"
-           aria-selected="false">DMCA</a>
-        <a class="nav-item nav-link" data-toggle="tab" href="#bug-report" role="tab"
-           aria-selected="false">Bug / Feature</a>
+        <a aria-selected="true" class="nav-item nav-link active" data-toggle="tab" href="#default-request"
+           role="tab">Default</a>
+        <a aria-selected="false" class="nav-item nav-link" data-toggle="tab" href="#invite-request"
+           role="tab">Invite</a>
+        <a aria-selected="false" class="nav-item nav-link" data-toggle="tab" href="#takedown-request"
+           role="tab">DMCA</a>
+        <a aria-selected="false" class="nav-item nav-link" data-toggle="tab" href="#bug-report"
+           role="tab">Bug / Feature</a>
     </div>
 </nav>
 <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="default-request" role="tabpanel" aria-labelledby="default-request">
+    <div aria-labelledby="default-request" class="tab-pane fade show active" id="default-request" role="tabpanel">
         <div class="card card-body">
             <h3>Movie / Serie / Feature Request</h3>
             <p>Pls send further info for movies if avalible, fx: tmdb id, year, link etc...</p>
@@ -27,7 +27,7 @@
             </form>
         </div>
     </div>
-    <div class="tab-pane fade" id="invite-request" role="tabpanel" aria-labelledby="invite-request">
+    <div aria-labelledby="invite-request" class="tab-pane fade" id="invite-request" role="tabpanel">
         <div class="card card-body">
             <h3>Request Invite</h3>
             <p>This Application is Invite Only. If you have anyone who wants an Account be sure he is reliable and won't
@@ -43,29 +43,31 @@
             </form>
         </div>
     </div>
-    <div class="tab-pane fade" id="takedown-request" role="tabpanel" aria-labelledby="takedown-request">
+    <div aria-labelledby="takedown-request" class="tab-pane fade" id="takedown-request" role="tabpanel">
         <div class="card card-body">
             <h3>DMCA Takedown Request</h3>
             <form method="post" th:action="'/request/create/takedown/'">
                 <label for="movieselect">Movie</label>
-                <select name="movie" id="movieselect" class="form-control" required>
+                <select class="form-control" id="movieselect" name="movie" required>
                     <option th:each="movie : ${movies}" th:text="${movie.title} + ' ' + ${movie.year}"
                             th:value="${movie.id}"></option>
                 </select>
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" placeholder="Email" class="form-control" required>
+                <input class="form-control" id="email" name="email" placeholder="Email" required type="email">
                 <p>Takedown Request may take several days to process</p>
                 <br>
                 <button class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
-    <div class="tab-pane fade" id="bug-report" role="tabpanel" aria-labelledby="takedown-request">
+    <div aria-labelledby="takedown-request" class="tab-pane fade" id="bug-report" role="tabpanel">
         <div class="card card-body">
             <h3>Bug Report / Feature Request</h3>
-            <a href="https://github.com/score-server/movie-score/issues/new" class="btn btn-dark" target="_blank">
-                <i class="fab fa-github"></i> Redirect to Github
-            </a>
+            <div>
+                <a class="btn btn-dark" href="https://github.com/score-server/movie-score/issues/new" target="_blank">
+                    <i class="fab fa-github"></i> Redirect to Github
+                </a>
+            </div>
         </div>
     </div>
 </div>

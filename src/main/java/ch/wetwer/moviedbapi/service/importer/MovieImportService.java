@@ -13,6 +13,11 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Wetwer
+ * @project movie-score
+ */
+
 @Service
 public class MovieImportService extends ImportServiceFactory {
 

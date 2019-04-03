@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
+
 @Service
 public class UserAuthService {
 

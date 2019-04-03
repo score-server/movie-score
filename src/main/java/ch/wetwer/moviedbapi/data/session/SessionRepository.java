@@ -5,6 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+/**
+ * @author Wetwer
+ * @project movie-score
+ */
+
 public interface SessionRepository extends JpaRepository<Session, Long> {
 
     Session findSessionBySessionIdAndActive(String sessionId, Boolean active);

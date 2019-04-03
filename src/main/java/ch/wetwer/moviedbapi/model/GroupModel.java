@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author Wetwer
- * @project movie-db-api
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.model
  * @created 17.12.2018
  **/

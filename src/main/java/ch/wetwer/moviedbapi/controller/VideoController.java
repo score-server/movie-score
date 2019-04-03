@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Controller
 @RequestMapping("video")

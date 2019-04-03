@@ -88,8 +88,8 @@
 </datalist>
 
 <th:block th:each="group : ${groups}">
-    <div aria-hidden="true" th:aria-labelledby="'qr' + ${group.id}" class="modal fade" th:id="'qr' + ${group.id}"
-         role="dialog" tabindex="-1">
+    <div aria-hidden="true" class="modal fade" role="dialog" tabindex="-1"
+         th:aria-labelledby="'qr' + ${group.id}" th:id="'qr' + ${group.id}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -99,9 +99,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <img width="100%"
-                         th:src="'http://www.barcodes4.me/barcode/qr/qr.png?size=10'
-                         + '&value=http://scorewinner.ch:8081/register/' + ${group.name}">
+                    <img th:src="'http://www.barcodes4.me/barcode/qr/qr.png?size=10'
+                         + '&value=http://scorewinner.ch:8081/register/' + ${group.name}"
+                         width="100%">
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>

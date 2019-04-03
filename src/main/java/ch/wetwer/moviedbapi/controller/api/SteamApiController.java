@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 
 @CrossOrigin
@@ -31,7 +31,6 @@ public class SteamApiController {
             request.append(key).append(",");
         }
         return new WebHandler(request.toString()).getContent();
-
     }
 
     @ResponseBody

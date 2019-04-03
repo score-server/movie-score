@@ -12,50 +12,68 @@
 
 <div class="card card-body">
     <form method="post" th:action="'/fastlogin/settings/' + ${user.id}">
-        <h3>Login Data</h3>
         Username: <input class="form-control" name="name" required th:value="${user.name}" type="text">
         Set new Password: <input class="form-control" name="password" required type="password">
         Confirm Password: <input class="form-control" name="confirm" required type="password">
         <br>
-        <h3>Video Player</h3>
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-6">
-                <div class="card">
-                    <div class="card-header">Plyr.io (default)</div>
-                    <div class="card-body">
-                        <img src="https://i.imgur.com/Y3RAwxP.png" width="100%"><br>
-                        <br>
-                        <div class="custom-control custom-radio">
-                            <input class="custom-control-input" id="plyr.io"
-                                   name="player" th:checked="${user.videoPlayer} == 'plyr'" type="radio" value="plyr">
-                            <label class="custom-control-label" for="plyr.io">Plyr.io (default)</label>
+
+
+        <p>
+            <button aria-controls="videoPlayer" aria-expanded="false" class="btn btn-secondary" data-target="#videoPlayer"
+                    data-toggle="collapse" type="button">
+                Set Video Player
+            </button>
+        </p>
+        <div class="collapse" id="videoPlayer">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">Plyr.io (default)</div>
+                        <div class="card-body">
+                            <img src="https://i.imgur.com/Y3RAwxP.png" width="100%"><br>
+                            <br>
+                            <div class="custom-control custom-radio">
+                                <input class="custom-control-input" id="plyr.io"
+                                       name="player" th:checked="${user.videoPlayer} == 'plyr'" type="radio"
+                                       value="plyr">
+                                <label class="custom-control-label" for="plyr.io">Plyr.io (default)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">HTML 5 Player</div>
+                        <div class="card-body">
+                            <img src="https://i.imgur.com/OXf4cP6.png" width="100%"><br>
+                            <br>
+                            <div class="custom-control custom-radio">
+                                <input class="custom-control-input" id="html5" name="player"
+                                       th:checked="${user.videoPlayer} == 'html5'" type="radio" value="html5">
+                                <label class="custom-control-label" for="html5">HTML 5</label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-lg-6">
-                <div class="card">
-                    <div class="card-header">HTML 5 Player</div>
-                    <div class="card-body">
-                        <img src="https://i.imgur.com/OXf4cP6.png" width="100%"><br>
-                        <br>
-                        <div class="custom-control custom-radio">
-                            <input class="custom-control-input" id="html5" name="player"
-                                   th:checked="${user.videoPlayer} == 'html5'" type="radio" value="html5">
-                            <label class="custom-control-label" for="html5">HTML 5</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <br>
         </div>
-        <br>
         <div class="custom-control custom-checkbox">
             <input class="custom-control-input" id="check" name="check" required type="checkbox" value="check">
-            <label class="custom-control-label" for="check">No account sharing, no sueing, thanks, Account gets
+            <label class="custom-control-label" for="check">No account sharing, no suing, thanks, Account gets
                 automaticly
                 disabled after 60 Days of not using it (for security purposes)</label>
         </div>
         <br>
-        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-primary" type="submit">Register</button>
     </form>
+</div>
+<br>
+<div class="card card-body">
+    <p>Are you retarded and dont know how to register? Ask Wetwer, Scorewinner, Yking or Thellux</p>
+    <div>
+        <a class="btn btn-secondary" href="https://discord.gg/rf3JRfW" target="_blank">
+            <i class="fab fa-discord"></i> ScoreServer
+        </a>
+    </div>
 </div>

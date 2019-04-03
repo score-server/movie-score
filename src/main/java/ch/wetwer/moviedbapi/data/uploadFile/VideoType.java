@@ -2,7 +2,7 @@ package ch.wetwer.moviedbapi.data.uploadFile;
 
 /**
  * @author Wetwer
- * @project movie-db-web
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.data.uploadFile
  * @created 01.02.2019
  **/

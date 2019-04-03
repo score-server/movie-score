@@ -2,7 +2,7 @@ package ch.wetwer.moviedbapi.data.user;
 
 /**
  * @author Wetwer
- * @project movie-db-web
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.data.user
  * @created 18.01.2019
  **/

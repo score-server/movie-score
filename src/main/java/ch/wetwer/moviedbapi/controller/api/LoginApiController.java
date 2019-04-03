@@ -18,7 +18,7 @@ import java.util.Random;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 
 @CrossOrigin

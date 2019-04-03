@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 
 /**
  * @author Wetwer
- * @project movie-db-api
+ * @project movie-score
  * @package ch.wetwer.moviedbapi.data.entity
  * @created 26.11.2018
  **/

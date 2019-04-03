@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.Date;
 
+/**
+ * @author Wetwer
+ * @project movie-score
+ */
+
 @Service
 public class SessionService {
 

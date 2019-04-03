@@ -9,7 +9,7 @@ import java.util.Set;
 
 /**
  * @author Wetwer
- * @project movie-db
+ * @project movie-score
  */
 @Service
 public class DuplicateService {
