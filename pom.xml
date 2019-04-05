@@ -5,7 +5,7 @@
 
     <groupId>ch.wetwer</groupId>
     <artifactId>movie-score</artifactId>
-    <version>2.6.5</version>
+    <version>2.7.3</version>
     <packaging>jar</packaging>
 
     <name>movie-score</name>
@@ -115,6 +115,12 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.bramp.ffmpeg</groupId>
+            <artifactId>ffmpeg</artifactId>
+            <version>0.6.2</version>
         </dependency>
     </dependencies>
 

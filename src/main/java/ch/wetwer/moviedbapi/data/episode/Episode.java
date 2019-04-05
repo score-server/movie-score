@@ -44,6 +44,7 @@ public class Episode {
     private String path;
     private String quality;
     private Integer episode;
+    private Integer convertPercentage;
 
     public String getMime() {
         if (path.endsWith(".mkv")) {
@@ -55,6 +56,10 @@ public class Episode {
         } else {
             return "";
         }
+    }
+
+    public boolean canConvert() {
+        return path.endsWith(".mkv");
     }
 
     public String getFullTitle() {

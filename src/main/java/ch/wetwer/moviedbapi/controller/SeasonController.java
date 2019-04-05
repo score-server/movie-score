@@ -1,13 +1,16 @@
 package ch.wetwer.moviedbapi.controller;
 
+import ch.wetwer.moviedbapi.data.episode.Episode;
 import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
 import ch.wetwer.moviedbapi.data.season.Season;
 import ch.wetwer.moviedbapi.data.season.SeasonDao;
+import ch.wetwer.moviedbapi.service.VideoConverterService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +34,7 @@ public class SeasonController {
         this.episodeDao = episodeDao;
     }
 
-    @GetMapping(value = "/{seasonId}")
+    @GetMapping(value = "{seasonId}")
     public String getOneSeason(@PathVariable("seasonId") Long seasonId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
             userAuthService.log(this.getClass(), request);

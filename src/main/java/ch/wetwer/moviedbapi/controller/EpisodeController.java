@@ -6,6 +6,7 @@ import ch.wetwer.moviedbapi.data.time.TimeDao;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.EpisodeService;
+import ch.wetwer.moviedbapi.service.VideoConverterService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -34,17 +35,20 @@ public class EpisodeController {
     private UserAuthService userAuthService;
     private ActivityService activityService;
     private EpisodeService episodeService;
+    private VideoConverterService videoConverterService;
 
     public EpisodeController(EpisodeDao episodeDao, TimeDao timeDao, UserAuthService userAuthService,
-                             ActivityService activityService, EpisodeService episodeService) {
+                             ActivityService activityService, EpisodeService episodeService,
+                             VideoConverterService videoConverterService) {
         this.episodeDao = episodeDao;
         this.timeDao = timeDao;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
         this.episodeService = episodeService;
+        this.videoConverterService = videoConverterService;
     }
 
-    @GetMapping(value = "/{episodeId}")
+    @GetMapping(value = "{episodeId}")
     public String getOneEpisode(@PathVariable("episodeId") Long episodeId, Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
             userAuthService.log(this.getClass(), request);
@@ -85,6 +89,23 @@ public class EpisodeController {
             return "redirect:/episode/" + episodeId + "?path";
         } else {
             return "redirect:/episode/" + episodeId;
+        }
+    }
+
+    @PostMapping(value = "convert/{episodeId}")
+    public String convert(@PathVariable("episodeId") Long episodeId, HttpServletRequest request) {
+        Episode episode = episodeDao.getById(episodeId);
+        if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
+            if (episode.getPath().endsWith(".mkv")) {
+                episode.setConvertPercentage(0);
+                episodeDao.save(episode);
+
+                videoConverterService.convertEpisodeToMp4(episode);
+            }
+            return "redirect:/season/" + episode.getSeason().getId() + "";
+        } else {
+            return "redirect:/login?redirect=/season/" + episode.getSeason().getId() + "?error";
         }
     }
 }
