@@ -5,7 +5,7 @@
         <div>
             <span class="quality-badge-red" th:if="${like.movie.isBroken()}" th:text="${like.movie.quality}"></span>
             <span class="quality-badge" th:if="!${like.movie.isBroken()}" th:text="${like.movie.quality}"></span>
-            <img class="card-img-top" th:src="${like.movie.caseImg}">
+            <img class="card-img-top lazy" th:data-src="${like.movie.caseImg}">
         </div>
         <div class="card-body nodec">
             <h6 class="card-title" th:text="${like.movie.title}"></h6>

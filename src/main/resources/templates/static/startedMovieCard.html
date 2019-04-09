@@ -8,7 +8,7 @@
                 <button class="btn btn-danger" data-placement="top" data-toggle="tooltip" title="Reset Time"
                         type="submit"><i class="fas fa-fast-backward"></i></button>
             </form>
-            <img class="card-img-top" th:src="${startedVideo.videoModel.caseImg}">
+            <img class="card-img-top lazy" th:data-src="${startedVideo.videoModel.caseImg}">
         </div>
         <div class="card-body nodec">
             <h6 class="card-title" th:text="${startedVideo.videoModel.title}"></h6>
