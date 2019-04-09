@@ -18,7 +18,7 @@ body {
 }
 
 .moviecard {
-    animation: movieCardAnimation .7s forwards 0s linear;
+    /*animation: movieCardAnimation .7s forwards 0s linear;*/
     transition: 0.3s;
 }
 

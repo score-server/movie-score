@@ -8,7 +8,8 @@
                   th:text="${moviePar.movie.quality}"></span>
             <span class="quality-badge" th:if="!${moviePar.movie.isBroken()}"
                   th:text="${moviePar.movie.quality}"></span>
-            <img class="card-img-top lazy" th:data-src="${moviePar.movie.caseImg}">
+            <img class="card-img-top lazy" src="https://i.imgur.com/FrHW1dA.png"
+                 th:data-src="${moviePar.movie.caseImg}">
         </div>
         <div class="card-body nodec">
             <h6 class="card-title" th:text="${moviePar.movie.title}"></h6>
