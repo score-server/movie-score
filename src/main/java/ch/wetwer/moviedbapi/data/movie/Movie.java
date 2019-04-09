@@ -56,6 +56,7 @@ public class Movie {
     private Double popularity;
     private Double voteAverage;
     private String filetype;
+    private String previewPath;
     private Timestamp timestamp;
 
     @Lob

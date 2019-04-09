@@ -71,6 +71,27 @@
     padding-left: 1rem;
 }
 
+.custom-file-label {
+    border-radius: 1rem !important;
+    padding-left: 20px;
+}
+
+.custom-file-label::after {
+    border-radius: 0 1rem 1rem 0 !important;
+}
+
 .bg {
     border-radius: 1rem !important;
+}
+
+.bg-green {
+    color: green;
+}
+
+.bg-red {
+    color: red;
+}
+
+.bg-yellow {
+    color: orange;
 }

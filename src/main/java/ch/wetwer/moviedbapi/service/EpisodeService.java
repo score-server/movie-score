@@ -22,6 +22,18 @@ public class EpisodeService {
             }
         }
 
+        for (Episode nextEpisode : season.getEpisodes()) {
+            if (nextEpisode.getEpisode() == episode.getEpisode() + 2) {
+                return nextEpisode;
+            }
+        }
+
+        for (Episode nextEpisode : season.getEpisodes()) {
+            if (nextEpisode.getEpisode() == episode.getEpisode() + 3) {
+                return nextEpisode;
+            }
+        }
+
         Serie serie = season.getSerie();
         for (Season nextSeason : serie.getSeasons()) {
             if (nextSeason.getSeason() == season.getSeason() + 1)

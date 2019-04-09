@@ -39,6 +39,7 @@
     <div class="card-header">Import</div>
     <div class="card-body">
         <div class="card card-body">
+            <p>Movie Import Path</p>
             <ol class="breadcrumb btn" data-target="#changeMoviePath" data-toggle="modal">
                 <li class="breadcrumb-item" th:text="${moviePath}"></li>
             </ol>
@@ -52,6 +53,7 @@
         </div>
         <br>
         <div class="card card-body">
+            <p>Series Import Path</p>
             <ol class="breadcrumb btn" data-target="#changeSeriePath" data-toggle="modal">
                 <li class="breadcrumb-item" th:text="${seriePath}"></li>
             </ol>
@@ -63,6 +65,13 @@
                 <button class="btn btn-primary" th:disabled="${running}">Update Series</button>
             </form>
 
+        </div>
+        <br>
+        <div class="card card-body">
+            <p>Preview Storage Path</p>
+            <ol class="breadcrumb btn" data-target="#changePreviewPath" data-toggle="modal">
+                <li class="breadcrumb-item" th:text="${previewPath}"></li>
+            </ol>
         </div>
         <br>
         <a class="btn btn-primary" href="/upload">Upload</a>
@@ -143,7 +152,8 @@
                         <div class="float-right">
                             <button class="btn btn-secondary" th:onclick="'closeRequest(' + ${request.id} + ')'">
                                 <i class="far fa-square"></i></button>
-                            <button class="btn btn-danger" th:id="'requestStatus' + ${request.id}" th:onclick="'deleteRequest(' + ${request.id} + ')'"
+                            <button class="btn btn-danger" th:id="'requestStatus' + ${request.id}"
+                                    th:onclick="'deleteRequest(' + ${request.id} + ')'"
                                     type="button">
                                 <i class="fas fa-times"></i>
                             </button>
@@ -153,7 +163,8 @@
                         <span th:text="${request.user.name}  + ': ' + ${request.request}"></span>
                         <div class="float-right">
                             <div class="btn-group">
-                                <button class="btn btn-success" th:id="'requestStatus' + ${request.id}" th:onclick="'closeRequest(' + ${request.id} + ')'"
+                                <button class="btn btn-success" th:id="'requestStatus' + ${request.id}"
+                                        th:onclick="'closeRequest(' + ${request.id} + ')'"
                                         type="button">
                                     <i class="far fa-check-square"></i>
                                 </button>
@@ -238,74 +249,95 @@
             </form>
         </div>
     </div>
-    <script type="application/javascript">
-        function clearImportLogs() {
-            $.ajax({
-                type: "POST",
-                url: "/settings/clear"
-            });
-
-            document.getElementById('importLogList').style.display = 'none'
-        }
-
-        function clearActivityLogs() {
-            $.ajax({
-                type: "POST",
-                url: "/settings/clearactivity"
-            });
-
-            document.getElementById('activityLogList').style.display = 'none'
-        }
-
-        function deleteRequest(requestId) {
-            $.ajax({
-                type: "POST",
-                url: "/request/" + requestId + "/delete"
-            });
-
-            document.getElementById('request' + requestId).style.display = 'none'
-        }
-
-        function openRequest(requestId) {
-            $.ajax({
-                type: "POST",
-                url: "/request/" + requestId + "/open"
-            });
-
-            document.getElementById('requestStatus' + requestId).style.display = 'none'
-        }
-
-        function closeRequest(requestId) {
-            $.ajax({
-                type: "POST",
-                url: "/request/" + requestId + "/close"
-            });
-
-            document.getElementById('requestStatus' + requestId).style.display = 'none'
-        }
-
-        function sceduleEvent() {
-            $.ajax({
-                type: "POST",
-                url: "/settings/scedule",
-                async: true,
-                data: {
-                    time: document.getElementById('sceduledTime').value,
-                }
-            });
-        }
-
-        function cancelEvent() {
-            $.ajax({
-                type: "POST",
-                url: "/settings/scedule/cancel",
-                async: true
-            });
-
-            const newCommentNode = document.createElement("div");
-            newCommentNode.classList.add('alert alert-success');
-
-        }
-
-    </script>
 </div>
+
+<div aria-hidden="true" class="modal fade" id="changePreviewPath" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Preview Path</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/settings/path/preview" method="post">
+                <div class="modal-body">
+                    <label for="moviepath">Preview Path:</label>
+                    <input class="form-control" name="path" th:value="${previewPath}" type="text">
+                    <br>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="application/javascript">
+    function clearImportLogs() {
+        $.ajax({
+            type: "POST",
+            url: "/settings/clear"
+        });
+
+        document.getElementById('importLogList').style.display = 'none'
+    }
+
+    function clearActivityLogs() {
+        $.ajax({
+            type: "POST",
+            url: "/settings/clearactivity"
+        });
+
+        document.getElementById('activityLogList').style.display = 'none'
+    }
+
+    function deleteRequest(requestId) {
+        $.ajax({
+            type: "POST",
+            url: "/request/" + requestId + "/delete"
+        });
+
+        document.getElementById('request' + requestId).style.display = 'none'
+    }
+
+    function openRequest(requestId) {
+        $.ajax({
+            type: "POST",
+            url: "/request/" + requestId + "/open"
+        });
+
+        document.getElementById('requestStatus' + requestId).style.display = 'none'
+    }
+
+    function closeRequest(requestId) {
+        $.ajax({
+            type: "POST",
+            url: "/request/" + requestId + "/close"
+        });
+
+        document.getElementById('requestStatus' + requestId).style.display = 'none'
+    }
+
+    function sceduleEvent() {
+        $.ajax({
+            type: "POST",
+            url: "/settings/scedule",
+            async: true,
+            data: {
+                time: document.getElementById('sceduledTime').value,
+            }
+        });
+    }
+
+    function cancelEvent() {
+        $.ajax({
+            type: "POST",
+            url: "/settings/scedule/cancel",
+            async: true
+        });
+
+        const newCommentNode = document.createElement("div");
+        newCommentNode.classList.add('alert alert-success');
+
+    }
+</script>

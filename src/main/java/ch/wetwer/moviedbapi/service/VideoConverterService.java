@@ -2,6 +2,7 @@ package ch.wetwer.moviedbapi.service;
 
 import ch.wetwer.moviedbapi.data.episode.Episode;
 import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
+import ch.wetwer.moviedbapi.service.importer.ImportLogService;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
@@ -29,11 +30,17 @@ public class VideoConverterService {
 
     private EpisodeDao episodeDao;
 
-    public VideoConverterService(EpisodeDao episodeDao) {
+    private ImportLogService importLogService;
+
+    public VideoConverterService(EpisodeDao episodeDao, ImportLogService importLogService) {
         this.episodeDao = episodeDao;
+        this.importLogService = importLogService;
     }
 
     public void convertEpisodeToMp4(Episode episode) {
+        importLogService.importLog("<i class=\"fas fa-hammer\"></i> " +
+                "Startet Converting: " + episode.getFullTitle());
+
         try {
             FFmpeg ffmpeg = new FFmpeg("/usr/bin/ffmpeg");
             FFprobe ffprobe = new FFprobe("/usr/bin/ffprobe");
@@ -46,32 +53,26 @@ public class VideoConverterService {
             FFmpegBuilder builder = new FFmpegBuilder()
                     .setInput(episode.getPath())
                     .addOutput(mp4Filename)
-                    .setAudioChannels(1)         // Mono audio
-                    .setAudioCodec("aac")        // using the aac codec
-                    .setAudioSampleRate(48_000)  // at 48KHz
-                    .setAudioBitRate(32768)      // at 32 kbit/s
+                    .setAudioChannels(1)
+                    .setAudioCodec("aac")
+                    .setAudioSampleRate(48_000)
+                    .setAudioBitRate(32768)
 
-                    .setVideoCodec("libx264")     // Video using x264
-                    .setVideoFrameRate(24, 1)     // at 24 frames per second
+                    .setVideoCodec("libx264")
+                    .setVideoFrameRate(24, 1)
 
-                    .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // Allow FFmpeg to use experimental specs
+                    .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
                     .done();
 
             FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
 
             FFmpegJob job = executor.createJob(builder, new ProgressListener() {
 
-                // Using the FFmpegProbeResult determine the duration of the input
                 final double duration_ns = in.getFormat().duration * TimeUnit.SECONDS.toNanos(1);
 
                 @Override
                 public void progress(Progress progress) {
                     double percentage = progress.out_time_ns / duration_ns;
-
-                    System.out.println(String.format(
-                            "[%.0f%%]",
-                            percentage * 100));
-
                     episode.setConvertPercentage(Integer.valueOf(String.format("%.0f", percentage * 100)));
                     episodeDao.save(episode);
                 }
@@ -80,6 +81,8 @@ public class VideoConverterService {
             episode.setPath(mp4Filename);
             episode.setConvertPercentage(null);
             episodeDao.save(episode);
+            importLogService.importLog("<i class=\"fas fa-hammer\" style=\"color: green;\"></i> " +
+                    "Converting complete: " + episode.getFullTitle());
         } catch (IOException e) {
             e.printStackTrace();
         }

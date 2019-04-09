@@ -7,6 +7,7 @@ import ch.wetwer.moviedbapi.data.movie.MovieDao;
 import ch.wetwer.moviedbapi.data.time.TimeDao;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
+import ch.wetwer.moviedbapi.service.PreviewCompiler;
 import ch.wetwer.moviedbapi.service.SimilarMovieService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import ch.wetwer.moviedbapi.service.importer.MovieImportService;
@@ -38,10 +39,11 @@ public class MovieController {
     private UserAuthService userAuthService;
     private ActivityService activityService;
     private MovieImportService movieImportService;
+    private PreviewCompiler previewCompiler;
 
     public MovieController(MovieDao movieDto, LikesDao likesDto, SimilarMovieService similarMovieService,
                            UserAuthService userAuthService, ActivityService activityService, TimeDao timeDto,
-                           MovieImportService movieImportService) {
+                           MovieImportService movieImportService, PreviewCompiler previewCompiler) {
         this.movieDto = movieDto;
         this.likesDto = likesDto;
         this.timeDto = timeDto;
@@ -49,6 +51,7 @@ public class MovieController {
         this.userAuthService = userAuthService;
         this.activityService = activityService;
         this.movieImportService = movieImportService;
+        this.previewCompiler = previewCompiler;
     }
 
 
@@ -80,6 +83,11 @@ public class MovieController {
             } catch (NullPointerException e) {
                 model.addAttribute("time", 0);
             }
+
+//            Currently Disabled, not stable yet...
+//            if (movie.getPreviewPath() == null) {
+//                previewCompiler.savePreview(movie);
+//            }
 
             model.addAttribute("page", "movie");
             return "template";

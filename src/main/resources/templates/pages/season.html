@@ -13,7 +13,7 @@
             <th:block th:if="${currentUser.isAdmin()}">
                 <form th:action="'/episode/convert/' + ${episode.id}" method="post" th:if="${episode.canConvert()}"
                       style="display: inline">
-                    <button class="btn btn-primary" type="submit">
+                    <button class="btn btn-secondary" type="submit">
                         Convert
                     </button>
                 </form>

@@ -10,6 +10,16 @@
         <p>Join our <a href="https://discord.gg/6z9Eybe" target="_blank">Discord</a> or
             <a href="https://steamcommunity.com/groups/scoreserver">Steam Group</a></p>
         <p>Powered by <a href="https://scorewinner.ch">scorewinner.ch</a></p>
+        <p>
+            <a class="github-button" href="https://github.com/score-server/movie-score" data-icon="octicon-star"
+               data-size="large" data-show-count="true" aria-label="Star score-server/movie-score on GitHub">Star</a>
+            <a class="github-button" href="https://github.com/score-server/movie-score/subscription"
+               data-icon="octicon-eye" data-size="large" data-show-count="true"
+               aria-label="Watch score-server/movie-score on GitHub">Watch</a>
+            <a class="github-button" href="https://github.com/score-server/movie-score/issues"
+               data-icon="octicon-issue-opened" data-size="large" data-show-count="true"
+               aria-label="Issue score-server/movie-score on GitHub">Issue</a>
+        </p>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 5px">
                 <div class="card">
@@ -40,9 +50,9 @@
                             <tr th:each="log : ${updateLogs}">
                                 <td th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}"></td>
                                 <td th:text="${log.getTypeLong()}"></td>
-                                <td class="bg bg-success" th:if="${log.status} == 'Complete'">Finished</td>
-                                <td class="bg bg-warning" th:if="${log.status} == 'Running'">Running</td>
-                                <td class="bg bg-danger" th:if="${log.status} == 'Failed'">Failed</td>
+                                <td class="bg bg-green" th:if="${log.status} == 'Complete'">Finished</td>
+                                <td class="bg bg-yellow" th:if="${log.status} == 'Running'">Running</td>
+                                <td class="bg bg-red" th:if="${log.status} == 'Failed'">Failed</td>
                             </tr>
                         </table>
                     </div>
@@ -77,43 +87,43 @@
                     </tr>
                     <tr>
                         <td>Chrome (recomended)</td>
-                        <td class="bg bg-success">Tested</td>
-                        <td class="bg bg-success">Works</td>
+                        <td class="bg bg-green">Tested</td>
+                        <td class="bg bg-green">Works</td>
                     </tr>
                     <tr>
                         <td>Chrome Android (recomended)</td>
-                        <td class="bg bg-success">Tested</td>
-                        <td class="bg bg-success">Works</td>
+                        <td class="bg bg-green">Tested</td>
+                        <td class="bg bg-green">Works</td>
                     </tr>
                     <tr>
                         <td>Opera</td>
-                        <td class="bg bg-success">Tested</td>
-                        <td class="bg bg-success">Works</td>
+                        <td class="bg bg-green">Tested</td>
+                        <td class="bg bg-green">Works</td>
                     </tr>
                     <tr>
                         <td>Firefox</td>
-                        <td class="bg bg-warning">Partialy Tested</td>
-                        <td class="bg bg-success">Works</td>
+                        <td class="bg bg-yellow">Partialy Tested</td>
+                        <td class="bg bg-green">Works</td>
                     </tr>
                     <tr>
                         <td>Safari Mac</td>
-                        <td class="bg bg-danger">Not Tested</td>
-                        <td class="bg bg-warning">Known Bugs</td>
+                        <td class="bg bg-red">Not Tested</td>
+                        <td class="bg bg-yellow">Known Bugs</td>
                     </tr>
                     <tr>
                         <td>Safari iPhone</td>
-                        <td class="bg bg-danger">Not Tested</td>
-                        <td class="bg bg-warning">Known Bugs</td>
+                        <td class="bg bg-red">Not Tested</td>
+                        <td class="bg bg-yellow">Known Bugs</td>
                     </tr>
                     <tr>
                         <td>Chrome iPhone</td>
-                        <td class="bg bg-danger">Not Tested</td>
-                        <td class="bg bg-warning">Known Bugs</td>
+                        <td class="bg bg-red">Not Tested</td>
+                        <td class="bg bg-yellow">Known Bugs</td>
                     </tr>
                     <tr>
                         <td>IE/Edge</td>
-                        <td class="bg bg-danger">Not Tested</td>
-                        <td class="bg bg-danger">Lots of Bugs</td>
+                        <td class="bg bg-red">Not Tested</td>
+                        <td class="bg bg-red">Lots of Bugs</td>
                     </tr>
                 </table>
             </div>
@@ -144,7 +154,9 @@
             <div class="card-body">
                 <h5 class="card-title">Wetwer</h5>
                 <p class="card-text">Developer</p>
-                <a href="https://github.com/Wetwer">Github</a>
+                <a href="https://github.com/Wetwer" class="btn btn-dark">
+                    <i class="fab fa-github"></i> Github
+                </a>
             </div>
         </div>
     </div>
@@ -154,7 +166,9 @@
             <div class="card-body">
                 <h5 class="card-title">Scorewinner</h5>
                 <p class="card-text">Investor</p>
-                <a href="https://github.com/Scorewinner">Github</a>
+                <a href="https://github.com/Scorewinner" class="btn btn-dark">
+                    <i class="fab fa-github"></i> Github
+                </a>
             </div>
         </div>
     </div>
@@ -164,7 +178,9 @@
             <div class="card-body">
                 <h5 class="card-title">YKing</h5>
                 <p class="card-text">Developer</p>
-                <a href="https://github.com/YKaelin">Github</a>
+                <a href="https://github.com/YKaelin" class="btn btn-dark">
+                    <i class="fab fa-github"></i> Github
+                </a>
             </div>
         </div>
     </div>
@@ -174,7 +190,9 @@
             <div class="card-body">
                 <h5 class="card-title">Thellux</h5>
                 <p class="card-text">Sponsor</p>
-                <a href="https://github.com/Thellux">Github</a>
+                <a href="https://github.com/Thellux" class="btn btn-dark">
+                    <i class="fab fa-github"></i> Github
+                </a>
             </div>
         </div>
     </div>
@@ -212,9 +230,9 @@ SOFTWARE.
 <div class="card">
     <div class="card-header">Sampl Lawsuit against Moviescore Template</div>
     <div class="card-body">
-        UGA UGA ich bin behinderet, en herte verräter und will ich 100% vo mim lebe immene rollstuel verbracht
+        UGA UGA ich bin behinderet, en verräter und will ich 100% vo mim lebe immene rollstuel verbracht
         han dun ich ezt moviescore verklage ääääääääää. o ja genau, es liit dra will ich mich als chind gern i de
-        nöchi vo abfallverbrennigs alage ufgalte han. won ich gebore worde bin, bin ich 5 mal hert uf de chopf gheit
+        nöchi vo abfallverbrennungsanlage ufgalte han. won ich gebore worde bin, bin ich 5 mal hert uf de chopf gheit
         und mis rechte bei isch drum so verchrüpplet, das mini mueter napalm über mis gsicht glärt het. sit den
         bestaat mis gsicht nur no us einere grosse Jude nase. obwohl ich en durschnittliche IQ under 10 pünkt han
         glaub ich das ich recht gschid bin, harhar, ja genau. Oh ja han ganz vergesse z sege das beidi mini eltere a
@@ -224,3 +242,5 @@ SOFTWARE.
 </div>
 <br>
 <a class="btn btn-primary" href="/">Back</a>
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>

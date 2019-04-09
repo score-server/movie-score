@@ -47,6 +47,7 @@ public class ControlCenterSettings {
 
             model.addAttribute("moviePath", settingsService.getKey("moviePath"));
             model.addAttribute("seriePath", settingsService.getKey("seriePath"));
+            model.addAttribute("previewPath", settingsService.getKey("preview"));
             model.addAttribute("importProgress", settingsService.getKey("importProgress"));
             model.addAttribute("importLogs", importLogDao.getAll());
             model.addAttribute("activityLogs", activityLogDao.getAll());
@@ -122,4 +123,15 @@ public class ControlCenterSettings {
             return "redirect:/?access";
         }
     }
+
+    @PostMapping("path/preview")
+    public String setPreviewPath(@RequestParam("path") String pathParam, Model model, HttpServletRequest request) {
+        if (userAuthService.isAdministrator(model, request)) {
+            settingsService.setValue("preview", pathParam);
+            return "redirect:/settings";
+        } else {
+            return "redirect:/";
+        }
+    }
+
 }

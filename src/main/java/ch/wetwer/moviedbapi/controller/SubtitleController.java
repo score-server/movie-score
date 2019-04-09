@@ -41,19 +41,8 @@ public class SubtitleController {
         this.userAuthService = userAuthService;
     }
 
-    @GetMapping("add")
-    public String getAddSubtitlesForm(Model model, HttpServletRequest request) {
-        if (userAuthService.isUser(model, request)) {
-            userAuthService.log(this.getClass(), request);
-            model.addAttribute("movies", movieDao.getAll());
-            model.addAttribute("page", "subtitle");
-            return "template";
-        }
-        return "redirect:/movie";
-    }
-
-    @PostMapping("add")
-    public String addSubtitles(@RequestParam("movieId") Long movieId,
+    @PostMapping("add/{movieId}")
+    public String addSubtitles(@PathVariable("movieId") Long movieId,
                                @RequestParam("file") MultipartFile multipartFile,
                                @RequestParam("language") String language,
                                HttpServletRequest request) {
