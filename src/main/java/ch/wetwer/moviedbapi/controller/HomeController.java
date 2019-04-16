@@ -1,9 +1,11 @@
 package ch.wetwer.moviedbapi.controller;
 
+import ch.wetwer.moviedbapi.data.movie.Movie;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.GenreSearchType;
 import ch.wetwer.moviedbapi.service.SearchService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
+import ch.wetwer.moviedbapi.service.sugestion.SugestionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Wetwer
@@ -23,10 +26,13 @@ public class HomeController {
 
     private SearchService searchService;
     private UserAuthService userAuthService;
+    private SugestionService sugestionService;
 
-    public HomeController(SearchService searchService, UserAuthService userAuthService) {
+    public HomeController(SearchService searchService, UserAuthService userAuthService,
+                          SugestionService sugestionService) {
         this.searchService = searchService;
         this.userAuthService = userAuthService;
+        this.sugestionService = sugestionService;
     }
 
     @GetMapping
@@ -54,8 +60,13 @@ public class HomeController {
 
             model.addAttribute("genres", searchService.getGenres(GenreSearchType.MOVIE));
 
-            model.addAttribute("movies", searchService.searchMoviesTop(search, orderBy));
+            List<Movie> movieList = searchService.searchMoviesTop(search, orderBy);
+            model.addAttribute("movies", movieList);
             model.addAttribute("series", searchService.searchSerieTop(search));
+
+            if (movieList.isEmpty()) {
+                model.addAttribute("sugestions", sugestionService.getAvalible(search));
+            }
 
             model.addAttribute("search", search);
             model.addAttribute("orderBy", orderBy);

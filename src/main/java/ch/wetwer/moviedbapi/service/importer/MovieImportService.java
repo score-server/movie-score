@@ -108,7 +108,7 @@ public class MovieImportService extends ImportServiceFactory {
                 movie.setDescript(movieJson.getOverview());
                 movie.setPopularity(movieJson.getPopularity());
                 movie.setRuntime(movieJson.getRuntime());
-                movie.setCaseImg("https://image.tmdb.org/t/p/original" + movieJson.getPoster_path());
+                movie.setCaseImg("https://image.tmdb.org/t/p/w500" + movieJson.getPoster_path());
                 movie.setBackgroundImg("https://image.tmdb.org/t/p/original" + movieJson.getBackdropPath());
                 movie.setVoteAverage(movieJson.getVoteAverage());
                 movie.setFiletype(setMimeType(file.getName()));
@@ -142,7 +142,7 @@ public class MovieImportService extends ImportServiceFactory {
         sleep(200);
         movie.setPopularity(movieJson.getPopularity());
         movie.setVoteAverage(movieJson.getVoteAverage());
-        movie.setCaseImg("https://image.tmdb.org/t/p/original" + movieJson.getPoster_path());
+        movie.setCaseImg("https://image.tmdb.org/t/p/w500" + movieJson.getPoster_path());
         movie.setBackgroundImg("https://image.tmdb.org/t/p/original" + movieJson.getBackdropPath());
 
         try {

@@ -108,7 +108,7 @@ public class SeriesImportService extends ImportServiceFactory {
             sleep(250);
             try {
                 serie.setDescript(serieJson.getOverview());
-                serie.setCaseImg("https://image.tmdb.org/t/p/original" + serieJson.getPosterPath());
+                serie.setCaseImg("https://image.tmdb.org/t/p/w500" + serieJson.getPosterPath());
                 serie.setBackgroundImg("https://image.tmdb.org/t/p/original" + serieJson.getBackdropPath());
                 serie.setVoteAverage(serieJson.getVoteAverage());
                 serie.setPopularity(serieJson.getPopularity());

@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div class="card moviecard">
+    <div>
+        <span class="quality-badge">Not in Database</span>
+        <img class="card-img-top lazy" src="https://i.imgur.com/FrHW1dA.png"
+             th:data-src="${sugestion.mediumCoverImage}">
+    </div>
+    <div class="card-body nodec">
+        <p class="card-title" th:text="${sugestion.titleEnglish}"></p>
+        <form th:action="'/request/create/' + ${currentUser.id} + '?type=request'"
+              method="post">
+            <input type="text" name="request" style="display: none"
+                   th:value="${sugestion.titleEnglish} + ' ' + ${sugestion.imdbCode}">
+            <button type="submit" class="btn btn-success">Request Movie</button>
+        </form>
+        <a>
+            <span class="fa fa-star checked" style="color: #D7D700;"></span>
+            <span th:text="${sugestion.rating}"></span>
+        </a>
+        <a class="float-right" th:text="${sugestion.year}"></a>
+    </div>
+</div>
