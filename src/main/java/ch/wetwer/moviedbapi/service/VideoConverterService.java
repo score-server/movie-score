@@ -43,12 +43,16 @@ public class VideoConverterService {
 
         try {
             FFmpeg ffmpeg = new FFmpeg("/usr/bin/ffmpeg");
+//            FFmpeg ffmpeg = new FFmpeg("C:\\ProgramData\\chocolatey\\bin\\ffmpeg.exe");
             FFprobe ffprobe = new FFprobe("/usr/bin/ffprobe");
+//            FFprobe ffprobe = new FFprobe("C:\\ProgramData\\chocolatey\\bin\\ffprobe.exe");
 
 
             FFmpegProbeResult in = ffprobe.probe(episode.getPath());
 
-            String mp4Filename = episode.getPath().replace(".mkv", ".mp4");
+            String mp4Filename = episode.getPath()
+                    .replace(".mkv", ".mp4")
+                    .replace(".avi", ".mp4");
 
             FFmpegBuilder builder = new FFmpegBuilder()
                     .setInput(episode.getPath())

@@ -59,7 +59,7 @@ public class Episode {
     }
 
     public boolean canConvert() {
-        return path.endsWith(".mkv");
+        return path.endsWith(".mkv") || path.endsWith(".avi");
     }
 
     public String getFullTitle() {

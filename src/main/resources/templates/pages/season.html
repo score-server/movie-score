@@ -15,6 +15,10 @@
                       style="display: inline">
                     <button class="btn btn-secondary" type="submit">
                         Convert
+                        <th:block th:switch="${episode.getMime()}">
+                            <span th:case="'video/x-matroska'">(.mkv)</span>
+                            <span th:case="'video/x-msvideo'">(.avi)</span>
+                        </th:block>
                     </button>
                 </form>
             </th:block>

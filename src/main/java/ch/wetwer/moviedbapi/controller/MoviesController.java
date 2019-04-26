@@ -5,7 +5,6 @@ import ch.wetwer.moviedbapi.service.GenreSearchType;
 import ch.wetwer.moviedbapi.service.PageService;
 import ch.wetwer.moviedbapi.service.SearchService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
-import ch.wetwer.moviedbapi.service.sugestion.SugestionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,14 +27,11 @@ public class MoviesController {
     private SearchService searchService;
     private UserAuthService userAuthService;
     private PageService pageService;
-    private SugestionService sugestionService;
 
-    public MoviesController(SearchService searchService, UserAuthService userAuthService, PageService pageService,
-                            SugestionService sugestionService) {
+    public MoviesController(SearchService searchService, UserAuthService userAuthService, PageService pageService) {
         this.searchService = searchService;
         this.userAuthService = userAuthService;
         this.pageService = pageService;
-        this.sugestionService = sugestionService;
     }
 
     @GetMapping("{page}")
@@ -53,10 +49,6 @@ public class MoviesController {
                 model.addAttribute("genres", searchService.getGenres(GenreSearchType.MOVIE));
                 model.addAttribute("movies", movies);
                 model.addAttribute("all", searchService.searchMoviesTop("", orderBy));
-
-                if (movies.isEmpty()) {
-                    model.addAttribute("sugestions", sugestionService.getAvalible(search));
-                }
 
                 model.addAttribute("pageIndex", page);
                 if (page - 1 == 0) {

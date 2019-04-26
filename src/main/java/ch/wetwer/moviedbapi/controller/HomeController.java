@@ -5,7 +5,6 @@ import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.GenreSearchType;
 import ch.wetwer.moviedbapi.service.SearchService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
-import ch.wetwer.moviedbapi.service.sugestion.SugestionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +25,10 @@ public class HomeController {
 
     private SearchService searchService;
     private UserAuthService userAuthService;
-    private SugestionService sugestionService;
 
-    public HomeController(SearchService searchService, UserAuthService userAuthService,
-                          SugestionService sugestionService) {
+    public HomeController(SearchService searchService, UserAuthService userAuthService) {
         this.searchService = searchService;
         this.userAuthService = userAuthService;
-        this.sugestionService = sugestionService;
     }
 
     @GetMapping
@@ -63,10 +59,6 @@ public class HomeController {
             List<Movie> movieList = searchService.searchMoviesTop(search, orderBy);
             model.addAttribute("movies", movieList);
             model.addAttribute("series", searchService.searchSerieTop(search));
-
-            if (movieList.isEmpty()) {
-                model.addAttribute("sugestions", sugestionService.getAvalible(search));
-            }
 
             model.addAttribute("search", search);
             model.addAttribute("orderBy", orderBy);

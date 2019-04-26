@@ -97,7 +97,7 @@ public class EpisodeController {
         Episode episode = episodeDao.getById(episodeId);
         if (userAuthService.isAdministrator(request)) {
             userAuthService.log(this.getClass(), request);
-            if (episode.getPath().endsWith(".mkv")) {
+            if (episode.getPath().endsWith(".mkv") || episode.getPath().endsWith(".avi")) {
                 episode.setConvertPercentage(0);
                 episodeDao.save(episode);
 
