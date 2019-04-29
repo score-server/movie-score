@@ -44,6 +44,25 @@
         </div>
     </div>
 </form>
+<th:block th:if="${search} == ''">
+    <br>
+    <h3>New Stuff</h3>
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-4" th:each="announcement : ${announcements}">
+            <a th:href="${announcement.url}">
+                <div class="card moviecard">
+                    <img class="card-img" th:src="${announcement.imgUrl}">
+                    <div class="card-img-overlay" style="text-align: center">
+                        <br>
+                        <br>
+                        <br>
+                        <h3 style="color: black; text-decoration: none" th:text="${announcement.title}"></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</th:block>
 
 <br>
 <div th:if="${startedVideos.size()} != 0">

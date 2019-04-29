@@ -1,0 +1,23 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/moviesdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: 1234
+#    username: moviedbuser
+#    password: feminist
+
+  servlet:
+    multipart:
+      max-file-size: 5GB
+      max-request-size: 5GB
+
+server:
+  port: 8081
+  error:
+    include-stacktrace: always
+    whitelabel:
+      enabled: false
