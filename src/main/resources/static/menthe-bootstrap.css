@@ -32,6 +32,10 @@
     border-top-right-radius: 1rem !important;
 }
 
+.card-img {
+    border-radius: 1rem;
+}
+
 .list-group-item:last-child {
     border-bottom-right-radius: 1rem;
     border-bottom-left-radius: 1rem;

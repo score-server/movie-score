@@ -27,4 +27,6 @@ public class Announcement {
 
     private String url;
 
+    private String colorClass;
+
 }

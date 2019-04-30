@@ -8,6 +8,7 @@
             <th>Title</th>
             <th>Img</th>
             <th>Url</th>
+            <th>Color</th>
             <th>
                 <a class="float-right">Action</a>
             </th>
@@ -16,6 +17,18 @@
             <td th:text="${announcement.title}"></td>
             <td th:text="${announcement.imgUrl}"></td>
             <td th:text="${announcement.url}"></td>
+            <td>
+                <form th:action="'/announcement/' + ${announcement.id} + '/color'" method="post"
+                      th:id="'color' + ${announcement.id}">
+                    <select name="colorClass" class="form-control"
+                            th:onchange="'document.getElementById(\'color' + ${announcement.id} + '\').submit();'">
+                        <option th:selected="${announcement.colorClass} == 'black'" value="black">Black</option>
+                        <option th:selected="${announcement.colorClass} == 'white'" value="white">White</option>
+                        <option th:selected="${announcement.colorClass} == 'blue'" value="blue">Blue</option>
+                        <option th:selected="${announcement.colorClass} == 'red'" value="red">Red</option>
+                    </select>
+                </form>
+            </td>
             <td>
                 <form class="float-right" th:action="'/announcement/' + ${announcement.id} + '/delete'" method="post">
                     <button type="submit" class="btn btn-danger">&times;</button>

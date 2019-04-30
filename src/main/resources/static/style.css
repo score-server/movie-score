@@ -154,3 +154,19 @@ body {
 .nav-logo {
     animation: logoLoad .3s forwards 0s linear;
 }
+
+.white {
+    color: white;
+}
+
+.black {
+    color: black;
+}
+
+.blue {
+    color: blue;
+}
+
+.red {
+    color: red;
+}
