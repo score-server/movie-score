@@ -2,6 +2,8 @@ package ch.wetwer.moviedbapi.controller;
 
 
 import ch.wetwer.moviedbapi.data.activitylog.ActivityLogDao;
+import ch.wetwer.moviedbapi.data.episode.Episode;
+import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
 import ch.wetwer.moviedbapi.data.importlog.ImportLogDao;
 import ch.wetwer.moviedbapi.data.request.RequestDao;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Wetwer
@@ -28,17 +32,20 @@ public class ControlCenterSettings {
     private ImportLogDao importLogDao;
     private ActivityLogDao activityLogDao;
     private RequestDao requestDao;
+    private EpisodeDao episodeDao;
 
     private SettingsService settingsService;
     private UserAuthService userAuthService;
 
     public ControlCenterSettings(SettingsService settingsService, UserAuthService userAuthService,
-                                 ImportLogDao importLogDao, ActivityLogDao activityLogDao, RequestDao requestDao) {
+                                 ImportLogDao importLogDao, ActivityLogDao activityLogDao, RequestDao requestDao,
+                                 EpisodeDao episodeDao) {
         this.settingsService = settingsService;
         this.userAuthService = userAuthService;
         this.importLogDao = importLogDao;
         this.activityLogDao = activityLogDao;
         this.requestDao = requestDao;
+        this.episodeDao = episodeDao;
     }
 
     @GetMapping
@@ -134,4 +141,21 @@ public class ControlCenterSettings {
         }
     }
 
+    @GetMapping("convert")
+    public String getConvertProgress(Model model, HttpServletRequest request) {
+        if (userAuthService.isAdministrator(model, request)) {
+            List<Episode> episodeList = new ArrayList<>();
+            for (Episode episode : episodeDao.getOrderByPercentage()) {
+                if (episode.getConvertPercentage() != null) {
+                    episodeList.add(episode);
+                }
+            }
+
+            model.addAttribute("episodes", episodeList);
+            model.addAttribute("page", "convert");
+            return "template";
+        } else {
+            return "redirect:/";
+        }
+    }
 }

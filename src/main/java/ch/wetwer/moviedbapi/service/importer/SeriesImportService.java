@@ -174,6 +174,8 @@ public class SeriesImportService extends ImportServiceFactory {
             serie.setDescript(serieJson.getOverview());
             serie.setVoteAverage(serieJson.getVoteAverage());
             serie.setPopularity(serieJson.getPopularity());
+            serie.setCaseImg("https://image.tmdb.org/t/p/w500" + serieJson.getPosterPath());
+            serie.setBackgroundImg("https://image.tmdb.org/t/p/original" + serieJson.getBackdropPath());
         } catch (NullPointerException e) {
             e.printStackTrace();
             importLogService.errorLog("<i class=\"fas fa-times\" style=\"color: red;\"></i> " +

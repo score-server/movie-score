@@ -86,7 +86,7 @@ public class FastLoginController {
             } else if (authkey.equals(user.getAuthKey())) {
                 cookieService.setFastLoginCookie(response, user);
                 userDao.save(user);
-                activityService.log(user.getName() + " logged in with Authkey", user);
+                activityService.log(user.getName() + " used Authkey", user);
                 return "redirect:/fastlogin/settings";
             }
         }
@@ -124,7 +124,7 @@ public class FastLoginController {
             } catch (Exception e) {
                 return "redirect:/fastlogin/settings?exists";
             }
-            activityService.log(user.getName() + " registered with fastlogin", user);
+            activityService.log(user.getName() + " registered with authkey", user);
 
             userDao.save(user);
             return "redirect:/";

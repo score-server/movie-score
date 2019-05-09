@@ -103,6 +103,7 @@ public class UploadController {
             uploadFile.setCompleted(true);
             uploadFile.setUser(userAuthService.getUser(request).getUser());
             uploadFile.setVideoType(VideoType.UNDEFINED);
+            uploadFile.setReady(false);
             uploadFileDao.save(uploadFile);
 
             return "redirect:/upload?uploading";
@@ -129,6 +130,7 @@ public class UploadController {
                         uploadFile.setFilename(newFile.getName());
                         uploadFile.setVideoType(VideoType.getType(videoType));
                         uploadFile.setHash(newFile.hashCode());
+                        regexAttributes(uploadFile);
                         uploadFileDao.save(uploadFile);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -139,6 +141,73 @@ public class UploadController {
         }
         return "redirect:/";
     }
+
+    private void regexAttributes(UploadFile uploadFile) {
+
+        if (uploadFile.getFilename().endsWith(".mkv")) {
+            uploadFile.setMimetype("mkv");
+        } else if (uploadFile.getFilename().endsWith(".mp4")) {
+            uploadFile.setMimetype("mp4");
+        } else if (uploadFile.getFilename().endsWith(".avi")) {
+            uploadFile.setMimetype("avi");
+        }
+
+        String filename = uploadFile.getFilename()
+                .replace(".mp4", "")
+                .replace(".mkv", "")
+                .replace(".avi", "");
+
+        try {
+            switch (uploadFile.getVideoType()) {
+                case "movie":
+                    String[] splits = filename.split(" ");
+                    uploadFile.setQuality(splits[splits.length - 1]);
+                    uploadFile.setYear(Integer.valueOf(splits[splits.length - 2]));
+                    uploadFile.setTitle(filename.replace(" " + uploadFile.getYear()
+                            + " " + uploadFile.getQuality(), ""));
+                    uploadFile.setReady(true);
+                    break;
+                case "episode":
+                    uploadFile.setTitle(getName(filename) + " " + getEpisodeStr(filename));
+                    uploadFile.setYear(Integer.valueOf(getYear(filename)));
+                    uploadFile.setQuality(getQuality(filename));
+                    uploadFile.setReady(true);
+                    break;
+                default:
+                    uploadFile.setReady(false);
+                    break;
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            uploadFile.setTitle(null);
+            uploadFile.setYear(null);
+            uploadFile.setQuality(null);
+            uploadFile.setVideoType(VideoType.UNDEFINED);
+            uploadFile.setReady(false);
+            return;
+        }
+    }
+
+    private String getName(String fileName) {
+        return fileName.replace(" " + getEpisodeStr(fileName) + " " + getYear(fileName) + " "
+                + getQuality(fileName), "");
+    }
+
+    private String getEpisodeStr(String s) {
+        String[] splits = s.split(" ");
+        return splits[splits.length - 3];
+    }
+
+    private String getYear(String s) {
+        String[] splits = s.split(" ");
+        return splits[splits.length - 2];
+    }
+
+    private String getQuality(String s) {
+        String[] splits = s.split(" ");
+        return splits[splits.length - 1];
+    }
+
 
     @PostMapping("accept/{uploadId}")
     public String acceptMovie(@PathVariable("uploadId") Long uploadId, HttpServletRequest request) {
@@ -219,6 +288,7 @@ public class UploadController {
                 uploadFile.setSize(fi.length());
                 uploadFile.setVideoType(VideoType.UNDEFINED);
                 uploadFile.setTimestamp(new Timestamp(new Date().getTime()));
+                uploadFile.setReady(false);
                 uploadFileDao.save(uploadFile);
             }
         }

@@ -19,6 +19,10 @@
     </th:block>
 </th:block>
 
+<div class="alert alert-warning" th:if="${movie.isBroken()}">
+    This Movie has a very bad video quality, better quality will be avalible soon
+</div>
+
 <div id="movie-div" th:switch="${currentUser.videoPlayer}">
     <video controls id="html-player" playsinline th:case="'html5'" th:poster="${movie.backgroundImg}" width="100%">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
@@ -47,6 +51,7 @@
         <a class="btn btn-primary" target="_blank" th:href="'/video/movie/' + ${movie.id}">Download</a>
     </p>
     <p th:text="'Rating: ' + ${movie.voteAverage}"></p>
+
     <p th:text="'Quality: ' + ${movie.quality}"></p>
     <p>Genres:
         <span th:each="genre : ${movie.genres}">

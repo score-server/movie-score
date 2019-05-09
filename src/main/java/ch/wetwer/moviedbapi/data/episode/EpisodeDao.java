@@ -38,4 +38,8 @@ public class EpisodeDao implements DaoInterface<Episode> {
     public List<Episode> getBySeason(Season season) {
         return episodeRepository.findEpisodesBySeasonOrderByEpisode(season);
     }
+
+    public List<Episode> getOrderByPercentage() {
+        return episodeRepository.findAllByOrderByConvertPercentage();
+    }
 }

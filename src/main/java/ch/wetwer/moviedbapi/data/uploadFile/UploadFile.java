@@ -30,6 +30,16 @@ public class UploadFile {
 
     private String filename;
 
+    private String title;
+
+    private Integer year;
+
+    private String quality;
+
+    private String mimetype;
+
+    private Boolean ready;
+
     private Long size;
 
     @Column(unique = true)
@@ -56,5 +66,11 @@ public class UploadFile {
         }
     }
 
+    public boolean isCorrect() {
+        if (quality == null || year == null || title == null || !ready) {
+            return false;
+        }
+        return true;
+    }
 
 }

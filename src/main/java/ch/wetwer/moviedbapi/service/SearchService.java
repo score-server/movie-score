@@ -51,9 +51,6 @@ public class SearchService {
             case "":
                 movies = movieRepository.findMoviesByTitleContainingOrderByPopularityDesc(search);
                 break;
-            case "title":
-                movies = movieRepository.findMoviesByTitleContainingOrderByTitle(search);
-                break;
             case "rating":
                 movies = movieRepository.findMoviesByTitleContainingOrderByVoteAverageDesc(search);
                 break;
@@ -64,7 +61,7 @@ public class SearchService {
                 movies = movieDao.searchRecomended(search);
                 break;
             case "latest":
-                movies = movieRepository.findTop24ByTitleContainingOrderByTimestampDesc(search);
+                movies = movieRepository.findMoviesByTitleContainingOrderByTimestampDesc(search);
                 break;
             default:
                 movies = movieRepository.findMoviesByTitleContainingOrderByTitle(search);
@@ -92,9 +89,6 @@ public class SearchService {
             case "":
                 movies = movieRepository.findTop24ByTitleContainingOrderByPopularityDesc(search);
                 break;
-            case "title":
-                movies = movieRepository.findTop24ByTitleContainingOrderByTitle(search);
-                break;
             case "rating":
                 movies = movieRepository.findTop24ByTitleContainingOrderByVoteAverageDesc(search);
                 break;
@@ -107,7 +101,6 @@ public class SearchService {
             case "recomended":
                 movies = movieDao.searchRecomended(search);
                 break;
-
             default:
                 movies = movieRepository.findTop24ByTitleContainingOrderByTitle(search);
                 break;

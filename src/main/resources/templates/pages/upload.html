@@ -31,10 +31,44 @@
     <button class="btn btn-primary" id="submitUpload" type="submit">Upload</button>
     <br>
     <br>
-    <div class="alert alert-info">
-        Chrome does not support DTS or AC3 Audio formats, aswell as .avi Video files<br>
-        Reloading or Exiting this page cancels upload...<br>
-        Max Filesize 5 GB. Everything else is unoptimized...
+    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#guide" aria-expanded="false"
+            aria-controls="guide">
+        Upload Guide <i class="fas fa-chevron-down"></i>
+    </button>
+    <br>
+    <div class="collapse" id="guide">
+        <br>
+        <div class="card card-body">
+            <h3>Upload Guide</h3>
+            <p>Please Check the Naming for uploaded Files</p>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Type</th>
+                    <th>Format</th>
+                    <th>Example</th>
+                </tr>
+                <tr>
+                    <td>Movie Files</td>
+                    <td style="font-family: Consolas,serif">[Title] [Year] [Quality].[Filetype]</td>
+                    <td>Cool Movie 2019 1080p.mp4</td>
+                </tr>
+                <tr>
+                    <td>Episode Files</td>
+                    <td style="font-family: Consolas,serif">[Title] S[SeasonNr]E[EpisodeNr] [Year]
+                        [Quality].[Fileending]
+                    </td>
+                    <td>Stranger Things S02E08 2017 720p.mp4</td>
+                </tr>
+            </table>
+            <p>Allowed Filetypes (All Files will be converted to mp4 videotype once uploaded)</p>
+            <ul>
+                <li>mp4</li>
+                <li>mkv</li>
+                <li>avi</li>
+            </ul>
+            <p>Reloading or Exiting this page cancels upload...</p>
+            <p>Max Filesize 5 GB. Everything else is unoptimized...</p>
+        </div>
     </div>
 </form>
 <br>
@@ -45,8 +79,9 @@
         </form>
     </div>
     <div class="card-body">
-        <ul class="list-group">
-            <li class="list-group-item card-body" id="progress-list-item" style="display: none">
+
+        <div id="progress-list-item" style="display: none">
+            <div class="card card-body">
                 <b>
                     <i class="fas fa-atom fa-spin"></i>
                     <span id="filedesc"></span>
@@ -57,24 +92,33 @@
                          role="progressbar">
                     </div>
                 </div>
-            </li>
+            </div>
+            <br>
+        </div>
+        <ul class="list-group">
             <li class="list-group-item" th:each="file : ${files}">
                 <i class="fas fa-circle" style="color: darkblue;"
                    th:if="${file.getVideoType().equals('movie')}"></i>
                 <i class="fas fa-circle" style="color: darkviolet;"
                    th:if="${file.getVideoType().equals('episode')}"></i>
-                <b th:text="${file.filename}"></b>
-                <span th:text="${filesize.getFileSize(file.size)} + ' MB'"></span>
+                <b th:text="${file.filename}" th:if="${file.getVideoType().equals('undefined')}"></b>
+                <th:block th:if="${!file.getVideoType().equals('undefined')}">
+                    <b th:text="${file.title}"></b>
+                    <a th:text="${file.year}"></a>
+                    <b class="badge badge-primary" th:text="${file.quality}"></b>
+                    <a th:text="${file.mimetype}"></a>
+                </th:block>
                 <div class="float-right">
+                    <b class="badge badge-light" th:text="${filesize.getFileSize(file.size)} + ' MB'"></b>
                     <span th:text="${#dates.format(file.timestamp, 'dd.MM.yyyy')}"></span>
-                    <span th:text="${file.user?.name}"></span>
+                    <b th:text="${file.user?.name}"></b>
                     <th:block th:if="${file.completed && currentUser.isAdmin()}">
                         <div class="btn-group">
                             <a class="btn btn-secondary" data-toggle="modal" href="#"
                                th:data-target="'#editFile' + ${file.id}">
                                 <i class="far fa-edit"></i>
                             </a>
-                            <button class="btn btn-success"
+                            <button th:if="${file.isCorrect()}" class="btn btn-success"
                                     th:onclick="'document.getElementById(\'accept' + ${file.id} + '\').submit();'"
                                     type="submit">
                                 <i class="fas fa-check"></i>
