@@ -58,11 +58,7 @@ public class EpisodeController {
 
             model.addAttribute("episode", episode);
             model.addAttribute("comments", episode.getComments());
-            try {
-                model.addAttribute("time", timeDao.getByUserAndEpisode(user, episode).getTime());
-            } catch (NullPointerException e) {
-                model.addAttribute("time", 0);
-            }
+            timeExists(model, user, episode);
 
             activityService.log(user.getName() + " gets Episode " +
                             "<a href=\"/episode/" + episode.getId() + "\">" + episode.getFullTitle() + "</a>",
@@ -72,6 +68,14 @@ public class EpisodeController {
             return "template";
         } else {
             return "redirect:/login?redirect=/episode/" + episodeId;
+        }
+    }
+
+    private void timeExists(Model model, User user, Episode episode) {
+        try {
+            model.addAttribute("time", timeDao.getByUserAndEpisode(user, episode).getTime());
+        } catch (NullPointerException e) {
+            model.addAttribute("time", 0);
         }
     }
 
@@ -97,12 +101,7 @@ public class EpisodeController {
         Episode episode = episodeDao.getById(episodeId);
         if (userAuthService.isAdministrator(request)) {
             userAuthService.log(this.getClass(), request);
-            if (episode.getPath().endsWith(".mkv") || episode.getPath().endsWith(".avi")) {
-                episode.setConvertPercentage(0);
-                episodeDao.save(episode);
-
-                videoConverterService.convertEpisodeToMp4(episode);
-            }
+            videoConverterService.startConverting(episode);
             return "redirect:/settings/convert";
         } else {
             return "redirect:/login?redirect=/season/" + episode.getSeason().getId() + "?error";

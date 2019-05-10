@@ -92,7 +92,7 @@ public class RegisterController {
         User adminUser = userAuthService.getUser(request).getUser();
         if (userAuthService.isAdministrator(request)) {
             userAuthService.log(this.getClass(), request);
-            if (userDao.search(nameParam).size() == 0) {
+            if (userDao.searchEqual(nameParam).size() == 0) {
                 User user = new User();
                 user.setName(nameParam);
                 user.setPasswordSha(shaService.encode(String.valueOf(new Random().nextInt())) + "-NOK");
@@ -118,7 +118,7 @@ public class RegisterController {
                                 @PathVariable("groupKey") String groupKey,
                                 HttpServletResponse response) {
         if (password.equals(confirm)) {
-            if (userDao.search(nameParam).size() == 0) {
+            if (userDao.searchEqual(nameParam).size() == 0) {
                 GroupInvite group = groupDao.getByName(groupKey);
                 if (group.isActive()) {
                     User user = new User();

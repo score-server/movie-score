@@ -50,11 +50,7 @@ public class GroupController {
     public String deleteGroup(@PathVariable Long groupId, HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
             GroupInvite group = groupDao.getById(groupId);
-            if (group.isActive()) {
-                group.setActive(false);
-            } else {
-                group.setActive(true);
-            }
+            group.setActive(!group.isActive());
             groupDao.save(group);
             return "redirect:/group?deactivated";
         }

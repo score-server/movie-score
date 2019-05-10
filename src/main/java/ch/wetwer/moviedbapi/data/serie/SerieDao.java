@@ -29,6 +29,10 @@ public class SerieDao implements DaoInterface<Serie> {
         return serieRepository.findAll();
     }
 
+    public List<Serie> getAllOrderByName() {
+        return serieRepository.findSerieByOrderByTitle();
+    }
+
     @Override
     public void save(Serie serie) {
         serieRepository.save(serie);

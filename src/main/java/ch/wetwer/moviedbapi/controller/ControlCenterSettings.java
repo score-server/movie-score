@@ -2,7 +2,6 @@ package ch.wetwer.moviedbapi.controller;
 
 
 import ch.wetwer.moviedbapi.data.activitylog.ActivityLogDao;
-import ch.wetwer.moviedbapi.data.episode.Episode;
 import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
 import ch.wetwer.moviedbapi.data.importlog.ImportLogDao;
 import ch.wetwer.moviedbapi.data.request.RequestDao;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Wetwer
@@ -59,23 +56,29 @@ public class ControlCenterSettings {
             model.addAttribute("importLogs", importLogDao.getAll());
             model.addAttribute("activityLogs", activityLogDao.getAll());
             model.addAttribute("requests", requestDao.getAll());
-            try {
-                model.addAttribute("running", settingsService.getKey("import").equals("1"));
-            } catch (NullPointerException e) {
-                settingsService.setValue("import", "0");
-                model.addAttribute("running", settingsService.getKey("import").equals("1"));
-            }
-
-            try {
-                model.addAttribute("restart", settingsService.getKey("restart"));
-            } catch (NullPointerException e) {
-
-            }
+            isImportRunning(model);
+            isRestarting(model);
 
             model.addAttribute("page", "controlCenter");
             return "template";
         } else {
             return "redirect:/?access";
+        }
+    }
+
+    private void isRestarting(Model model) {
+        try {
+            model.addAttribute("restart", settingsService.getKey("restart"));
+        } catch (NullPointerException ignored) {
+        }
+    }
+
+    private void isImportRunning(Model model) {
+        try {
+            model.addAttribute("running", settingsService.getKey("import").equals("1"));
+        } catch (NullPointerException e) {
+            settingsService.setValue("import", "0");
+            model.addAttribute("running", settingsService.getKey("import").equals("1"));
         }
     }
 
@@ -144,28 +147,13 @@ public class ControlCenterSettings {
     @GetMapping("convert")
     public String getConvertProgress(Model model, HttpServletRequest request) {
         if (userAuthService.isAdministrator(model, request)) {
-            List<Episode> episodeList = new ArrayList<>();
-            for (Episode episode : episodeDao.getOrderByPercentage()) {
-                if (episode.getConvertPercentage() != null) {
-                    episodeList.add(episode);
-                }
-            }
-
-            List<Episode> episodesToConvert = new ArrayList<>();
-            for (Episode episode : episodeDao.getAll()) {
-                if (episode.getConvertPercentage() == null) {
-                    if (episode.getMime().equals("video/x-matroska") || episode.getMime().equals("video/x-msvideo")) {
-                        episodesToConvert.add(episode);
-                    }
-                }
-            }
-
-            model.addAttribute("episodes", episodeList);
-            model.addAttribute("episodesToConvert", episodesToConvert);
+            model.addAttribute("episodes", episodeDao.getEpisodesCurrentlyConverting());
+            model.addAttribute("episodesToConvert", episodeDao.getEpisodesToConvert());
             model.addAttribute("page", "convert");
             return "template";
         } else {
             return "redirect:/";
         }
     }
+
 }

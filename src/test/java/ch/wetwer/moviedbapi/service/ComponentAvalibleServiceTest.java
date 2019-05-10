@@ -1,35 +1,44 @@
 package ch.wetwer.moviedbapi.service;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * @author Wetwer
- * @project movie-score
- * @package ch.wetwer.moviedbapi.service
- * @created 05.02.2019
- **/
-
-@SpringBootTest
-@RunWith(SpringRunner.class)
 public class ComponentAvalibleServiceTest {
 
-    @Autowired
-    ComponentAvalibleService componentAvalibleService;
+    private ComponentAvalibleService componentAvalibleServiceUnderTest;
 
-    @Test
-    public void componentOnlineTest() {
-        assertEquals("Online", componentAvalibleService.checkOnline("127.0.0.1", 52058));
+    @Before
+    public void setUp() {
+        componentAvalibleServiceUnderTest = new ComponentAvalibleService();
     }
 
     @Test
-    public void componentOfflineTest() {
-        assertEquals("Offline", componentAvalibleService.checkOnline("192.100.200.300", 21));
+    public void testCheckOnline() {
+        // Setup
+        final String ip = "80.219.243.8";
+        final Integer port = 8084;
+        final String expectedResult = "Online";
+
+        // Run the test
+        final String result = componentAvalibleServiceUnderTest.checkOnline(ip, port);
+
+        // Verify the results
+        assertEquals(expectedResult, result);
     }
 
+    @Test
+    public void testCheckOffline() {
+        // Setup
+        final String ip = "80.219.243.8";
+        final Integer port = 8047;
+        final String expectedResult = "Offline";
+
+        // Run the test
+        final String result = componentAvalibleServiceUnderTest.checkOnline(ip, port);
+
+        // Verify the results
+        assertEquals(expectedResult, result);
+    }
 }

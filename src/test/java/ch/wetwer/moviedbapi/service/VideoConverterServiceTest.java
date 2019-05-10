@@ -26,7 +26,7 @@ public class VideoConverterServiceTest {
         videoConverterServiceUnderTest = new VideoConverterService(mockEpisodeDao, mockImportLogService);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testConvertEpisodeToMp4() {
         // Setup
         final Episode episode = null;

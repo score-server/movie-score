@@ -53,6 +53,10 @@ public class UserDao implements DaoInterface<User> {
         return userRepository.findUsersByNameContainingOrderByRoleAscNameAsc(search);
     }
 
+    public List<User> searchEqual(String search) {
+        return userRepository.findUsersByNameOrderByRoleAscNameAsc(search);
+    }
+
     public User login(String name, String password) {
         return userRepository.findUserByNameAndPasswordSha(name, password);
     }

@@ -37,6 +37,15 @@ public class VideoConverterService {
         this.importLogService = importLogService;
     }
 
+
+    public void startConverting(Episode episode) {
+        if (episode.getPath().endsWith(".mkv") || episode.getPath().endsWith(".avi")) {
+            episode.setConvertPercentage(0);
+            episodeDao.save(episode);
+            convertEpisodeToMp4(episode);
+        }
+    }
+
     public void convertEpisodeToMp4(Episode episode) {
         importLogService.importLog("<i class=\"fas fa-hammer\"></i> " +
                 "Startet Converting: " + episode.getFullTitle());
