@@ -127,8 +127,8 @@
             <button class="btn btn-primary" type="submit">Save</button>
         </form>
         <br>
-        <a class="btn btn-secondary" data-toggle="modal" href="#"
-           data-target="#addSubs">Add Subtitles</a>
+        <a class="btn btn-secondary" data-target="#addSubs" data-toggle="modal"
+           href="#">Add Subtitles</a>
     </div>
 </div>
 <br>
@@ -265,7 +265,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form th:action="'/subtitle/add/' + ${movie.id}" enctype="multipart/form-data" method="post">
+                <form enctype="multipart/form-data" method="post" th:action="'/subtitle/add/' + ${movie.id}">
                     Subtitle File (.srt)
                     <div class="custom-file">
                         <input class="custom-file-input" id="subtitles" name="file" required type="file">

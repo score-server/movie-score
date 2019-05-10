@@ -31,8 +31,8 @@
     <button class="btn btn-primary" id="submitUpload" type="submit">Upload</button>
     <br>
     <br>
-    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#guide" aria-expanded="false"
-            aria-controls="guide">
+    <button aria-controls="guide" aria-expanded="false" class="btn btn-secondary" data-target="#guide" data-toggle="collapse"
+            type="button">
         Upload Guide <i class="fas fa-chevron-down"></i>
     </button>
     <br>
@@ -101,7 +101,7 @@
                    th:if="${file.getVideoType().equals('movie')}"></i>
                 <i class="fas fa-circle" style="color: darkviolet;"
                    th:if="${file.getVideoType().equals('episode')}"></i>
-                <b th:text="${file.filename}" th:if="${file.getVideoType().equals('undefined')}"></b>
+                <b th:if="${file.getVideoType().equals('undefined')}" th:text="${file.filename}"></b>
                 <th:block th:if="${!file.getVideoType().equals('undefined')}">
                     <b th:text="${file.title}"></b>
                     <a th:text="${file.year}"></a>
@@ -118,7 +118,7 @@
                                th:data-target="'#editFile' + ${file.id}">
                                 <i class="far fa-edit"></i>
                             </a>
-                            <button th:if="${file.isCorrect()}" class="btn btn-success"
+                            <button class="btn btn-success" th:if="${file.isCorrect()}"
                                     th:onclick="'document.getElementById(\'accept' + ${file.id} + '\').submit();'"
                                     type="submit">
                                 <i class="fas fa-check"></i>

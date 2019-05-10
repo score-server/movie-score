@@ -151,7 +151,17 @@ public class ControlCenterSettings {
                 }
             }
 
+            List<Episode> episodesToConvert = new ArrayList<>();
+            for (Episode episode : episodeDao.getAll()) {
+                if (episode.getConvertPercentage() == null) {
+                    if (episode.getMime().equals("video/x-matroska") || episode.getMime().equals("video/x-msvideo")) {
+                        episodesToConvert.add(episode);
+                    }
+                }
+            }
+
             model.addAttribute("episodes", episodeList);
+            model.addAttribute("episodesToConvert", episodesToConvert);
             model.addAttribute("page", "convert");
             return "template";
         } else {

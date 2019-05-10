@@ -103,7 +103,7 @@ public class EpisodeController {
 
                 videoConverterService.convertEpisodeToMp4(episode);
             }
-            return "redirect:/season/" + episode.getSeason().getId() + "";
+            return "redirect:/settings/convert";
         } else {
             return "redirect:/login?redirect=/season/" + episode.getSeason().getId() + "?error";
         }

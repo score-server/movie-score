@@ -177,8 +177,8 @@
             <div class="card-body collapse multi-collapse" id="sessionCollapse">
 
                 <div class="row">
-                    <div class="col-12 col-sm-4 col-md-3" th:each="sessionId : ${sessions}"
-                         style="margin-bottom: .5rem">
+                    <div class="col-12 col-sm-4 col-md-3" style="margin-bottom: .5rem"
+                         th:each="sessionId : ${sessions}">
                         <div class="card card-body">
                             <span th:text="${#dates.format(sessionId.timestamp, 'dd.MM.yyyy HH:mm')}"></span>
                             <b th:if="${currentSession} == ${sessionId.sessionId}">Current</b>
