@@ -31,7 +31,11 @@
             </td>
             <td>
                 <form class="float-right" method="post" th:action="'/announcement/' + ${announcement.id} + '/delete'">
-                    <button class="btn btn-danger" type="submit">&times;</button>
+                    <a class="btn btn-primary" th:data-target="'#edit' + ${announcement.id}" data-toggle="modal"
+                       href="#">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                    <button class="btn btn-danger" type="submit"><i class="fas fa-times"></i></button>
                 </form>
             </td>
         </tr>
@@ -42,9 +46,11 @@
         </button>
     </div>
 </div>
+<br>
+<a class="btn btn-primary" href="/settings">Back</a>
 
 <div aria-hidden="true" class="modal fade" id="add" role="dialog" tabindex="-1">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form action="/announcement/add" method="post">
                 <div class="modal-header">
@@ -71,6 +77,48 @@
                             <td>Url</td>
                             <td>
                                 <input class="form-control" name="url" type="url">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:each="announcement : ${announcements}" aria-hidden="true" class="modal fade" th:id="'edit' + ${announcement.id}"
+     role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form th:action="'/announcement/' + ${announcement.id} + '/edit'" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Announcement</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tr>
+                            <td>Title</td>
+                            <td>
+                                <input th:value="${announcement.title}" class="form-control" name="title" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Image</td>
+                            <td>
+                                <input th:value="${announcement.imgUrl}" class="form-control" name="imgUrl" type="url">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Url</td>
+                            <td>
+                                <input th:value="${announcement.url}" class="form-control" name="url" type="url">
                             </td>
                         </tr>
                     </table>

@@ -19,6 +19,6 @@ public interface EpisodeRepository extends JpaRepository<Episode, Long> {
 
     Episode findEpisodeBySeasonAndEpisode(Season season, Integer episode);
 
-    List<Episode> findAllByOrderByConvertPercentage();
+    List<Episode> findAllByOrderByConvertPercentageDesc();
 
 }

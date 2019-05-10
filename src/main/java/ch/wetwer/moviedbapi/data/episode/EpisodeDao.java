@@ -40,6 +40,6 @@ public class EpisodeDao implements DaoInterface<Episode> {
     }
 
     public List<Episode> getOrderByPercentage() {
-        return episodeRepository.findAllByOrderByConvertPercentage();
+        return episodeRepository.findAllByOrderByConvertPercentageDesc();
     }
 }

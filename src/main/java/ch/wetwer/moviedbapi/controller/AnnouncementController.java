@@ -72,6 +72,24 @@ public class AnnouncementController {
         return "redirect:/settings";
     }
 
+    @PostMapping("{announcementId}/edit")
+    public String edit(@PathVariable("announcementId") Long announcementId,
+                       @RequestParam("title") String title,
+                       @RequestParam("imgUrl") String imgUrl,
+                       @RequestParam("url") String url,
+                       HttpServletRequest request) {
+        if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
+            Announcement announcement = announcementDao.getById(announcementId);
+            announcement.setTitle(title);
+            announcement.setImgUrl(imgUrl);
+            announcement.setUrl(url);
+            announcementDao.save(announcement);
+            return "redirect:/announcement";
+        }
+        return "redirect:/settings";
+    }
+
     @PostMapping("{announcementId}/color")
     public String setColor(@PathVariable("announcementId") Long announcementId,
                            @RequestParam("colorClass") String colorClass,
