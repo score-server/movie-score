@@ -20,130 +20,131 @@
                data-icon="octicon-issue-opened" data-show-count="true" data-size="large"
                href="https://github.com/score-server/movie-score/issues">Issue</a>
         </p>
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 5px">
-                <div class="card">
-                    <div class="card-body">
-                        <h3>Currently in Database</h3>
-                        <table class=" table">
-                            <tr>
-                                <td>Movies</td>
-                                <td th:text="${movies}"></td>
-                            </tr>
-                            <tr>
-                                <td>Series</td>
-                                <td th:text="${series}"></td>
-                            </tr>
-                            <tr>
-                                <td>Serie Episodes</td>
-                                <td th:text="${episodes}"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 5px">
-                <div class="card">
-                    <div class="card-body">
-                        <h3>Latest Imports</h3>
-                        <table class=" table">
-                            <tr th:each="log : ${updateLogs}">
-                                <td th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}"></td>
-                                <td th:text="${log.getTypeLong()}"></td>
-                                <td class="bg bg-green" th:if="${log.status} == 'Complete'">Finished</td>
-                                <td class="bg bg-yellow" th:if="${log.status} == 'Running'">Running</td>
-                                <td class="bg bg-red" th:if="${log.status} == 'Failed'">Failed</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 5px">
-                <div class="card">
-                    <div class="card-body">
-                        <h3>New Movies</h3>
-                        <ul class="list-group">
-                            <li class="list-group-item" th:each="movie : ${latest}">
-                                <a th:href="'/movie/' + ${movie.id}"
-                                   th:text="${movie.title} + ' (' + ${movie.year} + ')'"></a>
-                                <span class="float-right"
-                                      th:text="${#dates.format(movie.timestamp, 'dd.MM.yyyy HH:mm')}"></span>
-                            </li>
-                        </ul>
-                        <a href="/movies/1?orderBy=latest">Latest Uploads</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="card">
-            <div class="card-body">
-                <h3>Browser Support</h3>
-                <table class="table">
-                    <tr>
-                        <th>Browser</th>
-                        <th>Tested</th>
-                        <th>Should Work</th>
-                    </tr>
-                    <tr>
-                        <td>Chrome (recomended)</td>
-                        <td class="bg bg-green">Tested</td>
-                        <td class="bg bg-green">Works</td>
-                    </tr>
-                    <tr>
-                        <td>Chrome Android (recomended)</td>
-                        <td class="bg bg-green">Tested</td>
-                        <td class="bg bg-green">Works</td>
-                    </tr>
-                    <tr>
-                        <td>Opera</td>
-                        <td class="bg bg-green">Tested</td>
-                        <td class="bg bg-green">Works</td>
-                    </tr>
-                    <tr>
-                        <td>Firefox</td>
-                        <td class="bg bg-yellow">Partialy Tested</td>
-                        <td class="bg bg-green">Works</td>
-                    </tr>
-                    <tr>
-                        <td>Safari Mac</td>
-                        <td class="bg bg-red">Not Tested</td>
-                        <td class="bg bg-yellow">Known Bugs</td>
-                    </tr>
-                    <tr>
-                        <td>Safari iPhone</td>
-                        <td class="bg bg-red">Not Tested</td>
-                        <td class="bg bg-yellow">Known Bugs</td>
-                    </tr>
-                    <tr>
-                        <td>Chrome iPhone</td>
-                        <td class="bg bg-red">Not Tested</td>
-                        <td class="bg bg-yellow">Known Bugs</td>
-                    </tr>
-                    <tr>
-                        <td>IE/Edge</td>
-                        <td class="bg bg-red">Not Tested</td>
-                        <td class="bg bg-red">Lots of Bugs</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <br>
-        <div class="card">
-            <div class="card-body">
-                <h3>Tech Stack</h3>
-                <ul class="list-group">
-                    <li class="list-group-item">Frontend: Spring-Tymleaf 2.1.2 Release</li>
-                    <li class="list-group-item">Backend: Spring-Boot 2.1.2 Release & Java 11</li>
-                    <li class="list-group-item">Database: MySql</li>
-                    <li class="list-group-item">Server: Ubuntu 18.04 bionic</li>
-                </ul>
-            </div>
-        </div>
         <br>
         <p>
             <a class="btn btn-success" href="https://www.paypal.com/pools/c/8aEK3LiBqR" target="_blank">Donate</a>
         </p>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 5px">
+        <div class="card">
+            <div class="card-body">
+                <h3>Currently in Database</h3>
+                <table class=" table">
+                    <tr>
+                        <td>Movies</td>
+                        <td th:text="${movies}"></td>
+                    </tr>
+                    <tr>
+                        <td>Series</td>
+                        <td th:text="${series}"></td>
+                    </tr>
+                    <tr>
+                        <td>Serie Episodes</td>
+                        <td th:text="${episodes}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 5px">
+        <div class="card">
+            <div class="card-body">
+                <h3>Latest Imports</h3>
+                <table class=" table">
+                    <tr th:each="log : ${updateLogs}">
+                        <td th:text="${#dates.format(log.timestamp, 'dd.MM.yyyy HH:mm')}"></td>
+                        <td th:text="${log.getTypeLong()}"></td>
+                        <td class="bg bg-green" th:if="${log.status} == 'Complete'">Finished</td>
+                        <td class="bg bg-yellow" th:if="${log.status} == 'Running'">Running</td>
+                        <td class="bg bg-red" th:if="${log.status} == 'Failed'">Failed</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4" style="margin-bottom: 5px">
+        <div class="card">
+            <div class="card-body">
+                <h3>New Movies</h3>
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="movie : ${latest}">
+                        <a th:href="'/movie/' + ${movie.id}"
+                           th:text="${movie.title} + ' (' + ${movie.year} + ')'"></a>
+                        <span class="float-right"
+                              th:text="${#dates.format(movie.timestamp, 'dd.MM.yyyy HH:mm')}"></span>
+                    </li>
+                </ul>
+                <a href="/movies/1?orderBy=latest">Latest Uploads</a>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-body">
+        <h3>Browser Support</h3>
+        <table class="table">
+            <tr>
+                <th>Browser</th>
+                <th>Tested</th>
+                <th>Should Work</th>
+            </tr>
+            <tr>
+                <td>Chrome (recomended)</td>
+                <td class="bg bg-green">Tested</td>
+                <td class="bg bg-green">Works</td>
+            </tr>
+            <tr>
+                <td>Chrome Android (recomended)</td>
+                <td class="bg bg-green">Tested</td>
+                <td class="bg bg-green">Works</td>
+            </tr>
+            <tr>
+                <td>Opera</td>
+                <td class="bg bg-green">Tested</td>
+                <td class="bg bg-green">Works</td>
+            </tr>
+            <tr>
+                <td>Firefox</td>
+                <td class="bg bg-yellow">Partialy Tested</td>
+                <td class="bg bg-green">Works</td>
+            </tr>
+            <tr>
+                <td>Safari Mac</td>
+                <td class="bg bg-red">Not Tested</td>
+                <td class="bg bg-yellow">Known Bugs</td>
+            </tr>
+            <tr>
+                <td>Safari iPhone</td>
+                <td class="bg bg-red">Not Tested</td>
+                <td class="bg bg-yellow">Known Bugs</td>
+            </tr>
+            <tr>
+                <td>Chrome iPhone</td>
+                <td class="bg bg-red">Not Tested</td>
+                <td class="bg bg-yellow">Known Bugs</td>
+            </tr>
+            <tr>
+                <td>IE/Edge</td>
+                <td class="bg bg-red">Not Tested</td>
+                <td class="bg bg-red">Lots of Bugs</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-body">
+        <h3>Tech Stack</h3>
+        <ul class="list-group">
+            <li class="list-group-item">Frontend: Spring-Tymleaf 2.1.2 Release</li>
+            <li class="list-group-item">Backend: Spring-Boot 2.1.2 Release & Java 11</li>
+            <li class="list-group-item">Database: MySql</li>
+            <li class="list-group-item">Server: Ubuntu 18.04 bionic</li>
+        </ul>
     </div>
 </div>
 <br>
@@ -201,7 +202,7 @@
 <div class="card">
     <div class="card-header">License</div>
     <div class="card-body">
-        <pre>
+        <pre class="text-white">
 MIT License
 
 Copyright (c) 2018 Wetwer <a href="https://github.com/score-server/movie-score">movie-score</a>

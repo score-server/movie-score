@@ -142,7 +142,7 @@
             </div>
             <div th:switch="${user.isAdmin()}">
                 <form method="post" th:action="'/user/' + ${user.id} + '/role/admin'" th:case="false">
-                    <button class="btn btn-light">
+                    <button class="btn btn-dark">
                         <i class="fas fa-chess-pawn"></i>
                     </button>
                 </form>

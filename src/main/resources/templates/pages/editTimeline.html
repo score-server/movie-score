@@ -35,7 +35,8 @@
             <tr th:each="moviePar : ${timeline.listMovies}">
                 <td th:text="${moviePar.place}"></td>
                 <td>
-                    <img class="card" style="max-height: 40px; min-height: 40px" th:src="${moviePar.movie.caseImg}"/>
+                    <img class="card" style="max-height: 40px; min-height: 40px"
+                         th:src="${moviePar.movie.backgroundImg}"/>
                 </td>
                 <td>
                     <a th:text="${moviePar.movie.title}"></a>

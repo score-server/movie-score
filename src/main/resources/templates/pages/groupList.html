@@ -63,7 +63,7 @@
             <ul class="list-group">
                 <li class="list-group-item active">Members</li>
                 <li class="list-group-item" th:each="user : ${group.users}">
-                    <a th:href="'/user/' + ${user.id}" th:text="${user.name}"></a>
+                    <a class="text-white" th:href="'/user/' + ${user.id}" th:text="${user.name}"></a>
                     <form class="float-right" method="post"
                           th:action="'/group/remove/' + ${user.id}">
                         <button class="btn btn-danger" type="submit"><i class="fas fa-times"></i></button>

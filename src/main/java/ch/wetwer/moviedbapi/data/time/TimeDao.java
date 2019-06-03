@@ -48,6 +48,7 @@ public class TimeDao implements DaoInterface<Time> {
         videoModel.setId(movie.getId());
         videoModel.setTitle(movie.getTitle());
         videoModel.setCaseImg(movie.getCaseImg());
+        videoModel.setBackgroundImg(movie.getBackgroundImg());
         videoModel.setVoteAverage(movie.getVoteAverage());
         videoModel.setQuality(movie.getQuality());
         videoModel.setYear(movie.getYear());
@@ -61,6 +62,7 @@ public class TimeDao implements DaoInterface<Time> {
         videoModel.setTitle(episode.getSeason().getSerie().getTitle() + " S" + episode.getSeason().getSeason()
                 + "E" + episode.getEpisode());
         videoModel.setCaseImg(episode.getSeason().getSerie().getCaseImg());
+        videoModel.setBackgroundImg(episode.getSeason().getSerie().getBackgroundImg());
         videoModel.setVoteAverage(episode.getSeason().getSerie().getVoteAverage());
         videoModel.setQuality(episode.getQuality());
         videoModel.setYear(episode.getSeason().getYear());

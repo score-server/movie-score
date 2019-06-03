@@ -48,7 +48,7 @@
     <br>
     <h3>New Stuff</h3>
     <div class="row">
-        <div class="col-12 col-md-4 col-lg-4" style="margin-bottom: 20px" th:each="announcement : ${announcements}">
+        <div class="col-12 col-md-3 col-lg-3" style="margin-bottom: 20px" th:each="announcement : ${announcements}">
             <a th:href="${announcement.url}">
                 <div class="card moviecard">
                     <img class="card-img" th:src="${announcement.imgUrl}">
@@ -69,7 +69,7 @@
 <div th:if="${startedVideos.size()} != 0">
     <h3>Continue Watching</h3>
     <div class="row">
-        <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px" th:each="startedVideo : ${startedVideos}">
+        <div class="col-12 col-md-3 col-lg-3" style="margin-bottom: 20px" th:each="startedVideo : ${startedVideos}">
             <div th:include="'static/startedMovieCard.html'"></div>
         </div>
     </div>

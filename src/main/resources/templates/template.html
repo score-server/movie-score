@@ -30,11 +30,6 @@
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" rel="stylesheet">
 
     <style>
-        body {
-            background: url("https://i.imgur.com/RHuethK.jpg") no-repeat fixed;
-            background-size: 100%;
-        }
-
         .nav-logo {
             margin-right: 5px;
             width: 30px;
@@ -57,85 +52,73 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light border-bottom shadow-sm darker">
-    <a class="navbar-brand" href="/">
+<nav class="navbar navbar-expand-lg" style="background-color: #282c34">
+    <a class="navbar-brand text-white main-nav-head" href="/">
         <img alt="nav brand" class="d-inline-block align-top nav-logo" src="https://i.imgur.com/kHO4IKs.png">
         MovieScore
     </a>
     <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
-            class="navbar-toggler btn"
+            class="navbar-toggler btn btn-dark"
             data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
-        <span class="navbar-toggler-icon"></span>
+        <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="navbar-nav mr-auto">
             <ul class="navbar-nav mr-auto" th:if="${currentUser} != null">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="/movies/1">Movies</a>
+                <li class="nav-item main-nav">
+                    <a class="nav-link text-white" href="/movies/1">Movies</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="/serie">Series</a>
+                <li class="nav-item main-nav">
+                    <a class="nav-link text-white" href="/serie">Series</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="/list">Lists</a>
+                <li class="nav-item main-nav">
+                    <a class="nav-link text-white" href="/list">Lists</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="/request/create">Request</a>
+                <li class="nav-item main-nav">
+                    <a class="nav-link text-white" href="/request/create">Request</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="/user">Users</a>
+                <li class="nav-item main-nav">
+                    <a class="nav-link text-white" href="/user">Users</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="/blog">Blog</a>
+                <li class="nav-item main-nav">
+                    <a class="nav-link text-white" href="/blog">Blog</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="/about">About</a>
+                <li class="nav-item main-nav">
+                    <a class="nav-link text-white" href="/about">About</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="/download">Download</a>
+                <li class="nav-item main-nav">
+                    <a class="nav-link text-white" href="/download">Download</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="/upload">Upload</a>
+                <li class="nav-item main-nav">
+                    <a class="nav-link text-white" href="/upload">Upload</a>
                 </li>
                 <th:block th:if="${page} != 'login'">
-                    <li class="nav-item" th:if="${currentUser?.isAdmin()}">
-                        <a class="nav-link text-dark" href="/group">
-                            <i>Groups</i>
-                        </a>
+                    <li class="nav-item main-nav" th:if="${currentUser?.isAdmin()}">
+                        <a class="nav-link text-white" href="/group">Groups</a>
                     </li>
-                    <li class="nav-item" th:if="${currentUser?.isAdmin()}">
-                        <a class="nav-link text-dark" href="/settings">
-                            <i>Control Center</i>
-                        </a>
+                    <li class="nav-item main-nav" th:if="${currentUser?.isAdmin()}">
+                        <a class="nav-link text-white" href="/settings">Control Center</a>
                     </li>
                 </th:block>
             </ul>
         </div>
         <ul class="navbar-nav">
             <li>
-                <div class="nav-link text-dark" th:include="'static/currentuser.html'"></div>
+                <div class="nav-link" th:include="'static/currentuser.html'"></div>
             </li>
         </ul>
     </div>
 </nav>
 <br>
-<center>
-    <div class="row" style="width: 100%">
-        <div class="col-0 col-md-0 col-lg-1"></div>
-        <div class="col-12 col-md-12 col-lg-10 nopadding">
-            <div class="card card-body darker" style="text-align: left">
-                <th:block th:if="${restart} != null">
-                    <div class="alert alert-warning" th:if="${restart} != '0'">Sceduled restart at
-                        <span th:text="${restart}"></span>
-                        <a href="https://scorewinner.ch/pages/services.php">Check Server Status</a>
-                    </div>
-                </th:block>
-                <div class="darker" th:include="'pages/' + ${page} + '.html'"></div>
-            </div>
+<div class="container-fluid">
+    <th:block th:if="${restart} != null">
+        <div class="alert alert-warning" th:if="${restart} != '0'">Sceduled restart at
+            <span th:text="${restart}"></span>
+            <a href="https://scorewinner.ch/pages/services.php">Check Server Status</a>
         </div>
-        <div class="col-0 col-md-0 col-lg-1"></div>
-    </div>
-</center>
+    </th:block>
+    <div th:include="'pages/' + ${page} + '.html'"></div>
+</div>
 <br>
 </body>
 <script crossorigin="anonymous"

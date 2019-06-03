@@ -1,13 +1,11 @@
 # Movie Score
 <a href="https://github.com/score-server/movie-score/projects/1">Tasks</a>
 <br>
-<img src="https://img.shields.io/badge/version-2.6.4-green.svg">
+<img src="https://img.shields.io/badge/version-2.8.2-green.svg">
 <img src="https://img.shields.io/github/last-commit/score-server/movie-score.svg">
 <img src="https://img.shields.io/github/repo-size/score-server/movie-score.svg">
 
 Movie streaming website with Java Spring
-
-<hr>
 
 # User API
 

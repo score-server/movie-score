@@ -13,6 +13,7 @@ public class VideoModel {
     private Long id;
     private String title;
     private String caseImg;
+    private String backgroundImg;
     private Double voteAverage;
     private String quality;
     private String year;

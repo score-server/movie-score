@@ -6,11 +6,11 @@
 
 * {
     font-family: 'Raleway', sans-serif;
+    color: white;
 }
 
 body {
-    background: url("https://i.imgur.com/qV8wWKL.jpg") no-repeat fixed;
-    background-size: 100%;
+    background-color: #282c34;
 }
 
 .darker {
@@ -18,13 +18,13 @@ body {
 }
 
 .moviecard {
-    /*animation: movieCardAnimation .7s forwards 0s linear;*/
     transition: 0.3s;
 }
 
 .moviecard:hover {
     transition: 0.3s;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #3e4450;
 }
 
 .nodec {
@@ -35,7 +35,7 @@ body {
     background: blue;
     color: white;
     padding: 5px 10px;
-    border-radius: 30px 30px 30px 30px;
+    border-radius: .25rem;
     text-align: center;
 }
 
@@ -45,7 +45,7 @@ body {
     top: 10px;
     background: black;
     text-align: center;
-    border-radius: 30px 30px 30px 30px;
+    border-radius: .25rem;
     color: white;
     padding: 5px 10px;
 }
@@ -56,7 +56,7 @@ body {
     top: 10px;
     background: red;
     text-align: center;
-    border-radius: 30px 30px 30px 30px;
+    border-radius: .25rem;
     color: white;
     padding: 5px 10px;
 }
@@ -169,4 +169,40 @@ body {
 
 .red {
     color: red;
+}
+
+.row {
+    margin: 0 !important;
+}
+
+.active {
+    background: #333842 !important;
+}
+
+.list-group-item {
+    background-color: #333842;
+}
+
+
+.main-nav {
+    padding: .25rem;
+}
+
+.main-nav:hover {
+    border-radius: .25rem;
+    background-color: #333842;
+}
+
+.main-nav-head {
+    padding: .50rem;
+}
+
+.main-nav-head:hover {
+    border-radius: .25rem;
+    background-color: #333842;
+}
+
+.padding-0 {
+    padding-right:0;
+    padding-left:0;
 }
