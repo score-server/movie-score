@@ -1,4 +1,4 @@
-set @movie_id = 0;
+set @movie_id = 318;
 
 delete
 from moviesdb.movie

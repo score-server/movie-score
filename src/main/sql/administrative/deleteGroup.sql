@@ -1,4 +1,4 @@
-set @group_id = 1;
+set @group_id = 6;
 
 UPDATE moviesdb.user
 SET group_id = NULL
