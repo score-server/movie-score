@@ -23,25 +23,21 @@
     This Movie has a very bad video quality, better quality will be avalible soon
 </div>
 
-<div class="row">
-    <div class="col-12 col-md-1 col-lg-1 padding-0"></div>
-    <div class="col-12 col-md-10 col-lg-10 padding-0">
-        <div id="movie-div" th:switch="${currentUser.videoPlayer}">
-            <video controls id="html-player" playsinline th:case="'html5'" th:poster="${movie.backgroundImg}"
-                   width="100%">
-                <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
-                <track kind="subtitles" th:each="subtitle : ${movie.subtitles}" th:label="${subtitle.language}"
-                       th:src="'/subtitle/' + ${subtitle.id}" th:srclang="${subtitle.language}">
-            </video>
-            <video controls id="player" playsinline style="user-select: none;" th:case="*"
-                   th:poster="${movie.backgroundImg}">
-                <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
-                <track kind="subtitles" th:each="subtitle : ${movie.subtitles}" th:label="${subtitle.language}"
-                       th:src="'/subtitle/' + ${subtitle.id}" th:srclang="${subtitle.language}">
-            </video>
-        </div>
-    </div>
+<div id="movie-div" th:switch="${currentUser.videoPlayer}">
+    <video controls id="html-player" playsinline th:case="'html5'" th:poster="${movie.backgroundImg}"
+           width="100%">
+        <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
+        <track kind="subtitles" th:each="subtitle : ${movie.subtitles}" th:label="${subtitle.language}"
+               th:src="'/subtitle/' + ${subtitle.id}" th:srclang="${subtitle.language}">
+    </video>
+    <video controls id="player" playsinline style="user-select: none;" th:case="*"
+           th:poster="${movie.backgroundImg}">
+        <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
+        <track kind="subtitles" th:each="subtitle : ${movie.subtitles}" th:label="${subtitle.language}"
+               th:src="'/subtitle/' + ${subtitle.id}" th:srclang="${subtitle.language}">
+    </video>
 </div>
+<br>
 <div class="card card-body">
     <h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'"></h1>
 

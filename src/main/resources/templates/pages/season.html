@@ -7,7 +7,8 @@
 <br>
 <ul class="list-group">
     <li class="list-group-item" th:each="episode : ${episodes}">
-        <a th:href="'/episode/' + ${episode.id}" th:text="'Episode ' + ${episode.episode}"></a>
+        <a th:href="'/episode/' + ${episode.id}" th:text="'Episode ' + ${episode.episode}"
+           class="link-btn float-left"></a>
 
         <div class="float-right" th:if="${episode.convertPercentage} == null">
             <th:block th:if="${currentUser.isAdmin()}">
@@ -32,7 +33,8 @@
         <div class="card card-body" th:if="${episode.convertPercentage} != null">
             <p><b>Currently Converting</b></p>
             <div class="progress">
-                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar progress-bar-striped progress-bar-animated"
+                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25"
+                     class="progress-bar progress-bar-striped progress-bar-animated"
                      id="progress" role="progressbar"
                      th:style="'width: ' + ${episode.convertPercentage} + '%'"
                      th:text="${episode.convertPercentage} + '%'">

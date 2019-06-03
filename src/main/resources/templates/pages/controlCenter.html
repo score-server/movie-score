@@ -34,52 +34,52 @@
     </script>
 </div>
 
-
-<div class="card">
-    <div class="card-header">Import</div>
-    <div class="card-body">
-        <div class="card card-body">
-            <p>Movie Import Path</p>
-            <ol class="breadcrumb btn" data-target="#changeMoviePath" data-toggle="modal">
-                <li class="breadcrumb-item" th:text="${moviePath}"></li>
-            </ol>
-            <form action="/import/movie" method="post">
-                <button class="btn btn-primary" th:disabled="${running}">Import Movies</button>
-            </form>
-            <br>
-            <form action="/import/movie/update" method="post">
-                <button class="btn btn-primary" th:disabled="${running}">Update Movies</button>
-            </form>
-        </div>
-        <br>
-        <div class="card card-body">
-            <p>Series Import Path</p>
-            <ol class="breadcrumb btn" data-target="#changeSeriePath" data-toggle="modal">
-                <li class="breadcrumb-item" th:text="${seriePath}"></li>
-            </ol>
-            <form action="/import/serie" method="post">
-                <button class="btn btn-primary" th:disabled="${running}">Import Series</button>
-            </form>
-            <br>
-            <form action="/import/serie/update" method="post">
-                <button class="btn btn-primary" th:disabled="${running}">Update Series</button>
-            </form>
-
-        </div>
-        <br>
-        <div class="card card-body">
-            <p>Preview Storage Path</p>
-            <ol class="breadcrumb btn" data-target="#changePreviewPath" data-toggle="modal">
-                <li class="breadcrumb-item" th:text="${previewPath}"></li>
-            </ol>
-        </div>
-        <br>
-        <form action="/import/reset" method="post">
-            <button class="btn btn-danger">Reset Import deactivation</button>
-        </form>
-    </div>
+<div class="card card-body">
+    <p>Movie Import Path</p>
+    <ol class="breadcrumb btn" data-target="#changeMoviePath" data-toggle="modal">
+        <li class="breadcrumb-item" th:text="${moviePath}"></li>
+    </ol>
+    <form action="/import/movie" method="post">
+        <button class="btn btn-primary" th:disabled="${running}">Import Movies</button>
+    </form>
+    <br>
+    <form action="/import/movie/update" method="post">
+        <button class="btn btn-primary" th:disabled="${running}">Update Movies</button>
+    </form>
 </div>
 <br>
+<div class="card card-body">
+    <p>Series Import Path</p>
+    <ol class="breadcrumb btn" data-target="#changeSeriePath" data-toggle="modal">
+        <li class="breadcrumb-item" th:text="${seriePath}"></li>
+    </ol>
+    <form action="/import/serie" method="post">
+        <button class="btn btn-primary" th:disabled="${running}">Import Series</button>
+    </form>
+    <br>
+    <form action="/import/serie/update" method="post">
+        <button class="btn btn-primary" th:disabled="${running}">Update Series</button>
+    </form>
+
+</div>
+
+<br>
+
+<div class="card card-body">
+    <p>Preview Storage Path</p>
+    <ol class="breadcrumb btn" data-target="#changePreviewPath" data-toggle="modal">
+        <li class="breadcrumb-item" th:text="${previewPath}"></li>
+    </ol>
+</div>
+
+<br>
+
+<form action="/import/reset" method="post">
+    <button class="btn btn-danger">Reset Import deactivation</button>
+</form>
+
+<br>
+
 <div class="card">
     <div class="card-body">
         <a class="btn btn-info" href="/announcement">Announcement</a>

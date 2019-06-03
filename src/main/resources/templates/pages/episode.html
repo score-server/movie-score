@@ -19,21 +19,15 @@
     </script>
 </th:block>
 
-
-<div class="row">
-    <div class="col-1"></div>
-    <div class="col-10">
-        <div th:switch="${currentUser.videoPlayer}">
-            <video controls crossorigin id="html-player" playsinline th:case="'html5'"
-                   th:poster="${episode.season.serie.backgroundImg}" width="100%">
-                <source th:src="'/video/episode/' + ${episode.id}" th:type="${episode.getMime()}">
-            </video>
-            <video controls crossorigin id="player" playsinline th:case="*"
-                   th:poster="${episode.season.serie.backgroundImg}">
-                <source th:src="'/video/episode/' + ${episode.id}" th:type="${episode.getMime()}">
-            </video>
-        </div>
-    </div>
+<div th:switch="${currentUser.videoPlayer}">
+    <video controls crossorigin id="html-player" playsinline th:case="'html5'"
+           th:poster="${episode.season.serie.backgroundImg}" width="100%">
+        <source th:src="'/video/episode/' + ${episode.id}" th:type="${episode.getMime()}">
+    </video>
+    <video controls crossorigin id="player" playsinline th:case="*"
+           th:poster="${episode.season.serie.backgroundImg}">
+        <source th:src="'/video/episode/' + ${episode.id}" th:type="${episode.getMime()}">
+    </video>
 </div>
 <br>
 <div class="card card-body">

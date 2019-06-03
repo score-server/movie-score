@@ -11,6 +11,8 @@
 
 body {
     background-color: #282c34;
+    padding: 0;
+    margin: 0;
 }
 
 .darker {
@@ -203,6 +205,108 @@ body {
 }
 
 .padding-0 {
-    padding-right:0;
-    padding-left:0;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.right-nav {
+    padding: .25rem .25rem .25rem 1rem;
+}
+
+.right-nav:hover {
+    border-radius: .25rem;
+    background-color: #333842;
+}
+
+.right-nav-person {
+    padding: .25rem .25rem .25rem 1rem;
+}
+
+.right-nav-head {
+    display: block;
+    padding: .50rem;
+}
+
+.right-nav-head:hover {
+    border-radius: .25rem;
+    background-color: #333842;
+}
+
+#main-content {
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.container-fluid {
+    margin: 0;
+    padding: 0;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #3e4451;
+    border-radius: 1rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #49505f;
+}
+
+.link-btn {
+    padding: .75rem;
+    border-radius: .25rem;
+    color: white;
+    background-color: #3e4451;
+    text-decoration: none;
+}
+
+.link-btn a {
+    color: white;
+    text-decoration: none;
+}
+
+.link-btn:hover {
+    color: white;
+    background-color: #49505e;
+    text-decoration: none;
+}
+
+.page-footer {
+    position: fixed;
+    bottom: 50px;
+}
+
+.alert-danger {
+    color: white;
+    background-color: #6c545c;
+}
+
+.alert-secondary {
+    color: white;
+    background-color: #545c6c;
+}
+
+.alert-info {
+    color: white;
+    background-color: #54686c;
+}
+
+.alert-success {
+    color: white;
+    background-color: #54686c;
+}
+
+.alert-warning {
+    color: white;
+    background-color: #6c6454;
 }

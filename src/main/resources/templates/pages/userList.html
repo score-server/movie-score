@@ -13,13 +13,9 @@
 </div>
 
 <form action="/user" id="search">
-    <div class="row">
-        <br>
-        <div class="col-12">
-            <input autocomplete="off" class="form-control" name="search" placeholder="Search"
-                   th:value="${search}" type="text">
-        </div>
-    </div>
+    <br>
+    <input autocomplete="off" class="form-control" name="search" placeholder="Search"
+           th:value="${search}" type="text">
 </form>
 <br>
 <a class="btn btn-primary" href="/request/create">Request Invite</a>

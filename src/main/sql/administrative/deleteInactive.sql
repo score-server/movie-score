@@ -1,4 +1,4 @@
-set @user_id = 124;
+set @user_id = 120;
 
 delete
 from moviesdb.user

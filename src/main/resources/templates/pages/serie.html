@@ -15,6 +15,6 @@
 <br>
 <ul class="list-group">
     <li class="list-group-item" th:each="season:${seasons}">
-        <a th:href="'/season/' + ${season.id}" th:text="'Season ' + ${season.season}"></a>
+        <a th:href="'/season/' + ${season.id}" th:text="'Season ' + ${season.season}" class="link-btn float-left"></a>
     </li>
 </ul>
