@@ -15,4 +15,8 @@ public class StartedVideo {
     private float progress;
     private Time time;
 
+    public String getTimeCurrent() {
+        return (int) (time.getTime() / 60f) + " Min";
+    }
+
 }

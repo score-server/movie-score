@@ -52,4 +52,15 @@ public class AboutController {
             return "redirect:/login?redirect=/about";
         }
     }
+
+    @GetMapping("colors")
+    public String getColorBlind(Model model, HttpServletRequest request) {
+        if (userAuthService.isUser(model, request)) {
+            userAuthService.log(this.getClass(), request);
+            model.addAttribute("page", "colorBlind");
+            return "template";
+        } else {
+            return "redirect:/login";
+        }
+    }
 }

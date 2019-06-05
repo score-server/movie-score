@@ -243,7 +243,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
 }
 
 /* Track */
@@ -254,7 +254,7 @@ body {
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #3e4451;
-    border-radius: 1rem;
+    border-radius: .25rem;
 }
 
 /* Handle on hover */
@@ -309,4 +309,16 @@ body {
 .alert-warning {
     color: white;
     background-color: #6c6454;
+}
+
+.progress {
+    background-color: #545c6c;
+}
+
+.progress-bar-animated {
+    background-color: #00203f;
+}
+
+.progress-bar {
+    background-color: #00203f;
 }

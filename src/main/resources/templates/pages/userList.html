@@ -18,30 +18,21 @@
            th:value="${search}" type="text">
 </form>
 <br>
-<a class="btn btn-primary" href="/request/create">Request Invite</a>
+<a class="link-btn" href="/request/create"><i class="fas fa-plus"></i> Request Invite</a>
 <br>
 <br>
-<ul class="list-group">
-    <li class="list-group-item" th:each="user : ${users}">
-        <img class="img-thumbnail" style="max-height: 40px; min-height: 40px" th:if="${user.profileImg} != null"
-             th:src="'/img/' + ${user.id}"/>
-        <a class="text-white" th:href="'/user/' + ${user.id}" th:text="${user.name}"></a>
-        <div class="float-right" th:if="${currentUser.isAdmin()}" th:switch="${user.isAdmin()}">
-            <form method="post" th:action="'/user/' + ${user.id} + '/role/admin'" th:case="false">
-                <button class="btn btn-dark">
-                    <i class="fas fa-chess-pawn"></i>
-                </button>
-            </form>
-            <form method="post" th:action="'/user/' + ${user.id} + '/role/user'" th:case="true">
-                <button class="btn btn-dark">
-                    <i class="fas fa-chess-king"></i>
-                </button>
-            </form>
-        </div>
-    </li>
-</ul>
+<div class="row">
+    <div class="col-6 col-md-2" th:each="user : ${users}" style="margin-bottom: 20px">
+        <a th:href="'/user/' + ${user.id}" class="link-btn" style="display: block;">
+            <img class="img-thumbnail" style="max-height: 25px; min-height: 25px; display: inline;"
+                 th:if="${user.profileImg} != null" th:src="'/img/' + ${user.id}"/>
+            <span class="text-white" th:text="${user.name}"></span>
+        </a>
+    </div>
+</div>
+
 <div class="row" th:if="${users.isEmpty()}">
-    <div class="col-sm-3" style="margin-bottom: 20px">
+    <div class="col-12 col-md-2">
         <div class="alert alert-secondary">
             <a>No Users found</a>
         </div>
