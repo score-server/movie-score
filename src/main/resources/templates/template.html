@@ -58,7 +58,7 @@
             <div class="d-lg-none d-xl-none">
                 <th:block th:replace="'static/nav/navbar-top.html'"></th:block>
             </div>
-            <br>
+            <br class="d-none d-lg-block d-xl-block">
             <th:block th:if="${restart} != null">
                 <div class="alert alert-warning" th:if="${restart} != '0'">Sceduled restart at
                     <span th:text="${restart}"></span>

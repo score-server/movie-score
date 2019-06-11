@@ -7,7 +7,6 @@
 .card {
     border: 0;
     border-radius: .25rem;
-    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
     background: #333842;
 }
 
@@ -30,6 +29,7 @@
 .form-control:focus {
     color: white;
     background-color: #545c6c;
+    box-shadow: 0 0 0 0.4rem rgba(0, 123, 255, .25);
 }
 
 .card-header {
@@ -100,6 +100,10 @@
     padding-left: 20px;
 }
 
+.custom-file-label:active :focus {
+    box-shadow: 0 0 0 0.4rem rgba(0, 123, 255, .25) !important;
+}
+
 .custom-file-label::after {
     color: white;
     background-color: #49505e;
@@ -129,4 +133,8 @@
 
 .breadcrumb {
     background-color: #5f687a;
+}
+
+.navbar-nav {
+    display: block;
 }

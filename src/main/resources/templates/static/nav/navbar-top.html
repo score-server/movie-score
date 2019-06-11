@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<nav class="navbar navbar-expand-lg" style="background-color: #282c34">
+<nav class="navbar navbar-expand-lg nav-top-row" style="background-color: #282c34">
     <a class="navbar-brand text-white main-nav-head" href="/">
         <img alt="nav brand" class="d-inline-block align-top nav-logo" src="https://i.imgur.com/kHO4IKs.png">
         MovieScore
@@ -50,10 +50,12 @@
                 </th:block>
             </ul>
         </div>
-        <ul class="navbar-nav">
+        <br>
+        <ul class="navbar-nav user-la-nav">
             <li>
                 <div class="nav-link" th:include="'static/nav/currentuser.html'"></div>
             </li>
         </ul>
+        <br>
     </div>
 </nav>

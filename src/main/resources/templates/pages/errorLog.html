@@ -4,8 +4,9 @@
 
 <div class="card">
     <div class="card-header">Console Logs</div>
-    <textarea class="card-body form-control" style="font-family: Consolas,serif; height: 700px"
-              th:text="${error}"></textarea>
+    <div class="card-body">
+        <pre style="font-family: Consolas,serif;" class="text-white" th:text="${error}"></pre>
+    </div>
 </div>
 <br>
 <a class="btn btn-primary" href="/">Back</a>

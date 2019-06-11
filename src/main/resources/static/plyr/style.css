@@ -8,3 +8,25 @@
     border-radius: .25rem;
     margin-bottom: 15px;
 }
+
+.plyr--full-ui input[type=range] {
+    color: rgb(0, 50, 100);
+}
+
+.plyr__control--overlaid {
+    background: rgba(0, 50, 100, .5);
+}
+
+.plyr--video .plyr__control.plyr__tab-focus,
+.plyr--video .plyr__control:hover,
+.plyr--video .plyr__control[aria-expanded=true] {
+    background: rgb(0, 50, 100);
+}
+
+.plyr__control.plyr__tab-focus {
+    box-shadow: 0 0 0 5px rgba(0, 50, 100, .5);
+}
+
+.plyr__menu__container .plyr__control[role=menuitemradio][aria-checked=true]::before {
+    background: rgb(0, 50, 100);
+}

@@ -25,7 +25,6 @@ body {
 
 .moviecard:hover {
     transition: 0.3s;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-color: #3e4450;
 }
 
@@ -187,7 +186,11 @@ body {
 
 
 .main-nav {
-    padding: .25rem;
+    padding: .25rem .25rem .25rem 1rem;
+}
+
+.user-la-nav {
+    padding: .25rem .25rem .25rem 1rem;
 }
 
 .main-nav:hover {
@@ -281,6 +284,19 @@ body {
     text-decoration: none;
 }
 
+.link-btn:focus {
+    transition: .2s;
+    box-shadow: 0 0 0 0.4rem rgba(0, 123, 255, .25);
+}
+
+.btn:active {
+    box-shadow: 0 0 0 0.4rem rgba(0, 123, 255, .25) !important;
+}
+
+.btn:focus {
+    box-shadow: 0 0 0 0.4rem rgba(0, 123, 255, .25) !important;
+}
+
 .page-footer {
     position: fixed;
     bottom: 50px;
@@ -321,4 +337,8 @@ body {
 
 .progress-bar {
     background-color: #00203f;
+}
+
+.nav-top-row {
+    padding: 1rem 0 0;
 }
