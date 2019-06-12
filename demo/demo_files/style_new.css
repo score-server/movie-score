@@ -223,7 +223,7 @@ body {
 }
 
 .right-nav-person {
-    padding: 1rem;
+    padding: .25rem .25rem .25rem 1rem;
 }
 
 .right-nav-head {
@@ -300,7 +300,7 @@ body {
 
 .page-footer {
     position: fixed;
-    bottom: 20px;
+    bottom: 50px;
 }
 
 .alert-danger {

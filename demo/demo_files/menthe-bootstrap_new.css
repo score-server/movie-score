@@ -1,0 +1,140 @@
+/*
+    @author Wetwer
+    @project movie-score
+    @date 29.05.2018
+*/
+
+.card {
+    border: 0;
+    border-radius: .25rem;
+    background: #333842;
+}
+
+.form-control {
+    color: white;
+    background-color: #3e4450;
+    border: none;
+    border-radius: .25rem;
+    padding: .5rem 1rem;
+}
+
+.form-control:disabled {
+    background-color: #3e4450;
+}
+
+.form-control:hover {
+    background-color: #49505e;
+}
+
+.form-control:focus {
+    color: white;
+    background-color: #545c6c;
+    box-shadow: 0 0 0 0.4rem rgba(0, 123, 255, .25);
+}
+
+.card-header {
+    border-top-left-radius: .25rem !important;
+    border-top-right-radius: .25rem !important;
+    background: #3e4450;
+}
+
+.card-body {
+    border-bottom-left-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+}
+
+
+.card-img-top {
+    border-top-left-radius: .25rem !important;
+    border-top-right-radius: .25rem !important;
+}
+
+.card-img {
+    border-radius: .25rem;
+}
+
+.list-group-item:last-child {
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: .25rem !important;
+    border-top-right-radius: .25rem !important;
+}
+
+.img-thumbnail {
+    border: none;
+    padding: 0;
+    border-radius: .25rem;
+    max-width: 100%;
+    height: auto;
+}
+
+.alert {
+    border-radius: .25rem;
+    border: none;
+}
+
+.btn {
+    border-radius: .25rem;
+    padding: .5rem 1rem;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+
+.nav-tabs {
+    border-bottom: none;
+    padding-left: 1rem;
+}
+
+.custom-file-label {
+    color: white;
+    background-color: #3e4450;
+    border: none;
+    border-radius: .25rem !important;
+    padding-left: 20px;
+}
+
+.custom-file-label:active :focus {
+    box-shadow: 0 0 0 0.4rem rgba(0, 123, 255, .25) !important;
+}
+
+.custom-file-label::after {
+    color: white;
+    background-color: #49505e;
+    border: none;
+    border-radius: 0 .25rem .25rem 0 !important;
+}
+
+.bg {
+    border-radius: .25rem !important;
+}
+
+.bg-green {
+    color: green;
+}
+
+.bg-red {
+    color: red;
+}
+
+.bg-yellow {
+    color: orange;
+}
+
+.modal-content {
+    background-color: #282c34;
+}
+
+.breadcrumb {
+    background-color: #5f687a;
+}
+
+.navbar-nav {
+    display: block;
+}

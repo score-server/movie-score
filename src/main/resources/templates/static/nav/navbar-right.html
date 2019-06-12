@@ -1,11 +1,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<a class="navbar-brand text-white right-nav-head" href="/">
-    <img alt="nav brand" class="d-inline-block align-top nav-logo" src="https://i.imgur.com/kHO4IKs.png">
-    MovieScore
-</a>
 
 <ul class="navbar-nav mr-auto" th:if="${currentUser} != null">
+    <li class="nav-item right-nav">
+        <a class="navbar-brand text-white" href="/">
+            <img alt="nav brand" class="d-inline-block align-top nav-logo" src="https://i.imgur.com/kHO4IKs.png">
+            MovieScore
+        </a>
+    </li>
     <li class="nav-item right-nav">
         <a class="nav-link text-white" href="/movies/1">Movies</a>
     </li>
@@ -41,8 +43,8 @@
             <a class="nav-link text-white" href="/settings">Control Center</a>
         </li>
     </th:block>
+    <li class="nav-item right-nav-person">
+        <div th:include="'static/nav/currentuser.html'"></div>
+    </li>
 </ul>
-<footer class="page-footer right-nav-person">
-    <div th:include="'static/nav/currentuser.html'"></div>
-</footer>
 
