@@ -2,7 +2,7 @@
 <a href="https://score-server.github.io/movie-score/">Demo</a>
 <br>
 <br>
-<img src="https://img.shields.io/badge/version-2.8.2-green.svg">
+<img src="https://img.shields.io/badge/version-3.1.1-green.svg">
 <img src="https://img.shields.io/github/last-commit/score-server/movie-score.svg">
 <img src="https://img.shields.io/github/repo-size/score-server/movie-score.svg">
 
