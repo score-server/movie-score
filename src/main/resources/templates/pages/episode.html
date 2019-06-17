@@ -82,7 +82,7 @@
     </div>
 </div>
 <br>
-<a class="btn btn-primary" th:href="'/season/' + ${episode.season.id}">Back</a>
+<a class="link-btn" th:href="'/season/' + ${episode.season.id}">Back</a>
 
 <th:block th:switch="${currentUser.videoPlayer}">
     <script th:case="'html5'" type="application/javascript">

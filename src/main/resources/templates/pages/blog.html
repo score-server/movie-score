@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 
-<h1>Blog/News</h1>
+<h1 class="size-in">Blog/News</h1>
 
 <div class="alert alert-success" th:if="${param.new}">
     Saved new Post
@@ -14,6 +14,13 @@
 <div class="alert alert-danger" th:if="${param.notdeleted}">
     Post not deleted
 </div>
+<br>
+<a class="link-btn size-in" href="/blog/new" th:if="${currentUser.isAdmin()}">
+    <i class="fas fa-plus"></i>
+    New Post
+</a>
+<br>
+<br>
 
 <div class="col-sm-12" style="margin-bottom: 20px" th:each="blog : ${blogs}">
     <div class="card">
@@ -34,7 +41,5 @@
         </div>
     </div>
 </div>
-<a class="btn btn-primary" href="/blog/new" th:if="${currentUser.isAdmin()}">New Post</a>
 <br>
-<br>
-<a class="btn btn-primary" href="/">Back</a>
+<a class="link-btn size-in" href="/">Back</a>

@@ -26,7 +26,7 @@ public class RequestDao implements DaoInterface<Request> {
 
     @Override
     public List<Request> getAll() {
-        return requestRepository.findAllByOrderByActiveDesc();
+        return requestRepository.findAllByOrderByActiveDescRequest();
     }
 
     @Override

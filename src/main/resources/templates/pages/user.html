@@ -45,60 +45,65 @@
             <br>
             <p>
                 <a th:text="'Name: ' + ${user.name}"></a>
-                <a class="btn" data-target="#changeName" data-toggle="modal">
+                <a class="link-btn" data-target="#changeName" data-toggle="modal">
                     <i class="fas fa-pen"></i>
                 </a>
             </p>
             <p>Group: <span th:text="${user.group?.name}"></span></p>
             <p>
-                <button class="btn btn-primary" data-target="#changePsw" data-toggle="modal" type="button">
+                <a class="link-btn" data-target="#changePsw" data-toggle="modal" href="#">
+                    <i class="fas fa-key"></i>
                     Change Password
-                </button>
+                </a>
             </p>
+            <br>
             <div id="accordion">
-                <button aria-controls="collapseOne" aria-expanded="true" class="btn btn-primary"
-                        data-target="#collapsePlayer" data-toggle="collapse">
+                <a aria-controls="collapsePlayer" aria-expanded="true" class="link-btn" href="#"
+                   data-target="#collapsePlayer" data-toggle="collapse">
+                    <i class="fas fa-play-circle"></i>
                     Video Player
-                </button>
+                </a>
                 <br>
-                <div aria-labelledby="headingOne" class="collapse card card-body" data-parent="#accordion"
-                     id="collapsePlayer">
-
-                    <form class="row" id="videoPlayerForm" method="post" th:action="'/user/' + ${user.id} + '/player'">
-                        <div class="col-6">
-                            <div class="card">
-                                <div class="card-header">Plyr.io (default)</div>
-                                <div class="card-body">
-                                    <img src="https://i.imgur.com/Y3RAwxP.png" width="100%"><br>
-                                    <br>
-                                    <div class="custom-control custom-radio">
-                                        <input class="custom-control-input" id="plyr.io"
-                                               name="player"
-                                               onchange="document.getElementById('videoPlayerForm').submit()"
-                                               th:checked="${user.videoPlayer} == 'plyr'" type="radio"
-                                               value="plyr">
-                                        <label class="custom-control-label" for="plyr.io">Plyr.io (default)</label>
+                <div aria-labelledby="headingOne" class="collapse " data-parent="#accordion" id="collapsePlayer">
+                    <br>
+                    <div class="card-body">
+                        <form class="row" id="videoPlayerForm" method="post"
+                              th:action="'/user/' + ${user.id} + '/player'">
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-header">Plyr.io (default)</div>
+                                    <div class="card-body">
+                                        <img src="https://i.imgur.com/Y3RAwxP.png" width="100%"><br>
+                                        <br>
+                                        <div class="custom-control custom-radio">
+                                            <input class="custom-control-input" id="plyr.io"
+                                                   name="player"
+                                                   onchange="document.getElementById('videoPlayerForm').submit()"
+                                                   th:checked="${user.videoPlayer} == 'plyr'" type="radio"
+                                                   value="plyr">
+                                            <label class="custom-control-label" for="plyr.io">Plyr.io (default)</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="card">
-                                <div class="card-header">HTML 5 Player</div>
-                                <div class="card-body">
-                                    <img src="https://i.imgur.com/OXf4cP6.png" width="100%"><br>
-                                    <br>
-                                    <div class="custom-control custom-radio">
-                                        <input class="custom-control-input" id="html5" name="player"
-                                               onchange="document.getElementById('videoPlayerForm').submit()"
-                                               th:checked="${user.videoPlayer} == 'html5'" type="radio"
-                                               value="html5">
-                                        <label class="custom-control-label" for="html5">HTML 5</label>
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-header">HTML 5 Player</div>
+                                    <div class="card-body">
+                                        <img src="https://i.imgur.com/OXf4cP6.png" width="100%"><br>
+                                        <br>
+                                        <div class="custom-control custom-radio">
+                                            <input class="custom-control-input" id="html5" name="player"
+                                                   onchange="document.getElementById('videoPlayerForm').submit()"
+                                                   th:checked="${user.videoPlayer} == 'html5'" type="radio"
+                                                   value="html5">
+                                            <label class="custom-control-label" for="html5">HTML 5</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
             <br>
@@ -167,7 +172,10 @@
                     <label class="custom-control-label" for="extended">Extended</label>
                 </div>
                 <br>
-                <button class="btn btn-primary" type="submit">Generate new Authkey</button>
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-fingerprint"></i>
+                    Generate new Authkey
+                </button>
             </form>
             <br>
             <a aria-controls="sessionCollapse" aria-expanded="false" class="card-body" data-toggle="collapse"
@@ -207,12 +215,12 @@
                         <span th:case="1" th:text="${request.request}"></span>
                         <span th:case="0" th:text="${request.request} + ' - closed'"></span>
                     </span>
-                <div class="float-right" th:if="${currentUser} == ${user}">
-                    <a class="btn btn-primary" data-toggle="modal" href="#"
-                       th:data-target="'#editRequest' + ${request.id}">
-                        <i class="fas fa-pen"></i>
-                    </a>
+                <div class="float-right btn-group" th:if="${currentUser} == ${user}">
                     <form method="post" style="display: inline" th:action="'/request/' + ${request.id} + '/delete'">
+                        <a class="btn btn-primary" data-toggle="modal" href="#"
+                           th:data-target="'#editRequest' + ${request.id}">
+                            <i class="fas fa-pen"></i>
+                        </a>
                         <button class="btn btn-danger" type="submit"><i class="fas fa-times"></i></button>
                     </form>
                 </div>
@@ -228,11 +236,14 @@
         </div>
         <div th:if="${currentUser} == ${user}">
             <br>
-            <a class="btn btn-primary" href="/request/create">Create Request</a>
+            <a class="link-btn" href="/request/create">
+                <i class="fas fa-plus"></i>
+                Create Request
+            </a>
         </div>
         <div th:if="${currentUser.isAdmin()}">
             <br>
-            <a class="btn btn-primary" href="/settings#request">Request List</a>
+            <a class="link-btn" href="/settings#request">Request List</a>
         </div>
     </div>
 </div>
@@ -285,7 +296,7 @@
     </div>
 </div>
 <br>
-<a class="btn btn-primary" href="/user">Back</a>
+<a class="link-btn" href="/user">Back</a>
 
 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="changeName" role="dialog"
      tabindex="-1">
@@ -302,7 +313,7 @@
                     <input class="form-control" name="name" required th:value="${user.name}" type="text">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <a class="link-btn" data-dismiss="modal" href="#">Close</a>
                     <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>
@@ -327,7 +338,7 @@
                     <input class="form-control" name="name" placeholder="Confirm Password" required type="password">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <a class="link-btn" data-dismiss="modal" href="#">Close</a>
                     <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>
@@ -352,7 +363,7 @@
                            th:value="${request.request}" type="text"><br>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <a class="link-btn" data-dismiss="modal" href="#">Close</a>
                     <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>
@@ -378,7 +389,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <a class="link-btn" data-dismiss="modal" href="#">Close</a>
                     <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>

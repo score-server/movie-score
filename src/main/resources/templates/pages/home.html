@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<h1>Home</h1>
+<h1 class="size-in">Home</h1>
 
 <div class="alert alert-secondary" th:if="${param.logout}">
     Logged out
@@ -44,37 +44,38 @@
         </div>
     </div>
 </form>
-<th:block th:if="${search} == ''">
-    <br>
-    <h3>New Stuff</h3>
-    <div class="row">
-        <div class="col-12 col-md-3 col-lg-3" style="margin-bottom: 20px" th:each="announcement : ${announcements}">
-            <a th:href="${announcement.url}">
-                <div class="card moviecard">
-                    <img class="card-img" th:src="${announcement.imgUrl}">
-                    <div class="card-img-overlay" style="text-align: center">
-                        <br>
-                        <br>
-                        <br>
-                        <h3 style="text-decoration: none" th:class="${announcement.colorClass}"
-                            th:text="${announcement.title}"></h3>
+<th:block th:if="${orderBy} == ''">
+    <th:block th:if="${search} == ''">
+        <br>
+        <h3 class="size-in">New Stuff</h3>
+        <div class="row">
+            <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px" th:each="announcement : ${announcements}">
+                <a th:href="${announcement.url}">
+                    <div class="card moviecard">
+                        <img class="card-img" th:src="${announcement.imgUrl}">
+                        <div class="card-img-overlay" style="text-align: center">
+                            <br>
+                            <br>
+                            <br>
+                            <h3 style="text-decoration: none" th:class="${announcement.colorClass}"
+                                th:text="${announcement.title}"></h3>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         </div>
-    </div>
+    </th:block>
 </th:block>
-
 <br>
 <div th:if="${startedVideos.size()} != 0">
-    <h3>Continue Watching</h3>
+    <h3 class="size-in">Continue Watching</h3>
     <div class="row">
-        <div class="col-12 col-md-3 col-lg-3" style="margin-bottom: 20px" th:each="startedVideo : ${startedVideos}">
+        <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px" th:each="startedVideo : ${startedVideos}">
             <div th:include="'static/startedMovieCard.html'"></div>
         </div>
     </div>
 </div>
-<h3>Movies</h3>
+<h3 class="size-in">Movies</h3>
 <div class="row">
     <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px" th:each="movie : ${movies}">
         <div th:include="'static/movieCard.html'"></div>
@@ -88,6 +89,8 @@
                 <br>
                 <br>
                 <a href="/request/create" class="link-btn">Request movie</a>
+                <br>
+                <br>
             </div>
         </div>
     </div>
@@ -95,7 +98,8 @@
 <div class="row" th:if="${!movies.isEmpty()}">
     <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div class="card card-body">
-            <a th:href="'/movies/1?search=' + ${search} + '&orderBy=' + ${orderBy} + '&genre=' + ${currentGenre}">
+            <a class="link-btn"
+               th:href="'/movies/1?search=' + ${search} + '&orderBy=' + ${orderBy} + '&genre=' + ${currentGenre}">
                 All movies</a>
         </div>
     </div>
@@ -103,7 +107,7 @@
 
 <hr>
 
-<h3>Series</h3>
+<h3 class="size-in">Series</h3>
 <div class="row">
     <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px" th:each="serie : ${series}">
         <div th:include="'static/serieCard.html'"></div>
@@ -116,13 +120,15 @@
             <br>
             <br>
             <a href="/request/create" class="link-btn">Request serie</a>
+            <br>
+            <br>
         </div>
     </div>
 </div>
 <div class="row" th:if="${!series.isEmpty()}">
     <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
         <div class="card card-body">
-            <a th:href="'/serie?search=' + ${search}">All series</a>
+            <a class="link-btn" th:href="'/serie?search=' + ${search}">All series</a>
         </div>
     </div>
 </div>

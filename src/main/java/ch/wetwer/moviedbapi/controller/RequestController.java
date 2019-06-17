@@ -1,6 +1,5 @@
 package ch.wetwer.moviedbapi.controller;
 
-import ch.wetwer.moviedbapi.data.episode.EpisodeDao;
 import ch.wetwer.moviedbapi.data.movie.MovieDao;
 import ch.wetwer.moviedbapi.data.request.Request;
 import ch.wetwer.moviedbapi.data.request.RequestDao;
@@ -32,17 +31,15 @@ public class RequestController {
     private RequestDao requestDao;
     private UserDao userDao;
     private MovieDao movieDao;
-    private EpisodeDao episodeDao;
 
-    private UserAuthService userAuthService;
     private ActivityService activityService;
+    private UserAuthService userAuthService;
 
-    public RequestController(RequestDao requestDao, UserDao userDao, MovieDao movieDao, EpisodeDao episodeDao,
+    public RequestController(RequestDao requestDao, UserDao userDao, MovieDao movieDao,
                              UserAuthService userAuthService, ActivityService activityService) {
         this.requestDao = requestDao;
         this.userDao = userDao;
         this.movieDao = movieDao;
-        this.episodeDao = episodeDao;
         this.userAuthService = userAuthService;
         this.activityService = activityService;
     }
@@ -52,6 +49,7 @@ public class RequestController {
         if (userAuthService.isUser(model, request)) {
             userAuthService.log(this.getClass(), request);
             model.addAttribute("movies", movieDao.getAll());
+            model.addAttribute("requests", userAuthService.getUser(request).getUser().getRequests());
             model.addAttribute("page", "createRequest");
             return "template";
         } else {
@@ -80,7 +78,7 @@ public class RequestController {
             movieRequest.setActive("1");
             requestDao.save(movieRequest);
             activityService.log(user.getName() + " created Request for " + requestParam, user);
-            return "redirect:/user/" + userId + "?request";
+            return "redirect:/request/create?request";
         } else {
             return "redirect:/user/" + userId;
         }
@@ -98,7 +96,7 @@ public class RequestController {
             movieRequest.setActive("1");
             requestDao.save(movieRequest);
             activityService.log(user.getName() + " created Takedown Request for Movie " + movieId, user);
-            return "redirect:/user/" + user.getId() + "?request";
+            return "redirect:/request/create?request";
         } else {
             return "redirect:/";
         }
@@ -136,7 +134,7 @@ public class RequestController {
             return "redirect:/settings#request";
         } else if (userAuthService.isCurrentUser(request, movieRequest.getUser())) {
             requestDao.delete(movieRequest);
-            return "redirect:/user/" + movieRequest.getUser().getId() + "?removedRequest";
+            return "redirect:/request/create?removedRequest";
         } else {
             return "redirect:/";
         }
@@ -150,12 +148,12 @@ public class RequestController {
         if (userAuthService.isAdministrator(request)) {
             movieRequest.setRequest(newRequest);
             requestDao.save(movieRequest);
-            return "redirect:/settings#request";
+            return "redirect:/request/create";
         } else if (userAuthService.isCurrentUser(request, movieRequest.getUser())) {
             movieRequest.setRequest(newRequest);
             requestDao.save(movieRequest);
             userAuthService.log(this.getClass(), movieRequest.getUser());
-            return "redirect:/user/" + movieRequest.getUser().getId() + "?requestChanged";
+            return "redirect:/request/create?requestChanged";
         } else {
             return "redirect:/";
         }

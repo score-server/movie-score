@@ -222,6 +222,15 @@ body {
     background-color: #333842;
 }
 
+.right-nav:focus {
+    border-radius: .25rem;
+    background-color: #333842;
+}
+
+.right-nav:focus a {
+    outline: none;
+}
+
 .right-nav-person {
     padding: 1rem;
 }
@@ -266,7 +275,38 @@ body {
     background: #49505f;
 }
 
+.link-btn-person {
+    padding: .75rem;
+    border-radius: .25rem;
+    color: white;
+    background-color: #282c34;
+    text-decoration: none;
+}
+
+.link-btn-person a {
+    color: white;
+    text-decoration: none;
+}
+
+.link-btn-person:hover {
+    color: white;
+    background-color: #49505e;
+    text-decoration: none;
+}
+
+.btn-dark {
+    background-color: #3e4451;
+    border: none;
+}
+
+.btn-dark:hover {
+    background-color: #49505e;
+    border: none;
+}
+
 .link-btn {
+    white-space: nowrap;
+    transition: .2s;
     padding: .75rem;
     border-radius: .25rem;
     color: white;
@@ -275,11 +315,13 @@ body {
 }
 
 .link-btn a {
+    transition: .2s;
     color: white;
     text-decoration: none;
 }
 
 .link-btn:hover {
+    transition: .2s;
     color: white;
     background-color: #49505e;
     text-decoration: none;
@@ -342,4 +384,8 @@ body {
 
 .nav-top-row {
     padding: 1rem 0 0;
+}
+
+.size-in {
+    margin-left: 1rem;
 }

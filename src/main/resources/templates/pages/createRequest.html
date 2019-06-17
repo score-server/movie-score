@@ -73,4 +73,58 @@
     </div>
 </div>
 <br>
-<a class="btn btn-primary" href="/">Back</a>
+<div class="card">
+    <div class="card-header">Your Requests</div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item" th:each="request : ${requests}">
+                <th:block th:switch="${request.active}">
+                    <span th:case="1" th:text="${request.request}"></span>
+                    <span th:case="0" th:text="${request.request} + ' - closed'"></span>
+                </th:block>
+                <div class="float-right btn-group">
+                    <form method="post" style="display: inline" th:action="'/request/' + ${request.id} + '/delete'">
+                        <a class="btn btn-primary" data-toggle="modal" href="#"
+                           th:data-target="'#editRequest' + ${request.id}">
+                            <i class="fas fa-pen"></i>
+                        </a>
+                        <button class="btn btn-danger" type="submit"><i class="fas fa-times"></i></button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+        <div class="row" th:if="${requests.isEmpty()}">
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="alert alert-secondary">
+                    <a>No open Requests</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<a class="link-btn" href="/">Back</a>
+
+<div aria-hidden="true" aria-labelledby="request" class="modal fade"
+     role="dialog" tabindex="-1" th:each="request : ${requests}" th:id="'editRequest' + ${request.id}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="request">Edit Request</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" th:action="'/request/' + ${request.id} + '/edit'">
+                <div class="modal-body">
+                    <input class="form-control" name="request" placeholder="Request" required
+                           th:value="${request.request}" type="text"><br>
+                </div>
+                <div class="modal-footer">
+                    <a class="link-btn" data-dismiss="modal" href="#">Close</a>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

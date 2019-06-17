@@ -1,50 +1,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <h1>Downloads</h1>
-<div class="card">
-    <div class="card-body">
-        <h3>Movie-Score-Android <span class="badge badge-danger">Beta</span></h3>
-        <ul class="list-group">
-            <div class="list-group-item">
-                <a target="_blank"
-                   href="https://cdn.discordapp.com/attachments/448548978431361034/588696191601213440/MovieScore_beta_v0.2.apk"
-                   class="link-btn float-left">
-                    <i class="fab fa-android"></i>
-                    Android Download
-                </a>
-            </div>
-        </ul>
-        <br>
-        <h3>Movie-Score-Desktop</h3>
-        <ul class="list-group">
-            <div class="list-group-item">
-                <a target="_blank" th:href="${windows}" class="link-btn float-left">
-                    <i class="fab fa-windows"></i>
-                    Windows Download
-                </a>
-                <button class="btn btn-primary float-right" data-target="#windows" data-toggle="modal"
-                        th:if="${currentUser?.isAdmin()}">
-                    <i class="far fa-edit"></i>
-                </button>
-            </div>
-            <div class="list-group-item">
-                <a target="_blank" th:href="${mac}" class="link-btn float-left">
-                    <i class="fab fa-apple"></i>
-                    Mac Download
-                </a>
-                <button class="btn btn-primary float-right" data-target="#mac" data-toggle="modal"
-                        th:if="${currentUser?.isAdmin()}">
-                    <i class="far fa-edit"></i>
-                </button>
-            </div>
-        </ul>
-        <br>
-        <div class="text-center">
-            <img src="https://i.imgur.com/BvfJEmO.jpg"
-                 style="border-radius: .25rem;     box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);"
-                 width="50%">
-            <p>movie-score-desktop</p>
-        </div>
+<h3>Movie-Score-Android <span class="badge badge-danger">Beta</span></h3>
+<ul class="list-group">
+    <div class="list-group-item">
+        <a target="_blank"
+           href="https://cdn.discordapp.com/attachments/448548978431361034/588696191601213440/MovieScore_beta_v0.2.apk"
+           class="link-btn float-left">
+            <i class="fab fa-android"></i>
+            Android Download
+        </a>
     </div>
+</ul>
+<br>
+<h3>Movie-Score-Desktop</h3>
+<ul class="list-group">
+    <div class="list-group-item">
+        <a target="_blank" th:href="${windows}" class="link-btn float-left">
+            <i class="fab fa-windows"></i>
+            Windows Download
+        </a>
+        <button class="btn btn-primary float-right" data-target="#windows" data-toggle="modal"
+                th:if="${currentUser?.isAdmin()}">
+            <i class="far fa-edit"></i>
+        </button>
+    </div>
+    <div class="list-group-item">
+        <a target="_blank" th:href="${mac}" class="link-btn float-left">
+            <i class="fab fa-apple"></i>
+            Mac Download
+        </a>
+        <button class="btn btn-primary float-right" data-target="#mac" data-toggle="modal"
+                th:if="${currentUser?.isAdmin()}">
+            <i class="far fa-edit"></i>
+        </button>
+    </div>
+</ul>
+<br>
+<div class="text-center">
+    <img src="https://i.imgur.com/BvfJEmO.jpg"
+         style="border-radius: .25rem;     box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);"
+         width="50%">
+    <p>movie-score-desktop</p>
 </div>
 <br>
 <div class="card">
@@ -70,13 +66,13 @@ MacOS:
 <div class="card card-body">
     <p>Reguarding Feedback or Errors with the Movie-Score-Desktop please contact YKing</p>
     <div>
-        <a class="btn btn-secondary" href="https://discord.gg/rf3JRfW" target="_blank">
+        <a class="link-btn" href="https://discord.gg/rf3JRfW" target="_blank">
             <i class="fab fa-discord"></i> ScoreServer
         </a>
     </div>
 </div>
 <br>
-<a class="btn btn-primary" href="/">Back</a>
+<a class="link-btn" href="/">Back</a>
 
 <div aria-hidden="true" aria-labelledby="windows" class="modal fade" id="windows" role="dialog" tabindex="-1">
     <div class="modal-dialog" role="document">
@@ -92,7 +88,7 @@ MacOS:
                     <input class="form-control" name="path" required th:value="${windows}" type="text">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <a class="link-btn" data-dismiss="modal" href="#">Close</a>
                     <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>
@@ -114,7 +110,7 @@ MacOS:
                     <input class="form-control" name="path" required th:value="${mac}" type="text">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <a class="link-btn" data-dismiss="modal" href="#">Close</a>
                     <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>

@@ -6,7 +6,7 @@
 </div>
 
 
-<h1>Movies</h1>
+<h1 class="size-in">Movies</h1>
 
 <form action="/movies/1" id="search">
     <div class="row">
@@ -51,6 +51,8 @@
                 <br>
                 <br>
                 <a href="/request/create" class="link-btn">Request movie</a>
+                <br>
+                <br>
             </div>
         </div>
     </div>
@@ -61,7 +63,7 @@
         <a class="btn btn-primary" th:href="'/movies/' + ${pageIndexLast}
         + '?search=' + ${search}  + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
            th:if="${lastDisabled}">Last</a>
-        <a class="btn btn-secondary"
+        <a class="btn link-btn"
            th:href="'/movies/' + ${pageIndex} + '?search=' + ${search} + '&genre=' + ${currentGenre} + '&orderBy=' + ${orderBy}"
            th:text="${pageIndex}"></a>
         <a class="btn btn-primary"

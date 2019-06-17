@@ -31,10 +31,10 @@
     <button class="btn btn-primary" id="submitUpload" type="submit">Upload</button>
     <br>
     <br>
-    <button aria-controls="guide" aria-expanded="false" class="btn btn-secondary" data-target="#guide" data-toggle="collapse"
-            type="button">
+    <a aria-controls="guide" aria-expanded="false" class="link-btn" data-target="#guide" data-toggle="collapse"
+       href="#">
         Upload Guide <i class="fas fa-chevron-down"></i>
-    </button>
+    </a>
     <br>
     <div class="collapse" id="guide">
         <br>
@@ -114,7 +114,7 @@
                     <b th:text="${file.user?.name}"></b>
                     <th:block th:if="${file.completed && currentUser.isAdmin()}">
                         <div class="btn-group">
-                            <a class="btn btn-secondary" data-toggle="modal" href="#"
+                            <a class="btn link-btn" data-toggle="modal" href="#"
                                th:data-target="'#editFile' + ${file.id}">
                                 <i class="far fa-edit"></i>
                             </a>
@@ -177,7 +177,7 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <a class="link-btn" data-dismiss="modal" href="#">Close</a>
                     <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>
@@ -185,7 +185,7 @@
     </div>
 </div>
 <br>
-<a class="btn btn-primary" href="/settings">Back</a>
+<a class="link-btn" href="/settings">Back</a>
 <script>
     function setLabel() {
         document.getElementById('filelabel').innerHTML = document.getElementById('movie').value;

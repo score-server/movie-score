@@ -21,8 +21,8 @@
     <div class="card-header">New Group</div>
     <div class="card-body">
         <form action="/group/new" class="form-inline" method="post">
-            <input class="form-control" name="name" placeholder="Group Name">
-            <button class="btn btn-primary" type="submit">Save</button>
+            <input class="form-control" name="name" placeholder="Group Name" style="margin-right: 1rem">
+            <button class="btn btn-dark" type="submit">Save</button>
         </form>
     </div>
 </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="col-2">
                 <form class="btn-group float-right" method="post" th:action="'/group/delete/' + ${group.id}">
-                    <a class="btn btn-secondary" data-toggle="modal" th:data-target="'#qr' + ${group.id}"
+                    <a class="btn link-btn" data-toggle="modal" th:data-target="'#qr' + ${group.id}"
                        th:if="${group.active}">
                         <i class="fas fa-qrcode"></i>
                     </a>
@@ -81,7 +81,7 @@
     </li>
 </ul>
 <br>
-<a class="btn btn-primary" href="/">Back</a>
+<a class="link-btn" href="/">Back</a>
 
 <datalist id="users">
     <option th:each="user : ${users}" th:value="${user.name}">
@@ -104,7 +104,7 @@
                          width="100%">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <a class="link-btn" data-dismiss="modal" href="#">Close</a>
                 </div>
             </div>
         </div>
