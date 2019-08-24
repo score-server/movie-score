@@ -2,7 +2,7 @@
 
 <a th:href="'/' + ${startedVideo.videoModel.type} + '/' + ${startedVideo.videoModel.id}">
     <div class="card moviecard">
-        <div>
+        <div class="img-hover-zoom">
             <span class="quality-badge" th:text="${startedVideo.videoModel.quality}"></span>
             <form class="remove-time" method="post" th:action="'/time/delete/' + ${startedVideo.time.id}">
                 <button class="btn btn-danger" data-placement="top" data-toggle="tooltip" title="Reset Time"

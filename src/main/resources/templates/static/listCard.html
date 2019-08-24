@@ -2,7 +2,7 @@
 
 <a th:href="'/list/' + ${timeline.id}">
     <div class="card moviecard">
-        <div th:if="${!timeline.listMovies.isEmpty()}">
+        <div th:if="${!timeline.listMovies.isEmpty()}" class="img-hover-zoom">
             <img class="card-img-top lazy" src="https://i.imgur.com/d8yY783.png"
                  th:data-src="${timeline.listMovies.get(0).movie.backgroundImg}">
         </div>

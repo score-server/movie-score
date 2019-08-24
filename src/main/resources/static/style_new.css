@@ -41,6 +41,8 @@ body {
 }
 
 .quality-badge {
+    transition: .5s ease;
+    z-index: 100;
     position: absolute;
     right: 7px;
     top: 10px;
@@ -52,6 +54,8 @@ body {
 }
 
 .quality-badge-red {
+    transition: .5s ease;
+    z-index: 100;
     position: absolute;
     right: 7px;
     top: 10px;
@@ -63,6 +67,8 @@ body {
 }
 
 .remove-time {
+    transition: .5s ease;
+    z-index: 100;
     position: absolute;
     left: 7px;
     top: 10px;
@@ -70,6 +76,8 @@ body {
 }
 
 .place-badge {
+    transition: .5s ease;
+    z-index: 100;
     position: absolute;
     left: 7px;
     top: 10px;
@@ -158,10 +166,12 @@ body {
 
 .white {
     color: white;
+    text-shadow: 1px 1px 6px black;
 }
 
 .black {
     color: black;
+    text-shadow: 1px 1px 6px white;
 }
 
 .blue {
@@ -388,4 +398,28 @@ body {
 
 .size-in {
     margin-left: 1rem;
+}
+
+.img-hover-zoom {
+    overflow: hidden;
+}
+
+.img-hover-zoom img {
+    transition: transform .5s ease;
+}
+
+.img-hover-zoom:hover img {
+    transform: scale(1.1);
+}
+
+.img-hover-zoom:hover .quality-badge {
+    opacity: 0.3;
+}
+
+.img-hover-zoom:hover .quality-badge-red {
+    opacity: 0.3;
+}
+
+.img-hover-zoom:hover .place-badge {
+    opacity: 0.3;
 }

@@ -2,7 +2,9 @@
 
 <a th:href="'/serie/' + ${serie.id}">
     <div class="card moviecard">
-        <img class="card-img-top lazy" src="https://i.imgur.com/d8yY783.png" th:data-src="${serie.backgroundImg}">
+        <div class="img-hover-zoom">
+            <img class="card-img-top lazy" src="https://i.imgur.com/d8yY783.png" th:data-src="${serie.backgroundImg}">
+        </div>
         <div class="card-body nodec">
             <h6 class="card-title" th:text="${serie.title}"></h6>
             <a>

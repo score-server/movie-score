@@ -2,14 +2,15 @@
 
 <a th:href="'/movie/' + ${movie.id}">
     <div class="card moviecard">
-        <div>
+        <div class="img-hover-zoom">
             <span class="quality-badge-red" th:if="${movie.isBroken()}" th:text="${movie.quality}"></span>
             <span class="quality-badge" th:if="!${movie.isBroken()}" th:text="${movie.quality}"></span>
-            <img class="card-img-top lazy" src="https://i.imgur.com/d8yY783.png" th:data-src="${movie.backgroundImg}">
+            <img class="card-img-top lazy" src="https://i.imgur.com/d8yY783.png"
+                 th:data-src="${movie.backgroundImg}">
         </div>
         <div class="card-body nodec">
             <h6 class="card-title">
-                <span th:text="${movie.title}"></span>
+                <span th:text="${movie.title}" style="text-decoration: none"></span>
                 <span class="float-right">
                     <i class="fas fa-heart" style="color: red"></i>
                     <span th:text="${movie.likes.size()}"></span>

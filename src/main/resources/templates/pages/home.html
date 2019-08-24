@@ -52,13 +52,15 @@
             <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px" th:each="announcement : ${announcements}">
                 <a th:href="${announcement.url}">
                     <div class="card moviecard">
-                        <img class="card-img" th:src="${announcement.imgUrl}">
-                        <div class="card-img-overlay" style="text-align: center">
-                            <br>
-                            <br>
-                            <br>
-                            <h3 style="text-decoration: none" th:class="${announcement.colorClass}"
-                                th:text="${announcement.title}"></h3>
+                        <div class="img-hover-zoom">
+                            <img class="card-img" th:src="${announcement.imgUrl}">
+                            <div class="card-img-overlay" style="text-align: center">
+                                <br>
+                                <br>
+                                <br>
+                                <h3 style="text-decoration: none" th:class="${announcement.colorClass}"
+                                    th:text="${announcement.title}"></h3>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -105,7 +107,7 @@
     </div>
 </div>
 
-<hr>
+<br>
 
 <h3 class="size-in">Series</h3>
 <div class="row">

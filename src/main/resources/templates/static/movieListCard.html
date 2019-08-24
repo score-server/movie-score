@@ -2,7 +2,7 @@
 
 <a th:href="'/movie/' + ${moviePar.movie.id}">
     <div class="card moviecard">
-        <div>
+        <div class="img-hover-zoom">
             <span class="place-badge" th:text="${moviePar.place}"></span>
             <span class="quality-badge-red" th:if="${moviePar.movie.isBroken()}"
                   th:text="${moviePar.movie.quality}"></span>
