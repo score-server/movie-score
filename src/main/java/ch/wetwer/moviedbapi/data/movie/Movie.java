@@ -58,6 +58,7 @@ public class Movie {
     private String filetype;
     private String previewPath;
     private Timestamp timestamp;
+    private Boolean recommended;
 
     @Lob
     @Column

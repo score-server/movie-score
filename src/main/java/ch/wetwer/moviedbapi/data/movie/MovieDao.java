@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Wetwer
@@ -64,5 +65,10 @@ public class MovieDao implements DaoInterface<Movie> {
 
     public List<Movie> getLatestInfo() {
         return movieRepository.findTop3ByOrderByTimestampDesc();
+    }
+
+    public Movie getRecommended() {
+        List<Movie> recommendedMovies = movieRepository.findMoviesByRecommended(true);
+        return recommendedMovies.get(new Random().nextInt(recommendedMovies.size()));
     }
 }

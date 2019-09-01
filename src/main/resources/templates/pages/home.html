@@ -65,6 +65,22 @@
                     </div>
                 </a>
             </div>
+            <div class="col-12 col-md-4 col-lg-3" style="margin-bottom: 20px">
+                <a th:href="'/movie/' + ${recommended.id}">
+                    <div class="card moviecard">
+                        <div class="img-hover-zoom">
+                            <img class="card-img" th:src="${recommended.backgroundImg}">
+                            <div class="card-img-overlay" style="text-align: center">
+                                <br class="d-none d-lg-block">
+                                <br>
+                                <br>
+                                <h3 style="text-decoration: none" class="white"
+                                    th:text="'Recommended: ' + ${recommended.title}"></h3>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
     </th:block>
 </th:block>

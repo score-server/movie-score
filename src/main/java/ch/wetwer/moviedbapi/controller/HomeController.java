@@ -2,6 +2,7 @@ package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.announcement.AnnouncementDao;
 import ch.wetwer.moviedbapi.data.movie.Movie;
+import ch.wetwer.moviedbapi.data.movie.MovieDao;
 import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.GenreSearchType;
 import ch.wetwer.moviedbapi.service.SearchService;
@@ -26,13 +27,16 @@ public class HomeController {
 
     private SearchService searchService;
     private UserAuthService userAuthService;
+
     private AnnouncementDao announcementDao;
+    private MovieDao movieDao;
 
     public HomeController(SearchService searchService, UserAuthService userAuthService,
-                          AnnouncementDao announcementDao) {
+                          AnnouncementDao announcementDao, MovieDao movieDao) {
         this.searchService = searchService;
         this.userAuthService = userAuthService;
         this.announcementDao = announcementDao;
+        this.movieDao = movieDao;
     }
 
     @GetMapping
@@ -58,12 +62,14 @@ public class HomeController {
                 model.addAttribute("startedVideos", new ArrayList<>());
             }
 
+
             model.addAttribute("genres", searchService.getGenres(GenreSearchType.MOVIE));
 
             List<Movie> movieList = searchService.searchMoviesTop(search, orderBy);
             model.addAttribute("movies", movieList);
             model.addAttribute("series", searchService.searchSerieTop(search));
             model.addAttribute("announcements", announcementDao.getAll());
+            model.addAttribute("recommended", movieDao.getRecommended());
 
             model.addAttribute("search", search);
             model.addAttribute("orderBy", orderBy);

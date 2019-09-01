@@ -57,7 +57,7 @@ public class SearchService {
             case "year":
                 movies = movieRepository.findMoviesByTitleContainingOrderByYearDesc(search);
                 break;
-            case "recomended":
+            case "recommended":
                 movies = movieDao.searchRecomended(search);
                 break;
             case "latest":
@@ -98,7 +98,7 @@ public class SearchService {
             case "latest":
                 movies = movieRepository.findTop24ByTitleContainingOrderByTimestampDesc(search);
                 break;
-            case "recomended":
+            case "recommended":
                 movies = movieDao.searchRecomended(search);
                 break;
             default:

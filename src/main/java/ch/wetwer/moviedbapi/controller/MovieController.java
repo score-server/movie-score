@@ -156,4 +156,16 @@ public class MovieController {
             return "redirect:/movie/" + movieId;
         }
     }
+
+    @PostMapping("{movieId}/recommend")
+    public String setMovieRecomended(@PathVariable("movieId") Long movieId, HttpServletRequest request) {
+        if (userAuthService.isAdministrator(request)) {
+            Movie movie = movieDto.getById(movieId);
+            movie.setRecommended(!movie.getRecommended());
+            movieDto.save(movie);
+            return "redirect:/movie/" + movieId + "?recommended";
+        } else {
+            return "redirect:/movie/" + movieId;
+        }
+    }
 }
