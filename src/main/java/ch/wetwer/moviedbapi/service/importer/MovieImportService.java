@@ -96,6 +96,7 @@ public class MovieImportService extends ImportServiceFactory {
             movie.setQuality(getQuality(filename));
             movie.setYear(getYear(filename));
             movie.setVideoPath(file.getPath());
+            movie.setRecommended(false);
             movie.setTimestamp(new Timestamp(new Date().getTime()));
             sleep(300);
 
