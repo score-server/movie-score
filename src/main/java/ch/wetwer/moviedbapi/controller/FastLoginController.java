@@ -67,7 +67,7 @@ public class FastLoginController {
                 if (user.getAuthKey() == null) {
                     return "redirect:/fastlogin?error";
                 } else if (authkey.equals(user.getAuthKey())) {
-                    cookieService.setFastLoginCookie(response, user);
+                    cookieService.setCookie("fast", user.getAuthKey(), 3600, response);
                     userDao.save(user);
                     activityService.log(user.getName() + " used Authkeylink", user);
                     return "redirect:/fastlogin/settings";

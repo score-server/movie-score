@@ -70,4 +70,19 @@ public class CookieService {
         }
         return null;
     }
+
+    /**
+     * Create cookie with following params
+     *
+     * @param name address for cookie
+     * @param value string
+     * @param age surival time of cookie
+     * @param response
+     */
+    public void setCookie(String name, String value, int age, HttpServletResponse response) {
+        Cookie userCookie = new Cookie(name, value);
+        userCookie.setMaxAge(age);
+        userCookie.setPath("/");
+        response.addCookie(userCookie);
+    }
 }

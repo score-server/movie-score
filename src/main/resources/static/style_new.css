@@ -225,19 +225,24 @@ body {
 
 .right-nav {
     padding: .25rem .25rem .25rem 1rem;
+    transition: .2s;
 }
 
 .right-nav:hover {
+    transition: .2s;
     border-radius: .25rem;
     background-color: #333842;
 }
 
 .right-nav:focus {
+    transition: .2s;
+    box-shadow: 0 0 0 0.4rem rgba(0, 123, 255, .25);
     border-radius: .25rem;
     background-color: #333842;
 }
 
 .right-nav:focus a {
+    box-shadow: 0 0 0 0.4rem rgba(0, 123, 255, .25);
     outline: none;
 }
 
@@ -288,6 +293,7 @@ body {
 .link-btn-person {
     padding: .75rem;
     border-radius: .25rem;
+    transition: .2s;
     color: white;
     background-color: #282c34;
     text-decoration: none;
@@ -299,10 +305,17 @@ body {
 }
 
 .link-btn-person:hover {
+    transition: .2s;
     color: white;
     background-color: #49505e;
     text-decoration: none;
 }
+
+.link-btn:focus {
+    transition: .2s;
+    box-shadow: 0 0 0 0.4rem rgba(0, 123, 255, .25);
+}
+
 
 .btn-dark {
     background-color: #3e4451;

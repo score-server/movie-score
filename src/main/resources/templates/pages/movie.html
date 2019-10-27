@@ -8,8 +8,8 @@
     </script>
 
     <th:block th:case="*">
-        <link href='https://cdn.plyr.io/3.5.4/plyr.css' rel='stylesheet'>
-        <script src='https://cdn.plyr.io/3.5.4/plyr.js'></script>
+        <link href='https://cdn.plyr.io/3.5.6/plyr.css' rel='stylesheet'>
+        <script src="https://cdn.plyr.io/3.5.6/plyr.js"></script>
         <link rel="stylesheet" th:href="'../plyr/style.css'">
         <script type="application/javascript">
             $(window).bind("load", function () {
@@ -30,7 +30,7 @@
         <track kind="subtitles" th:each="subtitle : ${movie.subtitles}" th:label="${subtitle.language}"
                th:src="'/subtitle/' + ${subtitle.id}" th:srclang="${subtitle.language}">
     </video>
-    <video controls id="player" playsinline style="user-select: none;" th:case="*"
+    <video controls id="player" playsinline th:case="*"
            th:poster="${movie.backgroundImg}">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
         <track kind="subtitles" th:each="subtitle : ${movie.subtitles}" th:label="${subtitle.language}"
@@ -259,9 +259,6 @@
             });
         }
     </script>
-    <script type="application/javascript">
-
-    </script>
 </th:block>
 
 <div aria-hidden="true" class="modal fade" id="addSubs" role="dialog"
@@ -296,7 +293,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () = > {
+    document.addEventListener('DOMContentLoaded', () => {
         // This is the bare minimum JavaScript. You can opt to pass no arguments to setup.
         const player = new Plyr(document.getElementById('player'), {
             // previewThumbnails: {
@@ -307,42 +304,36 @@
             //     urlPrefix: 'http://localhost:8081'
             // }
         });
-    player.global = true;
+        player.global = true;
 
-    // Bind event listener
-    function on(selector, type, callback) {
-        document.querySelector(selector).addEventListener(type, callback, false);
-    }
+        // Bind event listener
+        function on(selector, type, callback) {
+            document.querySelector(selector).addEventListener(type, callback, false);
+        }
 
-    // Play
-    on('.js-play', 'click', () = > {
-        player.play();
-    })
-    ;
+        // Play
+        on('.js-play', 'click', () => {
+            player.play();
+        });
 
-    // Pause
-    on('.js-pause', 'click', () = > {
-        player.pause();
-    })
-    ;
+        // Pause
+        on('.js-pause', 'click', () => {
+            player.pause();
+        });
 
-    // Stop
-    on('.js-stop', 'click', () = > {
-        player.stop();
-    })
-    ;
+        // Stop
+        on('.js-stop', 'click', () => {
+            player.stop();
+        });
 
-    // Rewind
-    on('.js-rewind', 'click', () = > {
-        player.rewind();
-    })
-    ;
+        // Rewind
+        on('.js-rewind', 'click', () => {
+            player.rewind();
+        });
 
-    // Forward
-    on('.js-forward', 'click', () = > {
-        player.forward();
-    })
-    ;
-    })
-    ;
+        // Forward
+        on('.js-forward', 'click', () => {
+            player.forward();
+        });
+    });
 </script>
