@@ -34,42 +34,54 @@
     </script>
 </div>
 
-<div class="card card-body">
-    <p>Movie Import Path</p>
-    <ol class="breadcrumb btn" data-target="#changeMoviePath" data-toggle="modal">
-        <li class="breadcrumb-item" th:text="${moviePath}"></li>
-    </ol>
-    <form action="/import/movie" method="post">
-        <button class="btn btn-primary" th:disabled="${running}">Import Movies</button>
-    </form>
-    <br>
-    <form action="/import/movie/update" method="post">
-        <button class="btn btn-primary" th:disabled="${running}">Update Movies</button>
-    </form>
+<div class="card">
+    <div class="card-header">
+        Movie Import Path
+    </div>
+    <div class="card-body">
+        <ol class="breadcrumb btn" data-target="#changeMoviePath" data-toggle="modal">
+            <li class="breadcrumb-item" th:text="${moviePath}"></li>
+        </ol>
+        <form action="/import/movie" method="post">
+            <button class="btn btn-primary" th:disabled="${running}">Import Movies</button>
+        </form>
+        <br>
+        <form action="/import/movie/update" method="post">
+            <button class="btn btn-primary" th:disabled="${running}">Update Movies</button>
+        </form>
+    </div>
 </div>
 <br>
-<div class="card card-body">
-    <p>Series Import Path</p>
-    <ol class="breadcrumb btn" data-target="#changeSeriePath" data-toggle="modal">
-        <li class="breadcrumb-item" th:text="${seriePath}"></li>
-    </ol>
-    <form action="/import/serie" method="post">
-        <button class="btn btn-primary" th:disabled="${running}">Import Series</button>
-    </form>
-    <br>
-    <form action="/import/serie/update" method="post">
-        <button class="btn btn-primary" th:disabled="${running}">Update Series</button>
-    </form>
+<div class="card">
+    <div class="card-header">
+        Series Import Path
+    </div>
+    <div class="card-body">
+        <ol class="breadcrumb btn" data-target="#changeSeriePath" data-toggle="modal">
+            <li class="breadcrumb-item" th:text="${seriePath}"></li>
+        </ol>
+        <form action="/import/serie" method="post">
+            <button class="btn btn-primary" th:disabled="${running}">Import Series</button>
+        </form>
+        <br>
+        <form action="/import/serie/update" method="post">
+            <button class="btn btn-primary" th:disabled="${running}">Update Series</button>
+        </form>
+    </div>
 
 </div>
 
 <br>
 
-<div class="card card-body">
-    <p>Preview Storage Path</p>
-    <ol class="breadcrumb btn" data-target="#changePreviewPath" data-toggle="modal">
-        <li class="breadcrumb-item" th:text="${previewPath}"></li>
-    </ol>
+<div class="card">
+    <div class="card-header">
+        Preview Storage Path
+    </div>
+    <div class="card-body">
+        <ol class="breadcrumb btn" data-target="#changePreviewPath" data-toggle="modal">
+            <li class="breadcrumb-item" th:text="${previewPath}"></li>
+        </ol>
+    </div>
 </div>
 
 <br>

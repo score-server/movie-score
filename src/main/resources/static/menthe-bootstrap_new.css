@@ -4,6 +4,10 @@
     @date 29.05.2018
 */
 
+*{
+    zoom: 1.02;
+}
+
 .card {
     border: 0;
     border-radius: .25rem;
