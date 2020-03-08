@@ -74,8 +74,13 @@
 <br>
 <div class="card">
     <div class="card-header">Staged Videofiles
-        <form action="/upload/scan" class="float-right" method="post" th:if="${currentUser.isAdmin()}">
-            <button class="btn btn-secondary" type="submit"><i class="fas fa-sync-alt"></i> Scan</button>
+        <form style="margin-left: 1rem" action="/upload/scan" class="float-right" method="post" th:if="${currentUser.isAdmin()}">
+            <button class="btn btn-secondary" type="submit"><i class="fas fa-sync-alt"></i></button>
+        </form>
+        <form th:if="${currentUser.isAdmin()}" class="float-right" th:action="'/upload/nameRegex'" method="post">
+            <button  class="btn btn-secondary" type="submit">
+                <i class="fas fa-clipboard"></i>
+            </button>
         </form>
     </div>
     <div class="card-body">

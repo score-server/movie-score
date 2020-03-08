@@ -4,6 +4,7 @@ import ch.wetwer.moviedbapi.data.uploadFile.UploadFile;
 import ch.wetwer.moviedbapi.data.uploadFile.UploadFileDao;
 import ch.wetwer.moviedbapi.data.uploadFile.VideoType;
 import ch.wetwer.moviedbapi.data.user.UserDao;
+import ch.wetwer.moviedbapi.service.FileNameService;
 import ch.wetwer.moviedbapi.service.FileSizeService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import ch.wetwer.moviedbapi.service.filehandler.SettingsService;
@@ -43,13 +44,15 @@ public class UploadController {
 
     private SettingsService settingsService;
     private UserAuthService userAuthService;
+    private FileNameService fileNameService;
 
     public UploadController(UploadFileDao uploadFileDao, UserDao userDao, SettingsService settingsService,
-                            UserAuthService userAuthService) {
+                            UserAuthService userAuthService, FileNameService fileNameService) {
         this.uploadFileDao = uploadFileDao;
         this.userDao = userDao;
         this.settingsService = settingsService;
         this.userAuthService = userAuthService;
+        this.fileNameService = fileNameService;
     }
 
 
@@ -118,28 +121,32 @@ public class UploadController {
                                    HttpServletRequest request) {
         if (userAuthService.isAdministrator(request)) {
             userAuthService.log(this.getClass(), request);
-            File uploadDir = new File(settingsService.getKey("moviePath") + "_tmp");
-
-            UploadFile uploadFile = uploadFileDao.getById(uploadId);
-
-            for (File file : uploadDir.listFiles()) {
-                if (file.hashCode() == uploadFile.getHash()) {
-                    try {
-                        File newFile = new File(file.getParent(), newName);
-                        Files.move(file.toPath(), newFile.toPath());
-                        uploadFile.setFilename(newFile.getName());
-                        uploadFile.setVideoType(VideoType.getType(videoType));
-                        uploadFile.setHash(newFile.hashCode());
-                        regexAttributes(uploadFile);
-                        uploadFileDao.save(uploadFile);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            edit(uploadId, newName, videoType);
             return "redirect:/upload?name";
         }
         return "redirect:/";
+    }
+
+    private void edit(Long uploadId, String newName, String videoType) {
+        File uploadDir = new File(settingsService.getKey("moviePath") + "_tmp");
+
+        UploadFile uploadFile = uploadFileDao.getById(uploadId);
+
+        for (File file : uploadDir.listFiles()) {
+            if (file.hashCode() == uploadFile.getHash()) {
+                try {
+                    File newFile = new File(file.getParent(), newName);
+                    Files.move(file.toPath(), newFile.toPath());
+                    uploadFile.setFilename(newFile.getName());
+                    uploadFile.setVideoType(VideoType.getType(videoType));
+                    uploadFile.setHash(newFile.hashCode());
+                    regexAttributes(uploadFile);
+                    uploadFileDao.save(uploadFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void regexAttributes(UploadFile uploadFile) {
@@ -276,6 +283,28 @@ public class UploadController {
         return "redirect:/";
     }
 
+
+    @PostMapping("nameRegex")
+    public String nameRegex(HttpServletRequest request) {
+        if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
+
+            List<UploadFile> files = uploadFileDao.getAll();
+
+            for (UploadFile uploadFile : files) {
+                if (!uploadFile.isCorrect() && !uploadFile.getFilename().endsWith(".filename")) {
+                    edit(uploadFile.getId(),
+                            fileNameService.getFileCorrected(uploadFile.getFilename()),
+                            "movie");
+                }
+            }
+
+            return "redirect:/upload";
+        }
+        return "redirect:/";
+
+    }
+
     private void scan() {
         File[] files = new File(settingsService.getKey("moviePath") + "_tmp").listFiles();
 
@@ -305,5 +334,9 @@ public class UploadController {
                 uploadFileDao.delete(uploadFile);
             }
         }
+    }
+
+    void acceptFile() {
+
     }
 }
