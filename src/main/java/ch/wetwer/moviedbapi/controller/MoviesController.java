@@ -51,7 +51,7 @@ public class MoviesController {
 
                 model.addAttribute("genres", searchService.getGenres(GenreSearchType.MOVIE));
                 model.addAttribute("movies", movies);
-                model.addAttribute("all", searchService.searchMoviesTop("", orderBy));
+                model.addAttribute("all", searchService.searchMovies("","", ""));
 
                 model.addAttribute("pageIndex", page);
                 if (page - 1 == 0) {
