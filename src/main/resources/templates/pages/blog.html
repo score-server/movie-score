@@ -24,21 +24,40 @@
 
 <div class="col-sm-12" style="margin-bottom: 20px" th:each="blog : ${blogs}">
     <div class="card">
-        <div class="card-header">
-            <b th:text="${blog.title}"></b>
-            <a class="float-right" th:text="${#dates.format(blog.timestamp, 'dd.MM.yyyy HH:mm')}"></a>
-        </div>
-        <div class="card-body">
-            <p th:utext="${blog.text}"></p>
-            <small class="text-muted">
-                <span>By </span>
-                <a th:href="'/user/' + ${blog.user.id}" th:text="${blog.user.name}"></a>
-                <form class="float-right" method="post" th:action="'/blog/' + ${blog.id} + '/delete'"
-                      th:if="${currentUser.isAdmin()}">
-                    <button class="btn btn-danger" type="submit">Delete</button>
-                </form>
-            </small>
-        </div>
+        <th:block th:if="${blog.id} == ${blogs[0].id}">
+            <div  class="card-header card-header-orange">
+                <b th:text="${blog.title}"></b>
+                <a class="float-right" th:text="${#dates.format(blog.timestamp, 'dd.MM.yyyy HH:mm')}"></a>
+            </div>
+            <div class="card-body card-body-orange">
+                <p th:utext="${blog.text}"></p>
+                <small class="text-muted">
+                    <span>By </span>
+                    <a th:href="'/user/' + ${blog.user.id}" th:text="${blog.user.name}"></a>
+                    <form class="float-right" method="post" th:action="'/blog/' + ${blog.id} + '/delete'"
+                          th:if="${currentUser.isAdmin()}">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </small>
+            </div>
+        </th:block >
+        <th:block th:if="${blog.id} != ${blogs[0].id}">
+            <div  class="card-header">
+                <b th:text="${blog.title}"></b>
+                <a class="float-right" th:text="${#dates.format(blog.timestamp, 'dd.MM.yyyy HH:mm')}"></a>
+            </div>
+            <div class="card-body">
+                <p th:utext="${blog.text}"></p>
+                <small class="text-muted">
+                    <span>By </span>
+                    <a th:href="'/user/' + ${blog.user.id}" th:text="${blog.user.name}"></a>
+                    <form class="float-right" method="post" th:action="'/blog/' + ${blog.id} + '/delete'"
+                          th:if="${currentUser.isAdmin()}">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </small>
+            </div>
+        </th:block>
     </div>
 </div>
 <br>

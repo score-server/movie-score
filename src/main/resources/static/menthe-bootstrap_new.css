@@ -38,9 +38,17 @@
     background: #3e4450;
 }
 
+.card-header-orange {
+    background: #924938;
+}
+
 .card-body {
     border-bottom-left-radius: .25rem;
     border-bottom-right-radius: .25rem;
+}
+
+.card-body-orange {
+    background: #d76246;
 }
 
 
