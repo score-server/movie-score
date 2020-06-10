@@ -189,7 +189,6 @@
 }
 
 .autocomplete-active {
-    /*when navigating through the items using the arrow keys:*/
     background-color: #222732 !important;
     color: #ffffff;
 }

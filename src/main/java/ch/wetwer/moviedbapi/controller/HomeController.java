@@ -70,6 +70,8 @@ public class HomeController {
             model.addAttribute("series", searchService.searchSerieTop(search));
             model.addAttribute("announcements", announcementDao.getAll());
             model.addAttribute("recommended", movieDao.getRecommended());
+            model.addAttribute("all", searchService.searchMovies("","", ""));
+
 
             model.addAttribute("search", search);
             model.addAttribute("orderBy", orderBy);

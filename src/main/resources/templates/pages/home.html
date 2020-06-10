@@ -18,11 +18,13 @@
     Missing access rights
 </div>
 
-<form action="/" id="search">
+<form action="/" id="search" autocomplete="off">
     <div class="row">
         <div class="col-12 col-md-6 col-lg-6" style="margin-bottom: 5px">
-            <input autocomplete="off" class="form-control" name="search" placeholder="Search" th:value="${search}"
-                   type="text">
+            <div class="autocomplete">
+                <input id="searchField" class="form-control" name="search" placeholder="Search"
+                       th:value="${search}" type="text">
+            </div>
         </div>
         <div class="col-6 col-md-3 col-lg-3">
             <select class="form-control" name="genre" onchange="document.getElementById('search').submit()">
@@ -150,3 +152,9 @@
         </div>
     </div>
 </div>
+
+<script type="application/javascript" th:src="'../autocomplete.js'"></script>
+<script th:inline="javascript">
+    const list = [[${all}]];
+    autocomplete(document.getElementById("searchField"), list);
+</script>
