@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 public class FileNameService {
 
     public String getFileCorrected(String fileName) {
-        if (fileName.endsWith(".mp4")){
+        if (fileName.endsWith(".mp4")) {
 
             fileName = fileName.replace(".mp4", "[end]");
 
             String[] urls = {
                     "-[YTS.LT]", "-[YTS.MX]", "-[YTS.AG]", "-[YTS.AM]", ".YIFY",
-                    "x264.AAC5.1", "x264.AAC", "x264",
-                    ".BluRay.", ".WEBRip."
+                    "x264.AAC5.1", "x264.AAC", "x264.BOKUTOX", "x264",
+                    ".BluRay.", ".WEBRip.", ".BrRip."
             };
 
             for (String replacable : urls) {

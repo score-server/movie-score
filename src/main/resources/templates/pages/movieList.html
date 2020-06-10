@@ -30,7 +30,8 @@
                 <option th:selected="${orderBy.contains('title')}" value="title">Title</option>
                 <option th:selected="${orderBy.contains('rating')}" value="rating">Rating</option>
                 <option th:selected="${orderBy.contains('year')}" value="year">Year</option>
-                <option th:selected="${orderBy.contains('recomended')}" value="recomended">Recomended</option>
+                <option th:selected="${orderBy.contains('recommend')}" value="recommend">Recommended by Users</option>
+                <option th:selected="${orderBy.contains('byAdmin')}" value="byAdmin">Recommended by Admin</option>
                 <option th:selected="${orderBy.contains('latest')}" value="latest">Latest</option>
             </select>
         </div>

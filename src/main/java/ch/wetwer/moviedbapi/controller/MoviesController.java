@@ -44,7 +44,10 @@ public class MoviesController {
             try {
                 userAuthService.log(this.getClass(), request);
 
-                List<Movie> movies = pageService.getPage(searchService.searchMovies(search, orderBy, genreParam), page);
+                List<Movie> searchedMovies = searchService.searchMovies(search, orderBy, genreParam);
+
+                List<Movie> movies = pageService.getPage(searchedMovies, page);
+
 
                 model.addAttribute("genres", searchService.getGenres(GenreSearchType.MOVIE));
                 model.addAttribute("movies", movies);

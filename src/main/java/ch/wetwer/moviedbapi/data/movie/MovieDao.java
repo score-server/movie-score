@@ -71,4 +71,8 @@ public class MovieDao implements DaoInterface<Movie> {
         List<Movie> recommendedMovies = movieRepository.findMoviesByRecommended(true);
         return recommendedMovies.get(new Random().nextInt(recommendedMovies.size()));
     }
+
+    public List<Movie> getRecommendedList() {
+        return movieRepository.findMoviesByRecommended(true);
+    }
 }

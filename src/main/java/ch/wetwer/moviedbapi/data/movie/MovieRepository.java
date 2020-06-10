@@ -43,5 +43,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<Movie> findMoviesByTitleContainingOrderByTimestampDesc(String search);
 
     List<Movie> findMoviesByRecommended(Boolean recommended);
+
 }
 
