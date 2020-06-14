@@ -5,6 +5,7 @@
         <div class="img-hover-zoom">
             <span class="quality-badge-red" th:if="${movie.isBroken()}" th:text="${movie.quality}"></span>
             <span class="quality-badge" th:if="!${movie.isBroken()}" th:text="${movie.quality}"></span>
+            <span class="time-badge" th:text="${movie.getRuntime()} + ' Min'"></span>
             <img class="card-img-top lazy" src="https://i.imgur.com/d8yY783.png"
                  th:data-src="${movie.backgroundImg}">
         </div>

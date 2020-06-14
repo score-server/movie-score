@@ -166,7 +166,7 @@
 }
 
 .autocomplete-items div {
-    padding: 10px;
+    padding: .5rem 1rem;
     cursor: pointer;
     background-color: #3e4450;
 }

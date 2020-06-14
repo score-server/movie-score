@@ -53,6 +53,18 @@ body {
     padding: 5px 10px;
 }
 
+.time-badge {
+    transition: .5s ease;
+    z-index: 100;
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 6px black;
+    padding: 5px 10px;
+}
+
 .quality-badge-red {
     transition: .5s ease;
     z-index: 100;
@@ -426,6 +438,10 @@ body {
 }
 
 .img-hover-zoom:hover .quality-badge {
+    opacity: 0.3;
+}
+
+.img-hover-zoom:hover .time-badge {
     opacity: 0.3;
 }
 
