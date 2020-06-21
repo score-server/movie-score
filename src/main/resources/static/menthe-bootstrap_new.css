@@ -192,3 +192,15 @@
     background-color: #222732 !important;
     color: #ffffff;
 }
+
+.chat-self {
+    font-size: 1.25rem;
+    float: right;
+    background: #2c313b;
+}
+
+.chat-other {
+    font-size: 1.25rem;
+    float: left;
+    background: #222732;
+}

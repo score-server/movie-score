@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<h1>Chat</h1>
+<div class="alert alert-warning">User beta</div>
+<div class="card">
+    <div class="card-header">
+        One and only chat room
+    </div>
+    <div class="card-body">
+        <form onsubmit="send()" autocomplete="off">
+            <input type="text" class="form-control" id="messageField" placeholder="Message..." required>
+        </form>
+        <hr>
+        <div id="chatHistory">
+            <div th:each="chatMessage : ${chatLog}">
+                <div th:if="${currentUser} == ${chatMessage.user}" class="alert chat-self">
+                    <span th:text="${chatMessage.message}"></span>
+                </div>
+                <div th:if="${currentUser} != ${chatMessage.user}" class="alert chat-other">
+                    <b th:text="${chatMessage.user.name} + ':'"></b>
+                    <span th:text="${chatMessage.message}"></span>
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function send() {
+        event.preventDefault();
+
+        let message = document.getElementById("messageField").value;
+
+        let messageDiv = document.createElement("div");
+        messageDiv.classList.add("alert");
+        messageDiv.classList.add("chat-self");
+
+        messageDiv.innerHTML = "<span>" + message + "</span>";
+
+        let chatHistory = document.getElementById("chatHistory");
+
+        chatHistory.insertBefore(document.createElement("br"), chatHistory.firstChild);
+        chatHistory.insertBefore(document.createElement("br"), chatHistory.firstChild);
+        chatHistory.insertBefore(document.createElement("br"), chatHistory.firstChild);
+        chatHistory.insertBefore(messageDiv, chatHistory.firstChild);
+
+        document.getElementById("messageField").value = "";
+
+        $.ajax({
+            type: "POST",
+            url: "/chat/send?message=" + message
+        });
+
+    }
+</script>
