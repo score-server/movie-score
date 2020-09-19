@@ -6,12 +6,7 @@ import ch.wetwer.moviedbapi.data.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * @author Wetwer
@@ -43,4 +38,18 @@ public class Subtitle {
     @ManyToOne
     private User user;
 
+    public String getLanguage() {
+        switch (this.language.toLowerCase()) {
+            case "en":
+                return "English";
+            case "de":
+                return "Deutsch";
+            case "fr":
+                return "French";
+            case "es":
+                return "Spanish";
+            default:
+                return "Unknown";
+        }
+    }
 }

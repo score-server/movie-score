@@ -2,18 +2,13 @@ package ch.wetwer.moviedbapi.controller;
 
 import ch.wetwer.moviedbapi.data.movie.MovieDao;
 import ch.wetwer.moviedbapi.data.subtitle.SubtitleDao;
+import ch.wetwer.moviedbapi.service.SubtitleConverter;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,13 +27,16 @@ public class SubtitleController {
 
     private MovieDao movieDao;
     private SubtitleDao subtitleDao;
+
     private UserAuthService userAuthService;
+    private SubtitleConverter subtitleConverter;
 
-
-    public SubtitleController(MovieDao movieDao, SubtitleDao subtitleDao, UserAuthService userAuthService) {
+    public SubtitleController(MovieDao movieDao, SubtitleDao subtitleDao, UserAuthService userAuthService,
+                              SubtitleConverter subtitleConverter) {
         this.movieDao = movieDao;
         this.subtitleDao = subtitleDao;
         this.userAuthService = userAuthService;
+        this.subtitleConverter = subtitleConverter;
     }
 
     @PostMapping("add/{movieId}")
@@ -49,10 +47,13 @@ public class SubtitleController {
         if (userAuthService.isUser(request)) {
             userAuthService.log(this.getClass(), request);
             try {
-                if (multipartFile.getOriginalFilename().endsWith(".srt")) {
+                if (multipartFile.getOriginalFilename().endsWith(".vtt")) {
                     subtitleDao.addSubtitle(movieDao.getById(movieId), multipartFile, language,
                             userAuthService.getUser(request).getUser());
                     return "redirect:/movie/" + movieId + "?subtitle";
+                } else if (multipartFile.getOriginalFilename().endsWith(".srt")) {
+                    subtitleDao.addSubtitle(movieDao.getById(movieId), subtitleConverter.convert(multipartFile),
+                            language, userAuthService.getUser(request).getUser());
                 } else {
                     return "redirect:/movie/" + movieId + "?wrongFile";
                 }
@@ -60,17 +61,16 @@ public class SubtitleController {
                 e.printStackTrace();
                 return "redirect:/movie/" + movieId;
             }
-        } else {
-            return "redirect:/movie/" + movieId;
         }
+        return "redirect:/movie/" + movieId;
     }
 
     @ResponseBody
-    @GetMapping("{subtitleId}")
+    @GetMapping(value = "{subtitleId}", produces = "text/vtt")
     public ResponseEntity<ByteArrayResource> getProfileFile(@PathVariable("subtitleId") Long subtitleId) {
         ByteArrayResource file = new ByteArrayResource(subtitleDao.getById(subtitleId).getFile());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+                "attachment; filename=\"subtitle.vtt\"").body(file);
     }
 
 

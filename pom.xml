@@ -5,7 +5,7 @@
 
     <groupId>ch.wetwer</groupId>
     <artifactId>movie-score</artifactId>
-    <version>3.2.1</version>
+    <version>3.2.3</version>
     <packaging>jar</packaging>
 
     <name>movie-score</name>
@@ -80,7 +80,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>23.0</version>
+            <version>29.0-jre</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>

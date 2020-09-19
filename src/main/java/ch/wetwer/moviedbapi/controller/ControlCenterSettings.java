@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 
 /**
  * @author Wetwer
@@ -48,6 +49,15 @@ public class ControlCenterSettings {
     @GetMapping
     private String getControlCenter(Model model, HttpServletRequest request) {
         if (userAuthService.isAdministrator(model, request)) {
+
+            model.addAttribute("freeSpace",
+                    new File(settingsService.getKey("moviePath")).getTotalSpace() /
+                            new File(settingsService.getKey("moviePath")).getUsableSpace() * 100);
+
+            System.out.println((new File(settingsService.getKey("moviePath")).getUsableSpace() /
+                    new File(settingsService.getKey("moviePath")).getTotalSpace()) * 100);
+            System.out.println(new File(settingsService.getKey("moviePath")).getTotalSpace() + " free " +
+                    new File(settingsService.getKey("moviePath")).getUsableSpace());
 
             model.addAttribute("moviePath", settingsService.getKey("moviePath"));
             model.addAttribute("seriePath", settingsService.getKey("seriePath"));

@@ -49,4 +49,13 @@ public class SubtitleDao implements DaoInterface<Subtitle> {
         subtitleRepository.save(subtitle);
     }
 
+    public void addSubtitle(Movie movie, byte[] bytes, String language, User user) throws IOException {
+        Subtitle subtitle = new Subtitle();
+        subtitle.setMovie(movie);
+        subtitle.setUser(user);
+        subtitle.setFile(bytes);
+        subtitle.setLanguage(language);
+        subtitleRepository.save(subtitle);
+    }
+
 }

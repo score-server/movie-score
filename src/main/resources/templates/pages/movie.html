@@ -27,7 +27,7 @@
     <video controls id="html-player" playsinline th:case="'html5'" th:poster="${movie.backgroundImg}"
            width="100%">
         <source th:src="'/video/movie/' + ${movie.id}" th:type="${movie.filetype}">
-        <track kind="subtitles" th:each="subtitle : ${movie.subtitles}" th:label="${subtitle.language}"
+        <track kind="subtitles" th:each="subtitle : ${movie.subtitles}" th:label="${subtitle.getLanguage()}"
                th:src="'/subtitle/' + ${subtitle.id}" th:srclang="${subtitle.language}">
     </video>
     <video controls id="player" playsinline th:case="*"
@@ -273,7 +273,7 @@
             </div>
             <div class="modal-body">
                 <form enctype="multipart/form-data" method="post" th:action="'/subtitle/add/' + ${movie.id}">
-                    Subtitle File (.srt)
+                    Subtitle File (VTT / SRT)
                     <div class="custom-file">
                         <input class="custom-file-input" id="subtitles" name="file" required type="file">
                         <label class="custom-file-label" for="subtitles">Choose file...</label>
@@ -281,8 +281,10 @@
                     <br>
                     Language
                     <select class="form-control" name="language" required>
-                        <option value="de">German</option>
                         <option value="en">English</option>
+                        <option value="de">Deutsch</option>
+                        <option value="fr">French</option>
+                        <option value="es">Spanish</option>
                     </select>
                     <br>
                     <button class="btn btn-primary" type="submit">Upload</button>
