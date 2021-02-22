@@ -7,7 +7,7 @@
             <span class="quality-badge" th:if="!${movie.isBroken()}" th:text="${movie.quality}"></span>
             <span class="time-badge" th:text="${movie.getRuntime()} + ' Min'"></span>
             <img class="card-img-top lazy" src="https://i.imgur.com/d8yY783.png"
-                 th:data-src="${movie.backgroundImg}">
+                 th:data-src="${movie.backgroundImg}" onerror="this.onerror=null; this.src='https://i.imgur.com/8s8ce6l.png'">
         </div>
         <div class="card-body nodec">
             <h6 class="card-title">
