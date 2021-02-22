@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<h1>Movie Controlls</h1>
+
+<div class="card card-body">
+
+
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>
+                <a class="float-right">Action</a>
+            </th>
+        </tr>
+        <tr th:each="movie : ${movieList}">
+            <td th:text="${movie.id}"></td>
+            <td th:text="${movie.title}"></td>
+            <td>
+                <button class="btn btn-dark">test</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<br>
+<a class="link-btn" href="/settings">Back</a>
