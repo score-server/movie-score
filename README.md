@@ -5,6 +5,12 @@
 
 Movie streaming website with Java Spring
 
+# Default View
+<img src="https://i.imgur.com/j74lAwk.png">
+
+# Responsive Mobile View
+<img src="https://i.imgur.com/ioaOAQk.png">
+
 # User API
 
 ### Get User List <i>GET</i>
