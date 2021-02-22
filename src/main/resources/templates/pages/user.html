@@ -157,7 +157,7 @@
             <p style="color: red;" th:if="${registered} == false">Not Registered</p>
             Authkey:
             <input class="form-control" disabled
-                   th:value="'http://scorewinner.ch:8081/fastlogin/' + ${user.authKey}" type="text">
+                   th:value="'http://movie.scorewinner.ch/fastlogin/' + ${user.authKey}" type="text">
             <form method="post" th:action="'/user/generate/' + ${user.id}">
                 <div class="custom-control custom-checkbox">
                     <input class="custom-control-input" id="extended" name="extended" type="checkbox"
