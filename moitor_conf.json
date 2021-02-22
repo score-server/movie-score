@@ -1,0 +1,31 @@
+{
+  "version": "2.0",
+  "columns": 2,
+  "tiles": [
+    {
+      "type": "PING",
+      "label": "https://scorewinner.ch",
+      "configVariant": "default",
+      "params": { "hostname": "scorewinner.ch" }
+    },
+    {
+      "type": "PORT",
+      "label": "https://movie.scorewinner.ch",
+      "params": { "hostname": "scorewinner.ch", "port": 8081 }
+    },
+    {
+      "type": "PING",
+      "label": "http://monitor.scorewinner.ch",
+      "configVariant": "default",
+      "params": { "hostname": "monitor.scorewinner.ch" }
+    },{
+      "type": "GITHUB-COUNT",
+      "label": "MovieScore open issues",
+      "params": {
+        "query": "is:issue is:open repo:score-server/movie-score"
+      }
+    }
+
+  ]
+}
+
