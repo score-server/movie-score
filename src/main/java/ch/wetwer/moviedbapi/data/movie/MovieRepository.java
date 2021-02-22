@@ -44,5 +44,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     List<Movie> findMoviesByRecommended(Boolean recommended);
 
+    List<Movie> findAllByOrderByConvertPercentageDesc();
 }
 

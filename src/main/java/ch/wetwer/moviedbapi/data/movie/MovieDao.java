@@ -1,6 +1,9 @@
 package ch.wetwer.moviedbapi.data.movie;
 
 import ch.wetwer.moviedbapi.data.DaoInterface;
+import ch.wetwer.moviedbapi.data.episode.Episode;
+import ch.wetwer.moviedbapi.data.season.Season;
+import ch.wetwer.moviedbapi.data.serie.Serie;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
@@ -74,5 +77,28 @@ public class MovieDao implements DaoInterface<Movie> {
 
     public List<Movie> getRecommendedList() {
         return movieRepository.findMoviesByRecommended(true);
+    }
+
+    public List<Movie> getMoviesCurrentlyConverting() {
+        List<Movie> movieList = new ArrayList<>();
+        for (Movie movie : movieRepository.findAllByOrderByConvertPercentageDesc()) {
+            if (movie.getConvertPercentage() != null) {
+                movieList.add(movie);
+            }
+        }
+        return movieList;
+    }
+
+    public List<Movie> getMoviesToConvert() {
+        List<Movie> moviesToConvert = new ArrayList<>();
+        for (Movie movie : movieRepository.findAll()) {
+            if (movie.getConvertPercentage() == null) {
+                if (movie.getMime().equals("video/x-matroska")
+                        || movie.getMime().equals("video/x-msvideo")) {
+                    moviesToConvert.add(movie);
+                }
+            }
+        }
+        return moviesToConvert;
     }
 }

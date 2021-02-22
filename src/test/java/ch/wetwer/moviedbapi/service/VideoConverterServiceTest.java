@@ -23,7 +23,7 @@ public class VideoConverterServiceTest {
     @Before
     public void setUp() {
         initMocks(this);
-        videoConverterServiceUnderTest = new VideoConverterService(mockEpisodeDao, mockImportLogService);
+//        videoConverterServiceUnderTest = new VideoConverterService(mockEpisodeDao, movieDao, mockImportLogService);
     }
 
     @Test(expected = NullPointerException.class)

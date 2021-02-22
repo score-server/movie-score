@@ -9,6 +9,7 @@ import ch.wetwer.moviedbapi.data.user.User;
 import ch.wetwer.moviedbapi.service.ActivityService;
 import ch.wetwer.moviedbapi.service.PreviewCompiler;
 import ch.wetwer.moviedbapi.service.SimilarMovieService;
+import ch.wetwer.moviedbapi.service.VideoConverterService;
 import ch.wetwer.moviedbapi.service.auth.UserAuthService;
 import ch.wetwer.moviedbapi.service.importer.MovieImportService;
 import org.springframework.stereotype.Controller;
@@ -40,10 +41,11 @@ public class MovieController {
     private ActivityService activityService;
     private MovieImportService movieImportService;
     private PreviewCompiler previewCompiler;
+    private VideoConverterService videoConverterService;
 
     public MovieController(MovieDao movieDto, LikesDao likesDto, SimilarMovieService similarMovieService,
                            UserAuthService userAuthService, ActivityService activityService, TimeDao timeDto,
-                           MovieImportService movieImportService, PreviewCompiler previewCompiler) {
+                           MovieImportService movieImportService, PreviewCompiler previewCompiler, VideoConverterService videoConverterService) {
         this.movieDto = movieDto;
         this.likesDto = likesDto;
         this.timeDto = timeDto;
@@ -52,6 +54,7 @@ public class MovieController {
         this.activityService = activityService;
         this.movieImportService = movieImportService;
         this.previewCompiler = previewCompiler;
+        this.videoConverterService = videoConverterService;
     }
 
 
@@ -168,4 +171,17 @@ public class MovieController {
             return "redirect:/movie/" + movieId;
         }
     }
+
+    @PostMapping(value = "convert/{movieId}")
+    public String convert(@PathVariable("movieId") Long movieId, HttpServletRequest request) {
+        Movie movie = movieDto.getById(movieId);
+        if (userAuthService.isAdministrator(request)) {
+            userAuthService.log(this.getClass(), request);
+            videoConverterService.startConverting(movie);
+            return "redirect:/settings/convert";
+        } else {
+            return "redirect:/login?redirect=/settings/convert/?error";
+        }
+    }
+
 }

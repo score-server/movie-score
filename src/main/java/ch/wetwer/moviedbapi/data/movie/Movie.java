@@ -52,6 +52,7 @@ public class Movie {
     private String previewPath;
     private Timestamp timestamp;
     private Boolean recommended;
+    private Integer convertPercentage;
 
     @Lob
     @Column
@@ -88,4 +89,15 @@ public class Movie {
         return getQuality().contains(" ");
     }
 
+    public String  getMime() {
+        if (videoPath.endsWith(".mkv")) {
+            return "video/x-matroska";
+        } else if (videoPath.endsWith(".mp4")) {
+            return "video/mp4";
+        } else if (videoPath.endsWith(".avi")) {
+            return "video/x-msvideo";
+        } else {
+            return "";
+        }
+    }
 }
