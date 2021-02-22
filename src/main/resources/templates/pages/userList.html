@@ -17,6 +17,10 @@
     <input autocomplete="off" class="form-control" name="search" placeholder="Search"
            th:value="${search}" type="text">
 </form>
+<small class="text-muted">
+    Users: <span th:text="${userSize}"></span>
+</small>
+<br>
 <br>
 <a class="link-btn" href="/request/create"><i class="fas fa-plus"></i> Request Invite</a>
 <br>

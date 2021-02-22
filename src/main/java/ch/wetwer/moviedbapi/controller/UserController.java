@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -62,7 +63,10 @@ public class UserController {
                               Model model, HttpServletRequest request) {
         if (userAuthService.isUser(model, request)) {
             userAuthService.log(this.getClass(), request);
-            model.addAttribute("users", searchService.searchUser(search));
+
+            List<User> users = searchService.searchUser(search);
+            model.addAttribute("users", users);
+            model.addAttribute("userSize", users.size());
             model.addAttribute("search", search);
             model.addAttribute("page", "userList");
             return "template";
